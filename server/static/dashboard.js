@@ -125,7 +125,6 @@ App.clear_container = () => {
 App.empty_container = () => {
     let container = DOM.el(`#container`)
     container.innerHTML = `Add some curls in the list at the left`
-
 }
 
 App.insert_items = (items) => {
@@ -158,7 +157,11 @@ App.insert_item = (item) => {
     let item_updated = DOM.create(`div`, `item_updated`)
     item_curl.textContent = item.curl
     item_content.textContent = item.content
-    item_updated.textContent = new Date(item.updated).toLocaleString()
+
+    let date = new Date(item.updated)
+    let s_date = dateFormat(date, `dd/mm/yy HH:MM`)
+    item_updated.textContent = s_date
+
     el.append(item_icon)
     el.append(item_curl)
     el.append(item_content)

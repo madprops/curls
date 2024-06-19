@@ -54,35 +54,45 @@ body, html {
     display: table;
     width: 100%;
     position: relative;
-
+    border-collapse: collapse;
 }
 
 .item {
     display: table-row;
     height: 100%;
+    border: 1px solid grey;
+}
+
+.item_icon, .item_curl, .item_content, .item_updated
+{
+    display: table-cell;
+    padding-right: 0.5rem;
+    padding-top: 0.35rem;
+    padding-bottom: 0.35rem;
 }
 
 .item_icon {
     width: 20px;
     height: 20px;
-    display: table-cell;
     vertical-align: middle;
+    padding-left: 0.5rem;
 }
 
 .item_curl {
     color: white;
     font-weight: bold;
-    display: table-cell;
 }
 
 .item_content {
-    display: table-cell;
+    /*  */
 }
 
 .item_updated {
     color: gray;
-    display: table-cell;
+    white-space: nowrap;
 }
+
+/*  */
 
 #controls {
     display: flex;
