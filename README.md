@@ -15,13 +15,13 @@ To view and edit a curl there's some html pages available but you are encouraged
 Edit:
 
 ```
-curl -X POST -d "curl=mycurl&passkey=mypasskey&content=mycontent" https://this.website/edit
+curl -X POST -d "curl=mycurl&passkey=mypasskey&content=mycontent" https://curls.website/edit
 ```
 
 View:
 
 ```
-curl https://this.website/[curl]
+curl https://curls.website/[curl]
 ```
 
 ## Intended Usage
@@ -30,4 +30,4 @@ How I think this can be used is by users sharing their curls to others and then 
 
 The status of the people you choose can serve as calls of actions to know about interesting activities happening in real time.
 
-Yes it's similar to twitter except there's no history or other kind of privacy invading mechanisms in place. And there's no CORS restrictions, reading and editing the curl status should be as easy as possible, from within any application.
+Yes it's similar to Twitter except there's no history or other kind of privacy invading mechanisms in place. And there's no CORS restrictions, reading and editing the curl status should be as easy as possible, from within any application.
