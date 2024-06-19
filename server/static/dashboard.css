@@ -111,3 +111,7 @@ a:hover
 {
 	color: var(--color);
 }
+
+.pointer {
+    cursor: pointer;
+}

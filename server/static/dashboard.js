@@ -2,6 +2,7 @@ const App = {}
 App.SECOND = 1000
 App.MINUTE = App.SECOND * 60
 App.update_delay = App.MINUTE * 5
+App.updates_enabled = false
 App.max_curls = 100
 App.max_curl_length = 18
 App.server_url = `http://localhost:5000`
@@ -19,9 +20,10 @@ App.colors = {
 App.setup = () => {
     App.setup_buttons()
     App.setup_curlist()
+    App.setup_updater()
     App.setup_sort()
     App.setup_color()
-    App.update()
+    App.update(true)
 }
 
 App.start_update_timeout = () => {
@@ -30,9 +32,13 @@ App.start_update_timeout = () => {
     }, App.update_delay)
 }
 
-App.update = () => {
+App.update = (force = false) => {
     clearTimeout(App.update_timeout)
-    App.update_curls()
+
+    if (force || App.updates_enabled) {
+        App.update_curls()
+    }
+
     App.start_update_timeout()
 }
 
@@ -223,7 +229,7 @@ App.setup_buttons = () => {
     let update = DOM.el(`#update`)
 
     DOM.ev(update, `click`, () => {
-        App.update()
+        App.update(true)
     })
 }
 
@@ -271,4 +277,62 @@ App.apply_color = () => {
     let color = App.get_color()
     let rgb = App.colors[color]
     document.documentElement.style.setProperty(`--color`, rgb)
+}
+
+App.setup_updater = () => {
+    let updater = DOM.el(`#updater`)
+
+    DOM.ev(updater, `click`, () => {
+        App.change_updater()
+    })
+
+    let saved = localStorage.getItem(`updater`) || `minutes_5`
+    App.check_updater(saved)
+    App.refresh_updater()
+}
+
+App.get_updater = () => {
+    return localStorage.getItem(`updater`) || `minutes_5`
+}
+
+App.check_updater = (saved) => {
+    if (saved.startsWith(`minutes_`)) {
+        let minutes = parseInt(saved.split(`_`)[1])
+        App.update_delay = App.MINUTE * minutes
+        App.updates_enabled = true
+    }
+    else {
+        App.updates_enabled = false
+    }
+}
+
+App.change_updater = () => {
+    let saved = App.get_updater()
+
+    if (saved === `minutes_5`) {
+        saved = `disabled`
+    }
+    else {
+        saved = `minutes_5`
+    }
+
+    localStorage.setItem(`updater`, saved)
+    App.check_updater(saved)
+    App.refresh_updater()
+
+    if (saved.startsWith(`minutes_`)) {
+        App.update(true)
+    }
+}
+
+App.refresh_updater = () => {
+    let el = DOM.el(`#updater`)
+    let updater = App.get_updater()
+
+    if (updater === `minutes_5`) {
+        el.textContent = `Updating every 5 minutes`
+    }
+    else {
+        el.textContent = `No auto updates`
+    }
 }
