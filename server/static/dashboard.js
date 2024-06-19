@@ -9,6 +9,7 @@ App.server_url = `http://localhost:5000`
 App.setup = () => {
     App.setup_buttons()
     App.setup_curlist()
+    App.apply_color()
     App.update()
 }
 
@@ -207,10 +208,56 @@ App.setup_buttons = () => {
     }
 
     sort_mode.value = mode
+
+    let color = DOM.el(`#color`)
+
+    DOM.ev(color, `change`, () => {
+        App.change_color()
+    })
 }
 
 App.change_sort_mode = () => {
     let mode = App.get_sort_mode()
     localStorage.setItem(`sort_mode`, mode)
     App.update()
+}
+
+App.change_color = () => {
+    let color = App.get_color()
+    localStorage.setItem(`color`, color)
+    App.apply_color()
+}
+
+App.get_color = () => {
+    let color = DOM.el(`#color`)
+    return color.options[color.selectedIndex].value
+}
+
+App.apply_color = () => {
+    let color = App.get_color()
+    let rgb
+
+    if (color === `red`) {
+        rgb = `rgb(255, 89, 89)`
+    }
+    else if (color === `green`) {
+        rgb = `rgb(87, 255, 87)`
+    }
+    else if (color === `blue`) {
+        rgb = `rgb(118, 120, 255)`
+    }
+    else if (color === `yellow`) {
+        rgb = `rgb(255, 219, 78)`
+    }
+    else if (color === `purple`) {
+        rgb = `rgb(193, 56, 255)`
+    }
+    else if (color === `white`) {
+        rgb = `rgb(255, 255, 255)`
+    }
+    else {
+        rgb = `rgb(255, 255, 255)`
+    }
+
+    document.documentElement.style.setProperty(`--color`, rgb)
 }

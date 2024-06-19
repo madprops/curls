@@ -1,14 +1,10 @@
-:root {
-    --green_color: rgb(87, 255, 87);
-}
-
 body, html {
     margin: 0;
     padding: 0;
     height: 100%;
     font-family: sans-serif;
     background-color: black;
-    color: var(--green_color);
+    color: var(--color);
     font-size: 18px;
 }
 
@@ -43,14 +39,14 @@ body, html {
     background-color: rgb(0, 0, 0);
     color: white;
     font-size: 1rem;
-    border: 1px solid green;
-    color: var(--green_color);
+    border: 1px solid var(--color);
+    color: var(--color);
     padding: 0.35rem;
 }
 
 #container {
     min-height: 350px;
-    border: 1px solid green;
+    border: 1px solid var(--color);
     flex-grow: 1;
     padding: 0.35rem;
     cursor: default;
