@@ -16,6 +16,7 @@ from . import db
 CURL_MAX_LENGTH = 18
 PASSKEY_LENGTH = 18
 CONTENT_MAX_LENGTH = 500
+MAX_CURLS = 100
 
 app = Flask(__name__)
 
@@ -69,8 +70,11 @@ def edit():
         if not curl or not passkey or not content:
             return "Error: Empty fields"
 
+        if len(curl) > CURL_MAX_LENGTH:
+            return curl_too_long()
+
         if len(content) > CONTENT_MAX_LENGTH:
-            return f"Error: Content too long (Max is {CONTENT_MAX_LENGTH} characters)"
+            return content_too_long()
 
         if not check_passkey(curl, passkey):
             return "Error: Invalid passkey"
@@ -86,12 +90,10 @@ def dashboard():
 
 @app.route("/<curl>", methods=["GET"])
 def view(curl):
-    return get_content(curl)
+    if len(curl) > CURL_MAX_LENGTH:
+        return curl_too_long()
 
-@app.route("/<curl>/full", methods=["GET"])
-def get_full(curl):
-    ans = get_full(curl)
-    return json.dumps(ans)
+    return get_content(curl)
 
 @app.route("/curls", methods=["POST"])
 def get_curls():
@@ -99,10 +101,20 @@ def get_curls():
         try:
             data = request.get_json()
             curls = data['curls']
+
+            if len(curls) > MAX_CURLS:
+                return too_many_curls()
+
+            for curl in curls:
+                if len(curl) > CURL_MAX_LENGTH:
+                    return "Invalid."
+
+                if not curl.isalnum():
+                    return "Invalid."
         except:
             return "Invalid request."
 
-        results = get_curls(curls)
+        results = get_curl_list(curls)
         return json.dumps(results)
     else:
         return "Invalid request."
@@ -119,7 +131,7 @@ def do_claim(curl: str) -> str:
         return "Curl must be alphanumeric"
 
     if len(curl) > CURL_MAX_LENGTH:
-        return f"The curl is too long (Max is {CURL_MAX_LENGTH} characters)"
+        return curl_too_long()
 
     if curl_exists(curl):
         return "Curl already exists."
@@ -175,25 +187,7 @@ def get_content(curl: str) -> str:
     result = cursor.fetchone()
     return check_content(result)
 
-def get_full(curl: str) -> dict[str, Any]:
-    curl = curl.strip().lower()
-    dbase = db.get_db()
-    cursor = dbase.cursor()
-    db_string = "SELECT content, updated FROM curls WHERE curl = ?"
-    cursor.execute(db_string, (curl,))
-    result = cursor.fetchone()
-    content = check_content(result)
-    updated = str(result[1]) or ""
-    exists = bool(result)
-
-    return {
-        "curl": curl,
-        "content": content,
-        "updated": updated,
-        "exists": exists,
-    }
-
-def get_curls(curls: list[str]) -> list[dict[str, Any]]:
+def get_curl_list(curls: list[str]) -> list[dict[str, Any]]:
     dbase = db.get_db()
     cursor = dbase.cursor()
 
@@ -226,3 +220,12 @@ def check_content(result: Any) -> str:
         return "Not updated yet."
 
     return content
+
+def curl_too_long() -> str:
+    return f"Error: Curl is too long (Max is {CURL_MAX_LENGTH} characters)"
+
+def content_too_long() -> str:
+    return f"Error: Content is too long (Max is {CONTENT_MAX_LENGTH} characters)"
+
+def too_many_curls() -> str:
+    return f"Error: Too many curls (Max is {MAX_CURLS})"

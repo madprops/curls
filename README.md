@@ -24,12 +24,6 @@ View:
 curl https://curls.website/[curl]
 ```
 
-Full:
-
-```
-curl https://curls.website/[curl]/full
-```
-
 Multiple:
 
 ```
