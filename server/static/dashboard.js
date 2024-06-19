@@ -34,8 +34,10 @@ App.update_curls = () => {
         return
     }
 
+    let used_curls = []
+
     for (let line of lines) {
-        curl = line.trim()
+        let curl = line.trim()
 
         if (!curl) {
             continue
@@ -45,18 +47,33 @@ App.update_curls = () => {
             continue
         }
 
+        if (used_curls.includes(curl)) {
+            continue
+        }
+
+        used_curls.push(curl)
+
         fetch(App.get_url(curl))
         .then(response => response.text())
-        .then(data => {
-            let text = `${curl}: ${data}`
-
-            if (text) {
-                let el = DOM.create(`div`, `item`)
-                el.textContent = text
-                container.append(el)
-            }
+        .then(content => {
+            App.insert_item(curl, content)
+        })
+        .catch((error) => {
+            console.error(`Error: ${error}`)
         })
     }
+}
+
+App.insert_item = (curl, content) => {
+    if (!curl || !content) {
+        return
+    }
+
+    let container = DOM.el(`#container`)
+    let text = `${curl}: ${content}`
+    let el = DOM.create(`div`, `item`)
+    el.textContent = text
+    container.append(el)
 }
 
 App.get_url = (curl) => {

@@ -4,13 +4,17 @@
     <title>Curls Dashboard</title>
 
     <style>
+        :root {
+            --green_color: rgb(87, 255, 87);
+        }
+
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
             font-family: sans-serif;
             background-color: black;
-            color: rgb(87, 255, 87);
+            color: var(--green_color);
             font-size: 18px;
         }
 
@@ -46,6 +50,7 @@
             color: white;
             font-size: 1rem;
             border: 1px solid green;
+            color: var(--green_color);
         }
 
         #container {
@@ -69,7 +74,7 @@
     <div id="main">
         <div id="left_side">
             <div>List of curls</div>
-            <textarea id="curlist"></textarea>
+            <textarea id="curlist" spellcheck="false"></textarea>
         </div>
 
         <div id="right_side">

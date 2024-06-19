@@ -5,6 +5,7 @@ import string
 # Libraries
 from flask import Flask, render_template, request  # type: ignore
 from flask_simple_captcha import CAPTCHA  # type: ignore
+from flask_cors import CORS  # type: ignore
 
 # Modules
 from . import db
@@ -15,6 +16,10 @@ PASSKEY_LENGTH = 18
 CONTENT_MAX_LENGTH = 500
 
 app = Flask(__name__)
+
+# Enable all cross origin requests
+CORS(app)
+
 db.init_app(app)
 
 # Captcha
@@ -145,7 +150,7 @@ def get_content(curl: str) -> str:
     result = cursor.fetchone()
 
     if not result:
-        return "Curl not claimed yet."
+        return "Not claimed yet."
 
     content = result[0]
 
