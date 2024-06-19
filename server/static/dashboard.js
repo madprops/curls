@@ -72,6 +72,7 @@ App.update_curls = async () => {
     let used_curls = App.get_used_curls()
 
     if (!used_curls.length) {
+        App.empty_container()
         return
     }
 
@@ -116,10 +117,19 @@ App.sort_items = (items) => {
     }
 }
 
-App.insert_items = (items) => {
+App.clear_container = () => {
     let container = DOM.el(`#container`)
     container.innerHTML = ``
+}
 
+App.empty_container = () => {
+    let container = DOM.el(`#container`)
+    container.innerHTML = `Add some curls in the list at the left`
+
+}
+
+App.insert_items = (items) => {
+    App.clear_container()
     App.sort_items(items)
     App.last_items = items
 
