@@ -1,5 +1,7 @@
 # Curls
 
+![](https://i.imgur.com/gEGZrrA.jpg)
+
 This is a text status host.
 
 Users claim a `curl` and get a key to be able to update it.
