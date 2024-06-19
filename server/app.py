@@ -106,10 +106,7 @@ def get_curls():
                 return too_many_curls()
 
             for curl in curls:
-                if len(curl) > CURL_MAX_LENGTH:
-                    return "Invalid."
-
-                if not curl.isalnum():
+                if not check_curl(curl):
                     return "Invalid."
         except:
             return "Invalid request."
@@ -229,3 +226,12 @@ def content_too_long() -> str:
 
 def too_many_curls() -> str:
     return f"Error: Too many curls (Max is {MAX_CURLS})"
+
+def check_curl(curl) -> bool:
+    if len(curl) > CURL_MAX_LENGTH:
+        return False
+
+    if not curl.isalnum():
+        return False
+
+    return True
