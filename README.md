@@ -45,3 +45,9 @@ Yes it's similar to Twitter except there's no history or other kind of privacy i
 I have my own implementation of a program that uses curls.
 
 It is located in `https://curls.website/dashboard`.
+
+## Accounts
+
+There are no accounts. You claim a curl once, you are given the key once.
+
+There are no mechanisms to recover a lost key.
