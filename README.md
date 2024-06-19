@@ -34,7 +34,7 @@ curl -X POST -H "Content-Type: application/json" -d '{"curls":["somecurl","other
 
 ## Intended Usage
 
-How I think this can be used is by users sharing their curls to others and then they add this to a program to add the curl. The program would update every added curl every 5 minutes to check for changes. So a user gets an overview of the status of many people.
+How I think this can be used is by users sharing their curls to others and then they add them to a program. The program would update every added curl every 5 minutes to check for changes. So a user gets an overview of the status of many people.
 
 The status of the people you choose can serve as calls of actions to know about interesting activities happening in real time.
 

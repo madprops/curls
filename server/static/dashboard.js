@@ -67,6 +67,8 @@ App.get_used_curls = () => {
 }
 
 App.update_curls = async () => {
+    console.log(`Updating...`)
+
     let used_curls = App.get_used_curls()
 
     if (!used_curls.length) {
