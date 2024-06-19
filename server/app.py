@@ -96,8 +96,12 @@ def get_full(curl):
 @app.route("/curls", methods=["POST"])
 def get_curls():
     if request.method == "POST":
-        data = request.get_json()
-        curls = data['curls']
+        try:
+            data = request.get_json()
+            curls = data['curls']
+        except:
+            return "Invalid request."
+
         results = get_curls(curls)
         return json.dumps(results)
     else:

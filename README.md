@@ -24,6 +24,18 @@ View:
 curl https://curls.website/[curl]
 ```
 
+Full:
+
+```
+curl https://curls.website/[curl]/full
+```
+
+Multiple:
+
+```
+curl -X POST -H "Content-Type: application/json" -d '{"curls":["somecurl","othercurl"]}' http://localhost:5000/curls | jq
+```
+
 ## Intended Usage
 
 How I think this can be used is by users sharing their curls to others and then they add this to a program to add the curl. The program would update every added curl every 5 minutes to check for changes. So a user gets an overview of the status of many people.
