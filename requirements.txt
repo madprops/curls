@@ -1,0 +1,2 @@
+Flask == 3.0.3
+flask-simple-captcha == 5.5.5

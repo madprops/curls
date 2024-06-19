@@ -1,0 +1,52 @@
+<!doctype html>
+
+<head>
+    <title>Curls</title>
+    <style>
+        #main {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            flex-grow: 0;
+            max-width: 777px;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+
+<form method="post" action="/edit">
+    <div id="main">
+        <h1>Curls</h1>
+
+        <div>A curl is a text status that only you can update.</div>
+
+        <br><br>
+
+        <div>There is no history, conversation or anything, it's just text that you update.</div>
+
+        <br><br>
+
+        <div>This is meant to be used with your own tools and interfaces.</div>
+
+        <br>
+
+        <a href="/claim">Claim a new curl</a>
+        <a href="/edit">Edit a curl you already own</a>
+
+        <br>
+
+        <div>To view a curl from a browser:
+
+        <div>Go to: https://this.website/[curl]</div>
+
+        <br>
+
+        <div>To view a curl from the terminal:</div>
+
+        <div>curl https://this.website/[curl]</div>
+
+        <br>
+
+        The response is pure text.
+    </div>
+</form>

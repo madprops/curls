@@ -1,0 +1,17 @@
+venv/*
+output/*
+*.pyc
+__pycache__/
+.mypy_cache/
+build/
+dist/
+main.spec
+run.spec
+decomp/
+*.tar.gz
+*.zip
+*.xml
+*.iml
+*.idea
+curls.db
+.directory

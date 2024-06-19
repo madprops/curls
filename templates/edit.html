@@ -1,0 +1,46 @@
+<!doctype html>
+
+<head>
+    <title>Edit Curl</title>
+    <style>
+        #main {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            flex-grow: 0;
+            max-width: 777px;
+            font-size: 1.2rem;
+        }
+
+        input[type="text"] {
+            padding: 0.25rem;
+            font-size: 1.2rem;
+        }
+
+        input[type="submit"] {
+            padding: 0.5rem;
+            font-size: 1.2rem;
+            background-color: #ff0000;
+            color: white;
+        }
+    </style>
+</head>
+
+<form method="post" action="/edit">
+    <div id="main">
+        <input type="text" placeholder="curl" name="curl" autocomplete="on">
+        <input type="text" placeholder="passkey" name="passkey" autocomplete="on">
+        <input type="text" placeholder="content" name="content" autocomplete="on">
+        <input type="submit" value="Edit">
+
+        <br><br>
+
+        You can also do this using the terminal:
+
+        <br><br>
+
+        <div>
+            curl -X POST -d "curl=mycurl&passkey=mypasskey&content=mycontent" https://this.website/edit
+        </div>
+    </div>
+</form>
