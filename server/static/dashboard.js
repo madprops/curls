@@ -24,7 +24,7 @@ App.update = () => {
     App.start_update_timeout()
 }
 
-App.update_curls = async () => {
+App.get_used_curls = () => {
     let curlist = DOM.el(`#curlist`).value
     let lines = curlist.split(`\n`).filter(x => x !== ``)
     let container = DOM.el(`#container`)
@@ -62,6 +62,12 @@ App.update_curls = async () => {
         used_curls.push(curl)
     }
 
+    return used_curls
+}
+
+App.update_curls = async () => {
+    let used_curls = App.get_used_curls()
+
     if (!used_curls.length) {
         return
     }
@@ -77,10 +83,7 @@ App.update_curls = async () => {
     })
 
     let items = await response.json()
-
-    items.sort((a, b) => {
-        return b.updated.localeCompare(a.updated)
-    })
+    App.sort_items(items, used_curls)
 
     for (let item of items) {
         if (!item.content) {
@@ -90,6 +93,31 @@ App.update_curls = async () => {
 
     for (let item of items) {
         App.insert_item(item)
+    }
+}
+
+App.get_sort_mode = () => {
+    let sort_mode = DOM.el(`#sort_mode`)
+    return sort_mode.options[sort_mode.selectedIndex].value
+}
+
+App.sort_items = (items, used_curls) => {
+    let mode = App.get_sort_mode()
+
+    if (mode === `recent`) {
+        items.sort((a, b) => {
+            return b.updated.localeCompare(a.updated)
+        })
+    }
+    else if (mode === `order`) {
+        items.sort((a, b) => {
+            return used_curls.indexOf(a.curl) - used_curls.indexOf(b.curl)
+        })
+    }
+    else if (mode === `alpha`) {
+        items.sort((a, b) => {
+            return a.curl.localeCompare(b.curl)
+        })
     }
 }
 
@@ -152,7 +180,7 @@ App.save_curlist = () => {
 
 App.load_curlist = () => {
     let curlist = DOM.el(`#curlist`)
-    let saved = localStorage.getItem(`curlist`)
+    let saved = localStorage.getItem(`curlist`) || ``
 
     if (saved) {
         curlist.value = saved
@@ -165,4 +193,24 @@ App.setup_buttons = () => {
     DOM.ev(update, `click`, () => {
         App.update()
     })
+
+    let sort_mode = DOM.el(`#sort_mode`)
+
+    DOM.ev(sort_mode, `change`, () => {
+        App.change_sort_mode()
+    })
+
+    let mode = localStorage.getItem(`sort_mode`)
+
+    if (!mode) {
+        mode = `recent`
+    }
+
+    sort_mode.value = mode
+}
+
+App.change_sort_mode = () => {
+    let mode = App.get_sort_mode()
+    localStorage.setItem(`sort_mode`, mode)
+    App.update()
 }
