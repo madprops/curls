@@ -5,6 +5,7 @@ App.update_delay = App.MINUTE * 5
 App.max_curls = 100
 App.max_curl_length = 18
 App.server_url = `http://localhost:5000`
+App.last_items = []
 
 App.setup = () => {
     App.setup_buttons()
@@ -29,8 +30,6 @@ App.update = () => {
 App.get_used_curls = () => {
     let curlist = DOM.el(`#curlist`).value
     let lines = curlist.split(`\n`).filter(x => x !== ``)
-    let container = DOM.el(`#container`)
-    container.innerHTML = ``
 
     if (!lines.length) {
         return []
@@ -85,7 +84,42 @@ App.update_curls = async () => {
     })
 
     let items = await response.json()
-    App.sort_items(items, used_curls)
+    App.insert_items(items)
+}
+
+App.get_sort = () => {
+    let sort = DOM.el(`#sort`)
+    return sort.options[sort.selectedIndex].value
+}
+
+App.sort_items = (items) => {
+    let mode = App.get_sort()
+
+    if (mode === `recent`) {
+        items.sort((a, b) => {
+            return b.updated.localeCompare(a.updated)
+        })
+    }
+    else if (mode === `order`) {
+        let used_curls = App.get_used_curls()
+
+        items.sort((a, b) => {
+            return used_curls.indexOf(a.curl) - used_curls.indexOf(b.curl)
+        })
+    }
+    else if (mode === `alpha`) {
+        items.sort((a, b) => {
+            return a.curl.localeCompare(b.curl)
+        })
+    }
+}
+
+App.insert_items = (items) => {
+    let container = DOM.el(`#container`)
+    container.innerHTML = ``
+
+    App.sort_items(items)
+    App.last_items = items
 
     for (let item of items) {
         if (!item.content) {
@@ -95,31 +129,6 @@ App.update_curls = async () => {
 
     for (let item of items) {
         App.insert_item(item)
-    }
-}
-
-App.get_sort = () => {
-    let sort = DOM.el(`#sort`)
-    return sort.options[sort.selectedIndex].value
-}
-
-App.sort_items = (items, used_curls) => {
-    let mode = App.get_sort()
-
-    if (mode === `recent`) {
-        items.sort((a, b) => {
-            return b.updated.localeCompare(a.updated)
-        })
-    }
-    else if (mode === `order`) {
-        items.sort((a, b) => {
-            return used_curls.indexOf(a.curl) - used_curls.indexOf(b.curl)
-        })
-    }
-    else if (mode === `alpha`) {
-        items.sort((a, b) => {
-            return a.curl.localeCompare(b.curl)
-        })
     }
 }
 
@@ -220,7 +229,7 @@ App.setup_color = () => {
 App.change_sort = () => {
     let mode = App.get_sort()
     localStorage.setItem(`sort`, mode)
-    App.update()
+    App.insert_items(App.last_items)
 }
 
 App.change_color = () => {
