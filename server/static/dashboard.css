@@ -104,3 +104,10 @@ body, html {
     text-decoration: underline;
     cursor: pointer;
 }
+
+a:visited,
+a:link,
+a:hover
+{
+	color: var(--color);
+}
