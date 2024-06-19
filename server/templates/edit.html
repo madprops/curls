@@ -26,21 +26,23 @@
     </style>
 </head>
 
-<form method="post" action="/edit">
-    <div id="main">
-        <input type="text" placeholder="curl" name="curl" autocomplete="on">
-        <input type="text" placeholder="passkey" name="passkey" autocomplete="on">
-        <input type="text" placeholder="content" name="content" autocomplete="on">
-        <input type="submit" value="Edit">
+<body>
+    <form method="post" action="/edit">
+        <div id="main">
+            <input type="text" placeholder="curl" name="curl" autocomplete="on">
+            <input type="text" placeholder="passkey" name="passkey" autocomplete="on">
+            <input type="text" placeholder="content" name="content" autocomplete="on">
+            <input type="submit" value="Edit">
 
-        <br><br>
+            <br><br>
 
-        You can also do this using the terminal:
+            You can also do this using the terminal:
 
-        <br><br>
+            <br><br>
 
-        <div>
-            curl -X POST -d "curl=mycurl&passkey=mypasskey&content=mycontent" https://this.website/edit
+            <div>
+                curl -X POST -d "curl=mycurl&passkey=mypasskey&content=mycontent" https://this.website/edit
+            </div>
         </div>
-    </div>
-</form>
+    </form>
+</body>

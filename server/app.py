@@ -77,6 +77,10 @@ def edit():
 def view(curl):
     return get_content(curl)
 
+@app.route("/dashboard", methods=["GET"])
+def dashboard():
+    return render_template("dashboard.html")
+
 # ---
 
 def do_claim(curl: str) -> str:
@@ -121,7 +125,7 @@ def check_passkey(curl: str, passkey: str) -> bool:
 def update_content(curl: str, content: str) -> None:
     dbase = db.get_db()
     cursor = dbase.cursor()
-    db_string = "UPDATE curls SET content = ? WHERE curl = ?"
+    db_string = "UPDATE curls SET content = ?, updated = CURRENT_TIMESTAMP WHERE curl = ?"
     cursor.execute(db_string, (content, curl))
     dbase.commit()
 

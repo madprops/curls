@@ -32,18 +32,20 @@
     </style>
 </head>
 
-<form method="post" action="/claim">
-    <div id="main">
-        <input type="text" placeholder="Curl" name="curl">
+<body>
+    <form method="post" action="/claim">
+        <div id="main">
+            <input type="text" placeholder="Curl" name="curl">
 
-        <div>
-            You will receive a key to be able to use this curl.
+            <div>
+                You will receive a key to be able to use this curl.
+            </div>
+
+            <div id="captcha">
+                {{ captcha_html(captcha)|safe }}
+            </div>
+
+            <input type="submit" value="Claim">
         </div>
-
-        <div id="captcha">
-            {{ captcha_html(captcha)|safe }}
-        </div>
-
-        <input type="submit" value="Claim">
-    </div>
-</form>
+    </form>
+</body>
