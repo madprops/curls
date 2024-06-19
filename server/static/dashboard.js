@@ -88,7 +88,7 @@ App.update_curls = async () => {
 
     for (let item of items) {
         if (!item.content) {
-            item.content = "No updated yet."
+            item.content = "Not updated yet."
         }
     }
 
