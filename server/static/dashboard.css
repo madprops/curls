@@ -60,7 +60,7 @@ body, html {
 .item {
     display: table-row;
     height: 100%;
-    border: 1px solid grey;
+    border: 1px solid var(--color);
 }
 
 .item_icon, .item_curl, .item_content, .item_updated
