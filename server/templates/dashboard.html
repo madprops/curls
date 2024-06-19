@@ -58,6 +58,17 @@
             border: 1px solid green;
             flex-grow: 1;
         }
+
+        #controls {
+            display: flex;
+            flex-direction: row;
+            gap: 1.2rem;
+        }
+
+        .button {
+            text-decoration: underline;
+            cursor: pointer;
+        }
     </style>
 
     <script src="{{ url_for('static', filename='dom.js') }}"></script>
@@ -78,8 +89,9 @@
         </div>
 
         <div id="right_side">
-            <div>
-                Checking for updates every 5 minutes
+            <div id="controls">
+                <div>Updating every 5 minutes</div>
+                <div class="button" id="update">Update</div>
             </div>
 
             <div id="container"></div>
