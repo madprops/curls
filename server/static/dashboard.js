@@ -7,6 +7,15 @@ App.max_curl_length = 18
 App.server_url = `http://localhost:5000`
 App.last_items = []
 
+App.colors = {
+    red: `rgb(255, 89, 89)`,
+    green: `rgb(87, 255, 87)`,
+    blue: `rgb(118, 120, 255)`,
+    yellow: `rgb(255, 219, 78)`,
+    purple: `rgb(193, 56, 255)`,
+    white: `rgb(255, 255, 255)`
+}
+
 App.setup = () => {
     App.setup_buttons()
     App.setup_curlist()
@@ -260,29 +269,6 @@ App.get_color = () => {
 
 App.apply_color = () => {
     let color = App.get_color()
-    let rgb
-
-    if (color === `red`) {
-        rgb = `rgb(255, 89, 89)`
-    }
-    else if (color === `green`) {
-        rgb = `rgb(87, 255, 87)`
-    }
-    else if (color === `blue`) {
-        rgb = `rgb(118, 120, 255)`
-    }
-    else if (color === `yellow`) {
-        rgb = `rgb(255, 219, 78)`
-    }
-    else if (color === `purple`) {
-        rgb = `rgb(193, 56, 255)`
-    }
-    else if (color === `white`) {
-        rgb = `rgb(255, 255, 255)`
-    }
-    else {
-        rgb = `rgb(255, 255, 255)`
-    }
-
+    let rgb = App.colors[color]
     document.documentElement.style.setProperty(`--color`, rgb)
 }
