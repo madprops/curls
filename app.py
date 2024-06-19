@@ -12,6 +12,7 @@ from . import db
 
 CURL_MAX_LENGTH = 18
 PASSKEY_LENGTH = 18
+CONTENT_MAX_LENGTH = 500
 
 app = Flask(__name__)
 db.init_app(app)
@@ -60,6 +61,9 @@ def edit():
 
         if not curl or not passkey or not content:
             return "Error: Empty fields"
+
+        if len(content) > CONTENT_MAX_LENGTH:
+            return f"Error: Content too long (Max is {CONTENT_MAX_LENGTH} characters)"
 
         if not check_passkey(curl, passkey):
             return "Error: Invalid passkey"
