@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 # Standard
 import random
 import string
@@ -42,12 +44,14 @@ app = SIMPLE_CAPTCHA.init_app(app)
 
 # Routes
 
-@app.route("/", methods=["GET"])
-def index():
+
+@app.route("/", methods=["GET"])  # type: ignore
+def index() -> Any:
     return render_template("index.html")
 
-@app.route("/claim", methods=["POST", "GET"])
-def claim():
+
+@app.route("/claim", methods=["POST", "GET"])  # type: ignore
+def claim() -> Any:
     if request.method == "POST":
         c_hash = request.form.get("captcha-hash")
         c_text = request.form.get("captcha-text")
@@ -56,12 +60,13 @@ def claim():
             return "Failed captcha."
 
         return do_claim(request.form["curl"])
-    else:
-        captcha = SIMPLE_CAPTCHA.create()
-        return render_template("claim.html", captcha=captcha)
 
-@app.route("/edit", methods=["POST", "GET"])
-def edit():
+    captcha = SIMPLE_CAPTCHA.create()
+    return render_template("claim.html", captcha=captcha)
+
+
+@app.route("/edit", methods=["POST", "GET"])  # type: ignore
+def edit() -> Any:
     if request.method == "POST":
         curl = request.form.get("curl")
         passkey = request.form.get("passkey")
@@ -81,26 +86,29 @@ def edit():
 
         update_content(curl, content)
         return "ok"
-    else:
-        return render_template("edit.html")
 
-@app.route("/dashboard", methods=["GET"])
-def dashboard():
+    return render_template("edit.html")
+
+
+@app.route("/dashboard", methods=["GET"])  # type: ignore
+def dashboard() -> Any:
     return render_template("dashboard.html")
 
-@app.route("/<curl>", methods=["GET"])
-def view(curl):
+
+@app.route("/<curl>", methods=["GET"])  # type: ignore
+def view(curl) -> Any:
     if len(curl) > CURL_MAX_LENGTH:
         return curl_too_long()
 
     return get_content(curl)
 
-@app.route("/curls", methods=["POST"])
-def get_curls():
+
+@app.route("/curls", methods=["POST"])  # type: ignore
+def get_curls() -> Any:
     if request.method == "POST":
         try:
             data = request.get_json()
-            curls = data['curls']
+            curls = data["curls"]
 
             if len(curls) > MAX_CURLS:
                 return too_many_curls()
@@ -113,10 +121,12 @@ def get_curls():
 
         results = get_curl_list(curls)
         return json.dumps(results)
-    else:
-        return "Invalid request."
+
+    return "Invalid request."
+
 
 # ---
+
 
 def do_claim(curl: str) -> str:
     curl = curl.strip().lower()
@@ -137,6 +147,7 @@ def do_claim(curl: str) -> str:
     add_curl(curl, passkey)
     return f"Your curl is {curl} and your key is {passkey}"
 
+
 def add_curl(curl: str, passkey: str) -> None:
     dbase = db.get_db()
     cursor = dbase.cursor()
@@ -144,10 +155,11 @@ def add_curl(curl: str, passkey: str) -> None:
     cursor.execute(db_string, (curl, passkey, ""))
     dbase.commit()
 
+
 def make_passkey() -> str:
     characters = string.ascii_letters + string.digits
-    passkey = "".join(random.choice(characters) for i in range(PASSKEY_LENGTH))
-    return passkey
+    return "".join(random.choice(characters) for i in range(PASSKEY_LENGTH))
+
 
 def check_passkey(curl: str, passkey: str) -> bool:
     curl = curl.strip().lower()
@@ -156,15 +168,19 @@ def check_passkey(curl: str, passkey: str) -> bool:
     db_string = "SELECT passkey FROM curls WHERE curl = ?"
     cursor.execute(db_string, (curl,))
     result = cursor.fetchone()
-    return result and result[0] == passkey
+    return bool(result) and (result[0] == passkey)
+
 
 def update_content(curl: str, content: str) -> None:
     curl = curl.strip().lower()
     dbase = db.get_db()
     cursor = dbase.cursor()
-    db_string = "UPDATE curls SET content = ?, updated = CURRENT_TIMESTAMP WHERE curl = ?"
+    db_string = (
+        "UPDATE curls SET content = ?, updated = CURRENT_TIMESTAMP WHERE curl = ?"
+    )
     cursor.execute(db_string, (content, curl))
     dbase.commit()
+
 
 def curl_exists(curl: str) -> bool:
     curl = curl.strip().lower()
@@ -175,6 +191,7 @@ def curl_exists(curl: str) -> bool:
     result = cursor.fetchone()
     return bool(result)
 
+
 def get_content(curl: str) -> str:
     curl = curl.strip().lower()
     dbase = db.get_db()
@@ -183,6 +200,7 @@ def get_content(curl: str) -> str:
     cursor.execute(db_string, (curl,))
     result = cursor.fetchone()
     return check_content(result)
+
 
 def get_curl_list(curls: list[str]) -> list[dict[str, Any]]:
     dbase = db.get_db()
@@ -207,6 +225,7 @@ def get_curl_list(curls: list[str]) -> list[dict[str, Any]]:
 
     return items
 
+
 def check_content(result: Any) -> str:
     if not result:
         return "Not claimed yet."
@@ -216,18 +235,22 @@ def check_content(result: Any) -> str:
     if not content:
         return "Not updated yet."
 
-    return content
+    return str(content)
+
 
 def curl_too_long() -> str:
     return f"Error: Curl is too long (Max is {CURL_MAX_LENGTH} characters)"
 
+
 def content_too_long() -> str:
     return f"Error: Content is too long (Max is {CONTENT_MAX_LENGTH} characters)"
+
 
 def too_many_curls() -> str:
     return f"Error: Too many curls (Max is {MAX_CURLS})"
 
-def check_curl(curl) -> bool:
+
+def check_curl(curl: str) -> bool:
     if len(curl) > CURL_MAX_LENGTH:
         return False
 

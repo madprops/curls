@@ -78,6 +78,7 @@ body, html {
 
 .item_curl {
     color: white;
+    font-weight: bold;
 }
 
 .item_updated {
