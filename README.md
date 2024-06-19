@@ -36,7 +36,7 @@ curl -X POST -H "Content-Type: application/json" -d '{"curls":["somecurl","other
 
 How I think this can be used is by users sharing their curls to others and then they add them to a program. The program would update every added curl every 5 minutes to check for changes. So a user gets an overview of the status of many people.
 
-The status of the people you choose can serve as calls of actions to know about interesting activities happening in real time.
+The status of the people you choose can serve as calls of action or to know about interesting activities happening in real time.
 
 Yes it's similar to Twitter except there's no history or other kind of privacy invading mechanisms in place. And there's no CORS restrictions, reading and editing the curl status should be as easy as possible, from within any application.
 
