@@ -8,7 +8,6 @@ App.server_url = `http://localhost:5000`
 
 App.setup = () => {
     App.setup_buttons()
-    App.setup_container()
     App.setup_curlist()
     App.update()
 }
@@ -80,21 +79,40 @@ App.update_curls = async () => {
     let items = await response.json()
 
     items.sort((a, b) => {
-        return a.updated - b.updated
+        return b.updated.localeCompare(a.updated)
     })
 
-    console.log(items)
-}
-
-App.insert_item = (curl, content) => {
-    if (!curl || !content) {
-        return
+    for (let item of items) {
+        if (!item.content) {
+            item.content = "No updated yet."
+        }
     }
 
+    for (let item of items) {
+        App.insert_item(item)
+    }
+}
+
+App.insert_item = (item) => {
     let container = DOM.el(`#container`)
-    let text = `${curl}: ${content}`
     let el = DOM.create(`div`, `item`)
-    el.textContent = text
+
+    let item_icon = DOM.create(`canvas`, `item_icon`)
+    item_icon.width = 20
+    item_icon.height = 20
+    jdenticon.update(item_icon, item.curl)
+
+    let item_curl = DOM.create(`div`, `item_curl`)
+    let item_content = DOM.create(`div`, `item_content`)
+    let item_updated = DOM.create(`div`, `item_updated`)
+    item_curl.textContent = item.curl
+    item_content.textContent = item.content
+    item_updated.textContent = new Date(item.updated).toLocaleString()
+    el.append(item_icon)
+    el.append(item_curl)
+    el.append(item_content)
+    el.append(item_updated)
+    container.append(el)
     container.append(el)
 }
 
@@ -147,9 +165,4 @@ App.setup_buttons = () => {
     DOM.ev(update, `click`, () => {
         App.update()
     })
-}
-
-App.setup_container = () => {
-    let container = DOM.el(`#container`)
-    Sortable.create(container)
 }

@@ -16,7 +16,7 @@ body, html {
     display: flex;
     flex-direction: row;
     padding: 1rem;
-    gap: 1rem;
+    gap: 0.8rem;
 }
 
 #left_side {
@@ -65,4 +65,23 @@ body, html {
 .button {
     text-decoration: underline;
     cursor: pointer;
+}
+
+.item {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+}
+
+.item_icon {
+    width: 20px;
+    height: 20px;
+}
+
+.item_curl {
+    color: white;
+}
+
+.item_updated {
+    color: gray;
 }
