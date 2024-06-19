@@ -42,6 +42,7 @@ body, html {
     border: 1px solid var(--color);
     color: var(--color);
     padding: 0.35rem;
+    outline: none;
 }
 
 #container {

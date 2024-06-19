@@ -75,11 +75,8 @@ def edit() -> Any:
         if not curl or not passkey or not content:
             return "Error: Empty fields"
 
-        if len(curl) > CURL_MAX_LENGTH:
-            return curl_too_long()
-
-        if len(content) > CONTENT_MAX_LENGTH:
-            return content_too_long()
+        if not check_curl(curl):
+            return "Error: Invalid curl"
 
         if not check_passkey(curl, passkey):
             return "Error: Invalid passkey"
@@ -97,8 +94,8 @@ def dashboard() -> Any:
 
 @app.route("/<curl>", methods=["GET"])  # type: ignore
 def view(curl) -> Any:
-    if len(curl) > CURL_MAX_LENGTH:
-        return curl_too_long()
+    if not check_curl(curl):
+        return "Invalid curl."
 
     return get_content(curl)
 
@@ -115,7 +112,7 @@ def get_curls() -> Any:
 
             for curl in curls:
                 if not check_curl(curl):
-                    return "Invalid."
+                    return "Invalid curl."
         except:
             return "Invalid request."
 
@@ -131,14 +128,8 @@ def get_curls() -> Any:
 def do_claim(curl: str) -> str:
     curl = curl.strip().lower()
 
-    if not curl:
-        return "Empty curl."
-
-    if not curl.isalnum():
-        return "Curl must be alphanumeric"
-
-    if len(curl) > CURL_MAX_LENGTH:
-        return curl_too_long()
+    if not check_curl(curl):
+        return "Error: Invalid curl"
 
     if curl_exists(curl):
         return "Curl already exists."
@@ -251,6 +242,9 @@ def too_many_curls() -> str:
 
 
 def check_curl(curl: str) -> bool:
+    if not curl:
+        return False
+
     if len(curl) > CURL_MAX_LENGTH:
         return False
 
