@@ -45,12 +45,43 @@ body, html {
     outline: none;
 }
 
+/* Make #container and its children a table layout */
+
 #container {
-    min-height: 350px;
     border: 1px solid var(--color);
-    flex-grow: 1;
     padding: 0.35rem;
     cursor: default;
+    display: table;
+    width: 100%;
+    position: relative;
+
+}
+
+.item {
+    display: table-row;
+    height: 100%;
+}
+
+.item_icon {
+    width: 20px;
+    height: 20px;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.item_curl {
+    color: white;
+    font-weight: bold;
+    display: table-cell;
+}
+
+.item_content {
+    display: table-cell;
+}
+
+.item_updated {
+    color: gray;
+    display: table-cell;
 }
 
 #controls {
@@ -62,26 +93,4 @@ body, html {
 .button {
     text-decoration: underline;
     cursor: pointer;
-}
-
-.item {
-    display: flex;
-    flex-direction: row;
-    gap: 0.5rem;
-    align-items: center;
-    justify-content: flex-start;
-}
-
-.item_icon {
-    width: 20px;
-    height: 20px;
-}
-
-.item_curl {
-    color: white;
-    font-weight: bold;
-}
-
-.item_updated {
-    color: gray;
 }
