@@ -1,0 +1,68 @@
+:root {
+    --green_color: rgb(87, 255, 87);
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: sans-serif;
+    background-color: black;
+    color: var(--green_color);
+    font-size: 18px;
+}
+
+#main {
+    display: flex;
+    flex-direction: row;
+    padding: 1rem;
+    gap: 1rem;
+}
+
+#left_side {
+    width: 200px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+#right_side {
+    flex-grow: 1;
+    flex-shrink: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+#curlist {
+    flex-grow: 1;
+    min-height: 350px;
+    resize: none;
+    background-color: rgb(0, 0, 0);
+    color: white;
+    font-size: 1rem;
+    border: 1px solid green;
+    color: var(--green_color);
+    padding: 0.35rem;
+}
+
+#container {
+    min-height: 350px;
+    border: 1px solid green;
+    flex-grow: 1;
+    padding: 0.35rem;
+    cursor: default;
+}
+
+#controls {
+    display: flex;
+    flex-direction: row;
+    gap: 1.2rem;
+}
+
+.button {
+    text-decoration: underline;
+    cursor: pointer;
+}

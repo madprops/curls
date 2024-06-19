@@ -1,11 +1,13 @@
 # Standard
 import random
 import string
+import json
 
 # Libraries
 from flask import Flask, render_template, request  # type: ignore
 from flask_simple_captcha import CAPTCHA  # type: ignore
 from flask_cors import CORS  # type: ignore
+from typing import Any
 
 # Modules
 from . import db
@@ -78,13 +80,28 @@ def edit():
     else:
         return render_template("edit.html")
 
+@app.route("/dashboard", methods=["GET"])
+def dashboard():
+    return render_template("dashboard.html")
+
 @app.route("/<curl>", methods=["GET"])
 def view(curl):
     return get_content(curl)
 
-@app.route("/dashboard", methods=["GET"])
-def dashboard():
-    return render_template("dashboard.html")
+@app.route("/<curl>/full", methods=["GET"])
+def get_full(curl):
+    ans = get_full(curl)
+    return json.dumps(ans)
+
+@app.route("/curls", methods=["POST"])
+def get_curls():
+    if request.method == "POST":
+        data = request.get_json()
+        curls = data['curls']
+        results = get_curls(curls)
+        return json.dumps(results)
+    else:
+        return "Invalid request."
 
 # ---
 
@@ -120,6 +137,7 @@ def make_passkey() -> str:
     return passkey
 
 def check_passkey(curl: str, passkey: str) -> bool:
+    curl = curl.strip().lower()
     dbase = db.get_db()
     cursor = dbase.cursor()
     db_string = "SELECT passkey FROM curls WHERE curl = ?"
@@ -128,6 +146,7 @@ def check_passkey(curl: str, passkey: str) -> bool:
     return result and result[0] == passkey
 
 def update_content(curl: str, content: str) -> None:
+    curl = curl.strip().lower()
     dbase = db.get_db()
     cursor = dbase.cursor()
     db_string = "UPDATE curls SET content = ?, updated = CURRENT_TIMESTAMP WHERE curl = ?"
@@ -135,6 +154,7 @@ def update_content(curl: str, content: str) -> None:
     dbase.commit()
 
 def curl_exists(curl: str) -> bool:
+    curl = curl.strip().lower()
     dbase = db.get_db()
     cursor = dbase.cursor()
     db_string = "SELECT curl FROM curls WHERE curl = ?"
@@ -143,12 +163,56 @@ def curl_exists(curl: str) -> bool:
     return bool(result)
 
 def get_content(curl: str) -> str:
+    curl = curl.strip().lower()
     dbase = db.get_db()
     cursor = dbase.cursor()
     db_string = "SELECT content FROM curls WHERE curl = ?"
     cursor.execute(db_string, (curl,))
     result = cursor.fetchone()
+    return check_content(result)
 
+def get_full(curl: str) -> dict[str, Any]:
+    curl = curl.strip().lower()
+    dbase = db.get_db()
+    cursor = dbase.cursor()
+    db_string = "SELECT content, updated FROM curls WHERE curl = ?"
+    cursor.execute(db_string, (curl,))
+    result = cursor.fetchone()
+    content = check_content(result)
+    updated = str(result[1]) or ""
+    exists = bool(result)
+
+    return {
+        "curl": curl,
+        "content": content,
+        "updated": updated,
+        "exists": exists,
+    }
+
+def get_curls(curls: list[str]) -> list[dict[str, Any]]:
+    dbase = db.get_db()
+    cursor = dbase.cursor()
+
+    db_string = "SELECT curl, content, updated FROM curls WHERE curl IN ({})".format(
+        ",".join("?" * len(curls))
+    )
+
+    cursor.execute(db_string, curls)
+    results = cursor.fetchall()
+    items = []
+
+    for result in results:
+        if not result:
+            continue
+
+        curl = result[0]
+        content = result[1]
+        updated = str(result[2]) or ""
+        items.append({"curl": curl, "content": content, "updated": updated})
+
+    return items
+
+def check_content(result: Any) -> str:
     if not result:
         return "Not claimed yet."
 

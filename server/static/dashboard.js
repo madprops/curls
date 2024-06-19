@@ -3,11 +3,12 @@ App.SECOND = 1000
 App.MINUTE = App.SECOND * 60
 App.update_delay = App.MINUTE * 5
 App.max_curls = 100
-App.request_delay = 300
+App.max_curl_length = 18
 App.server_url = `http://localhost:5000`
 
 App.setup = () => {
     App.setup_buttons()
+    App.setup_container()
     App.setup_curlist()
     App.update()
 }
@@ -51,23 +52,38 @@ App.update_curls = async () => {
             continue
         }
 
+        if (curl.length > App.max_curl_length) {
+            continue
+        }
+
         if (used_curls.includes(curl)) {
             continue
         }
 
         used_curls.push(curl)
-
-        setTimeout(() => {
-            fetch(App.get_url(curl))
-            .then(response => response.text())
-            .then(content => {
-                App.insert_item(curl, content)
-            })
-            .catch((error) => {
-                console.error(error)
-            })
-        }, App.request_delay * used_curls.length)
     }
+
+    if (!used_curls.length) {
+        return
+    }
+
+    let url = `${App.server_url}/curls`
+
+    let response = await fetch(url, {
+        method: `POST`,
+        headers: {
+            'Content-Type': `application/json`
+        },
+        body: JSON.stringify({curls: used_curls})
+    })
+
+    let items = await response.json()
+
+    items.sort((a, b) => {
+        return a.updated - b.updated
+    })
+
+    console.log(items)
 }
 
 App.insert_item = (curl, content) => {
@@ -131,4 +147,9 @@ App.setup_buttons = () => {
     DOM.ev(update, `click`, () => {
         App.update()
     })
+}
+
+App.setup_container = () => {
+    let container = DOM.el(`#container`)
+    Sortable.create(container)
 }
