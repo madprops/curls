@@ -500,6 +500,15 @@ App.setup_container = () => {
             App.show_item_menu(e)
         }
     })
+
+    DOM.ev(container, `contextmenu`, (e) => {
+        let icon = e.target.closest(`.item_icon`)
+
+        if (icon) {
+            e.preventDefault()
+            App.show_item_menu(e)
+        }
+    })
 }
 
 App.show_item_menu = (e) => {
