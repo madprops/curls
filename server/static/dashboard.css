@@ -129,8 +129,12 @@ input[type="text"], input[type="password"] {
     border: 1px solid var(--color);
     padding: 0.15rem;
     outline: none;
-    width: 9rem;
+    width: 7rem;
     font-size: 0.9rem;
+}
+
+#edit_content {
+    width: 11rem;
 }
 
 button {
