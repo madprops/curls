@@ -474,7 +474,7 @@ App.toggle_curlist = () => {
     localStorage.setItem(`curlist_enabled`, App.curlist_enabled)
 }
 
-App.edit_curl = () => {
+App.edit = () => {
     App.info(`Editing...`)
     let curl = DOM.el(`#edit_curl`).value
     let key = DOM.el(`#edit_key`).value
@@ -503,11 +503,11 @@ App.edit_curl = () => {
     .then(response => response.text())
     .then(ans => {
         App.info(ans)
-        App.clear_status()
-        App.update(true)
         App.clear_editing()
 
         if (ans === `ok`) {
+            App.clear_status()
+            App.update(true)
             App.add_owned_curl(curl)
         }
     })
@@ -549,14 +549,14 @@ App.setup_edit = () => {
 
     DOM.ev(status, `keyup`, (e) => {
         if (e.key === `Enter`) {
-            App.edit_curl()
+            App.edit()
         }
     })
 
     let submit = DOM.el(`#edit_submit`)
 
     DOM.ev(submit, `click`, () => {
-        App.edit_curl()
+        App.edit()
     })
 
     App.load_edit()
