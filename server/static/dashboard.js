@@ -671,7 +671,7 @@ App.do_remove_curl = (curl) => {
 
     for (let curl_ of curls) {
         if (curl !== curl_) {
-            cleaned.push(curl)
+            cleaned.push(curl_)
         }
     }
 
