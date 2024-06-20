@@ -46,14 +46,6 @@ Having lots of these self-hosted is probably best than a big central node, unles
 
 ---
 
-## Dashboard
-
-I have my own implementation of a program that uses curls.
-
-It is located at `https://curls.website/dashboard`.
-
----
-
 ## Accounts
 
 There are no accounts. You claim a curl once, you are given the key once.
@@ -62,9 +54,11 @@ There are no mechanisms to recover a lost key.
 
 ---
 
-## Sort
+## Dashboard
 
-There are 3 sort modes that tell how to sort the items.
+I have my own implementation of a program that uses curls.
+
+It is located at `https://curls.website/dashboard`.
 
 ### Recent
 
