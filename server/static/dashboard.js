@@ -9,7 +9,7 @@ App.max_curl_length = 18
 App.server_url = `http://localhost:5000`
 App.last_items = []
 App.curlist_enabled = true
-App.print_enabled = true
+App.info_enabled = true
 
 App.colors = {
     red: `rgb(255, 89, 89)`,
@@ -88,7 +88,7 @@ App.get_used_curls = () => {
 }
 
 App.update_curls = async () => {
-    App.print(`Updating...`)
+    App.info(`Updating...`)
     let used_curls = App.get_used_curls()
     App.last_used_curls = used_curls
 
@@ -407,6 +407,7 @@ App.toggle_curlist = () => {
 }
 
 App.edit_curl = () => {
+    App.info(`Editing...`)
     let curl = DOM.el(`#edit_curl`).value
     let key = DOM.el(`#edit_key`).value
     let content = DOM.el(`#edit_content`).value
@@ -416,8 +417,8 @@ App.edit_curl = () => {
     }
 
     let url = `${App.server_url}/edit`
-
     let params = new URLSearchParams()
+
     params.append("curl", curl)
     params.append("key", key)
     params.append("content", content)
@@ -431,7 +432,7 @@ App.edit_curl = () => {
     })
     .then(response => response.text())
     .then(text => {
-        App.print(text)
+        App.info(text)
         App.clear_content()
         App.update(true)
     })
@@ -579,8 +580,8 @@ App.copy_item = (e) => {
     }, 1000)
 }
 
-App.print = (msg) => {
-    if (App.print_enabled) {
+App.info = (msg) => {
+    if (App.info_enabled) {
         console.info(msg)
     }
 }
