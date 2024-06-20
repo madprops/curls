@@ -222,6 +222,7 @@ App.get_url = (curl) => {
 App.setup_curlist = () => {
     let curlist = DOM.el(`#curlist`)
     let curlist_top = DOM.el(`#curlist_top`)
+    let add = DOM.el(`#add`)
 
     DOM.ev(curlist, `focusout`, () => {
         App.clean_curlist()
@@ -237,6 +238,10 @@ App.setup_curlist = () => {
 
     DOM.ev(curlist_top, `contextmenu`, (e) => {
         App.show_curlist_menu(e)
+    })
+
+    DOM.ev(add, `click`, () => {
+        App.add_curl()
     })
 
     App.load_curlist()
@@ -560,8 +565,10 @@ App.do_remove_curl = (e) => {
     }
 
     curlist.value = cleaned.join(`\n`)
-    App.save_curlist()
-    App.update(true)
+
+    if (App.save_curlist()) {
+        App.update(true)
+    }
 }
 
 App.copy_item = (e) => {
@@ -602,4 +609,20 @@ App.show_curlist_menu = (e) => {
 App.copy_curlist = (e) => {
     let curlist = DOM.el(`#curlist`)
     navigator.clipboard.writeText(curlist.value)
+}
+
+App.add_curl = () => {
+    let curl = prompt(`Add curl:`)
+
+    if (!curl) {
+        return
+    }
+
+    let curlist = DOM.el(`#curlist`)
+    curlist.value += `\n${curl}`
+    App.clean_curlist()
+
+    if (App.save_curlist()) {
+        App.update(true)
+    }
 }
