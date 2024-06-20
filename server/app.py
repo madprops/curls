@@ -5,10 +5,9 @@ import json
 from typing import Any
 
 # Libraries
-from flask import Flask  # type: ignore
+from flask import Flask, render_template, request  # type: ignore
 from flask_cors import CORS  # type: ignore
 from flask_simple_captcha import CAPTCHA  # type: ignore
-from flask import render_template, request  # type: ignore
 
 # Modules
 from . import config
