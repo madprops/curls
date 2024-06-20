@@ -449,9 +449,9 @@ App.edit_curl = () => {
     let url = `${App.server_url}/edit`
     let params = new URLSearchParams()
 
-    params.append("curl", curl)
-    params.append("key", key)
-    params.append("content", content)
+    params.append(`curl`, curl)
+    params.append(`key`, key)
+    params.append(`content`, content)
 
     fetch(url, {
         method: `POST`,
