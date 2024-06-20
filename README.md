@@ -71,3 +71,15 @@ The curls are ordered based on the order in the `curlist` at the left.
 ### Alpha
 
 The curls are ordered alphanumerically.
+
+---
+
+## Installing
+
+Create a `captcha_key.txt` file inside `/server` and put a secret key for the captcha there.
+
+The file is read at startup.
+
+Run `/server/init_db.sh` to create the sqlite3 database.
+
+Figure out how to run it with gunicorn. I might edit this later.
