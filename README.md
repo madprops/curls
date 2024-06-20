@@ -1,10 +1,6 @@
 # Curls
 
-![](https://i.imgur.com/frdOwf4.gif)
-
-![](https://i.imgur.com/7XDM7Zs.gif)
-
-![](https://i.imgur.com/w7bW8K9.gif)
+![](https://i.imgur.com/p37XMVE.gif)
 
 This is a text status host.
 
