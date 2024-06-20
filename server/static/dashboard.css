@@ -94,6 +94,7 @@ body, html {
 .item_updated {
     color: gray;
     white-space: nowrap;
+    text-align: right;
 }
 
 /*  */
