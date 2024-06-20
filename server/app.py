@@ -29,7 +29,7 @@ db.init_app(app)
 
 # Captcha
 
-YOUR_CONFIG = {
+CAPTCHA_CONFIG = {
     "SECRET_CAPTCHA_KEY": "ChangeMe",
     "CAPTCHA_LENGTH": 10,
     "CAPTCHA_DIGITS": False,
@@ -39,8 +39,9 @@ YOUR_CONFIG = {
     "CHARACTER_POOL": string.ascii_lowercase,
 }
 
-SIMPLE_CAPTCHA = CAPTCHA(config=YOUR_CONFIG)
+SIMPLE_CAPTCHA = CAPTCHA(config=CAPTCHA_CONFIG)
 app = SIMPLE_CAPTCHA.init_app(app)
+
 
 # Routes
 
