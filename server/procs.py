@@ -6,8 +6,8 @@ import string
 from typing import Any
 
 # Modules
-from . import db
-from . import config
+import db
+import config
 
 
 def do_claim(curl: str) -> str:

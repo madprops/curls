@@ -10,8 +10,8 @@ from flask_cors import CORS  # type: ignore
 from flask_simple_captcha import CAPTCHA  # type: ignore
 
 # Modules
-from . import config
-from . import db
+import config
+import db
 
 
 # ---
@@ -38,7 +38,7 @@ def index() -> Any:
 
 @app.route("/claim", methods=["POST", "GET"])  # type: ignore
 def claim() -> Any:
-    from . import procs
+    import procs
 
     if request.method == "POST":
         c_hash = request.form.get("captcha-hash")
@@ -60,7 +60,7 @@ def claim() -> Any:
 
 @app.route("/edit", methods=["POST", "GET"])  # type: ignore
 def edit() -> Any:
-    from . import procs
+    import procs
 
     if request.method == "POST":
         curl = request.form.get("curl")
@@ -89,7 +89,7 @@ def dashboard() -> Any:
 
 @app.route("/<curl>", methods=["GET"])  # type: ignore
 def view(curl) -> Any:
-    from . import procs
+    import procs
 
     if not procs.check_curl(curl):
         return "Invalid curl"
@@ -99,7 +99,7 @@ def view(curl) -> Any:
 
 @app.route("/curls", methods=["POST"])  # type: ignore
 def get_curls() -> Any:
-    from . import procs
+    import procs
 
     if request.method == "POST":
         try:
