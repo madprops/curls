@@ -176,12 +176,14 @@ App.insert_items = (items) => {
 App.insert_item = (item) => {
     let container = DOM.el(`#container`)
     let el = DOM.create(`div`, `item`)
+    let item_icon = DOM.create(`div`, `item_icon`)
 
-    let item_icon = DOM.create(`canvas`, `item_icon`)
-    item_icon.title = `Copy to clipboard`
-    item_icon.width = 20
-    item_icon.height = 20
-    jdenticon.update(item_icon, item.curl)
+    let canvas = DOM.create(`canvas`, `item_icon_canvas`)
+    canvas.title = `Copy to clipboard`
+    canvas.width = 20
+    canvas.height = 20
+    jdenticon.update(canvas, item.curl)
+    item_icon.append(canvas)
 
     let item_curl = DOM.create(`div`, `item_curl`)
     let item_content = DOM.create(`div`, `item_content`)

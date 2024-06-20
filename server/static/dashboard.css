@@ -79,6 +79,10 @@ body, html {
     cursor: pointer;
 }
 
+.item_icon_canvas {
+    vertical-align: middle;
+}
+
 .item_curl {
     color: white;
 }
