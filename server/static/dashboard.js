@@ -1,4 +1,5 @@
 const App = {}
+
 App.SECOND = 1000
 App.MINUTE = App.SECOND * 60
 App.update_delay = App.MINUTE * 5
@@ -85,7 +86,7 @@ App.get_used_curls = () => {
 }
 
 App.update_curls = async () => {
-    console.log(`Updating...`)
+    console.info(`Updating...`)
 
     let used_curls = App.get_used_curls()
 
@@ -392,7 +393,7 @@ App.edit_curl = () => {
     })
     .then(response => response.text())
     .then(data => {
-        console.log(data)
+        console.info(data)
         App.clear_content()
         App.update(true)
     })
@@ -476,7 +477,7 @@ App.copy_item = (e) => {
     let updated = item.querySelector(`.item_updated`).textContent
     let msg = `${curl}\n${content}\n${updated}`
     navigator.clipboard.writeText(msg)
-    console.log(`Copied!`)
+    console.info(`Copied!`)
 
     let icon = item.querySelector(`.item_icon`)
     icon.classList.add(`blink`)
