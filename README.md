@@ -30,10 +30,10 @@ View:
 curl https://curls.website/[curl]
 ```
 
-Multiple:
+Get data of one or more:
 
 ```
-curl -X POST -H "Content-Type: application/json" -d '{"curls":["somecurl","othercurl"]}' http://localhost:5000/curls | jq
+curl -X POST -d "curl=somecurl&curl=othercurl" https://curls.website/curls
 ```
 
 ---

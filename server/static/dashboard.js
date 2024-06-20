@@ -100,7 +100,7 @@ App.update_curls = async () => {
     let params = new URLSearchParams()
 
     for (let curl of used_curls) {
-        params.append(`curls`, curl);
+        params.append(`curl`, curl);
     }
 
     let response = await fetch(url, {
