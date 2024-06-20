@@ -116,7 +116,7 @@ App.update_curls = async () => {
     let missing = used_curls.filter(curl => !items.find(item => item.curl === curl))
 
     for (let curl of missing) {
-        App.insert_item({curl, content: `Not found.`, updated: 0})
+        App.insert_item({curl, content: `Not found`, updated: 0})
     }
 }
 
@@ -164,7 +164,7 @@ App.insert_items = (items) => {
 
     for (let item of items) {
         if (!item.content) {
-            item.content = `Not updated yet.`
+            item.content = `Not updated yet`
         }
     }
 
