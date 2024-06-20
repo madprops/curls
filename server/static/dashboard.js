@@ -12,6 +12,7 @@ App.info_enabled = true
 App.last_items = []
 App.last_used_curls = []
 App.last_missing = []
+App.clear_delay = 800
 
 App.colors = {
     red: `rgb(255, 89, 89)`,
@@ -101,14 +102,12 @@ App.update_curls = async () => {
 
     let url = `${App.server_url}/curls`
     let params = new URLSearchParams()
-    let button = DOM.el(`#update`)
 
     for (let curl of used_curls) {
         params.append(`curl`, curl);
     }
 
-    clearTimeout(App.clear_updating_timeout)
-    button.innerHTML = `Updating...`
+    App.show_updating()
     let response = ``
 
     try {
@@ -121,7 +120,7 @@ App.update_curls = async () => {
         })
     }
     catch (e) {
-        App.info(`Failed to update`)
+        App.info(`Error: Failed to update`)
         App.clear_updating()
         return
     }
@@ -131,11 +130,34 @@ App.update_curls = async () => {
     App.clear_updating()
 }
 
+App.show_updating = () => {
+    let button = DOM.el(`#update`)
+    clearTimeout(App.clear_updating_timeout)
+    button.innerHTML = `Updating`
+    button.classList.add(`active`)
+}
+
 App.clear_updating = () => {
     App.clear_updating_timeout = setTimeout(() => {
         let button = DOM.el(`#update`)
         button.innerHTML = `Update`
-    }, 800)
+        button.classList.remove(`active`)
+    }, App.clear_delay)
+}
+
+App.show_editing = () => {
+    let button = DOM.el(`#edit_submit`)
+    clearTimeout(App.clear_editing_timeout)
+    button.innerHTML = `Editing`
+    button.classList.add(`active`)
+}
+
+App.clear_editing = () => {
+    App.clear_editing_timeout = setTimeout(() => {
+        let button = DOM.el(`#edit_submit`)
+        button.innerHTML = `Edit`
+        button.classList.remove(`active`)
+    }, App.clear_delay)
 }
 
 App.get_sort = () => {
@@ -469,6 +491,8 @@ App.edit_curl = () => {
     params.append(`key`, key)
     params.append(`text`, text)
 
+    App.show_editing()
+
     fetch(url, {
         method: `POST`,
         headers: {
@@ -481,6 +505,11 @@ App.edit_curl = () => {
         App.info(ans)
         App.clear_text()
         App.update(true)
+        App.clear_editing()
+    })
+    .catch(e => {
+        App.info(`Error: Failed to edit`)
+        App.clear_editing()
     })
 }
 

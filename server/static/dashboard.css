@@ -145,6 +145,11 @@ button {
     padding-right: 0.25rem;
 }
 
+button:hover {
+    background-color: var(--color);
+    color: rgb(0, 0, 0);
+}
+
 select {
     background-color: rgb(0, 0, 0);
     color: var(--color);
@@ -189,4 +194,8 @@ select {
 #add {
     flex-grow: 0;
     flex-shrink: 0;
+}
+
+.active {
+    border: 1px solid rgb(255, 255, 255) !important;
 }
