@@ -512,6 +512,12 @@ App.show_item_menu = (e) => {
 }
 
 App.remove_curl = (e) => {
+    if (confirm(`Remove this curl?`)) {
+        App.do_remove_curl(e)
+    }
+}
+
+App.do_remove_curl = (e) => {
     let item = e.target.closest(`.item`)
     let curl = item.querySelector(`.item_curl`).textContent
     let curlist = DOM.el(`#curlist`)
@@ -536,7 +542,6 @@ App.copy_item = (e) => {
     let updated = item.querySelector(`.item_updated`).textContent
     let msg = `${curl}\n${content}\n${updated}`
     navigator.clipboard.writeText(msg)
-    App.print(`Copied!`)
 
     let icon = item.querySelector(`.item_icon`)
     icon.classList.add(`blink`)
