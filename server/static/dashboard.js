@@ -240,8 +240,8 @@ App.setup_curlist = () => {
         App.show_curlist_menu(e)
     })
 
-    DOM.ev(add, `click`, () => {
-        App.add_curl()
+    DOM.ev(add, `click`, (e) => {
+        App.add_curl(e)
     })
 
     let c_saved = localStorage.getItem(`curlist_enabled`)
@@ -631,7 +631,26 @@ App.copy_curlist = (e) => {
     navigator.clipboard.writeText(curlist.value)
 }
 
-App.add_curl = () => {
+App.add_curl = (e) => {
+    let items = [
+        {
+            text: `At Top`,
+            action: () => {
+                App.do_add_curl(`top`)
+        },
+        },
+        {
+            text: `At Bottom`,
+            action: () => {
+                App.do_add_curl(`bottom`)
+            }
+        },
+    ]
+
+    NeedContext.show({items: items, e: e})
+}
+
+App.do_add_curl = (where) => {
     let curl = prompt(`Add curl:`)
 
     if (!curl) {
@@ -639,7 +658,14 @@ App.add_curl = () => {
     }
 
     let curlist = DOM.el(`#curlist`)
-    curlist.value += `\n${curl}`
+
+    if (where === `top`) {
+        curlist.value = `${curl}\n${curlist.value}`
+    }
+    else if (where === `bottom`) {
+        curlist.value += `\n${curl}`
+    }
+
     App.clean_curlist()
 
     if (App.save_curlist()) {
