@@ -24,7 +24,7 @@ Edit one:
 curl -X POST -d "curl=mycurl&key=mykey&content=mycontent" https://curls.website/edit
 ```
 
-Get current status:
+Get current status of one:
 
 ```
 curl https://curls.website/[curl]
