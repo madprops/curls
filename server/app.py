@@ -1,24 +1,20 @@
 from __future__ import annotations
 
 # Standard
-import random
-import string
 import json
-
-# Libraries
-from flask import Flask, render_template, request  # type: ignore
-from flask_simple_captcha import CAPTCHA  # type: ignore
-from flask_cors import CORS  # type: ignore
 from typing import Any
 
+# Libraries
+from flask import Flask  # type: ignore
+from flask_cors import CORS  # type: ignore
+from flask_simple_captcha import CAPTCHA  # type: ignore
+from flask import render_template, request  # type: ignore
+
 # Modules
+from . import config
 from . import db
 
-
-CURL_MAX_LENGTH = 18
-PASSKEY_LENGTH = 18
-CONTENT_MAX_LENGTH = 500
-MAX_CURLS = 100
+# ---
 
 app = Flask(__name__)
 
@@ -27,24 +23,10 @@ CORS(app)
 
 db.init_app(app)
 
-# Captcha
+simple_captcha = CAPTCHA(config=config.captcha)
+app = simple_captcha.init_app(app)
 
-CAPTCHA_CONFIG = {
-    "SECRET_CAPTCHA_KEY": "ChangeMe",
-    "CAPTCHA_LENGTH": 10,
-    "CAPTCHA_DIGITS": False,
-    "EXPIRE_SECONDS": 60,
-    "CAPTCHA_IMG_FORMAT": "JPEG",
-    "ONLY_UPPERCASE": False,
-    "CHARACTER_POOL": string.ascii_lowercase,
-}
-
-SIMPLE_CAPTCHA = CAPTCHA(config=CAPTCHA_CONFIG)
-app = SIMPLE_CAPTCHA.init_app(app)
-
-
-# Routes
-
+# ---
 
 @app.route("/", methods=["GET"])  # type: ignore
 def index() -> Any:
@@ -53,21 +35,25 @@ def index() -> Any:
 
 @app.route("/claim", methods=["POST", "GET"])  # type: ignore
 def claim() -> Any:
+    from . import procs
+
     if request.method == "POST":
         c_hash = request.form.get("captcha-hash")
         c_text = request.form.get("captcha-text")
 
-        if not SIMPLE_CAPTCHA.verify(c_text, c_hash):
+        if not simple_captcha.verify(c_text, c_hash):
             return "Failed captcha"
 
-        return do_claim(request.form["curl"])
+        return procs.do_claim(request.form["curl"])
 
-    captcha = SIMPLE_CAPTCHA.create()
+    captcha = simple_captcha.create()
     return render_template("claim.html", captcha=captcha)
 
 
 @app.route("/edit", methods=["POST", "GET"])  # type: ignore
 def edit() -> Any:
+    from . import procs
+
     if request.method == "POST":
         curl = request.form.get("curl")
         key = request.form.get("key")
@@ -76,13 +62,13 @@ def edit() -> Any:
         if not curl or not key or not text:
             return "Error: Empty fields"
 
-        if not check_curl(curl):
+        if not procs.check_curl(curl):
             return "Error: Invalid curl"
 
-        if not check_key(curl, key):
+        if not procs.check_key(curl, key):
             return "Error: Invalid key"
 
-        update_text(curl, text)
+        procs.update_text(curl, text)
         return "ok"
 
     return render_template("edit.html")
@@ -95,158 +81,32 @@ def dashboard() -> Any:
 
 @app.route("/<curl>", methods=["GET"])  # type: ignore
 def view(curl) -> Any:
-    if not check_curl(curl):
+    from . import procs
+
+    if not procs.check_curl(curl):
         return "Invalid curl"
 
-    return get_text(curl)
+    return procs.get_text(curl)
 
 
 @app.route("/curls", methods=["POST"])  # type: ignore
 def get_curls() -> Any:
+    from . import procs
+
     if request.method == "POST":
         try:
             curls = request.form.getlist("curl")
 
-            if len(curls) > MAX_CURLS:
-                return too_many_curls()
+            if len(curls) > config.max_curls:
+                return procs.too_many_curls()
 
             for curl in curls:
-                if not check_curl(curl):
+                if not procs.check_curl(curl):
                     return "Invalid curl"
         except:
             return "Invalid request"
 
-        results = get_curl_list(curls)
+        results = procs.get_curl_list(curls)
         return json.dumps(results)
 
     return "Invalid request"
-
-
-# ---
-
-
-def do_claim(curl: str) -> str:
-    curl = curl.strip().lower()
-
-    if not check_curl(curl):
-        return "Error: Invalid curl"
-
-    if curl_exists(curl):
-        return "Error: Curl already exists"
-
-    key = make_key()
-    add_curl(curl, key)
-    return f"Your curl is {curl} and your key is {key}"
-
-
-def add_curl(curl: str, key: str) -> None:
-    dbase = db.get_db()
-    cursor = dbase.cursor()
-    db_string = "INSERT INTO curls (curl, key, text) VALUES (?, ?, ?)"
-    cursor.execute(db_string, (curl, key, ""))
-    dbase.commit()
-
-
-def make_key() -> str:
-    characters = string.ascii_letters + string.digits
-    return "".join(random.choice(characters) for i in range(PASSKEY_LENGTH))
-
-
-def check_key(curl: str, key: str) -> bool:
-    curl = curl.strip().lower()
-    dbase = db.get_db()
-    cursor = dbase.cursor()
-    db_string = "SELECT key FROM curls WHERE curl = ?"
-    cursor.execute(db_string, (curl,))
-    result = cursor.fetchone()
-    return bool(result) and (result[0] == key)
-
-
-def update_text(curl: str, text: str) -> None:
-    curl = curl.strip().lower()
-    dbase = db.get_db()
-    cursor = dbase.cursor()
-    db_string = "UPDATE curls SET text = ?, updated = CURRENT_TIMESTAMP WHERE curl = ?"
-    cursor.execute(db_string, (text, curl))
-    dbase.commit()
-
-
-def curl_exists(curl: str) -> bool:
-    curl = curl.strip().lower()
-    dbase = db.get_db()
-    cursor = dbase.cursor()
-    db_string = "SELECT curl FROM curls WHERE curl = ?"
-    cursor.execute(db_string, (curl,))
-    result = cursor.fetchone()
-    return bool(result)
-
-
-def get_text(curl: str) -> str:
-    curl = curl.strip().lower()
-    dbase = db.get_db()
-    cursor = dbase.cursor()
-    db_string = "SELECT text FROM curls WHERE curl = ?"
-    cursor.execute(db_string, (curl,))
-    result = cursor.fetchone()
-    return check_text(result)
-
-
-def get_curl_list(curls: list[str]) -> list[dict[str, Any]]:
-    dbase = db.get_db()
-    cursor = dbase.cursor()
-
-    db_string = "SELECT curl, text, updated FROM curls WHERE curl IN ({})".format(
-        ",".join("?" * len(curls))
-    )
-
-    cursor.execute(db_string, curls)
-    results = cursor.fetchall()
-    items = []
-
-    for result in results:
-        if not result:
-            continue
-
-        curl = result[0]
-        text = result[1]
-        updated = str(result[2]) or ""
-        items.append({"curl": curl, "text": text, "updated": updated})
-
-    return items
-
-
-def check_text(result: Any) -> str:
-    if not result:
-        return "Not claimed yet"
-
-    text = result[0]
-
-    if not text:
-        return "Not updated yet"
-
-    return str(text)
-
-
-def curl_too_long() -> str:
-    return f"Error: Curl is too long (Max is {CURL_MAX_LENGTH} characters)"
-
-
-def text_too_long() -> str:
-    return f"Error: Text is too long (Max is {CONTENT_MAX_LENGTH} characters)"
-
-
-def too_many_curls() -> str:
-    return f"Error: Too many curls (Max is {MAX_CURLS})"
-
-
-def check_curl(curl: str) -> bool:
-    if not curl:
-        return False
-
-    if len(curl) > CURL_MAX_LENGTH:
-        return False
-
-    if not curl.isalnum():
-        return False
-
-    return True
