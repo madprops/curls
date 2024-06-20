@@ -6,7 +6,6 @@ App.update_delay = App.MINUTE * 5
 App.updates_enabled = false
 App.max_curls = 100
 App.max_curl_length = 18
-App.server_url = `http://localhost:5000`
 App.curlist_enabled = true
 App.info_enabled = true
 App.last_items = []
@@ -99,7 +98,7 @@ App.update_curls = async () => {
         return
     }
 
-    let url = `${App.server_url}/curls`
+    let url = `/curls`
     let params = new URLSearchParams()
 
     for (let curl of used_curls) {
@@ -256,7 +255,7 @@ App.insert_item = (item) => {
 }
 
 App.get_url = (curl) => {
-    return `${App.server_url}/${curl}`
+    return `/${curl}`
 }
 
 App.setup_curlist = () => {
@@ -489,7 +488,7 @@ App.edit = () => {
         return
     }
 
-    let url = `${App.server_url}/edit`
+    let url = `/edit`
     let params = new URLSearchParams()
 
     params.append(`curl`, curl)
