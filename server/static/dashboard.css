@@ -146,6 +146,8 @@ select {
     border: 1px solid var(--color);
     outline: none;
     font-size: 0.9rem;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
 }
 
 .hidden {
