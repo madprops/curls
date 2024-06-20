@@ -87,10 +87,11 @@ body, html {
     color: white;
     width: 188px;
     overflow: hidden;
+    text-align: left;
 }
 
 .item_content {
-    /*  */
+    text-align: left;
 }
 
 .item_updated {
