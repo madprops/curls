@@ -65,7 +65,7 @@ App.get_used_curls = () => {
             break
         }
 
-        curl = line.trim()
+        curl = curl.trim()
 
         if (!curl) {
             continue
