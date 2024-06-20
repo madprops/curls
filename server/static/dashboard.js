@@ -692,7 +692,7 @@ App.do_add_curl = (where) => {
 }
 
 App.curlist_clean = () => {
-    if (confirm(`Remove not found curls?`)) {
+    if (confirm(`Remove the curls that were not found?`)) {
         App.remove_not_found()
     }
 }
