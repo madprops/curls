@@ -70,9 +70,9 @@ def edit() -> Any:
     if request.method == "POST":
         curl = request.form.get("curl")
         key = request.form.get("key")
-        content = request.form.get("content")
+        text = request.form.get("text")
 
-        if not curl or not key or not content:
+        if not curl or not key or not text:
             return "Error: Empty fields"
 
         if not check_curl(curl):
@@ -81,7 +81,7 @@ def edit() -> Any:
         if not check_key(curl, key):
             return "Error: Invalid key"
 
-        update_content(curl, content)
+        update_text(curl, text)
         return "ok"
 
     return render_template("edit.html")
@@ -97,7 +97,7 @@ def view(curl) -> Any:
     if not check_curl(curl):
         return "Invalid curl"
 
-    return get_content(curl)
+    return get_text(curl)
 
 
 @app.route("/curls", methods=["POST"])  # type: ignore
@@ -141,7 +141,7 @@ def do_claim(curl: str) -> str:
 def add_curl(curl: str, key: str) -> None:
     dbase = db.get_db()
     cursor = dbase.cursor()
-    db_string = "INSERT INTO curls (curl, passkey, content) VALUES (?, ?, ?)"
+    db_string = "INSERT INTO curls (curl, key, text) VALUES (?, ?, ?)"
     cursor.execute(db_string, (curl, key, ""))
     dbase.commit()
 
@@ -155,22 +155,22 @@ def check_key(curl: str, key: str) -> bool:
     curl = curl.strip().lower()
     dbase = db.get_db()
     cursor = dbase.cursor()
-    db_string = "SELECT passkey FROM curls WHERE curl = ?"
+    db_string = "SELECT key FROM curls WHERE curl = ?"
     cursor.execute(db_string, (curl,))
     result = cursor.fetchone()
     return bool(result) and (result[0] == key)
 
 
-def update_content(curl: str, content: str) -> None:
+def update_text(curl: str, text: str) -> None:
     curl = curl.strip().lower()
     dbase = db.get_db()
     cursor = dbase.cursor()
 
     db_string = (
-        "UPDATE curls SET content = ?, updated = CURRENT_TIMESTAMP WHERE curl = ?"
+        "UPDATE curls SET text = ?, updated = CURRENT_TIMESTAMP WHERE curl = ?"
     )
 
-    cursor.execute(db_string, (content, curl))
+    cursor.execute(db_string, (text, curl))
     dbase.commit()
 
 
@@ -184,21 +184,21 @@ def curl_exists(curl: str) -> bool:
     return bool(result)
 
 
-def get_content(curl: str) -> str:
+def get_text(curl: str) -> str:
     curl = curl.strip().lower()
     dbase = db.get_db()
     cursor = dbase.cursor()
-    db_string = "SELECT content FROM curls WHERE curl = ?"
+    db_string = "SELECT text FROM curls WHERE curl = ?"
     cursor.execute(db_string, (curl,))
     result = cursor.fetchone()
-    return check_content(result)
+    return check_text(result)
 
 
 def get_curl_list(curls: list[str]) -> list[dict[str, Any]]:
     dbase = db.get_db()
     cursor = dbase.cursor()
 
-    db_string = "SELECT curl, content, updated FROM curls WHERE curl IN ({})".format(
+    db_string = "SELECT curl, text, updated FROM curls WHERE curl IN ({})".format(
         ",".join("?" * len(curls))
     )
 
@@ -211,31 +211,31 @@ def get_curl_list(curls: list[str]) -> list[dict[str, Any]]:
             continue
 
         curl = result[0]
-        content = result[1]
+        text = result[1]
         updated = str(result[2]) or ""
-        items.append({"curl": curl, "content": content, "updated": updated})
+        items.append({"curl": curl, "text": text, "updated": updated})
 
     return items
 
 
-def check_content(result: Any) -> str:
+def check_text(result: Any) -> str:
     if not result:
         return "Not claimed yet"
 
-    content = result[0]
+    text = result[0]
 
-    if not content:
+    if not text:
         return "Not updated yet"
 
-    return str(content)
+    return str(text)
 
 
 def curl_too_long() -> str:
     return f"Error: Curl is too long (Max is {CURL_MAX_LENGTH} characters)"
 
 
-def content_too_long() -> str:
-    return f"Error: Content is too long (Max is {CONTENT_MAX_LENGTH} characters)"
+def text_too_long() -> str:
+    return f"Error: Text is too long (Max is {CONTENT_MAX_LENGTH} characters)"
 
 
 def too_many_curls() -> str:

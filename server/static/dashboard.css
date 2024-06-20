@@ -61,7 +61,7 @@ body, html {
     border: 1px solid var(--color);
 }
 
-.item_icon, .item_curl, .item_content, .item_updated
+.item_icon, .item_curl, .item_text, .item_updated
 {
     display: table-cell;
     padding-right: 0.5rem;
@@ -89,7 +89,7 @@ body, html {
     text-align: left;
 }
 
-.item_content {
+.item_text {
     text-align: left;
 }
 
@@ -129,7 +129,7 @@ input[type="text"], input[type="password"] {
     font-size: 1rem;
 }
 
-#edit_content {
+#edit_text {
     width: 11rem;
 }
 
