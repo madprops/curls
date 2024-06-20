@@ -2,6 +2,8 @@
 
 ![](https://i.imgur.com/frdOwf4.gif)
 
+![](https://i.imgur.com/7XDM7Zs.gif)
+
 This is a text status host.
 
 Users claim a `curl` and get a key to be able to update it.
