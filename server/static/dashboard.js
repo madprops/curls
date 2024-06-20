@@ -214,7 +214,10 @@ App.setup_curlist = () => {
 
     DOM.ev(curlist, `focusout`, () => {
         App.clean_curlist()
-        App.save_curlist()
+
+        if (App.save_curlist()) {
+            App.update(true)
+        }
     })
 
     App.load_curlist()
@@ -235,8 +238,14 @@ App.clean_curlist = () => {
 }
 
 App.save_curlist = () => {
-    let curlist = DOM.el(`#curlist`)
-    localStorage.setItem(`curlist`, curlist.value)
+    let curlist = DOM.el(`#curlist`).value
+
+    if (curlist === localStorage.getItem(`curlist`)) {
+        return false
+    }
+
+    localStorage.setItem(`curlist`, curlist)
+    return true
 }
 
 App.load_curlist = () => {
