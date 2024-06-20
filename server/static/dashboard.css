@@ -72,14 +72,14 @@ body, html {
 }
 
 .item_icon {
-    width: 20px;
-    height: 20px;
-    vertical-align: middle;
+    width: 1%;
     padding-left: 0.5rem;
     cursor: pointer;
 }
 
 .item_icon_canvas {
+    width: 2.5rem;
+    height: auto;
     vertical-align: middle;
 }
 

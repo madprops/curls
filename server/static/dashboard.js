@@ -180,8 +180,6 @@ App.insert_item = (item) => {
     let item_icon = DOM.create(`div`, `item_icon`)
 
     let canvas = DOM.create(`canvas`, `item_icon_canvas`)
-    canvas.width = 20
-    canvas.height = 20
     jdenticon.update(canvas, item.curl)
     item_icon.append(canvas)
 
