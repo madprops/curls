@@ -88,4 +88,8 @@ The file is read at startup.
 
 Run `/server/init_db.sh` to create the sqlite3 database.
 
-Figure out how to run it with gunicorn. I might edit this later.
+Use `gunicorn` to run it in production.
+
+Set up a reverse proxy on `apache`.
+
+Make a `systemd` service to start gunicorn with a non-root user.
