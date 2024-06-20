@@ -568,7 +568,7 @@ App.show_item_menu = (e) => {
 }
 
 App.remove_a_curl = () => {
-    let curl = prompt(`Remove curl:`)
+    let curl = prompt(`Remove a curl:`)
 
     if (!curl) {
         return
@@ -669,7 +669,7 @@ App.copy_curlist = (e) => {
 }
 
 App.do_add_curl = (where) => {
-    let curl = prompt(`Add curl:`)
+    let curl = prompt(`Add a curl:`)
 
     if (!curl) {
         return
