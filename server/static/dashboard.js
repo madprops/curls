@@ -24,6 +24,7 @@ App.setup = () => {
     App.setup_updater()
     App.setup_sort()
     App.setup_color()
+    App.setup_edit()
     App.update(true)
 }
 
@@ -239,12 +240,6 @@ App.setup_buttons = () => {
     DOM.ev(curlist_top, `click`, () => {
         App.toggle_curlist()
     })
-
-    let edit = DOM.el(`#edit_submit`)
-
-    DOM.ev(edit, `click`, () => {
-        App.edit_curl()
-    })
 }
 
 App.setup_sort = () => {
@@ -396,8 +391,13 @@ App.edit_curl = () => {
     .then(response => response.text())
     .then(data => {
         console.log(data)
+        App.clear_content()
         App.update(true)
     })
+}
+
+App.clear_content = () => {
+    DOM.el(`#edit_content`).value = ``
 }
 
 App.sanitize = (s) => {
@@ -409,4 +409,20 @@ App.urlize = (el) => {
     let urlRegex = /(https?:\/\/[^\s]+)/g
     let replacedText = html.replace(urlRegex, `<a href="$1" target="_blank">$1</a>`)
     el.innerHTML = replacedText
+}
+
+App.setup_edit = () => {
+    let content = DOM.el(`#edit_content`)
+
+    DOM.ev(content, `keyup`, (e) => {
+        if (e.key === `Enter`) {
+            App.edit_curl()
+        }
+    })
+
+    let submit = DOM.el(`#edit_submit`)
+
+    DOM.ev(submit, `click`, () => {
+        App.edit_curl()
+    })
 }

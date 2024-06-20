@@ -115,7 +115,7 @@ a:hover
     cursor: pointer;
 }
 
-input[type="text"] {
+input[type="text"], input[type="password"] {
     background-color: rgb(0, 0, 0);
     color: white;
     border: 1px solid var(--color);
