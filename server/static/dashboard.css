@@ -94,10 +94,10 @@ body, html {
 
 /*  */
 
-#controls {
+#controls, #edit {
     display: flex;
     flex-direction: row;
-    gap: 1.2rem;
+    gap: 1rem;
 }
 
 .button {
@@ -114,4 +114,32 @@ a:hover
 
 .pointer {
     cursor: pointer;
+}
+
+input[type="text"] {
+    background-color: rgb(0, 0, 0);
+    color: white;
+    border: 1px solid var(--color);
+    padding: 0.15rem;
+    outline: none;
+    width: 9rem;
+    font-size: 0.9rem;
+}
+
+button {
+    background-color: rgb(0, 0, 0);
+    color: white;
+    border: 1px solid var(--color);
+    cursor: pointer;
+    outline: none;
+    font-size: 0.9rem;
+    padding: 0.15rem;
+}
+
+select {
+    background-color: rgb(0, 0, 0);
+    color: white;
+    border: 1px solid var(--color);
+    outline: none;
+    font-size: 0.9rem;
 }
