@@ -48,7 +48,7 @@ Yes it's similar to Twitter except there's no history or other kind of privacy i
 
 I have my own implementation of a program that uses curls.
 
-It is located in `https://curls.website/dashboard`.
+It is located at `https://curls.website/dashboard`.
 
 ## Accounts
 
