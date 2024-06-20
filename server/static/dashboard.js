@@ -180,7 +180,6 @@ App.insert_item = (item) => {
     let item_icon = DOM.create(`div`, `item_icon`)
 
     let canvas = DOM.create(`canvas`, `item_icon_canvas`)
-    canvas.title = `Copy to clipboard`
     canvas.width = 20
     canvas.height = 20
     jdenticon.update(canvas, item.curl)
@@ -488,9 +487,46 @@ App.setup_container = () => {
         let icon = e.target.closest(`.item_icon`)
 
         if (icon) {
-            App.copy_item(e)
+            App.show_item_menu(e)
         }
     })
+}
+
+App.show_item_menu = (e) => {
+    let items = [
+        {
+            text: `Copy`,
+            action: () => {
+                App.copy_item(e)
+            }
+        },
+        {
+            text: `Remove`,
+            action: () => {
+                App.remove_curl(e)
+            }
+        },
+    ]
+
+    NeedContext.show({items: items, e: e})
+}
+
+App.remove_curl = (e) => {
+    let item = e.target.closest(`.item`)
+    let curl = item.querySelector(`.item_curl`).textContent
+    let curlist = DOM.el(`#curlist`)
+    let lines = curlist.value.split(`\n`).filter(x => x !== ``)
+    let cleaned = []
+
+    for (let line of lines) {
+        if (line !== curl) {
+            cleaned.push(line)
+        }
+    }
+
+    curlist.value = cleaned.join(`\n`)
+    App.save_curlist()
+    App.update(true)
 }
 
 App.copy_item = (e) => {
