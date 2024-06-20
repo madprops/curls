@@ -113,6 +113,7 @@ a:hover
 
 .pointer {
     cursor: pointer;
+    user-select: none;
 }
 
 input[type="text"], input[type="password"] {
@@ -133,6 +134,7 @@ button {
     outline: none;
     font-size: 0.9rem;
     padding: 0.15rem;
+    user-select: none;
 }
 
 select {
