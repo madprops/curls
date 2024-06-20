@@ -531,7 +531,10 @@ App.show_item_menu = (e) => {
 }
 
 App.remove_curl = (e) => {
-    if (confirm(`Remove this curl?`)) {
+    let item = e.target.closest(`.item`)
+    let curl = item.querySelector(`.item_curl`).textContent
+
+    if (confirm(`Remove ${curl}?`)) {
         App.do_remove_curl(e)
     }
 }
