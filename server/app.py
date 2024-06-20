@@ -44,7 +44,7 @@ def claim() -> Any:
         c_hash = request.form.get("captcha-hash")
         c_text = request.form.get("captcha-text")
 
-        if c_text != config.captcha_cheat:
+        if config.captcha_cheat and (c_text != config.captcha_cheat):
             if not simple_captcha.verify(c_text, c_hash):
                 return "Failed captcha"
 
