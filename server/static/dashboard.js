@@ -272,9 +272,15 @@ App.clean_curlist = () => {
     let cleaned = []
 
     for (let line of lines) {
-        if (!cleaned.includes(line)) {
-            cleaned.push(line)
+        if (line.length > App.max_curl_length) {
+            continue
         }
+
+        if (cleaned.includes(line)) {
+            continue
+        }
+
+        cleaned.push(line)
     }
 
     curlist.value = cleaned.join(`\n`)
