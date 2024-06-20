@@ -7,6 +7,7 @@ App.max_curls = 100
 App.max_curl_length = 18
 App.server_url = `http://localhost:5000`
 App.last_items = []
+App.curlist_enabled = true
 
 App.colors = {
     red: `rgb(255, 89, 89)`,
@@ -231,6 +232,12 @@ App.setup_buttons = () => {
     DOM.ev(update, `click`, () => {
         App.update(true)
     })
+
+    let curlist_top = DOM.el(`#curlist_top`)
+
+    DOM.ev(curlist_top, `click`, () => {
+        App.toggle_curlist()
+    })
 }
 
 App.setup_sort = () => {
@@ -335,4 +342,23 @@ App.refresh_updater = () => {
     else {
         el.textContent = `No auto updates`
     }
+}
+
+App.toggle_curlist = () => {
+    let left_side = DOM.el(`#left_side`)
+    let curlist_top = DOM.el(`#curlist_top`)
+    let curlist = DOM.el(`#curlist`)
+
+    if (App.curlist_enabled) {
+        curlist.classList.add(`hidden`)
+        curlist_top.textContent = `>`
+        left_side.style.width = `unset`
+    }
+    else {
+        curlist.classList.remove(`hidden`)
+        curlist_top.textContent = `List of curls`
+        left_side.style.width = `200px`
+    }
+
+    App.curlist_enabled = !App.curlist_enabled
 }
