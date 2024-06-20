@@ -165,11 +165,7 @@ def update_text(curl: str, text: str) -> None:
     curl = curl.strip().lower()
     dbase = db.get_db()
     cursor = dbase.cursor()
-
-    db_string = (
-        "UPDATE curls SET text = ?, updated = CURRENT_TIMESTAMP WHERE curl = ?"
-    )
-
+    db_string = "UPDATE curls SET text = ?, updated = CURRENT_TIMESTAMP WHERE curl = ?"
     cursor.execute(db_string, (text, curl))
     dbase.commit()
 
