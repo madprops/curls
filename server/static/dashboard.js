@@ -244,6 +244,17 @@ App.setup_curlist = () => {
         App.add_curl()
     })
 
+    let c_saved = localStorage.getItem(`curlist_enabled`)
+    App.curlist_enabled = c_saved === `true`
+
+    if (!App.curlist_enabled) {
+        App.hide_curlist()
+    }
+
+    if (!App.curlist_enabled) {
+        App.hide_curlist()
+    }
+
     App.load_curlist()
 }
 
@@ -398,17 +409,26 @@ App.refresh_updater = () => {
     }
 }
 
-App.toggle_curlist = () => {
+App.show_curlist = () => {
     let left_side = DOM.el(`#left_side`)
+    left_side.classList.remove(`hidden`)
+}
 
+App.hide_curlist = () => {
+    let left_side = DOM.el(`#left_side`)
+    left_side.classList.add(`hidden`)
+}
+
+App.toggle_curlist = () => {
     if (App.curlist_enabled) {
-        left_side.classList.add(`hidden`)
+        App.hide_curlist()
     }
     else {
-        left_side.classList.remove(`hidden`)
+        App.show_curlist()
     }
 
     App.curlist_enabled = !App.curlist_enabled
+    localStorage.setItem(`curlist_enabled`, App.curlist_enabled)
 }
 
 App.edit_curl = () => {
