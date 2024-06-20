@@ -6,7 +6,7 @@ This is a text status host.
 
 Users claim a `curl` and get a key to be able to update it.
 
-For instance `https://curls.website/funone` would return the current content of the `funone` curl.
+For instance `https://curls.website/funone` would return the current text of the `funone` curl.
 
 The response is always pure text, there is no json or anything.
 
@@ -17,7 +17,7 @@ To view and edit a curl there's some html pages available but you are encouraged
 Edit one:
 
 ```
-curl -X POST -d "curl=mycurl&key=mykey&content=mycontent" https://curls.website/edit
+curl -X POST -d "curl=mycurl&key=mykey&text=mytext" https://curls.website/edit
 ```
 
 Get current status of one:
