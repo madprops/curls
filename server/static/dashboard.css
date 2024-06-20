@@ -204,5 +204,5 @@ select {
   }
 
 .active {
-    animation: colorchange 500ms infinite;
+    animation: colorchange 800ms infinite;
 }
