@@ -257,6 +257,7 @@ App.clean_curlist = () => {
     let curlist = DOM.el(`#curlist`)
     let curlist_top = DOM.el(`#curlist_top`)
     let lines = curlist.value.split(`\n`).filter(x => x !== ``)
+    lines = lines.filter(x => x.match(/^[a-zA-Z0-9_]+$/))
     let cleaned = []
 
     for (let line of lines) {

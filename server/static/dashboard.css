@@ -85,6 +85,8 @@ body, html {
 
 .item_curl {
     color: white;
+    width: 188px;
+    overflow: hidden;
 }
 
 .item_content {
