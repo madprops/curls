@@ -14,7 +14,9 @@ from flask import render_template, request  # type: ignore
 from . import config
 from . import db
 
+
 # ---
+
 
 app = Flask(__name__)
 
@@ -26,7 +28,9 @@ db.init_app(app)
 simple_captcha = CAPTCHA(config=config.captcha)
 app = simple_captcha.init_app(app)
 
+
 # ---
+
 
 @app.route("/", methods=["GET"])  # type: ignore
 def index() -> Any:
