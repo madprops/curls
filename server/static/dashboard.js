@@ -7,9 +7,11 @@ App.updates_enabled = false
 App.max_curls = 100
 App.max_curl_length = 18
 App.server_url = `http://localhost:5000`
-App.last_items = []
 App.curlist_enabled = true
 App.info_enabled = true
+App.last_items = []
+App.last_used_curls = []
+App.last_missing = []
 
 App.colors = {
     red: `rgb(255, 89, 89)`,
@@ -180,11 +182,18 @@ App.insert_items = (items) => {
         App.insert_item(item)
     }
 
-    let missing = App.last_used_curls.filter(curl => !items.find(item => item.curl === curl))
+    let missing = App.get_missing()
+    App.last_missing = missing
 
     for (let curl of missing) {
         App.insert_item({curl, content: `Not found`, updated: 0})
     }
+}
+
+App.get_missing = () => {
+    let used = App.last_used_curls
+    let items = App.last_items
+    return used.filter(curl => !items.find(item => item.curl === curl))
 }
 
 App.insert_item = (item) => {
@@ -643,6 +652,12 @@ App.show_curlist_menu = (e) => {
                 App.remove_a_curl()
             }
         },
+        {
+            text: `Clean`,
+            action: () => {
+                App.curlist_clean()
+            }
+        },
     ]
 
     NeedContext.show({items: items, e: e})
@@ -670,6 +685,31 @@ App.do_add_curl = (where) => {
     }
 
     App.clean_curlist()
+
+    if (App.save_curlist()) {
+        App.update(true)
+    }
+}
+
+App.curlist_clean = () => {
+    if (confirm(`Remove not found curls?`)) {
+        App.remove_not_found()
+    }
+}
+
+App.remove_not_found = () => {
+    let missing = App.last_missing
+    let curlist = DOM.el(`#curlist`)
+    let lines = curlist.value.split(`\n`).filter(x => x !== ``)
+    let cleaned = []
+
+    for (let line of lines) {
+        if (!missing.includes(line)) {
+            cleaned.push(line)
+        }
+    }
+
+    curlist.value = cleaned.join(`\n`)
 
     if (App.save_curlist()) {
         App.update(true)
