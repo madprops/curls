@@ -43,8 +43,12 @@ def claim() -> Any:
     if request.method == "POST":
         c_hash = request.form.get("captcha-hash")
         c_text = request.form.get("captcha-text")
+        check_catpcha = True
 
-        if config.captcha_cheat and (c_text != config.captcha_cheat):
+        if config.captcha_cheat and (c_text == config.captcha_cheat):
+            check_catpcha = False
+
+        if check_catpcha:
             if not simple_captcha.verify(c_text, c_hash):
                 return "Failed captcha"
 
