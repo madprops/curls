@@ -52,21 +52,20 @@ App.update = (force = false) => {
 }
 
 App.get_used_curls = () => {
-    let curlist = DOM.el(`#curlist`).value
-    let lines = curlist.split(`\n`).filter(x => x !== ``)
+    let curls = App.get_curls()
 
-    if (!lines.length) {
+    if (!curls.length) {
         return []
     }
 
     let used_curls = []
 
-    for (let line of lines) {
+    for (let curl of curls) {
         if (used_curls.length > App.max_curls) {
             break
         }
 
-        let curl = line.trim()
+        curl = line.trim()
 
         if (!curl) {
             continue
@@ -297,20 +296,20 @@ App.setup_curlist = () => {
 App.clean_curlist = () => {
     let curlist = DOM.el(`#curlist`)
     let curlist_top = DOM.el(`#curlist_top`)
-    let lines = curlist.value.split(`\n`).filter(x => x !== ``)
-    lines = lines.filter(x => x.match(/^[a-zA-Z0-9_]+$/))
+    let curls = App.get_curls()
+    curls = curls.filter(x => x.match(/^[a-zA-Z0-9_]+$/))
     let cleaned = []
 
-    for (let line of lines) {
-        if (line.length > App.max_curl_length) {
+    for (let curl of curls) {
+        if (curl.length > App.max_curl_length) {
             continue
         }
 
-        if (cleaned.includes(line)) {
+        if (cleaned.includes(curl)) {
             continue
         }
 
-        cleaned.push(line)
+        cleaned.push(curl)
     }
 
     curlist.value = cleaned.join(`\n`)
@@ -506,6 +505,7 @@ App.edit_curl = () => {
         App.clear_text()
         App.update(true)
         App.clear_editing()
+        App.add_owned_curl(curl)
     })
     .catch(e => {
         App.info(`Error: Failed to edit`)
@@ -658,13 +658,12 @@ App.remove_curl = (e) => {
 }
 
 App.do_remove_curl = (curl) => {
-    let curlist = DOM.el(`#curlist`)
-    let lines = curlist.value.split(`\n`).filter(x => x !== ``)
+    let curls = App.get_curls()
     let cleaned = []
 
-    for (let line of lines) {
-        if (line !== curl) {
-            cleaned.push(line)
+    for (let curl_ of curls) {
+        if (curl !== curl_) {
+            cleaned.push(curl)
         }
     }
 
@@ -773,12 +772,12 @@ App.curlist_clean = () => {
 App.remove_not_found = () => {
     let missing = App.last_missing
     let curlist = DOM.el(`#curlist`)
-    let lines = curlist.value.split(`\n`).filter(x => x !== ``)
+    let curls = App.get_curls()
     let cleaned = []
 
-    for (let line of lines) {
-        if (!missing.includes(line)) {
-            cleaned.push(line)
+    for (let curl of curls) {
+        if (!missing.includes(curl)) {
+            cleaned.push(curl)
         }
     }
 
@@ -788,4 +787,18 @@ App.remove_not_found = () => {
     if (App.save_curlist()) {
         App.update(true)
     }
+}
+
+App.add_owned_curl = (curl) => {
+    let curls = App.get_curls()
+
+    if (!curls.includes(curl)) {
+        App.do_add_curl(`top`, curl)
+    }
+}
+
+App.get_curls = () => {
+    let curlist = DOM.el(`#curlist`).value
+    let lines = curlist.split(`\n`).filter(x => x !== ``)
+    return lines
 }
