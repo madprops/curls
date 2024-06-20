@@ -88,7 +88,6 @@ App.get_used_curls = () => {
 
 App.update_curls = async () => {
     App.print(`Updating...`)
-
     let used_curls = App.get_used_curls()
 
     if (!used_curls.length) {
@@ -113,6 +112,12 @@ App.update_curls = async () => {
 
     let items = await response.json()
     App.insert_items(items)
+
+    let missing = used_curls.filter(curl => !items.find(item => item.curl === curl))
+
+    for (let curl of missing) {
+        App.insert_item({curl, content: `Not found.`, updated: 0})
+    }
 }
 
 App.get_sort = () => {
