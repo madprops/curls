@@ -30,7 +30,7 @@ View:
 curl https://curls.website/[curl]
 ```
 
-Get data of one or more:
+Get data of one or more (json response):
 
 ```
 curl -X POST -d "curl=somecurl&curl=othercurl" https://curls.website/curls
