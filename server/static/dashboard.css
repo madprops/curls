@@ -105,12 +105,6 @@ body, html {
     gap: 0.88rem;
 }
 
-.button {
-    text-decoration: underline;
-    cursor: pointer;
-    user-select: none;
-}
-
 a:visited,
 a:link,
 a:hover

@@ -98,10 +98,14 @@ App.update_curls = async () => {
 
     let url = `${App.server_url}/curls`
     let params = new URLSearchParams()
+    let button = DOM.el(`#update`)
 
     for (let curl of used_curls) {
         params.append(`curl`, curl);
     }
+
+    clearTimeout(App.clear_updating_timeout)
+    button.innerHTML = `Updating...`
 
     let response = await fetch(url, {
         method: `POST`,
@@ -113,6 +117,14 @@ App.update_curls = async () => {
 
     let items = await response.json()
     App.insert_items(items)
+    App.clear_updating()
+}
+
+App.clear_updating = () => {
+    App.clear_updating_timeout = setTimeout(() => {
+        let button = DOM.el(`#update`)
+        button.innerHTML = `Update`
+    }, 800)
 }
 
 App.get_sort = () => {
