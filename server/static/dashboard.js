@@ -505,7 +505,10 @@ App.edit_curl = () => {
         App.clear_text()
         App.update(true)
         App.clear_editing()
-        App.add_owned_curl(curl)
+
+        if (ans === `ok`) {
+            App.add_owned_curl(curl)
+        }
     })
     .catch(e => {
         App.info(`Error: Failed to edit`)
