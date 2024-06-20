@@ -97,13 +97,18 @@ App.update_curls = async () => {
     }
 
     let url = `${App.server_url}/curls`
+    let params = new URLSearchParams()
+
+    for (let curl of used_curls) {
+        params.append(`curls`, curl);
+    }
 
     let response = await fetch(url, {
         method: `POST`,
         headers: {
-            "Content-Type": `application/json`
+            "Content-Type": `application/x-www-form-urlencoded`
         },
-        body: JSON.stringify({curls: used_curls})
+        body: params,
     })
 
     let items = await response.json()

@@ -104,8 +104,7 @@ def view(curl) -> Any:
 def get_curls() -> Any:
     if request.method == "POST":
         try:
-            data = request.get_json()
-            curls = data["curls"]
+            curls = request.form.getlist("curls")
 
             if len(curls) > MAX_CURLS:
                 return too_many_curls()
