@@ -57,7 +57,7 @@ def claim() -> Any:
         c_text = request.form.get("captcha-text")
 
         if not SIMPLE_CAPTCHA.verify(c_text, c_hash):
-            return "Failed captcha."
+            return "Failed captcha"
 
         return do_claim(request.form["curl"])
 
@@ -69,17 +69,17 @@ def claim() -> Any:
 def edit() -> Any:
     if request.method == "POST":
         curl = request.form.get("curl")
-        passkey = request.form.get("passkey")
+        key = request.form.get("key")
         content = request.form.get("content")
 
-        if not curl or not passkey or not content:
+        if not curl or not key or not content:
             return "Error: Empty fields"
 
         if not check_curl(curl):
             return "Error: Invalid curl"
 
-        if not check_passkey(curl, passkey):
-            return "Error: Invalid passkey"
+        if not check_key(curl, key):
+            return "Error: Invalid key"
 
         update_content(curl, content)
         return "ok"
@@ -95,7 +95,7 @@ def dashboard() -> Any:
 @app.route("/<curl>", methods=["GET"])  # type: ignore
 def view(curl) -> Any:
     if not check_curl(curl):
-        return "Invalid curl."
+        return "Invalid curl"
 
     return get_content(curl)
 
@@ -112,14 +112,14 @@ def get_curls() -> Any:
 
             for curl in curls:
                 if not check_curl(curl):
-                    return "Invalid curl."
+                    return "Invalid curl"
         except:
-            return "Invalid request."
+            return "Invalid request"
 
         results = get_curl_list(curls)
         return json.dumps(results)
 
-    return "Invalid request."
+    return "Invalid request"
 
 
 # ---
@@ -132,43 +132,45 @@ def do_claim(curl: str) -> str:
         return "Error: Invalid curl"
 
     if curl_exists(curl):
-        return "Curl already exists."
+        return "Error: Curl already exists"
 
-    passkey = make_passkey()
-    add_curl(curl, passkey)
-    return f"Your curl is {curl} and your key is {passkey}"
+    key = make_key()
+    add_curl(curl, key)
+    return f"Your curl is {curl} and your key is {key}"
 
 
-def add_curl(curl: str, passkey: str) -> None:
+def add_curl(curl: str, key: str) -> None:
     dbase = db.get_db()
     cursor = dbase.cursor()
     db_string = "INSERT INTO curls (curl, passkey, content) VALUES (?, ?, ?)"
-    cursor.execute(db_string, (curl, passkey, ""))
+    cursor.execute(db_string, (curl, key, ""))
     dbase.commit()
 
 
-def make_passkey() -> str:
+def make_key() -> str:
     characters = string.ascii_letters + string.digits
     return "".join(random.choice(characters) for i in range(PASSKEY_LENGTH))
 
 
-def check_passkey(curl: str, passkey: str) -> bool:
+def check_key(curl: str, key: str) -> bool:
     curl = curl.strip().lower()
     dbase = db.get_db()
     cursor = dbase.cursor()
     db_string = "SELECT passkey FROM curls WHERE curl = ?"
     cursor.execute(db_string, (curl,))
     result = cursor.fetchone()
-    return bool(result) and (result[0] == passkey)
+    return bool(result) and (result[0] == key)
 
 
 def update_content(curl: str, content: str) -> None:
     curl = curl.strip().lower()
     dbase = db.get_db()
     cursor = dbase.cursor()
+
     db_string = (
         "UPDATE curls SET content = ?, updated = CURRENT_TIMESTAMP WHERE curl = ?"
     )
+
     cursor.execute(db_string, (content, curl))
     dbase.commit()
 
@@ -219,12 +221,12 @@ def get_curl_list(curls: list[str]) -> list[dict[str, Any]]:
 
 def check_content(result: Any) -> str:
     if not result:
-        return "Not claimed yet."
+        return "Not claimed yet"
 
     content = result[0]
 
     if not content:
-        return "Not updated yet."
+        return "Not updated yet"
 
     return str(content)
 

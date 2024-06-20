@@ -17,7 +17,7 @@ To view and edit a curl there's some html pages available but you are encouraged
 Edit:
 
 ```
-curl -X POST -d "curl=mycurl&passkey=mypasskey&content=mycontent" https://curls.website/edit
+curl -X POST -d "curl=mycurl&key=mykey&content=mycontent" https://curls.website/edit
 ```
 
 View:

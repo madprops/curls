@@ -238,6 +238,12 @@ App.setup_buttons = () => {
     DOM.ev(curlist_top, `click`, () => {
         App.toggle_curlist()
     })
+
+    let edit = DOM.el(`#edit_submit`)
+
+    DOM.ev(edit, `click`, () => {
+        App.edit_curl()
+    })
 }
 
 App.setup_sort = () => {
@@ -361,4 +367,33 @@ App.toggle_curlist = () => {
     }
 
     App.curlist_enabled = !App.curlist_enabled
+}
+
+App.edit_curl = () => {
+    let curl = DOM.el(`#edit_curl`).value
+    let key = DOM.el(`#edit_key`).value
+    let content = DOM.el(`#edit_content`).value
+
+    if (!curl || !key || !content) {
+        return
+    }
+
+    let url = `${App.server_url}/edit`
+
+    let params = new URLSearchParams()
+    params.append("curl", curl)
+    params.append("key", key)
+    params.append("content", content)
+
+    fetch(url, {
+        method: `POST`,
+        headers: {
+            "Content-Type": `application/x-www-form-urlencoded`
+        },
+        body: params,
+    })
+    .then(response => response.text())
+    .then(data => console.log(data))
+
+    App.update(true)
 }
