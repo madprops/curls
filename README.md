@@ -18,13 +18,13 @@ There is no history, or any other features except hosting the current text.
 
 To view and edit a curl there's some html pages available but you are encouraged to use your own tools to view and edit.
 
-Edit:
+Edit one:
 
 ```
 curl -X POST -d "curl=mycurl&key=mykey&content=mycontent" https://curls.website/edit
 ```
 
-View:
+Get current status:
 
 ```
 curl https://curls.website/[curl]
