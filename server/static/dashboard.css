@@ -73,14 +73,15 @@ body, html {
 
 .item_icon {
     width: 1%;
-    padding-left: 0.5rem;
     cursor: pointer;
+    text-align: left;
 }
 
 .item_icon_canvas {
     width: 2.5rem;
     height: auto;
     vertical-align: middle;
+    text-align: left;
 }
 
 .item_curl {

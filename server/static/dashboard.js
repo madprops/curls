@@ -188,6 +188,8 @@ App.insert_items = (items) => {
     for (let curl of missing) {
         App.insert_item({curl, content: `Not found`, updated: 0})
     }
+
+    window.getSelection().removeAllRanges()
 }
 
 App.get_missing = () => {
