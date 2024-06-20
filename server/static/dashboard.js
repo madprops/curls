@@ -109,14 +109,22 @@ App.update_curls = async () => {
 
     clearTimeout(App.clear_updating_timeout)
     button.innerHTML = `Updating...`
+    let response = ``
 
-    let response = await fetch(url, {
-        method: `POST`,
-        headers: {
-            "Content-Type": `application/x-www-form-urlencoded`
-        },
-        body: params,
-    })
+    try {
+        response = await fetch(url, {
+            method: `POST`,
+            headers: {
+                "Content-Type": `application/x-www-form-urlencoded`
+            },
+            body: params,
+        })
+    }
+    catch (e) {
+        App.info(`Failed to update`)
+        App.clear_updating()
+        return
+    }
 
     let items = await response.json()
     App.insert_items(items)
