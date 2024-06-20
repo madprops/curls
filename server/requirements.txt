@@ -1,3 +1,4 @@
 Flask == 3.0.3
 Flask-Cors == 4.0.1
 flask-simple-captcha == 5.5.5
+gunicorn == 22.0.0
