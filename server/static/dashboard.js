@@ -477,4 +477,11 @@ App.copy_item = (e) => {
     let msg = `${curl}\n${content}\n${updated}`
     navigator.clipboard.writeText(msg)
     console.log(`Copied!`)
+
+    let icon = item.querySelector(`.item_icon`)
+    icon.classList.add(`blink`)
+
+    setTimeout(() => {
+        icon.classList.remove(`blink`)
+    }, 1000)
 }
