@@ -221,6 +221,7 @@ App.get_url = (curl) => {
 
 App.setup_curlist = () => {
     let curlist = DOM.el(`#curlist`)
+    let curlist_top = DOM.el(`#curlist_top`)
 
     DOM.ev(curlist, `focusout`, () => {
         App.clean_curlist()
@@ -228,6 +229,14 @@ App.setup_curlist = () => {
         if (App.save_curlist()) {
             App.update(true)
         }
+    })
+
+    DOM.ev(curlist_top, `click`, (e) => {
+        App.show_curlist_menu(e)
+    })
+
+    DOM.ev(curlist_top, `contextmenu`, (e) => {
+        App.show_curlist_menu(e)
     })
 
     App.load_curlist()
@@ -574,4 +583,22 @@ App.print = (msg) => {
     if (App.print_enabled) {
         console.info(msg)
     }
+}
+
+App.show_curlist_menu = (e) => {
+    let items = [
+        {
+            text: `Copy`,
+            action: () => {
+                App.copy_curlist(e)
+            }
+        },
+    ]
+
+    NeedContext.show({items: items, e: e})
+}
+
+App.copy_curlist = (e) => {
+    let curlist = DOM.el(`#curlist`)
+    navigator.clipboard.writeText(curlist.value)
 }
