@@ -22,6 +22,7 @@ App.setup = () => {
     App.setup_buttons()
     App.setup_curlist()
     App.setup_updater()
+    App.setup_container()
     App.setup_sort()
     App.setup_color()
     App.setup_edit()
@@ -165,6 +166,7 @@ App.insert_item = (item) => {
     let el = DOM.create(`div`, `item`)
 
     let item_icon = DOM.create(`canvas`, `item_icon`)
+    item_icon.title = `Copy to clipboard`
     item_icon.width = 20
     item_icon.height = 20
     jdenticon.update(item_icon, item.curl)
@@ -453,4 +455,26 @@ App.load_edit = () => {
     let key = DOM.el(`#edit_key`)
     curl.value = localStorage.getItem(`edit_curl`) || ``
     key.value = localStorage.getItem(`edit_key`) || ``
+}
+
+App.setup_container = () => {
+    let container = DOM.el(`#container`)
+
+    DOM.ev(container, `click`, (e) => {
+        let icon = e.target.closest(`.item_icon`)
+
+        if (icon) {
+            App.copy_item(e)
+        }
+    })
+}
+
+App.copy_item = (e) => {
+    let item = e.target.closest(`.item`)
+    let curl = item.querySelector(`.item_curl`).textContent
+    let content = item.querySelector(`.item_content`).textContent
+    let updated = item.querySelector(`.item_updated`).textContent
+    let msg = `${curl}\n${content}\n${updated}`
+    navigator.clipboard.writeText(msg)
+    console.log(`Copied!`)
 }

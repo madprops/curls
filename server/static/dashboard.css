@@ -76,6 +76,7 @@ body, html {
     height: 20px;
     vertical-align: middle;
     padding-left: 0.5rem;
+    cursor: pointer;
 }
 
 .item_curl {
