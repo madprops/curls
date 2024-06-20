@@ -19,13 +19,18 @@
 <body>
     <div id="main">
         <div id="left_side">
-            <div class="pointer" id="curlist_top">List of curls</div>
+            <div id="left_top">
+                <div class="pointer" id="curlist_top"></div>
+                <button id="add">Add</button>
+            </div>
+
             <textarea id="curlist" spellcheck="false" placeholder="One per line"></textarea>
         </div>
 
         <div id="right_side">
             <div id="controls">
-                <div class="pointer" id="updater">Updating every 5 minutes</div>
+                <button id="toggle_curlist">&lt;</button>
+                <div class="pointer" id="updater"></div>
                 <button id="update">Update</button>
 
                 <select id="sort">

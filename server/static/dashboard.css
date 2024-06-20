@@ -16,7 +16,7 @@ body, html {
 }
 
 #left_side {
-    width: 188px;
+    width: 200px;
     flex-grow: 0;
     flex-shrink: 0;
     display: flex;
@@ -154,7 +154,7 @@ select {
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 @keyframes blink {
@@ -171,4 +171,20 @@ select {
 
 .blink {
     animation: blink 500ms infinite;
+}
+
+#left_top {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+}
+
+#curlist_top {
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+#add {
+    flex-grow: 0;
+    flex-shrink: 0;
 }

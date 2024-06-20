@@ -28,6 +28,7 @@ App.setup = () => {
     App.setup_sort()
     App.setup_color()
     App.setup_edit()
+    App.clean_curlist()
     App.update(true)
 }
 
@@ -234,6 +235,7 @@ App.setup_curlist = () => {
 
 App.clean_curlist = () => {
     let curlist = DOM.el(`#curlist`)
+    let curlist_top = DOM.el(`#curlist_top`)
     let lines = curlist.value.split(`\n`).filter(x => x !== ``)
     let cleaned = []
 
@@ -244,6 +246,7 @@ App.clean_curlist = () => {
     }
 
     curlist.value = cleaned.join(`\n`)
+    curlist_top.textContent = `Curlist (${cleaned.length})`
 }
 
 App.save_curlist = () => {
@@ -270,9 +273,9 @@ App.setup_buttons = () => {
         App.update(true)
     })
 
-    let curlist_top = DOM.el(`#curlist_top`)
+    let toggle_curlist = DOM.el(`#toggle_curlist`)
 
-    DOM.ev(curlist_top, `click`, () => {
+    DOM.ev(toggle_curlist, `click`, () => {
         App.toggle_curlist()
     })
 }
@@ -383,18 +386,12 @@ App.refresh_updater = () => {
 
 App.toggle_curlist = () => {
     let left_side = DOM.el(`#left_side`)
-    let curlist_top = DOM.el(`#curlist_top`)
-    let curlist = DOM.el(`#curlist`)
 
     if (App.curlist_enabled) {
-        curlist.classList.add(`hidden`)
-        curlist_top.textContent = `>`
-        left_side.style.width = `unset`
+        left_side.classList.add(`hidden`)
     }
     else {
-        curlist.classList.remove(`hidden`)
-        curlist_top.textContent = `List of curls`
-        left_side.style.width = `200px`
+        left_side.classList.remove(`hidden`)
     }
 
     App.curlist_enabled = !App.curlist_enabled
