@@ -412,6 +412,18 @@ App.urlize = (el) => {
 }
 
 App.setup_edit = () => {
+    let curl = DOM.el(`#edit_curl`)
+
+    DOM.ev(curl, `focusout`, (e) => {
+        App.save_edit()
+    })
+
+    let key = DOM.el(`#edit_key`)
+
+    DOM.ev(key, `focusout`, (e) => {
+        App.save_edit()
+    })
+
     let content = DOM.el(`#edit_content`)
 
     DOM.ev(content, `keyup`, (e) => {
@@ -425,4 +437,20 @@ App.setup_edit = () => {
     DOM.ev(submit, `click`, () => {
         App.edit_curl()
     })
+
+    App.load_edit()
+}
+
+App.save_edit = () => {
+    let curl = DOM.el(`#edit_curl`).value
+    let key = DOM.el(`#edit_key`).value
+    localStorage.setItem(`edit_curl`, curl)
+    localStorage.setItem(`edit_key`, key)
+}
+
+App.load_edit = () => {
+    let curl = DOM.el(`#edit_curl`)
+    let key = DOM.el(`#edit_key`)
+    curl.value = localStorage.getItem(`edit_curl`) || ``
+    key.value = localStorage.getItem(`edit_key`) || ``
 }
