@@ -46,7 +46,7 @@ The status of the people you choose can serve as calls of action or to know abou
 
 Yes it's similar to Twitter except there's no history or other kind of privacy invading mechanisms in place. And there's no CORS restrictions, reading and editing the curl status should be as easy as possible, from within any application.
 
-Having lots of these self-hosted is probably best than a big central node, unless that one is well protected against attacks. This doesn't mean this is distributed or anything, each node have their own curls.
+Having lots of these self-hosted is probably best than a big central node, unless that one is well protected against attacks. This doesn't mean this is distributed or anything, each instance has its own curls.
 
 ---
 
