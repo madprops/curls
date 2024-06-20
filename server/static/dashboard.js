@@ -89,6 +89,7 @@ App.get_used_curls = () => {
 App.update_curls = async () => {
     App.print(`Updating...`)
     let used_curls = App.get_used_curls()
+    App.last_used_curls = used_curls
 
     if (!used_curls.length) {
         App.empty_container()
@@ -112,12 +113,6 @@ App.update_curls = async () => {
 
     let items = await response.json()
     App.insert_items(items)
-
-    let missing = used_curls.filter(curl => !items.find(item => item.curl === curl))
-
-    for (let curl of missing) {
-        App.insert_item({curl, content: `Not found`, updated: 0})
-    }
 }
 
 App.get_sort = () => {
@@ -134,7 +129,7 @@ App.sort_items = (items) => {
         })
     }
     else if (mode === `order`) {
-        let used_curls = App.get_used_curls()
+        let used_curls = App.last_used_curls
 
         items.sort((a, b) => {
             return used_curls.indexOf(a.curl) - used_curls.indexOf(b.curl)
@@ -170,6 +165,12 @@ App.insert_items = (items) => {
 
     for (let item of items) {
         App.insert_item(item)
+    }
+
+    let missing = App.last_used_curls.filter(curl => !items.find(item => item.curl === curl))
+
+    for (let curl of missing) {
+        App.insert_item({curl, content: `Not found`, updated: 0})
     }
 }
 
