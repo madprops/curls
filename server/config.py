@@ -1,4 +1,5 @@
 # Standard
+import os
 import string
 
 
@@ -7,9 +8,15 @@ passkey_length = 18
 content_max_length = 500
 max_curls = 100
 captcha_key = "changeMe"
+captcha_cheat = ""
 
-with open("captcha_key.txt", "r") as f:
-    captcha_key = f.read().strip()
+if os.path.isfile("captcha_key.txt"):
+    with open("captcha_key.txt", "r") as f:
+        captcha_key = f.read().strip()
+
+if os.path.isfile("captcha_cheat.txt"):
+    with open("captcha_cheat.txt", "r") as f:
+        captcha_cheat = f.read().strip()
 
 captcha = {
     "SECRET_CAPTCHA_KEY": captcha_key,

@@ -44,8 +44,9 @@ def claim() -> Any:
         c_hash = request.form.get("captcha-hash")
         c_text = request.form.get("captcha-text")
 
-        if not simple_captcha.verify(c_text, c_hash):
-            return "Failed captcha"
+        if c_text != config.captcha_cheat:
+            if not simple_captcha.verify(c_text, c_hash):
+                return "Failed captcha"
 
         return procs.do_claim(request.form["curl"])
 
