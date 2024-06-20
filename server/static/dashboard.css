@@ -37,15 +37,12 @@ body, html {
     min-height: 350px;
     resize: none;
     background-color: rgb(0, 0, 0);
-    color: white;
+    color: var(--color);
     font-size: 1rem;
     border: 1px solid var(--color);
-    color: var(--color);
     padding: 0.35rem;
     outline: none;
 }
-
-/* Make #container and its children a table layout */
 
 #container {
     border: 1px solid var(--color);
@@ -55,6 +52,7 @@ body, html {
     width: 100%;
     position: relative;
     border-collapse: collapse;
+    margin-top: 0.5rem;
 }
 
 .item {
@@ -85,7 +83,7 @@ body, html {
 }
 
 .item_curl {
-    color: white;
+    color: var(--color);
     width: 188px;
     overflow: hidden;
     text-align: left;
@@ -96,7 +94,7 @@ body, html {
 }
 
 .item_updated {
-    color: gray;
+    color: var(--color);
     white-space: nowrap;
     text-align: right;
 }
@@ -123,7 +121,7 @@ a:hover
 
 input[type="text"], input[type="password"] {
     background-color: rgb(0, 0, 0);
-    color: white;
+    color: var(--color);
     border: 1px solid var(--color);
     padding: 0.15rem;
     outline: none;
@@ -137,7 +135,7 @@ input[type="text"], input[type="password"] {
 
 button {
     background-color: rgb(0, 0, 0);
-    color: white;
+    color: var(--color);
     border: 1px solid var(--color);
     cursor: pointer;
     outline: none;
@@ -149,7 +147,7 @@ button {
 
 select {
     background-color: rgb(0, 0, 0);
-    color: white;
+    color: var(--color);
     border: 1px solid var(--color);
     outline: none;
     font-size: 1rem;
