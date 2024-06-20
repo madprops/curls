@@ -578,9 +578,35 @@ App.show_item_menu = (e) => {
                 App.remove_curl(e)
             }
         },
+        {
+            text: `To Top`,
+            action: () => {
+                App.curl_to_top(e)
+            }
+        },
+        {
+            text: `To Bottom`,
+            action: () => {
+                App.curl_to_bottom(e)
+            }
+        },
     ]
 
     NeedContext.show({items: items, e: e})
+}
+
+App.curl_to_top = (e) => {
+    let item = e.target.closest(`.item`)
+    let curl = item.querySelector(`.item_curl`).textContent
+    App.do_remove_curl(curl)
+    App.do_add_curl(`top`, curl)
+}
+
+App.curl_to_bottom = (e) => {
+    let item = e.target.closest(`.item`)
+    let curl = item.querySelector(`.item_curl`).textContent
+    App.do_remove_curl(curl)
+    App.do_add_curl(`bottom`, curl)
 }
 
 App.remove_a_curl = () => {
@@ -684,11 +710,13 @@ App.copy_curlist = (e) => {
     navigator.clipboard.writeText(curlist.value)
 }
 
-App.do_add_curl = (where) => {
-    let curl = prompt(`Add a curl:`)
-
+App.do_add_curl = (where, curl = ``) => {
     if (!curl) {
-        return
+        curl = prompt(`Add a curl:`)
+
+        if (!curl) {
+            return
+        }
     }
 
     let curlist = DOM.el(`#curlist`)
