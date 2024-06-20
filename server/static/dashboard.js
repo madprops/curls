@@ -726,6 +726,7 @@ App.remove_not_found = () => {
     }
 
     curlist.value = cleaned.join(`\n`)
+    App.clean_curlist()
 
     if (App.save_curlist()) {
         App.update(true)
