@@ -172,7 +172,8 @@ App.insert_item = (item) => {
     let item_content = DOM.create(`div`, `item_content`)
     let item_updated = DOM.create(`div`, `item_updated`)
     item_curl.textContent = item.curl
-    item_content.textContent = item.content
+    item_content.innerHTML = App.sanitize(item.content)
+    App.urlize(item_content)
 
     let date = new Date(item.updated)
     let s_date = dateFormat(date, `dd/mm/yy HH:MM`)
@@ -393,7 +394,19 @@ App.edit_curl = () => {
         body: params,
     })
     .then(response => response.text())
-    .then(data => console.log(data))
+    .then(data => {
+        console.log(data)
+        App.update(true)
+    })
+}
 
-    App.update(true)
+App.sanitize = (s) => {
+    return s.replace(/</g, `&lt;`).replace(/>/g, `&gt;`)
+}
+
+App.urlize = (el) => {
+    let html = el.innerHTML
+    let urlRegex = /(https?:\/\/[^\s]+)/g
+    let replacedText = html.replace(urlRegex, `<a href="$1" target="_blank">$1</a>`)
+    el.innerHTML = replacedText
 }
