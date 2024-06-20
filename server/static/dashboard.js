@@ -200,7 +200,6 @@ App.insert_items = (items) => {
     App.clear_container()
     App.sort_items(items)
     App.last_items = items
-    console.log(items)
 
     for (let item of items) {
         if (!item.status) {
