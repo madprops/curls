@@ -9,6 +9,7 @@ App.max_curl_length = 18
 App.server_url = `http://localhost:5000`
 App.last_items = []
 App.curlist_enabled = true
+App.print_enabled = true
 
 App.colors = {
     red: `rgb(255, 89, 89)`,
@@ -86,7 +87,7 @@ App.get_used_curls = () => {
 }
 
 App.update_curls = async () => {
-    console.info(`Updating...`)
+    App.print(`Updating...`)
 
     let used_curls = App.get_used_curls()
 
@@ -392,8 +393,8 @@ App.edit_curl = () => {
         body: params,
     })
     .then(response => response.text())
-    .then(data => {
-        console.info(data)
+    .then(text => {
+        App.print(text)
         App.clear_content()
         App.update(true)
     })
@@ -477,7 +478,7 @@ App.copy_item = (e) => {
     let updated = item.querySelector(`.item_updated`).textContent
     let msg = `${curl}\n${content}\n${updated}`
     navigator.clipboard.writeText(msg)
-    console.info(`Copied!`)
+    App.print(`Copied!`)
 
     let icon = item.querySelector(`.item_icon`)
     icon.classList.add(`blink`)
@@ -485,4 +486,10 @@ App.copy_item = (e) => {
     setTimeout(() => {
         icon.classList.remove(`blink`)
     }, 1000)
+}
+
+App.print = (msg) => {
+    if (App.print_enabled) {
+        console.info(msg)
+    }
 }
