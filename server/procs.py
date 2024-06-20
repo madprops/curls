@@ -27,7 +27,7 @@ def do_claim(curl: str) -> str:
 def add_curl(curl: str, key: str) -> None:
     dbase = db.get_db()
     cursor = dbase.cursor()
-    db_string = "INSERT INTO curls (curl, key, text) VALUES (?, ?, ?)"
+    db_string = "INSERT INTO curls (curl, key, status) VALUES (?, ?, ?)"
     cursor.execute(db_string, (curl, key, ""))
     dbase.commit()
 
@@ -47,12 +47,12 @@ def check_key(curl: str, key: str) -> bool:
     return bool(result) and (result[0] == key)
 
 
-def update_text(curl: str, text: str) -> None:
+def update_status(curl: str, status: str) -> None:
     curl = curl.strip().lower()
     dbase = db.get_db()
     cursor = dbase.cursor()
-    db_string = "UPDATE curls SET text = ?, updated = CURRENT_TIMESTAMP WHERE curl = ?"
-    cursor.execute(db_string, (text, curl))
+    db_string = "UPDATE curls SET status = ?, updated = CURRENT_TIMESTAMP WHERE curl = ?"
+    cursor.execute(db_string, (status, curl))
     dbase.commit()
 
 
@@ -66,21 +66,21 @@ def curl_exists(curl: str) -> bool:
     return bool(result)
 
 
-def get_text(curl: str) -> str:
+def get_status(curl: str) -> str:
     curl = curl.strip().lower()
     dbase = db.get_db()
     cursor = dbase.cursor()
-    db_string = "SELECT text FROM curls WHERE curl = ?"
+    db_string = "SELECT status FROM curls WHERE curl = ?"
     cursor.execute(db_string, (curl,))
     result = cursor.fetchone()
-    return check_text(result)
+    return check_status(result)
 
 
 def get_curl_list(curls: list[str]) -> list[dict[str, Any]]:
     dbase = db.get_db()
     cursor = dbase.cursor()
 
-    db_string = "SELECT curl, text, updated FROM curls WHERE curl IN ({})".format(
+    db_string = "SELECT curl, status, updated FROM curls WHERE curl IN ({})".format(
         ",".join("?" * len(curls))
     )
 
@@ -93,30 +93,30 @@ def get_curl_list(curls: list[str]) -> list[dict[str, Any]]:
             continue
 
         curl = result[0]
-        text = result[1]
+        status = result[1]
         updated = str(result[2]) or ""
-        items.append({"curl": curl, "text": text, "updated": updated})
+        items.append({"curl": curl, "status": status, "updated": updated})
 
     return items
 
 
-def check_text(result: Any) -> str:
+def check_status(result: Any) -> str:
     if not result:
         return "Not claimed yet"
 
-    text = result[0]
+    status = result[0]
 
-    if not text:
+    if not status:
         return "Not updated yet"
 
-    return str(text)
+    return str(status)
 
 
 def curl_too_long() -> str:
     return f"Error: Curl is too long (Max is {config.curl_max_length} characters)"
 
 
-def text_too_long() -> str:
+def status_too_long() -> str:
     return f"Error: Text is too long (Max is {config.content_max_length} characters)"
 
 

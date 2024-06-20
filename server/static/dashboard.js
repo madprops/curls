@@ -202,8 +202,8 @@ App.insert_items = (items) => {
     App.last_items = items
 
     for (let item of items) {
-        if (!item.text) {
-            item.text = `Not updated yet`
+        if (!item.status) {
+            item.status = `Not updated yet`
         }
     }
 
@@ -215,7 +215,7 @@ App.insert_items = (items) => {
     App.last_missing = missing
 
     for (let curl of missing) {
-        App.insert_item({curl, text: `Not found`, updated: 0})
+        App.insert_item({curl, status: `Not found`, updated: 0})
     }
 
     window.getSelection().removeAllRanges()
@@ -237,11 +237,11 @@ App.insert_item = (item) => {
     item_icon.append(canvas)
 
     let item_curl = DOM.create(`div`, `item_curl`)
-    let item_text = DOM.create(`div`, `item_text`)
+    let item_status = DOM.create(`div`, `item_status`)
     let item_updated = DOM.create(`div`, `item_updated`)
     item_curl.textContent = item.curl
-    item_text.innerHTML = App.sanitize(item.text)
-    App.urlize(item_text)
+    item_status.innerHTML = App.sanitize(item.status)
+    App.urlize(item_status)
 
     let date = new Date(item.updated)
     let s_date = dateFormat(date, `dd/mm/yy HH:MM`)
@@ -249,7 +249,7 @@ App.insert_item = (item) => {
 
     el.append(item_icon)
     el.append(item_curl)
-    el.append(item_text)
+    el.append(item_status)
     el.append(item_updated)
     container.append(el)
     container.append(el)
@@ -477,9 +477,9 @@ App.edit_curl = () => {
     App.info(`Editing...`)
     let curl = DOM.el(`#edit_curl`).value
     let key = DOM.el(`#edit_key`).value
-    let text = DOM.el(`#edit_text`).value
+    let status = DOM.el(`#edit_status`).value
 
-    if (!curl || !key || !text) {
+    if (!curl || !key || !status) {
         return
     }
 
@@ -488,7 +488,7 @@ App.edit_curl = () => {
 
     params.append(`curl`, curl)
     params.append(`key`, key)
-    params.append(`text`, text)
+    params.append(`status`, status)
 
     App.show_editing()
 
@@ -502,7 +502,7 @@ App.edit_curl = () => {
     .then(response => response.text())
     .then(ans => {
         App.info(ans)
-        App.clear_text()
+        App.clear_status()
         App.update(true)
         App.clear_editing()
 
@@ -516,8 +516,8 @@ App.edit_curl = () => {
     })
 }
 
-App.clear_text = () => {
-    DOM.el(`#edit_text`).value = ``
+App.clear_status = () => {
+    DOM.el(`#edit_status`).value = ``
 }
 
 App.sanitize = (s) => {
@@ -544,9 +544,9 @@ App.setup_edit = () => {
         App.save_edit()
     })
 
-    let text = DOM.el(`#edit_text`)
+    let status = DOM.el(`#edit_status`)
 
-    DOM.ev(text, `keyup`, (e) => {
+    DOM.ev(status, `keyup`, (e) => {
         if (e.key === `Enter`) {
             App.edit_curl()
         }
@@ -680,9 +680,9 @@ App.do_remove_curl = (curl) => {
 App.copy_item = (e) => {
     let item = e.target.closest(`.item`)
     let curl = item.querySelector(`.item_curl`).textContent
-    let text = item.querySelector(`.item_text`).textContent
+    let status = item.querySelector(`.item_status`).textContent
     let updated = item.querySelector(`.item_updated`).textContent
-    let msg = `${curl}\n${text}\n${updated}`
+    let msg = `${curl}\n${status}\n${updated}`
     navigator.clipboard.writeText(msg)
 
     let icon = item.querySelector(`.item_icon`)

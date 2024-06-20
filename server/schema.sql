@@ -6,5 +6,5 @@ CREATE TABLE curls (
     updated TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     curl TEXT NOT NULL,
     key TEXT NOT NULL,
-    text TEXT NOT NULL
+    status TEXT NOT NULL
 );

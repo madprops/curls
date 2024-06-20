@@ -29,9 +29,9 @@
 <body>
     <form method="post" action="/edit">
         <div id="main">
-            <input type="text" placeholder="curl" name="curl" autocomplete="on">
-            <input type="text" placeholder="key" name="key" autocomplete="on">
-            <input type="text" placeholder="text" name="text" autocomplete="on">
+            <input type="text" placeholder="Curl" name="curl" autocomplete="on">
+            <input type="text" placeholder="Key" name="key" autocomplete="on">
+            <input type="text" placeholder="Status" name="status" autocomplete="on">
             <input type="submit" value="Edit">
 
             <br><br>
@@ -41,7 +41,7 @@
             <br><br>
 
             <div>
-                curl -X POST -d "curl=mycurl&key=mykey&text=mytext" https://this.website/edit
+                curl -X POST -d "curl=mycurl&key=mykey&status=mystatus" https://this.website/edit
             </div>
         </div>
     </form>

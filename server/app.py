@@ -60,9 +60,9 @@ def edit() -> Any:
     if request.method == "POST":
         curl = request.form.get("curl")
         key = request.form.get("key")
-        text = request.form.get("text")
+        status = request.form.get("status")
 
-        if not curl or not key or not text:
+        if not curl or not key or not status:
             return "Error: Empty fields"
 
         if not procs.check_curl(curl):
@@ -71,7 +71,7 @@ def edit() -> Any:
         if not procs.check_key(curl, key):
             return "Error: Invalid key"
 
-        procs.update_text(curl, text)
+        procs.update_status(curl, status)
         return "ok"
 
     return render_template("edit.html")
@@ -89,7 +89,7 @@ def view(curl) -> Any:
     if not procs.check_curl(curl):
         return "Invalid curl"
 
-    return procs.get_text(curl)
+    return procs.get_status(curl)
 
 
 @app.route("/curls", methods=["POST"])  # type: ignore
