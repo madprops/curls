@@ -222,7 +222,6 @@ App.get_url = (curl) => {
 App.setup_curlist = () => {
     let curlist = DOM.el(`#curlist`)
     let curlist_top = DOM.el(`#curlist_top`)
-    let add = DOM.el(`#add`)
 
     DOM.ev(curlist, `focusout`, () => {
         App.clean_curlist()
@@ -238,10 +237,6 @@ App.setup_curlist = () => {
 
     DOM.ev(curlist_top, `contextmenu`, (e) => {
         App.show_curlist_menu(e)
-    })
-
-    DOM.ev(add, `click`, (e) => {
-        App.add_curl(e)
     })
 
     let c_saved = localStorage.getItem(`curlist_enabled`)
@@ -562,18 +557,26 @@ App.show_item_menu = (e) => {
     NeedContext.show({items: items, e: e})
 }
 
+App.remove_a_curl = () => {
+    let curl = prompt(`Remove curl:`)
+
+    if (!curl) {
+        return
+    }
+
+    App.do_remove_curl(curl)
+}
+
 App.remove_curl = (e) => {
     let item = e.target.closest(`.item`)
     let curl = item.querySelector(`.item_curl`).textContent
 
     if (confirm(`Remove ${curl}?`)) {
-        App.do_remove_curl(e)
+        App.do_remove_curl(curl)
     }
 }
 
-App.do_remove_curl = (e) => {
-    let item = e.target.closest(`.item`)
-    let curl = item.querySelector(`.item_curl`).textContent
+App.do_remove_curl = (curl) => {
     let curlist = DOM.el(`#curlist`)
     let lines = curlist.value.split(`\n`).filter(x => x !== ``)
     let cleaned = []
@@ -621,6 +624,24 @@ App.show_curlist_menu = (e) => {
                 App.copy_curlist(e)
             }
         },
+        {
+            text: `Add (Top)`,
+            action: () => {
+                App.do_add_curl(`top`)
+        },
+        },
+        {
+            text: `Add (Bottom)`,
+            action: () => {
+                App.do_add_curl(`bottom`)
+            }
+        },
+        {
+            text: `Remove`,
+            action: () => {
+                App.remove_a_curl()
+            }
+        },
     ]
 
     NeedContext.show({items: items, e: e})
@@ -629,25 +650,6 @@ App.show_curlist_menu = (e) => {
 App.copy_curlist = (e) => {
     let curlist = DOM.el(`#curlist`)
     navigator.clipboard.writeText(curlist.value)
-}
-
-App.add_curl = (e) => {
-    let items = [
-        {
-            text: `At Top`,
-            action: () => {
-                App.do_add_curl(`top`)
-        },
-        },
-        {
-            text: `At Bottom`,
-            action: () => {
-                App.do_add_curl(`bottom`)
-            }
-        },
-    ]
-
-    NeedContext.show({items: items, e: e})
 }
 
 App.do_add_curl = (where) => {
