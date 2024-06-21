@@ -256,12 +256,14 @@ App.insert_item = (item) => {
     let item_status = DOM.create(`div`, `item_status`)
     let item_updated = DOM.create(`div`, `item_updated`)
     item_curl.textContent = item.curl
+    item_curl.title = item.curl
     item_status.innerHTML = App.sanitize(item.status)
     App.urlize(item_status)
 
     let date = new Date(item.updated + "Z")
     let s_date = dateFormat(date, `dd/mm/yy HH:MM`)
     item_updated.textContent = s_date
+    item_updated.title = date
 
     el.append(item_icon)
     el.append(item_curl)
