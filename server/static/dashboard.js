@@ -143,14 +143,12 @@ App.update_curls = async (feedback = true) => {
 App.show_updating = () => {
     let button = DOM.el(`#update`)
     clearTimeout(App.clear_updating_timeout)
-    button.innerHTML = `Updating`
     button.classList.add(`active`)
 }
 
 App.clear_updating = () => {
     App.clear_updating_timeout = setTimeout(() => {
         let button = DOM.el(`#update`)
-        button.innerHTML = `Update`
         button.classList.remove(`active`)
     }, App.clear_delay)
 }
@@ -158,14 +156,12 @@ App.clear_updating = () => {
 App.show_changing = () => {
     let button = DOM.el(`#change_submit`)
     clearTimeout(App.clear_changing_timeout)
-    button.innerHTML = `Changing`
     button.classList.add(`active`)
 }
 
 App.clear_changing = () => {
     App.clear_changing_timeout = setTimeout(() => {
         let button = DOM.el(`#change_submit`)
-        button.innerHTML = `Change`
         button.classList.remove(`active`)
     }, App.clear_delay)
 }

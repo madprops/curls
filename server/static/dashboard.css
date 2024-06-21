@@ -205,7 +205,7 @@ select {
   }
 
 .active {
-    animation: colorchange 800ms infinite;
+    animation: colorchange 1s infinite;
 }
 
 .info_item {
