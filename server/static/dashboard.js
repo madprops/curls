@@ -27,7 +27,7 @@ App.colors = {
     blue: `rgb(118, 120, 255)`,
     yellow: `rgb(255, 219, 78)`,
     purple: `rgb(193, 56, 255)`,
-    white: `rgb(255, 255, 255)`
+    white: `rgb(255, 255, 255)`,
 }
 
 App.setup = () => {
