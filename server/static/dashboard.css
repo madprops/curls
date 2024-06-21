@@ -47,7 +47,6 @@ body, html {
 #container {
     display: flex;
     flex-direction: column;
-    padding: 0.35rem;
     cursor: default;
     width: 99%;
     position: relative;
