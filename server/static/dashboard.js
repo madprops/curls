@@ -816,12 +816,6 @@ App.do_add_curl = (where, curl = ``) => {
 }
 
 App.remove_not_found = () => {
-    if (confirm(`Remove the curls that were not found?`)) {
-        App.do_remove_not_found()
-    }
-}
-
-App.do_remove_not_found = () => {
     let missing = App.last_missing
     let curlist = DOM.el(`#curlist`)
     let curls = App.get_curls()
@@ -836,25 +830,23 @@ App.do_remove_not_found = () => {
             removed.push(curl)
         }
     }
-
-    curlist.value = cleaned.join(`\n`)
-    App.clean_curlist()
-
-    if (App.save_curlist()) {
-        App.update(true)
+    if (!removed.length) {
+        return
     }
 
     let s = App.plural(removed.length, `item`, `items`)
-    alert(`Removed ${removed.length} ${s}`)
-}
 
-App.remove_old = () => {
-    if (confirm(`Remove curls with a date older than 1 year?`)) {
-        App.do_remove_old()
+    if (confirm(`Remove ${removed.length} ${s}?`)) {
+        curlist.value = cleaned.join(`\n`)
+        App.clean_curlist()
+
+        if (App.save_curlist()) {
+            App.update(true)
+        }
     }
 }
 
-App.do_remove_old = () => {
+App.remove_old = () => {
     let curls = App.get_curls()
     let now = Date.now()
     let cleaned = []
@@ -875,16 +867,21 @@ App.do_remove_old = () => {
         cleaned.push(curl)
     }
 
-    let curlist = DOM.el(`#curlist`)
-    curlist.value = cleaned.join(`\n`)
-    App.clean_curlist()
-
-    if (App.save_curlist()) {
-        App.update(true)
+    if (!removed.length) {
+        return
     }
 
     let s = App.plural(removed.length, `item`, `items`)
-    alert(`Removed ${removed.length} ${s}`)
+
+    if (confirm(`Remove ${removed.length} ${s}?`)) {
+        let curlist = DOM.el(`#curlist`)
+        curlist.value = cleaned.join(`\n`)
+        App.clean_curlist()
+
+        if (App.save_curlist()) {
+            App.update(true)
+        }
+    }
 }
 
 App.add_owned_curl = (curl) => {
