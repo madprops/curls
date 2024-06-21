@@ -4,8 +4,8 @@ import string
 from pathlib import Path
 
 
-curl_max_length = 18
-key_length = 18
+curl_max_length = 20
+key_length = 20
 status_max_length = 500
 max_curls = 100
 captcha_key = "changeMe"
