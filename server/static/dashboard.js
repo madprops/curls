@@ -262,7 +262,7 @@ App.insert_item = (item) => {
     item_status.innerHTML = App.sanitize(item.status)
     App.urlize(item_status)
 
-    let date = new Date(item.updated)
+    let date = new Date(item.updated + "Z")
     let s_date = dateFormat(date, `dd/mm/yy HH:MM`)
     item_updated.textContent = s_date
 
