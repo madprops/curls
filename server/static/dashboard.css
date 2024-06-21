@@ -187,16 +187,6 @@ select {
     gap: 0.5rem;
 }
 
-#curlist_top {
-    flex-grow: 1;
-    flex-shrink: 1;
-}
-
-#add {
-    flex-grow: 0;
-    flex-shrink: 0;
-}
-
 @keyframes colorchange {
     0%   {border-color: rgb(255, 102, 102);}
     25%  {border-color: rgb(125, 255, 125);}
