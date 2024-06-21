@@ -64,7 +64,7 @@ There are no mechanisms to recover a lost key.
 
 I have my own implementation of a program that uses curls.
 
-It is located at `https://curls.merkoba.com/dashboard`.
+It is located at: `https://curls.merkoba.com/dashboard`
 
 ### Recent
 
