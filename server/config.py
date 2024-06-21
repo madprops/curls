@@ -1,4 +1,5 @@
 # Standard
+import json
 import string
 from pathlib import Path
 
@@ -11,6 +12,8 @@ captcha_key = "changeMe"
 captcha_cheat = ""
 captcha_key_file = Path("captcha_key.txt")
 captcha_cheat_file = Path("captcha_cheat.txt")
+manifest_file = Path("manifest.json")
+manifest = {}
 
 if captcha_key_file.is_file():
     with captcha_key_file.open("r") as f:
@@ -19,6 +22,10 @@ if captcha_key_file.is_file():
 if captcha_cheat_file.is_file():
     with captcha_cheat_file.open("r") as f:
         captcha_cheat = f.read().strip()
+
+if manifest_file.is_file():
+    with manifest_file.open("r") as f:
+        manifest = json.loads(f.read().strip())
 
 captcha = {
     "SECRET_CAPTCHA_KEY": captcha_key,

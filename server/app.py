@@ -58,7 +58,8 @@ def edit() -> Any:
 
 @app.route("/dashboard", methods=["GET"])  # type: ignore
 def dashboard() -> Any:
-    return render_template("dashboard.html")
+    version = config.manifest.get("version", "0.0.0")
+    return render_template("dashboard.html", version=version)
 
 
 @app.route("/<curl>", methods=["GET"])  # type: ignore
