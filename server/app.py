@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 # Standard
-import json
 from typing import Any
 
 # Libraries
@@ -41,18 +40,7 @@ def claim() -> Any:
     import procs
 
     if request.method == "POST":
-        c_hash = request.form.get("captcha-hash")
-        c_text = request.form.get("captcha-text")
-        check_catpcha = True
-
-        if config.captcha_cheat and (c_text == config.captcha_cheat):
-            check_catpcha = False
-
-        if check_catpcha:
-            if not simple_captcha.verify(c_text, c_hash):
-                return "Failed captcha"
-
-        return procs.do_claim(request.form["curl"])
+        return procs.claim_proc(request)
 
     captcha = simple_captcha.create()
     return render_template("claim.html", captcha=captcha)
@@ -63,24 +51,7 @@ def edit() -> Any:
     import procs
 
     if request.method == "POST":
-        curl = request.form.get("curl")
-        key = request.form.get("key")
-        status = request.form.get("status")
-
-        if not curl or not key or not status:
-            return "Error: Empty fields"
-
-        if not procs.check_curl(curl):
-            return "Error: Invalid curl"
-
-        if not procs.check_status(status):
-            return "Error: Invalid status"
-
-        if not procs.check_key(curl, key):
-            return "Error: Invalid key"
-
-        procs.update_status(curl, status)
-        return "ok"
+        return procs.edit_proc(request)
 
     return render_template("edit.html")
 
@@ -94,10 +65,7 @@ def dashboard() -> Any:
 def view(curl) -> Any:
     import procs
 
-    if not procs.check_curl(curl):
-        return "Invalid curl"
-
-    return procs.get_status(curl)
+    return procs.view_proc(curl)
 
 
 @app.route("/curls", methods=["POST"])  # type: ignore
@@ -105,19 +73,6 @@ def get_curls() -> Any:
     import procs
 
     if request.method == "POST":
-        try:
-            curls = request.form.getlist("curl")
-
-            if len(curls) > config.max_curls:
-                return procs.too_many_curls()
-
-            for curl in curls:
-                if not procs.check_curl(curl):
-                    return "Invalid curl"
-        except:
-            return "Invalid request"
-
-        results = procs.get_curl_list(curls)
-        return json.dumps(results)
+        return procs.curls_proc(request)
 
     return "Invalid request"

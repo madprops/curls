@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 # Standard
+import json
 import random
 import string
 from typing import Any
@@ -10,7 +11,22 @@ import db
 import config
 
 
-def do_claim(curl: str) -> str:
+def claim_proc(request: Any) -> str:
+    import app
+
+    c_hash = request.form.get("captcha-hash")
+    c_text = request.form.get("captcha-text")
+    curl = request.form["curl"]
+
+    check_catpcha = True
+
+    if config.captcha_cheat and (c_text == config.captcha_cheat):
+        check_catpcha = False
+
+    if check_catpcha:
+        if not app.simple_captcha.verify(c_text, c_hash):
+            return "Failed captcha"
+
     curl = curl.strip().lower()
 
     if not check_curl(curl):
@@ -22,6 +38,54 @@ def do_claim(curl: str) -> str:
     key = make_key()
     add_curl(curl, key)
     return f"Your curl is {curl} and your key is {key}"
+
+
+def edit_proc(request: Any) -> str:
+    curl = request.form.get("curl")
+    key = request.form.get("key")
+    status = request.form.get("status")
+
+    if not curl or not key or not status:
+        return "Error: Empty fields"
+
+    if not check_curl(curl):
+        return "Error: Invalid curl"
+
+    if not check_status(status):
+        return "Error: Invalid status"
+
+    if not check_key(curl, key):
+        return "Error: Invalid key"
+
+    update_status(curl, status)
+    return "ok"
+
+
+def view_proc(curl: str) -> str:
+    if not check_curl(curl):
+        return "Invalid curl"
+
+    return get_status(curl)
+
+
+def curls_proc(request: Any) -> str:
+    try:
+        curls = request.form.getlist("curl")
+
+        if len(curls) > config.max_curls:
+            return too_many_curls()
+
+        for curl in curls:
+            if not check_curl(curl):
+                return "Invalid curl"
+    except:
+        return "Invalid request"
+
+    results = get_curl_list(curls)
+    return json.dumps(results)
+
+
+# ---
 
 
 def add_curl(curl: str, key: str) -> None:
@@ -51,7 +115,9 @@ def update_status(curl: str, status: str) -> None:
     curl = curl.strip().lower()
     dbase = db.get_db()
     cursor = dbase.cursor()
-    db_string = "UPDATE curls SET status = ?, updated = CURRENT_TIMESTAMP WHERE curl = ?"
+    db_string = (
+        "UPDATE curls SET status = ?, updated = CURRENT_TIMESTAMP WHERE curl = ?"
+    )
     cursor.execute(db_string, (status, curl))
     dbase.commit()
 
@@ -136,7 +202,8 @@ def check_curl(curl: str) -> bool:
 
     return True
 
-def check_status (status: str) -> bool:
+
+def check_status(status: str) -> bool:
     if not status:
         return False
 

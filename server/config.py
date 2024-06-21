@@ -1,6 +1,6 @@
 # Standard
-import os
 import string
+from pathlib import Path
 
 
 curl_max_length = 18
@@ -9,13 +9,15 @@ status_max_length = 500
 max_curls = 100
 captcha_key = "changeMe"
 captcha_cheat = ""
+captcha_key_file = Path("captcha_key.txt")
+captcha_cheat_file = Path("captcha_cheat.txt")
 
-if os.path.isfile("captcha_key.txt"):
-    with open("captcha_key.txt", "r") as f:
+if captcha_key_file.is_file():
+    with captcha_key_file.open("r") as f:
         captcha_key = f.read().strip()
 
-if os.path.isfile("captcha_cheat.txt"):
-    with open("captcha_cheat.txt", "r") as f:
+if captcha_cheat_file.is_file():
+    with captcha_cheat_file.open("r") as f:
         captcha_cheat = f.read().strip()
 
 captcha = {
