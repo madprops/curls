@@ -51,7 +51,6 @@ body, html {
     cursor: default;
     width: 100%;
     position: relative;
-    border-collapse: collapse;
     margin-top: 0.5rem;
 }
 
@@ -60,14 +59,14 @@ body, html {
     flex-direction: row;
     align-items: center;
     height: 100%;
-    border: 1px solid var(--color);
+    outline: 1px solid var(--color);
 }
 
 .item_icon, .item_curl, .item_status, .item_updated
 {
     padding-right: 0.5rem;
-    padding-top: 0.35rem;
-    padding-bottom: 0.35rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
 }
 
 .item_icon {
