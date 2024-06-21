@@ -72,11 +72,11 @@ def change() -> Any:
 
 
 @app.route("/<curl>", methods=["GET"])  # type: ignore
-def view(curl) -> Any:
+def get_curl(curl) -> Any:
     import procs
 
     try:
-        text = procs.view_proc(curl)
+        text = procs.curl_proc(curl)
         return Response(text, mimetype="text/plain")
     except Exception:
         return invalid

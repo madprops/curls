@@ -69,7 +69,7 @@ def change_proc(request: Any) -> str:
     return "ok"
 
 
-def view_proc(curl: str) -> str:
+def curl_proc(curl: str) -> str:
     if not check_curl(curl):
         return "Invalid curl"
 
