@@ -4,7 +4,7 @@ from __future__ import annotations
 from typing import Any
 
 # Libraries
-from flask import Flask, render_template, request  # type: ignore
+from flask import Flask, render_template, request, Response  # type: ignore
 from flask_cors import CORS  # type: ignore
 from flask_simple_captcha import CAPTCHA  # type: ignore
 
@@ -75,7 +75,8 @@ def view(curl) -> Any:
     import procs
 
     try:
-        return procs.view_proc(curl)
+        text = procs.view_proc(curl)
+        return Response(text, mimetype="text/plain")
     except Exception:
         return invalid
 
