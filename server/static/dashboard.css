@@ -206,3 +206,7 @@ select {
 .active {
     animation: colorchange 800ms infinite;
 }
+
+.info_item {
+    padding: 0.5rem;
+}

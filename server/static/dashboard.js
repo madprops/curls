@@ -200,7 +200,11 @@ App.clear_container = () => {
 
 App.empty_container = () => {
     let container = DOM.el(`#container`)
-    container.innerHTML = `Add some curls in the list at the left`
+    let item = DOM.create(`div`, `info_item`)
+    item.textContent = `Add some curls in the list at the left`
+    container.innerHTML = ``
+    container.append(item)
+    App.unselect()
 }
 
 App.insert_items = (items) => {
@@ -225,6 +229,10 @@ App.insert_items = (items) => {
         App.insert_item({curl, status: `Not found`, updated: 0})
     }
 
+    App.unselect()
+}
+
+App.unselect = () => {
     window.getSelection().removeAllRanges()
 }
 
