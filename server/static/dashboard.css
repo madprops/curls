@@ -63,7 +63,6 @@ body, html {
 
 .item_icon, .item_curl, .item_status, .item_updated
 {
-    padding-right: 0.5rem;
     padding-top: 0.8rem;
     padding-bottom: 0.8rem;
 }
