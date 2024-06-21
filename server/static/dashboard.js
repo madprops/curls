@@ -201,7 +201,14 @@ App.clear_container = () => {
 App.empty_container = () => {
     let container = DOM.el(`#container`)
     let item = DOM.create(`div`, `info_item`)
-    item.textContent = `Add some curls in the list at the left`
+
+    let lines = [
+        `Add some curls to the list on the left`,
+        `These will be monitored for changes`,
+        `Above you can change the status of your own curls`,
+    ]
+
+    item.innerHTML = lines.join(`<br>`)
     container.innerHTML = ``
     container.append(item)
     App.unselect()

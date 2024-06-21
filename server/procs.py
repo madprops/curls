@@ -9,11 +9,9 @@ from typing import Any
 # Modules
 import db
 import config
-
+import app
 
 def claim_proc(request: Any) -> str:
-    import app
-
     c_hash = request.form.get("captcha-hash")
     c_text = request.form.get("captcha-text")
 

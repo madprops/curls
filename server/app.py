@@ -9,6 +9,7 @@ from flask_cors import CORS  # type: ignore
 from flask_simple_captcha import CAPTCHA  # type: ignore
 
 # Modules
+import procs
 import config
 import db
 
@@ -46,8 +47,6 @@ def dashboard() -> Any:
 
 @app.route("/claim", methods=["POST", "GET"])  # type: ignore
 def claim() -> Any:
-    import procs
-
     if request.method == "POST":
         try:
             return procs.claim_proc(request)
@@ -60,8 +59,6 @@ def claim() -> Any:
 
 @app.route("/change", methods=["POST", "GET"])  # type: ignore
 def change() -> Any:
-    import procs
-
     if request.method == "POST":
         try:
             return procs.change_proc(request)
@@ -73,8 +70,6 @@ def change() -> Any:
 
 @app.route("/<curl>", methods=["GET"])  # type: ignore
 def get_curl(curl) -> Any:
-    import procs
-
     try:
         text = procs.curl_proc(curl)
         return Response(text, mimetype="text/plain")
@@ -84,8 +79,6 @@ def get_curl(curl) -> Any:
 
 @app.route("/curls", methods=["POST"])  # type: ignore
 def get_curls() -> Any:
-    import procs
-
     try:
         return procs.curls_proc(request)
     except Exception:
