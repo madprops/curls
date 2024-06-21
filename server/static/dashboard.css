@@ -45,10 +45,10 @@ body, html {
 }
 
 #container {
-    border: 1px solid var(--color);
+    display: flex;
+    flex-direction: column;
     padding: 0.35rem;
     cursor: default;
-    display: table;
     width: 100%;
     position: relative;
     border-collapse: collapse;
@@ -56,21 +56,24 @@ body, html {
 }
 
 .item {
-    display: table-row;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     height: 100%;
     border: 1px solid var(--color);
 }
 
 .item_icon, .item_curl, .item_status, .item_updated
 {
-    display: table-cell;
     padding-right: 0.5rem;
     padding-top: 0.35rem;
     padding-bottom: 0.35rem;
 }
 
 .item_icon {
-    width: 1%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
     text-align: left;
 }
@@ -78,7 +81,6 @@ body, html {
 .item_icon_canvas {
     width: 2.5rem;
     height: auto;
-    vertical-align: middle;
     text-align: left;
 }
 
@@ -88,19 +90,27 @@ body, html {
 
 .item_curl {
     color: var(--color);
-    width: 188px;
+    width: 150px;
     overflow: hidden;
     text-align: left;
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin-right: 0.8rem;
 }
 
 .item_status {
     text-align: left;
+    flex-grow: 1;
+    flex-shrink: 1;
+    margin-right: 0.8rem;
 }
 
 .item_updated {
     color: var(--color);
     white-space: nowrap;
     text-align: right;
+    flex-grow: 0;
+    flex-shrink: 0;
 }
 
 /*  */
@@ -200,10 +210,6 @@ select {
 
 .active {
     animation: colorchange 1s infinite;
-}
-
-.info_item {
-    padding: 0.5rem;
 }
 
 .glow:hover {
