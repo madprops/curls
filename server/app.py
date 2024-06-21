@@ -32,6 +32,7 @@ app = simple_captcha.init_app(app)
 
 invalid = "Invalid request"
 
+
 @app.route("/", methods=["GET"])  # type: ignore
 def index() -> Any:
     return render_template("index.html")
