@@ -58,7 +58,13 @@ body, html {
     display: flex;
     flex-direction: row;
     align-items: center;
-    outline: 1px solid var(--color);
+    border-left: 1px solid var(--color);
+    border-right: 1px solid var(--color);
+    border-bottom: 1px solid var(--color);
+}
+
+.item:first-child {
+    border-top: 1px solid var(--color);
 }
 
 .item_icon, .item_curl, .item_status, .item_updated
