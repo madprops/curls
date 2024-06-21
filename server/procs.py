@@ -39,13 +39,13 @@ def claim_proc(request: Any) -> str:
     add_curl(curl, key)
 
     lines = [
-        f"Your curl is: {curl}",
-        f"Your key is: {key}",
+        f"Your curl is: <b>{curl}</b>",
+        f"Your key is: <b>{key}</b>",
         "Save the key somewhere so it doesn't get lost",
         "There is no way to recover a lost key",
     ]
 
-    return " - ".join(lines)
+    return "<br>".join(lines)
 
 
 def change_proc(request: Any) -> str:
