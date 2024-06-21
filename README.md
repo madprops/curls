@@ -12,17 +12,17 @@ The response is always pure text, there is no json or anything.
 
 There is no history, or any other features except hosting the current text.
 
-To view and edit a curl there's some html pages available but you are encouraged to use your own tools to view and edit.
+To view and change a curl there's some html pages available but you are encouraged to use your own tools to view and change.
 
 ---
 
-Edit one:
+Change one:
 
 ```
-curl -X POST -d "curl=mycurl&key=mykey&text=mytext" https://curls.merkoba.com/edit
+curl -X POST -d "curl=mycurl&key=mykey&text=mytext" https://curls.merkoba.com/change
 ```
 
-If the edit was successful it will return "ok".
+If the change was successful it will return "ok".
 
 ---
 
@@ -48,7 +48,7 @@ How I think this can be used is by users sharing their curls to others and then 
 
 The status of the people you choose can serve as calls of action or to know about interesting activities happening in real time.
 
-Yes it's similar to Twitter except there's no history or other kind of privacy invading mechanisms in place. And there's no CORS restrictions, reading and editing the curl status should be as easy as possible, from within any application.
+Yes it's similar to Twitter except there's no history or other kind of privacy invading mechanisms in place. And there's no CORS restrictions, reading and changing the curl status should be as easy as possible, from within any application.
 
 ---
 

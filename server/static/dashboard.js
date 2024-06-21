@@ -37,7 +37,7 @@ App.setup = () => {
     App.setup_container()
     App.setup_sort()
     App.setup_color()
-    App.setup_edit()
+    App.setup_change()
     App.clean_curlist()
     App.update(true)
 }
@@ -154,17 +154,17 @@ App.clear_updating = () => {
     }, App.clear_delay)
 }
 
-App.show_editing = () => {
-    let button = DOM.el(`#edit_submit`)
-    clearTimeout(App.clear_editing_timeout)
-    button.innerHTML = `Editing`
+App.show_changing = () => {
+    let button = DOM.el(`#change_submit`)
+    clearTimeout(App.clear_changing_timeout)
+    button.innerHTML = `Changing`
     button.classList.add(`active`)
 }
 
-App.clear_editing = () => {
-    App.clear_editing_timeout = setTimeout(() => {
-        let button = DOM.el(`#edit_submit`)
-        button.innerHTML = `Edit`
+App.clear_changing = () => {
+    App.clear_changing_timeout = setTimeout(() => {
+        let button = DOM.el(`#change_submit`)
+        button.innerHTML = `Change`
         button.classList.remove(`active`)
     }, App.clear_delay)
 }
@@ -499,11 +499,11 @@ App.toggle_curlist = () => {
     localStorage.setItem(`curlist_enabled`, App.curlist_enabled)
 }
 
-App.edit = () => {
-    App.info(`Editing...`)
-    let curl = DOM.el(`#edit_curl`).value
-    let key = DOM.el(`#edit_key`).value
-    let status = DOM.el(`#edit_status`).value
+App.change = () => {
+    App.info(`Changing...`)
+    let curl = DOM.el(`#change_curl`).value
+    let key = DOM.el(`#change_key`).value
+    let status = DOM.el(`#change_status`).value
 
     if (!curl || !key || !status) {
         return
@@ -524,14 +524,14 @@ App.edit = () => {
         return
     }
 
-    let url = `/edit`
+    let url = `/change`
     let params = new URLSearchParams()
 
     params.append(`curl`, curl)
     params.append(`key`, key)
     params.append(`status`, status)
 
-    App.show_editing()
+    App.show_changing()
 
     fetch(url, {
         method: `POST`,
@@ -543,7 +543,7 @@ App.edit = () => {
     .then(response => response.text())
     .then(ans => {
         App.info(ans)
-        App.clear_editing()
+        App.clear_changing()
 
         if (ans === `ok`) {
             App.clear_status()
@@ -552,13 +552,13 @@ App.edit = () => {
         }
     })
     .catch(e => {
-        App.info(`Error: Failed to edit`)
-        App.clear_editing()
+        App.info(`Error: Failed to change`)
+        App.clear_changing()
     })
 }
 
 App.clear_status = () => {
-    DOM.el(`#edit_status`).value = ``
+    DOM.el(`#change_status`).value = ``
 }
 
 App.sanitize = (s) => {
@@ -572,48 +572,48 @@ App.urlize = (el) => {
     el.innerHTML = replacedText
 }
 
-App.setup_edit = () => {
-    let curl = DOM.el(`#edit_curl`)
+App.setup_change = () => {
+    let curl = DOM.el(`#change_curl`)
 
     DOM.ev(curl, `focusout`, (e) => {
-        App.save_edit()
+        App.save_change()
     })
 
-    let key = DOM.el(`#edit_key`)
+    let key = DOM.el(`#change_key`)
 
     DOM.ev(key, `focusout`, (e) => {
-        App.save_edit()
+        App.save_change()
     })
 
-    let status = DOM.el(`#edit_status`)
+    let status = DOM.el(`#change_status`)
 
     DOM.ev(status, `keyup`, (e) => {
         if (e.key === `Enter`) {
-            App.edit()
+            App.change()
         }
     })
 
-    let submit = DOM.el(`#edit_submit`)
+    let submit = DOM.el(`#change_submit`)
 
     DOM.ev(submit, `click`, () => {
-        App.edit()
+        App.change()
     })
 
-    App.load_edit()
+    App.load_change()
 }
 
-App.save_edit = () => {
-    let curl = DOM.el(`#edit_curl`).value
-    let key = DOM.el(`#edit_key`).value
-    localStorage.setItem(`edit_curl`, curl)
-    localStorage.setItem(`edit_key`, key)
+App.save_change = () => {
+    let curl = DOM.el(`#change_curl`).value
+    let key = DOM.el(`#change_key`).value
+    localStorage.setItem(`change_curl`, curl)
+    localStorage.setItem(`change_key`, key)
 }
 
-App.load_edit = () => {
-    let curl = DOM.el(`#edit_curl`)
-    let key = DOM.el(`#edit_key`)
-    curl.value = localStorage.getItem(`edit_curl`) || ``
-    key.value = localStorage.getItem(`edit_key`) || ``
+App.load_change = () => {
+    let curl = DOM.el(`#change_curl`)
+    let key = DOM.el(`#change_key`)
+    curl.value = localStorage.getItem(`change_curl`) || ``
+    key.value = localStorage.getItem(`change_key`) || ``
 }
 
 App.setup_container = () => {

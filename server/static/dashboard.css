@@ -101,7 +101,7 @@ body, html {
 
 /*  */
 
-#controls, #edit {
+#controls, #change {
     display: flex;
     flex-direction: row;
     gap: 0.88rem;
@@ -129,7 +129,7 @@ input[type="text"], input[type="password"] {
     font-size: 1rem;
 }
 
-#edit_status {
+#change_status {
     width: 11rem;
 }
 

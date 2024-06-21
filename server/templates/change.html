@@ -1,7 +1,7 @@
 <!doctype html>
 
 <head>
-    <title>Edit Curl</title>
+    <title>Change Curl</title>
     <style>
         #main {
             display: flex;
@@ -12,7 +12,7 @@
             font-size: 1.2rem;
         }
 
-        input[type="text"] {
+        input[type="text"], input[type="password"] {
             padding: 0.25rem;
             font-size: 1.2rem;
         }
@@ -27,12 +27,12 @@
 </head>
 
 <body>
-    <form method="post" action="/edit">
+    <form method="post" action="/change">
         <div id="main">
             <input type="text" placeholder="Curl" name="curl" autocomplete="on">
-            <input type="text" placeholder="Key" name="key" autocomplete="on">
+            <input type="password" placeholder="Key" name="key" autocomplete="on">
             <input type="text" placeholder="Status" name="status" autocomplete="on">
-            <input type="submit" value="Edit">
+            <input type="submit" value="Change">
 
             <br><br>
 
@@ -41,7 +41,7 @@
             <br><br>
 
             <div>
-                curl -X POST -d "curl=mycurl&key=mykey&status=mystatus" https://this.website/edit
+                curl -X POST -d "curl=mycurl&key=mykey&status=mystatus" https://this.website/change
             </div>
         </div>
     </form>

@@ -46,14 +46,14 @@ def claim() -> Any:
     return render_template("claim.html", captcha=captcha)
 
 
-@app.route("/edit", methods=["POST", "GET"])  # type: ignore
-def edit() -> Any:
+@app.route("/change", methods=["POST", "GET"])  # type: ignore
+def change() -> Any:
     import procs
 
     if request.method == "POST":
-        return procs.edit_proc(request)
+        return procs.change_proc(request)
 
-    return render_template("edit.html")
+    return render_template("change.html")
 
 
 @app.route("/dashboard", methods=["GET"])  # type: ignore

@@ -40,7 +40,7 @@ def claim_proc(request: Any) -> str:
     return f"Your curl is {curl} and your key is {key}"
 
 
-def edit_proc(request: Any) -> str:
+def change_proc(request: Any) -> str:
     curl = request.form.get("curl")
     key = request.form.get("key")
     status = request.form.get("status")
@@ -115,9 +115,11 @@ def update_status(curl: str, status: str) -> None:
     curl = curl.strip().lower()
     dbase = db.get_db()
     cursor = dbase.cursor()
+
     db_string = (
         "UPDATE curls SET status = ?, updated = CURRENT_TIMESTAMP WHERE curl = ?"
     )
+
     cursor.execute(db_string, (status, curl))
     dbase.commit()
 
