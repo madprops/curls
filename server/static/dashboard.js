@@ -39,6 +39,7 @@ App.setup = () => {
     App.setup_color()
     App.setup_change()
     App.clean_curlist()
+    App.setup_picker()
     App.update(true)
 }
 
@@ -503,7 +504,7 @@ App.toggle_curlist = () => {
 
 App.change = () => {
     App.info(`Changing...`)
-    let curl = DOM.el(`#change_curl`).value
+    let curl = DOM.el(`#change_curl`).value.toLowerCase()
     let key = DOM.el(`#change_key`).value
     let status = DOM.el(`#change_status`).value
 
@@ -551,6 +552,7 @@ App.change = () => {
             App.clear_status()
             App.update(true, false)
             App.add_owned_curl(curl)
+            App.add_to_picker()
         }
     })
     .catch(e => {
@@ -910,4 +912,55 @@ App.plural = (n, singular, plural) => {
     else {
       return plural
     }
-  }
+}
+
+App.setup_picker = () => {
+    let picker = DOM.el(`#picker`)
+
+    DOM.ev(picker, `click`, (e) => {
+        App.show_picker(e)
+    })
+
+    let saved = localStorage.getItem(`picker`) || []
+    App.picker_items = JSON.parse(saved)
+}
+
+App.add_to_picker = () => {
+    let curl = DOM.el(`#change_curl`).value.toLowerCase()
+    let key = DOM.el(`#change_key`).value
+    let cleaned = [{curl, key}]
+
+    for (let item of App.picker_items) {
+        if (item.curl === curl) {
+            continue
+        }
+
+        cleaned.push(item)
+    }
+
+    App.picker_items = cleaned
+    localStorage.setItem(`picker`, JSON.stringify(App.picker_items))
+}
+
+App.show_picker = (e) => {
+    let items = []
+
+    if (!App.picker_items.length) {
+        items.push({
+            text: `Empty`,
+            action: () => {}
+        })
+    }
+
+    for (let item of App.picker_items) {
+        items.push({
+            text: item.curl,
+            action: () => {
+                DOM.el(`#change_curl`).value = item.curl
+                DOM.el(`#change_key`).value = item.key
+            }
+        })
+    }
+
+    NeedContext.show({items: items, e: e})
+}
