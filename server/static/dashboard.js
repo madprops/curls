@@ -246,6 +246,7 @@ App.insert_item = (item) => {
     let container = DOM.el(`#container`)
     let el = DOM.create(`div`, `item`)
     let item_icon = DOM.create(`div`, `item_icon`)
+    item_icon.title = `Click to show a menu`
 
     let canvas = DOM.create(`canvas`, `item_icon_canvas`)
     jdenticon.update(canvas, item.curl)

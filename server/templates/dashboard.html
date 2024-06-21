@@ -21,25 +21,25 @@
     <div id="main">
         <div id="left_side">
             <div id="left_top">
-                <div class="pointer glow" id="curlist_top"></div>
+                <div class="pointer glow" id="curlist_top" title="Click to show a menu"></div>
             </div>
 
-            <textarea id="curlist" spellcheck="false" placeholder="One per line"></textarea>
+            <textarea id="curlist" spellcheck="false" placeholder="One per line" title="Add the curls you want to monitor here"></textarea>
         </div>
 
         <div id="right_side">
             <div id="controls">
-                <button id="toggle_curlist">&lt;</button>
-                <div class="pointer glow" id="updater"></div>
-                <button id="update">Update</button>
+                <button id="toggle_curlist" title="Toggle the curlist">&lt;</button>
+                <div class="pointer glow" id="updater" title="Click to change updater"></div>
+                <button id="update" title="Update now">Update</button>
 
-                <select id="sort">
+                <select id="sort" title="Order by newests status, or by curlist order, or alphanumerically">
                     <option value="recent">Recent</option>
                     <option value="order">Order</option>
                     <option value="alpha">Alpha</option>
                 </select>
 
-                <select id="color">
+                <select id="color" title="Change the accent color">
                     <option value="red">Red</option>
                     <option value="green">Green</option>
                     <option value="blue">Blue</option>
@@ -48,16 +48,16 @@
                     <option value="white">White</option>
                 </select>
 
-                <a href="/claim" target="_blank">Claim</a>
+                <a href="/claim" target="_blank" title="Get a key to control a curl">Claim</a>
 
                 <div>v{{version}}</div>
             </div>
 
             <div id="edit">
-                <input type="text" id="edit_curl" placeholder="Curl" autocomplete="on">
-                <input type="password" id="edit_key" placeholder="Key" autocomplete="on">
-                <input type="text" id="edit_status" placeholder="Status" autocomplete="on">
-                <button id="edit_submit">Edit</button>
+                <input type="text" id="edit_curl" placeholder="Curl" autocomplete="on" title="Enter your curl here">
+                <input type="password" id="edit_key" placeholder="Key" autocomplete="on" title="The key used to control the curl">
+                <input type="text" id="edit_status" placeholder="Status" autocomplete="on" title="The status text of the curl">
+                <button id="edit_submit" title="Change the status of your curl">Edit</button>
             </div>
 
             <div id="container"></div>
