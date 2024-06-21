@@ -4,8 +4,8 @@ import string
 
 
 curl_max_length = 18
-passkey_length = 18
-content_max_length = 500
+key_length = 18
+status_max_length = 500
 max_curls = 100
 captcha_key = "changeMe"
 captcha_cheat = ""

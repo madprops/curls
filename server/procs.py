@@ -34,7 +34,7 @@ def add_curl(curl: str, key: str) -> None:
 
 def make_key() -> str:
     characters = string.ascii_letters + string.digits
-    return "".join(random.choice(characters) for i in range(config.passkey_length))
+    return "".join(random.choice(characters) for i in range(config.key_length))
 
 
 def check_key(curl: str, key: str) -> bool:
@@ -117,7 +117,7 @@ def curl_too_long() -> str:
 
 
 def status_too_long() -> str:
-    return f"Error: Text is too long (Max is {config.content_max_length} characters)"
+    return f"Error: Text is too long (Max is {config.status_max_length} characters)"
 
 
 def too_many_curls() -> str:
@@ -140,7 +140,7 @@ def check_status (status: str) -> bool:
     if not status:
         return False
 
-    if len(status) > config.content_max_length:
+    if len(status) > config.status_max_length:
         return False
 
     return True
