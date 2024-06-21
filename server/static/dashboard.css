@@ -49,7 +49,7 @@ body, html {
     flex-direction: column;
     padding: 0.35rem;
     cursor: default;
-    width: 100%;
+    width: 99%;
     position: relative;
     margin-top: 0.5rem;
 }
@@ -58,15 +58,14 @@ body, html {
     display: flex;
     flex-direction: row;
     align-items: center;
-    height: 100%;
     outline: 1px solid var(--color);
 }
 
 .item_icon, .item_curl, .item_status, .item_updated
 {
     padding-right: 0.5rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+    padding-top: 0.8rem;
+    padding-bottom: 0.8rem;
 }
 
 .item_icon {
