@@ -35,7 +35,7 @@ def claim_proc(request: Any) -> str:
     if curl_exists(curl):
         return "Error: Curl already exists"
 
-    key = make_key()
+    key = make_key(curl)
     add_curl(curl, key)
     return f"Your curl is {curl} and your key is {key}"
 
@@ -96,12 +96,21 @@ def add_curl(curl: str, key: str) -> None:
     dbase.commit()
 
 
-def make_key() -> str:
+def make_key(curl: str) -> str:
     characters = string.ascii_letters + string.digits
-    return "".join(random.choice(characters) for i in range(config.key_length))
+    chars = "".join(random.choice(characters) for i in range(config.key_length))
+    start = curl[:3]
+    rest = len(start) + 1
+    return f"{start}_{chars[rest:]}"
 
 
 def check_key(curl: str, key: str) -> bool:
+    if not key:
+        return False
+
+    if len(key) > config.key_length:
+        return False
+
     curl = curl.strip().lower()
     dbase = db.get_db()
     cursor = dbase.cursor()

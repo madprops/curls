@@ -327,6 +327,8 @@ App.clean_curlist = () => {
     let cleaned = []
 
     for (let curl of curls) {
+        curl = curl.toLowerCase().trim()
+
         if (curl.length > App.curl_max_length) {
             continue
         }
