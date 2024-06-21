@@ -672,14 +672,22 @@ App.curl_to_top = (e) => {
     let item = e.target.closest(`.item`)
     let curl = item.querySelector(`.item_curl`).textContent
     App.do_remove_curl(curl, false)
-    App.do_add_curl(`top`, curl)
+    App.do_add_curl(`top`, curl, false)
+
+    if (App.get_sort() === `order`) {
+        App.update(true)
+    }
 }
 
 App.curl_to_bottom = (e) => {
     let item = e.target.closest(`.item`)
     let curl = item.querySelector(`.item_curl`).textContent
     App.do_remove_curl(curl, false)
-    App.do_add_curl(`bottom`, curl)
+    App.do_add_curl(`bottom`, curl, false)
+
+    if (App.get_sort() === `order`) {
+        App.update(true)
+    }
 }
 
 App.remove_a_curl = () => {
@@ -790,7 +798,7 @@ App.copy_curlist = (e) => {
     navigator.clipboard.writeText(curlist.value)
 }
 
-App.do_add_curl = (where, curl = ``) => {
+App.do_add_curl = (where, curl = ``, update = true) => {
     if (!curl) {
         curl = prompt(`Add a curl:`)
 
@@ -811,7 +819,9 @@ App.do_add_curl = (where, curl = ``) => {
     App.clean_curlist()
 
     if (App.save_curlist()) {
-        App.update(true)
+        if (update) {
+            App.update(true)
+        }
     }
 }
 
