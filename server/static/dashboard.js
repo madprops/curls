@@ -338,7 +338,7 @@ App.clean_curlist = () => {
     }
 
     curlist.value = cleaned.join(`\n`)
-    curlist_top.textContent = `Curlist (${cleaned.length})`
+    curlist_top.textContent = `Curls (${cleaned.length})`
 }
 
 App.save_curlist = () => {
