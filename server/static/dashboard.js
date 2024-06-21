@@ -671,14 +671,14 @@ App.show_item_menu = (e) => {
 App.curl_to_top = (e) => {
     let item = e.target.closest(`.item`)
     let curl = item.querySelector(`.item_curl`).textContent
-    App.do_remove_curl(curl)
+    App.do_remove_curl(curl, false)
     App.do_add_curl(`top`, curl)
 }
 
 App.curl_to_bottom = (e) => {
     let item = e.target.closest(`.item`)
     let curl = item.querySelector(`.item_curl`).textContent
-    App.do_remove_curl(curl)
+    App.do_remove_curl(curl, false)
     App.do_add_curl(`bottom`, curl)
 }
 
@@ -701,7 +701,7 @@ App.remove_curl = (e) => {
     }
 }
 
-App.do_remove_curl = (curl) => {
+App.do_remove_curl = (curl, update = true) => {
     let curls = App.get_curls()
     let cleaned = []
 
@@ -714,7 +714,9 @@ App.do_remove_curl = (curl) => {
     curlist.value = cleaned.join(`\n`)
 
     if (App.save_curlist()) {
-        App.update(true)
+        if (update) {
+            App.update(true)
+        }
     }
 }
 
