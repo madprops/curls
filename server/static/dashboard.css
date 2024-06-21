@@ -82,6 +82,10 @@ body, html {
     text-align: left;
 }
 
+.item_icon_canvas:hover {
+    filter: brightness(1.5);
+}
+
 .item_curl {
     color: var(--color);
     width: 188px;
