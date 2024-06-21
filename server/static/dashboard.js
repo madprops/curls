@@ -806,7 +806,7 @@ App.remove_not_found = () => {
     }
 }
 
-App.remove_not_found = () => {
+App.do_remove_not_found = () => {
     let missing = App.last_missing
     let curlist = DOM.el(`#curlist`)
     let curls = App.get_curls()
