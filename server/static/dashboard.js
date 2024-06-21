@@ -398,7 +398,7 @@ App.setup_color = () => {
 App.change_sort = () => {
     let mode = App.get_sort()
     localStorage.setItem(`sort`, mode)
-    App.insert_items(App.last_items)
+    App.update(true)
 }
 
 App.change_color = () => {
