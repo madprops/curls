@@ -1,10 +1,9 @@
 from __future__ import annotations
 
 # Standard
-import json
 import random
 import string
-from flask import jsonify
+from flask import jsonify  # type: ignore
 from typing import Any
 
 # Modules
@@ -77,7 +76,7 @@ def curl_proc(curl: str) -> str:
     return get_status(curl)
 
 
-def curls_proc(request: Any) -> str:
+def curls_proc(request: Any) -> Any:
     curls = request.form.getlist("curl")
 
     if len(curls) > config.max_curls:
