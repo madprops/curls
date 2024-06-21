@@ -6,7 +6,7 @@ This is a text status host.
 
 Users claim a `curl` and get a key to be able to update it.
 
-For instance `https://curls.website/funone` would return the current text of the `funone` curl.
+For instance `https://curls.merkoba.com/funone` would return the current text of the `funone` curl.
 
 The response is always pure text, there is no json or anything.
 
@@ -19,7 +19,7 @@ To view and edit a curl there's some html pages available but you are encouraged
 Edit one:
 
 ```
-curl -X POST -d "curl=mycurl&key=mykey&text=mytext" https://curls.website/edit
+curl -X POST -d "curl=mycurl&key=mykey&text=mytext" https://curls.merkoba.com/edit
 ```
 
 If the edit was successful it will return "ok".
@@ -29,7 +29,7 @@ If the edit was successful it will return "ok".
 Get current status of one:
 
 ```
-curl https://curls.website/[curl]
+curl https://curls.merkoba.com/[curl]
 ```
 
 ---
@@ -37,7 +37,7 @@ curl https://curls.website/[curl]
 Get data of one or more (json response):
 
 ```
-curl -X POST -d "curl=somecurl&curl=othercurl" https://curls.website/curls
+curl -X POST -d "curl=somecurl&curl=othercurl" https://curls.merkoba.com/curls
 ```
 
 ---
@@ -64,7 +64,7 @@ There are no mechanisms to recover a lost key.
 
 I have my own implementation of a program that uses curls.
 
-It is located at `https://curls.website/dashboard`.
+It is located at `https://curls.merkoba.com/dashboard`.
 
 ### Recent
 
