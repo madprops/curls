@@ -30,9 +30,17 @@ app = simple_captcha.init_app(app)
 # ---
 
 
+invalid = "Invalid request"
+
 @app.route("/", methods=["GET"])  # type: ignore
 def index() -> Any:
     return render_template("index.html")
+
+
+@app.route("/dashboard", methods=["GET"])  # type: ignore
+def dashboard() -> Any:
+    version = config.manifest.get("version", "0.0.0")
+    return render_template("dashboard.html", version=version)
 
 
 @app.route("/claim", methods=["POST", "GET"])  # type: ignore
@@ -40,7 +48,10 @@ def claim() -> Any:
     import procs
 
     if request.method == "POST":
-        return procs.claim_proc(request)
+        try:
+            return procs.claim_proc(request)
+        except Exception:
+            return invalid
 
     captcha = simple_captcha.create()
     return render_template("claim.html", captcha=captcha)
@@ -51,29 +62,29 @@ def change() -> Any:
     import procs
 
     if request.method == "POST":
-        return procs.change_proc(request)
+        try:
+            return procs.change_proc(request)
+        except Exception:
+            return invalid
 
     return render_template("change.html")
-
-
-@app.route("/dashboard", methods=["GET"])  # type: ignore
-def dashboard() -> Any:
-    version = config.manifest.get("version", "0.0.0")
-    return render_template("dashboard.html", version=version)
 
 
 @app.route("/<curl>", methods=["GET"])  # type: ignore
 def view(curl) -> Any:
     import procs
 
-    return procs.view_proc(curl)
+    try:
+        return procs.view_proc(curl)
+    except Exception:
+        return invalid
 
 
 @app.route("/curls", methods=["POST"])  # type: ignore
 def get_curls() -> Any:
     import procs
 
-    if request.method == "POST":
+    try:
         return procs.curls_proc(request)
-
-    return "Invalid request"
+    except Exception:
+        return invalid

@@ -16,8 +16,8 @@ def claim_proc(request: Any) -> str:
 
     c_hash = request.form.get("captcha-hash")
     c_text = request.form.get("captcha-text")
-    curl = request.form["curl"]
 
+    curl = request.form["curl"]
     check_catpcha = True
 
     if config.captcha_cheat and (c_text == config.captcha_cheat):
@@ -37,7 +37,15 @@ def claim_proc(request: Any) -> str:
 
     key = make_key(curl)
     add_curl(curl, key)
-    return f"Your curl is {curl} and your key is {key}"
+
+    lines = [
+        f"Your curl is: {curl}",
+        f"Your key is: {key}",
+        "Save the key somewhere so it doesn't get lost",
+        "There is no way to recover a lost key",
+    ]
+
+    return " - ".join(lines)
 
 
 def change_proc(request: Any) -> str:
@@ -45,7 +53,7 @@ def change_proc(request: Any) -> str:
     key = request.form.get("key")
     status = request.form.get("status")
 
-    if not curl or not key or not status:
+    if (not curl) or (not key) or (not status):
         return "Error: Empty fields"
 
     if not check_curl(curl):
@@ -69,17 +77,14 @@ def view_proc(curl: str) -> str:
 
 
 def curls_proc(request: Any) -> str:
-    try:
-        curls = request.form.getlist("curl")
+    curls = request.form.getlist("curl")
 
-        if len(curls) > config.max_curls:
-            return too_many_curls()
+    if len(curls) > config.max_curls:
+        return too_many_curls()
 
-        for curl in curls:
-            if not check_curl(curl):
-                return "Invalid curl"
-    except:
-        return "Invalid request"
+    for curl in curls:
+        if not check_curl(curl):
+            return "Invalid curl"
 
     results = get_curl_list(curls)
     return json.dumps(results)
