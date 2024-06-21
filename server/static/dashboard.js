@@ -39,7 +39,7 @@ App.setup = () => {
     App.setup_color()
     App.setup_change()
     App.clean_curlist()
-    // App.setup_picker()
+    App.setup_picker()
     App.update(true)
 }
 
@@ -921,7 +921,7 @@ App.setup_picker = () => {
         App.show_picker(e)
     })
 
-    let saved = localStorage.getItem(`picker`) || []
+    let saved = localStorage.getItem(`picker`) || `[]`
     App.picker_items = JSON.parse(saved)
 }
 
