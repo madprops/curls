@@ -5,7 +5,9 @@ App.MINUTE = App.SECOND * 60
 App.update_delay = App.MINUTE * 5
 App.updates_enabled = false
 App.max_curls = 100
-App.max_curl_length = 18
+App.curl_max_length = 18
+App.status_max_length = 500
+App.key_length = 18
 App.curlist_enabled = true
 App.info_enabled = true
 App.last_items = []
@@ -74,7 +76,7 @@ App.get_used_curls = () => {
             continue
         }
 
-        if (curl.length > App.max_curl_length) {
+        if (curl.length > App.curl_max_length) {
             continue
         }
 
@@ -306,7 +308,7 @@ App.clean_curlist = () => {
     let cleaned = []
 
     for (let curl of curls) {
-        if (curl.length > App.max_curl_length) {
+        if (curl.length > App.curl_max_length) {
             continue
         }
 
@@ -485,6 +487,21 @@ App.edit = () => {
     let status = DOM.el(`#edit_status`).value
 
     if (!curl || !key || !status) {
+        return
+    }
+
+    if (curl.length > App.curl_max_length) {
+        App.info(`Error: Curl is too long`)
+        return
+    }
+
+    if (key.length > App.key_length) {
+        App.info(`Error: Key is too long`)
+        return
+    }
+
+    if (status.length > App.status_max_length) {
+        App.info(`Error: Status is too long`)
         return
     }
 
