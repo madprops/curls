@@ -126,6 +126,10 @@ body, html {
     gap: 0.88rem;
 }
 
+#change {
+    padding-top: 0.35rem;
+}
+
 a:visited,
 a:link,
 a:hover
@@ -142,7 +146,7 @@ input[type="text"], input[type="password"] {
     background-color: rgb(0, 0, 0);
     color: var(--color);
     border: 1px solid var(--color);
-    padding: 0.15rem;
+    padding: 0.125rem;
     outline: none;
     width: 7rem;
     font-size: 1rem;
@@ -159,7 +163,7 @@ button {
     cursor: pointer;
     outline: none;
     font-size: 1rem;
-    padding: 0.15rem;
+    padding: 0.125rem;
     padding-left: 0.25rem;
     padding-right: 0.25rem;
 }
@@ -175,6 +179,7 @@ select {
     border: 1px solid var(--color);
     outline: none;
     font-size: 1rem;
+    padding: 0.125rem;
     padding-left: 0.25rem;
     padding-right: 0.25rem;
 }
