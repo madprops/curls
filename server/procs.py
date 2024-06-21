@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 import random
 import string
+from flask import jsonify
 from typing import Any
 
 # Modules
@@ -87,7 +88,7 @@ def curls_proc(request: Any) -> str:
             return "Invalid curl"
 
     results = get_curl_list(curls)
-    return json.dumps(results)
+    return jsonify(results)
 
 
 # ---
