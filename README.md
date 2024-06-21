@@ -50,6 +50,8 @@ The status of the people you choose can serve as calls of action or to know abou
 
 Yes it's similar to Twitter except there's no history or other kind of privacy invading mechanisms in place. And there's no CORS restrictions, reading and changing the curl status should be as easy as possible, from within any application.
 
+It can also serve for software to point to pieces of dynamic text.
+
 ---
 
 ## Accounts
