@@ -206,6 +206,7 @@ App.empty_container = () => {
         `Add some curls to the list on the left.`,
         `These will be monitored for status changes.`,
         `Above you can change the status of your own curls.`,
+        `Use the claim link on the top right to get a new curl.`,
     ]
 
     item.innerHTML = lines.join(`<br><br>`)
