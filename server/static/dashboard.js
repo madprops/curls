@@ -48,11 +48,11 @@ App.start_update_timeout = () => {
     }, App.update_delay)
 }
 
-App.update = (force = false) => {
+App.update = (force = false, feedback = true) => {
     clearTimeout(App.update_timeout)
 
     if (force || App.updates_enabled) {
-        App.update_curls()
+        App.update_curls(feedback)
     }
 
     App.start_update_timeout()
@@ -96,7 +96,7 @@ App.get_used_curls = () => {
     return used_curls
 }
 
-App.update_curls = async () => {
+App.update_curls = async (feedback = true) => {
     App.info(`Updating...`)
     let used_curls = App.get_used_curls()
     App.last_used_curls = used_curls
@@ -113,7 +113,10 @@ App.update_curls = async () => {
         params.append(`curl`, curl);
     }
 
-    App.show_updating()
+    if (feedback) {
+        App.show_updating()
+    }
+
     let response = ``
 
     try {
@@ -267,6 +270,7 @@ App.insert_item = (item) => {
     el.append(item_curl)
     el.append(item_status)
     el.append(item_updated)
+
     container.append(el)
     container.append(el)
 }
@@ -543,7 +547,7 @@ App.edit = () => {
 
         if (ans === `ok`) {
             App.clear_status()
-            App.update(true)
+            App.update(true, false)
             App.add_owned_curl(curl)
         }
     })
