@@ -203,12 +203,12 @@ App.empty_container = () => {
     let item = DOM.create(`div`, `info_item`)
 
     let lines = [
-        `Add some curls to the list on the left`,
-        `These will be monitored for changes`,
-        `Above you can change the status of your own curls`,
+        `Add some curls to the list on the left.`,
+        `These will be monitored for status changes.`,
+        `Above you can change the status of your own curls.`,
     ]
 
-    item.innerHTML = lines.join(`<br>`)
+    item.innerHTML = lines.join(`<br><br>`)
     container.innerHTML = ``
     container.append(item)
     App.unselect()
@@ -329,10 +329,17 @@ App.clean_curlist = () => {
     let curlist = DOM.el(`#curlist`)
     let curlist_top = DOM.el(`#curlist_top`)
     let curls = App.get_curls()
-    curls = curls.filter(x => x.match(/^[a-zA-Z0-9_]+$/))
-    let cleaned = []
+    let words = []
 
     for (let curl of curls) {
+        let parts = curl.split(` `)
+        words.push(...parts)
+    }
+
+    words = words.filter(x => x.match(/^[a-zA-Z0-9_]+$/))
+    let cleaned = []
+
+    for (let curl of words) {
         curl = curl.toLowerCase().trim()
 
         if (curl.length > App.curl_max_length) {
