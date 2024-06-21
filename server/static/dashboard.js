@@ -2,6 +2,12 @@ const App = {}
 
 App.SECOND = 1000
 App.MINUTE = App.SECOND * 60
+App.HOUR = App.MINUTE * 60
+App.DAY = App.HOUR * 24
+App.WEEK = App.DAY * 7
+App.MONTH = App.DAY * 30
+App.YEAR = App.DAY * 365
+
 App.update_delay = App.MINUTE * 5
 App.updates_enabled = false
 App.max_curls = 100
@@ -748,9 +754,15 @@ App.show_curlist_menu = (e) => {
             }
         },
         {
-            text: `Clean`,
+            text: `Remove Not Found`,
             action: () => {
-                App.curlist_clean()
+                App.remove_not_found()
+            }
+        },
+        {
+            text: `Remove Old`,
+            action: () => {
+                App.remove_old()
             }
         },
     ]
@@ -788,9 +800,9 @@ App.do_add_curl = (where, curl = ``) => {
     }
 }
 
-App.curlist_clean = () => {
+App.remove_not_found = () => {
     if (confirm(`Remove the curls that were not found?`)) {
-        App.remove_not_found()
+        App.do_remove_not_found()
     }
 }
 
@@ -806,6 +818,40 @@ App.remove_not_found = () => {
         }
     }
 
+    curlist.value = cleaned.join(`\n`)
+    App.clean_curlist()
+
+    if (App.save_curlist()) {
+        App.update(true)
+    }
+}
+
+App.remove_old = () => {
+    if (confirm(`Remove curls with a date older than 1 year?`)) {
+        App.do_remove_old()
+    }
+}
+
+App.do_remove_old = () => {
+    let curls = App.get_curls()
+    let now = Date.now()
+    let cleaned = []
+
+    for (let curl of curls) {
+        let date = App.last_items.find(item => item.curl === curl)?.updated
+
+        if (date) {
+            let datetime = new Date(date + "Z").getTime()
+
+            if ((now - datetime) > (App.YEAR * 1)) {
+                continue
+            }
+        }
+
+        cleaned.push(curl)
+    }
+
+    let curlist = DOM.el(`#curlist`)
     curlist.value = cleaned.join(`\n`)
     App.clean_curlist()
 
