@@ -73,7 +73,7 @@ def get_status(curl: str) -> str:
     db_string = "SELECT status FROM curls WHERE curl = ?"
     cursor.execute(db_string, (curl,))
     result = cursor.fetchone()
-    return check_status(result)
+    return fill_status(result)
 
 
 def get_curl_list(curls: list[str]) -> list[dict[str, Any]]:
@@ -100,7 +100,7 @@ def get_curl_list(curls: list[str]) -> list[dict[str, Any]]:
     return items
 
 
-def check_status(result: Any) -> str:
+def fill_status(result: Any) -> str:
     if not result:
         return "Not claimed yet"
 
@@ -132,6 +132,15 @@ def check_curl(curl: str) -> bool:
         return False
 
     if not curl.isalnum():
+        return False
+
+    return True
+
+def check_status (status: str) -> bool:
+    if not status:
+        return False
+
+    if len(status) > config.content_max_length:
         return False
 
     return True

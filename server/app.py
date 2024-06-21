@@ -73,6 +73,9 @@ def edit() -> Any:
         if not procs.check_curl(curl):
             return "Error: Invalid curl"
 
+        if not procs.check_status(status):
+            return "Error: Invalid status"
+
         if not procs.check_key(curl, key):
             return "Error: Invalid key"
 
