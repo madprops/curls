@@ -39,7 +39,7 @@ App.setup = () => {
     App.setup_color()
     App.setup_change()
     App.clean_curlist()
-    App.setup_picker()
+    // App.setup_picker()
     App.update(true)
 }
 
