@@ -90,8 +90,14 @@ App.update_curls = async (feedback = true) => {
         return
     }
 
-    let items = await response.json()
-    App.insert_items(items)
+    try {
+        let items = await response.json()
+        App.insert_items(items)
+    }
+    catch (e) {
+        App.info(`Error: Failed to parse response`)
+    }
+
     App.clear_updating()
 }
 
