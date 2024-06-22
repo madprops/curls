@@ -630,22 +630,6 @@ App.setup_change = () => {
     DOM.ev(submit, `click`, () => {
         App.change()
     })
-
-    App.load_change()
-}
-
-App.save_change = () => {
-    let curl = DOM.el(`#change_curl`).value
-    let key = DOM.el(`#change_key`).value
-    localStorage.setItem(`change_curl`, curl)
-    localStorage.setItem(`change_key`, key)
-}
-
-App.load_change = () => {
-    let curl = DOM.el(`#change_curl`)
-    let key = DOM.el(`#change_key`)
-    curl.value = localStorage.getItem(`change_curl`) || ``
-    key.value = localStorage.getItem(`change_key`) || ``
 }
 
 App.setup_container = () => {
@@ -958,6 +942,12 @@ App.setup_picker = () => {
 
     let saved = localStorage.getItem(`picker`) || `[]`
     App.picker_items = JSON.parse(saved)
+
+    if (App.picker_items.length) {
+        let first = App.picker_items[0]
+        DOM.el(`#change_curl`).value = first.curl
+        DOM.el(`#change_key`).value = first.key
+    }
 }
 
 App.add_to_picker = () => {
