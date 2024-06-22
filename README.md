@@ -1,6 +1,6 @@
 # Curls
 
-![](https://i.imgur.com/TieJlTx.gif)
+![](https://i.imgur.com/we0FJqA.gif)
 
 (Notice in this demo how each color has their own set of curls)
 
