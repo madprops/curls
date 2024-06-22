@@ -123,7 +123,6 @@ App.update_curls = async (feedback = true) => {
     catch (e) {
         App.info(`Error: Failed to update`)
         App.clear_updating()
-        App.updating = false
         return
     }
 
@@ -136,7 +135,6 @@ App.update_curls = async (feedback = true) => {
     }
 
     App.clear_updating()
-    App.updating = false
 }
 
 App.show_updating = () => {
@@ -146,6 +144,8 @@ App.show_updating = () => {
 }
 
 App.clear_updating = () => {
+    App.updating = false
+
     App.clear_updating_timeout = setTimeout(() => {
         let button = DOM.el(`#update`)
         button.classList.remove(`active`)

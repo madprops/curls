@@ -94,8 +94,6 @@ App.do_change = () => {
         App.info(`Error: Failed to change`)
         App.clear_changing()
     })
-
-    App.changing = false
 }
 
 App.clear_status = () => {
@@ -109,6 +107,8 @@ App.show_changing = () => {
 }
 
 App.clear_changing = () => {
+    App.changing = false
+
     App.clear_changing_timeout = setTimeout(() => {
         let button = DOM.el(`#change_submit`)
         button.classList.remove(`active`)
