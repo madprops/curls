@@ -11,9 +11,10 @@ from flask_limiter import Limiter  # type: ignore
 from flask_limiter.util import get_remote_address  # type: ignore
 
 # Modules
+import db
 import procs
 import config
-import db
+import bundle
 
 
 # ---
@@ -38,7 +39,7 @@ limiter = Limiter(
     strategy="fixed-window",
 )
 
-config.bundle_js()
+bundle.bundle_js()
 
 
 # ---
