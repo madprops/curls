@@ -11,8 +11,11 @@ App.insert_items = (items) => {
         }
     }
 
+    let inserted = false
+
     for (let item of items) {
         App.insert_item(item)
+        inserted = true
     }
 
     let missing = App.get_missing()
@@ -20,9 +23,15 @@ App.insert_items = (items) => {
 
     for (let curl of missing) {
         App.insert_item({curl, status: `Not found`, updated: 0})
+        inserted = true
     }
 
     App.unselect()
+
+    if (inserted) {
+        let container = DOM.el(`#container`)
+        container.classList.remove(`empty`)
+    }
 }
 
 App.insert_item = (item) => {

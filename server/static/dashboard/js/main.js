@@ -50,5 +50,6 @@ App.empty_container = () => {
     item.innerHTML = lines.join(`<br>`)
     container.innerHTML = ``
     container.append(item)
+    container.classList.add(`empty`)
     App.unselect()
 }
