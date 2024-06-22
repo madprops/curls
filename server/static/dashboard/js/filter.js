@@ -67,6 +67,7 @@ App.check_first_item = () => {
         if (!el.classList.contains(`hidden`)) {
             if (!first) {
                 el.classList.add(`first_item`)
+                first = true
                 continue
             }
         }
