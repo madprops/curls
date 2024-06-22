@@ -35,10 +35,11 @@ App.do_filter = () => {
 
     for (let el of els) {
         let values = App.get_item_values(el)
+        let curl = values.curl.toLowerCase()
+        let status = values.status.toLowerCase()
+        let updated = values.updated.toLowerCase()
 
-        if (values.curl.includes(value) ||
-        values.status.includes(value) ||
-        values.updated.includes(value)) {
+        if (curl.includes(value) || status.includes(value) || updated.includes(value)) {
             el.classList.remove(`hidden`)
         }
         else {

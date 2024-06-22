@@ -163,8 +163,8 @@ App.get_item = (curl) => {
 }
 
 App.get_item_values = (el) => {
-    let  curl = DOM.el(`.item_curl`, el).innerText.toLowerCase()
-    let status = DOM.el(`.item_status`, el).innerText.toLowerCase()
-    let updated = DOM.el(`.item_updated`, el).innerText.toLowerCase()
+    let curl = DOM.el(`.item_curl`, el).innerText
+    let status = DOM.el(`.item_status`, el).innerText
+    let updated = DOM.el(`.item_updated`, el).innerText
     return {curl, status, updated}
 }
