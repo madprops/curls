@@ -18,14 +18,8 @@ App.setup_curlist = () => {
         App.show_curlist_menu(e)
     })
 
-    let c_saved = localStorage.getItem(`curlist_enabled`)
-
-    if (!c_saved) {
-        App.curlist_enabled = true
-    }
-    else if (c_saved === `true`) {
-        App.curlist_enabled = true
-    }
+    let enabled = localStorage.getItem(`curlist_enabled`) || `true`
+    App.curlist_enabled = enabled === `true`
 
     if (!App.curlist_enabled) {
         App.hide_curlist()
