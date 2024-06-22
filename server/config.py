@@ -38,7 +38,7 @@ captcha = {
 }
 
 def get_js_files():
-    js_files = Path("static/dashboard").glob("*.js")
+    js_files = Path("static/dashboard/js").glob("*.js")
     return [str(f) for f in js_files]
 
 
@@ -47,9 +47,9 @@ def bundle_js():
     order = ["vars.js", "main.js"]
     ignore = ["bundle.js"]
 
-    with open("static/dashboard/bundle.js", "w") as f:
+    with open("static/dashboard/js/bundle.js", "w") as f:
         for o in order:
-            with open(f"static/dashboard/{o}", "r") as js:
+            with open(f"static/dashboard/js/{o}", "r") as js:
                 f.write(js.read())
                 f.write("\n\n")
 
@@ -61,6 +61,5 @@ def bundle_js():
 
             if name not in order:
                 with open(js_file, "r") as js:
-                    print(Path(js_file).name)
                     f.write(js.read())
                     f.write("\n\n")

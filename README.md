@@ -108,4 +108,4 @@ Make a `systemd` service to start gunicorn with a non-root user.
 
 ### Bundle
 
-The js files in static/dashboard get bundled into `bundle.js` when the server starts.
+The js files in static/dashboard/js get bundled into `bundle.js` when the server starts.
