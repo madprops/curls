@@ -9,7 +9,7 @@ App.remove_a_curl = () => {
 }
 
 App.remove_not_found = () => {
-    let missing = App.last_missing
+    let missing = App.last_missing.map(x => x.curl)
     let curls = App.get_curls()
     let cleaned = []
     let removed = []
@@ -36,13 +36,13 @@ App.remove_empty = () => {
     let removed = []
 
     for (let curl of curls) {
-        let item = App.get_last_item(curl)
+        let item = App.get_item(curl)
 
         if (!item) {
             continue
         }
 
-        if (!item.original_status) {
+        if (!item.status) {
             removed.push(curl)
             continue
         }
@@ -64,7 +64,7 @@ App.remove_old = () => {
     let removed = []
 
     for (let curl of curls) {
-        let item = App.get_last_item(curl)
+        let item = App.get_item(curl)
 
         if (!item) {
             continue

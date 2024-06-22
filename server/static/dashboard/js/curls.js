@@ -165,9 +165,3 @@ App.change_sort = () => {
     localStorage.setItem(`sort`, mode)
     App.update(true)
 }
-
-App.get_missing = () => {
-    let used = App.last_used_curls
-    let items = App.last_items
-    return used.filter(curl => !items.find(item => item.curl === curl))
-}

@@ -2,33 +2,17 @@ App.insert_items = (items) => {
     App.clear_container()
     App.sort_items(items)
     App.last_items = items
-
-    for (let item of items) {
-        item.original_status = item.status
-
-        if (!item.status) {
-            item.status = `Not updated yet`
-        }
-    }
-
-    let inserted = false
-
-    for (let item of items) {
-        App.insert_item(item)
-        inserted = true
-    }
-
     let missing = App.get_missing()
     App.last_missing = missing
+    App.items = [...items, ...missing]
 
-    for (let curl of missing) {
-        App.insert_item({curl, status: `Not found`, updated: 0})
-        inserted = true
+    for (let item of App.items) {
+        App.insert_item(item)
     }
 
     App.unselect()
 
-    if (inserted) {
+    if (App.items.length) {
         App.container_not_empty()
     }
 }
@@ -46,9 +30,11 @@ App.insert_item = (item) => {
     let item_curl = DOM.create(`div`, `item_curl`)
     let item_status = DOM.create(`div`, `item_status`)
     let item_updated = DOM.create(`div`, `item_updated`)
+
     item_curl.textContent = item.curl
     item_curl.title = item.curl
-    item_status.innerHTML = App.sanitize(item.status)
+    let status = item.status || `Not updated yet`
+    item_status.innerHTML = App.sanitize(status)
     App.urlize(item_status)
 
     let date = new Date(item.updated + "Z")
@@ -61,12 +47,16 @@ App.insert_item = (item) => {
     el.append(item_status)
     el.append(item_updated)
 
+    el.dataset.curl = item.curl
+
     container.append(el)
     container.append(el)
+
+    item.element = el
 }
 
-App.get_last_item = (curl) => {
-    return App.last_items.find(item => item.curl === curl)
+App.get_item = (curl) => {
+    return App.items.find(item => item.curl === curl)
 }
 
 App.show_item_menu = (e) => {
@@ -123,47 +113,40 @@ App.sort_items = (items) => {
 }
 
 App.remove_item = (curl) => {
-    let item = App.get_item(curl)
+    let el = App.get_item(curl).element
 
-    if (item) {
-        item.remove()
+    if (el) {
+        el.remove()
     }
 }
 
 App.item_to_top = (curl) => {
-    let item = App.get_item(curl)
+    let el = App.get_item(curl).element
 
-    if (item) {
+    if (el) {
         let container = DOM.el(`#container`)
-        container.prepend(item)
+        container.prepend(el)
     }
 }
 
 App.item_to_bottom = (curl) => {
-    let item = App.get_item(curl)
+    let el = App.get_item(curl).element
 
-    if (item) {
+    if (el) {
         let container = DOM.el(`#container`)
-        container.append(item)
+        container.append(el)
     }
 }
 
-App.get_item = (curl) => {
-    let els = DOM.els(`#container .item`)
+App.get_missing = () => {
+    let used = App.last_used_curls
+    let items = App.last_items
+    let curls = used.filter(curl => !items.find(item => item.curl === curl))
+    let missing = []
 
-    for (let el of els) {
-        let values = App.get_item_values(el)
-        let curl_ = values.curl
-
-        if (curl === curl_) {
-            return el
-        }
+    for (let curl of curls) {
+        missing.push({curl: curl, status: `Not found`, updated: `0`})
     }
-}
 
-App.get_item_values = (el) => {
-    let curl = DOM.el(`.item_curl`, el).innerText
-    let status = DOM.el(`.item_status`, el).innerText
-    let updated = DOM.el(`.item_updated`, el).innerText
-    return {curl, status, updated}
+    return missing
 }

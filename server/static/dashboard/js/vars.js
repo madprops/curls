@@ -16,6 +16,7 @@ App.key_length = 20
 App.status_max_length = 500
 App.curlist_enabled = true
 App.console_logs = true
+App.items = []
 App.last_items = []
 App.last_used_curls = []
 App.last_missing = []

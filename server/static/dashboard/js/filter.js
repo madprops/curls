@@ -40,10 +40,10 @@ App.do_filter = () => {
     let one_shown = false
 
     for (let el of els) {
-        let values = App.get_item_values(el)
-        let curl = values.curl.toLowerCase()
-        let status = values.status.toLowerCase()
-        let updated = values.updated.toLowerCase()
+        let item = App.get_item(el.dataset.curl)
+        let curl = item.curl.toLowerCase()
+        let status = item.status.toLowerCase()
+        let updated = item.updated.toLowerCase()
 
         if (curl.includes(value) || status.includes(value) || updated.includes(value)) {
             el.classList.remove(`hidden`)
