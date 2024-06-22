@@ -6,6 +6,8 @@
 
 (Also notice the $ picker to switch between curls you own)
 
+## What is this?
+
 This is a text status host.
 
 Users claim a `curl` and get a key to be able to update it.
