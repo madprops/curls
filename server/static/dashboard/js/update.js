@@ -11,6 +11,11 @@ App.setup_updater = () => {
         }
     })
 
+    DOM.ev(updater, `wheel`, (e) => {
+        let direction = App.wheel_direction(e)
+        App.cycle_updater(direction)
+    })
+
     App.update_debouncer = App.create_debouncer((force, feedback) => {
         App.do_update(force, feedback)
     }, App.update_debouncer_delay)
@@ -157,15 +162,24 @@ App.clear_updating = () => {
     }, App.clear_delay)
 }
 
-App.load_updater = () => {
-    let saved = localStorage.getItem(`updater`) || `minutes_5`
-    App.check_updater(saved)
+App.set_updater = (what) => {
+    localStorage.setItem(`updater`, what)
+    App.check_updater(what)
     App.refresh_updater()
 }
 
+App.load_updater = () => {
+    let saved = localStorage.getItem(`updater`) || `minutes_5`
+    App.set_updater(saved)
+}
+
 App.disable_updates = () => {
-    let saved = `disabled`
-    localStorage.setItem(`updater`, saved)
-    App.check_updater(saved)
-    App.refresh_updater()
+    App.set_updater(`disabled`)
+}
+
+App.cycle_updater = (direction) => {
+    let saved = App.get_updater()
+    let reverse = direction === `up`
+    saved = App.switch_state(saved, App.update_modes, reverse)
+    App.set_updater(saved)
 }

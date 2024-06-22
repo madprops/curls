@@ -80,12 +80,25 @@ App.create_debouncer = (func, delay) => {
     return obj
 }
 
-App.switch_state = (current, list) => {
-    let index = list.indexOf(current)
+App.switch_state = (current, list, reverse = false) => {
+    let index = list.indexOf(current);
 
     if (index === -1) {
-        throw new Error(`Invalid state: ${current}`)
+        throw new Error(`Invalid state: ${current}`);
     }
 
-    return list[(index + 1) % list.length] || list[1]
+    if (reverse) {
+        return list[(index - 1 + list.length) % list.length];
+    } else {
+        return list[(index + 1) % list.length] || list[1];
+    }
 }
+
+App.wheel_direction = (e) => {
+    if (e.deltaY > 0) {
+      return `down`
+    }
+    else {
+      return `up`
+    }
+  }
