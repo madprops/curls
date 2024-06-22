@@ -27,6 +27,16 @@ App.check_updater = (saved) => {
     else {
         App.updates_enabled = false
     }
+
+    App.restart_update()
+}
+
+App.restart_update = () => {
+    clearTimeout(App.update_timeout)
+
+    if (App.updates_enabled) {
+        App.start_update_timeout()
+    }
 }
 
 App.change_updater = () => {
@@ -68,7 +78,7 @@ App.do_update = (force = false, feedback = true) => {
         App.update_curls(feedback)
     }
 
-    App.start_update_timeout()
+    App.restart_update()
 }
 
 App.update_curls = async (feedback = true) => {
