@@ -15,21 +15,22 @@ App.curl_max_length = 20
 App.key_length = 20
 App.status_max_length = 500
 App.curlist_enabled = true
-App.info_enabled = true
+App.console_logs = true
 App.last_items = []
 App.last_used_curls = []
 App.last_missing = []
 App.clear_delay = 800
 App.max_picker_items = 10
-App.filter_debouncer_delay = 200
-App.update_debouncer_delay = 200
-App.change_debouncer_delay = 200
+App.filter_debouncer_delay = 250
+App.update_debouncer_delay = 250
+App.change_debouncer_delay = 250
 App.changing = false
 App.updating = false
+App.network = `🛜`
 
-App.curl_too_long = `Error: Curl is too long`
-App.key_too_long = `oijioError: Key is too long`
-App.status_too_long = `Error: Status is too long`
+App.curl_too_long = `Curl is too long`
+App.key_too_long = `Key is too long`
+App.status_too_long = `Status is too long`
 
 App.colors = {
     red: `rgb(255, 89, 89)`,

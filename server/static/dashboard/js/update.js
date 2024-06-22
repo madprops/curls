@@ -84,7 +84,7 @@ App.update_curls = async (feedback = true) => {
     App.info(`Update: Trigger`)
 
     if (App.updating) {
-        App.info(`Slow down`)
+        App.error(`Slow down`)
         return
     }
 
@@ -109,7 +109,7 @@ App.update_curls = async (feedback = true) => {
 
     let response = ``
     App.updating = true
-    App.info(`Update: Request`)
+    App.info(`Update: Request ${App.network}`)
 
     try {
         response = await fetch(url, {
@@ -121,7 +121,7 @@ App.update_curls = async (feedback = true) => {
         })
     }
     catch (e) {
-        App.info(`Error: Failed to update`)
+        App.error(`Failed to update`)
         App.clear_updating()
         return
     }
@@ -131,7 +131,7 @@ App.update_curls = async (feedback = true) => {
         App.insert_items(items)
     }
     catch (e) {
-        App.info(`Error: Failed to parse response`)
+        App.error(`Failed to parse response`)
     }
 
     App.clear_updating()

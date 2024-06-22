@@ -12,9 +12,15 @@ App.plural = (n, singular, plural) => {
 }
 
 App.info = (msg) => {
-    if (App.info_enabled) {
-        console.info(msg)
+    if (App.console_logs) {
+        console.info(`💡 ${msg}`)
     }
+}
+
+App.error = (msg) => {
+  if (App.console_logs) {
+    console.info(`❌ ${msg}`)
+  }
 }
 
 App.sanitize = (s) => {

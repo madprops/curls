@@ -7,6 +7,8 @@ App.setup_change = () => {
         }
     })
 
+    status.value = ``
+
     let submit = DOM.el(`#change_submit`)
 
     DOM.ev(submit, `click`, () => {
@@ -26,7 +28,7 @@ App.do_change = () => {
     App.info(`Change: Trigger`)
 
     if (App.changing) {
-        App.info(`Slow down`)
+        App.error(`Slow down`)
         return
     }
 
@@ -39,19 +41,19 @@ App.do_change = () => {
     }
 
     if (curl.length > App.curl_max_length) {
-        App.info(App.curl_too_long)
+        App.error(App.curl_too_long)
         alert(App.curl_too_long)
         return
     }
 
     if (key.length > App.key_length) {
-        App.info(App.key_too_long)
+        App.error(App.key_too_long)
         alert(App.key_too_long)
         return
     }
 
     if (status.length > App.status_max_length) {
-        App.info(App.status_too_long)
+        App.error(App.status_too_long)
         alert(App.status_too_long)
         return
     }
@@ -65,7 +67,7 @@ App.do_change = () => {
 
     App.show_changing()
     App.changing = true
-    App.info(`Change: Request`)
+    App.info(`Change: Request ${App.network}`)
 
     fetch(url, {
         method: `POST`,
@@ -76,7 +78,7 @@ App.do_change = () => {
     })
     .then(response => response.text())
     .then(ans => {
-        App.info(ans)
+        App.info(`Response: ${ans}`)
         App.clear_changing()
 
         if (ans === `ok`) {
@@ -86,12 +88,11 @@ App.do_change = () => {
             App.add_to_picker()
         }
         else {
-            App.info(ans)
             alert(ans)
         }
     })
     .catch(e => {
-        App.info(`Error: Failed to change`)
+        App.error(`Failed to change`)
         App.clear_changing()
     })
 }
