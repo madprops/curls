@@ -119,3 +119,9 @@ Make a `systemd` service to start gunicorn with a non-root user.
 ### Bundle
 
 The js files in static/dashboard/js get bundled into `bundle.js` when the server starts.
+
+## Rate Limiter
+
+There is a rate limiter to limit all API endpoints to 10 requests per minute.
+
+This depends on `redis`.
