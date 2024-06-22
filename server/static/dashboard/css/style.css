@@ -5,7 +5,7 @@ body, html {
     font-family: sans-serif;
     background-color: black;
     color: var(--color);
-    font-size: 20px;
+    font-size: 19px;
 }
 
 #main {
@@ -16,7 +16,7 @@ body, html {
 }
 
 #left_side {
-    width: 200px;
+    width: 190px;
     flex-grow: 0;
     flex-shrink: 0;
     display: flex;
@@ -62,7 +62,7 @@ body, html {
     border-bottom: 1px solid var(--color);
 }
 
-.item:first-child {
+.first_item {
     border-top: 1px solid var(--color);
 }
 

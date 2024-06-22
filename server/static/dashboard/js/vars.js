@@ -21,9 +21,10 @@ App.last_used_curls = []
 App.last_missing = []
 App.clear_delay = 800
 App.max_picker_items = 10
+App.filter_delay = 250
 
 App.curl_too_long = `Error: Curl is too long`
-App.key_too_long = `Error: Key is too long`
+App.key_too_long = `oijioError: Key is too long`
 App.status_too_long = `Error: Status is too long`
 
 App.colors = {

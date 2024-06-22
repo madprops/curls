@@ -182,6 +182,7 @@ App.insert_items = (items) => {
     }
 
     App.unselect()
+    App.check_first_item()
 }
 
 App.get_curls = () => {
