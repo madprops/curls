@@ -43,5 +43,10 @@ App.colors = {
 }
 
 App.update_modes = [
-    `disabled`, `minutes_1`, `minutes_5`, `minutes_10`, `minutes_30`
+    `disabled`,
+    `minutes_1`,
+    `minutes_5`,
+    `minutes_10`,
+    `minutes_30`,
+    `minutes_60`,
 ]
