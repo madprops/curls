@@ -12,10 +12,24 @@ App.setup_change = () => {
     DOM.ev(submit, `click`, () => {
         App.change()
     })
+
+    App.change_debouncer = App.create_debouncer((force, feedback) => {
+        App.do_change(force, feedback)
+    }, App.change_debouncer_delay)
 }
 
 App.change = () => {
-    App.info(`Changing...`)
+    App.change_debouncer.call()
+}
+
+App.do_change = () => {
+    App.info(`Change: Trigger`)
+
+    if (App.changing) {
+        App.info(`Slow down`)
+        return
+    }
+
     let curl = DOM.el(`#change_curl`).value.toLowerCase()
     let key = DOM.el(`#change_key`).value
     let status = DOM.el(`#change_status`).value
@@ -50,6 +64,8 @@ App.change = () => {
     params.append(`status`, status)
 
     App.show_changing()
+    App.changing = true
+    App.info(`Change: Request`)
 
     fetch(url, {
         method: `POST`,
@@ -78,6 +94,8 @@ App.change = () => {
         App.info(`Error: Failed to change`)
         App.clear_changing()
     })
+
+    App.changing = false
 }
 
 App.clear_status = () => {

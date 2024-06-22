@@ -9,7 +9,7 @@ App.setup_filter = () => {
         App.filter()
     })
 
-    App.filter_debouncer = App.create_debouncer(App.do_filter, App.filter_delay)
+    App.filter_debouncer = App.create_debouncer(App.do_filter, App.filter_debouncer_delay)
     filter.value = ``
 }
 

@@ -25,3 +25,30 @@ App.setup_buttons = () => {
         App.toggle_curlist()
     })
 }
+
+App.get_sort = () => {
+    let sort = DOM.el(`#sort`)
+    return sort.options[sort.selectedIndex].value
+}
+
+App.clear_container = () => {
+    let container = DOM.el(`#container`)
+    container.innerHTML = ``
+}
+
+App.empty_container = () => {
+    let container = DOM.el(`#container`)
+    let item = DOM.create(`div`, `info_item`)
+
+    let lines = [
+        `Add some curls to the list on the left.`,
+        `These will be monitored for status changes.`,
+        `Above you can change the status of your own curls.`,
+        `Use the claim link on the top right to get a new curl.`,
+    ]
+
+    item.innerHTML = lines.join(`<br><br>`)
+    container.innerHTML = ``
+    container.append(item)
+    App.unselect()
+}
