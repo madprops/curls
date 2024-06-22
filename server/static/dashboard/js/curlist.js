@@ -101,50 +101,65 @@ App.copy_curlist = (e) => {
 }
 
 App.show_curlist_menu = (e) => {
-    let items = [
-        {
-            text: `Copy`,
-            action: () => {
-                App.copy_curlist(e)
-            }
-        },
-        {
-            text: `Add (Top)`,
-            action: () => {
-                App.do_add_curl(`top`)
-        },
-        },
-        {
-            text: `Add (Bottom)`,
-            action: () => {
-                App.do_add_curl(`bottom`)
-            }
-        },
-        {
-            text: `Remove`,
-            action: () => {
-                App.remove_a_curl()
-            }
-        },
-        {
-            text: `Remove Not Found`,
-            action: () => {
-                App.remove_not_found()
-            }
-        },
-        {
-            text: `Remove Empty`,
-            action: () => {
-                App.remove_empty()
-            }
-        },
-        {
-            text: `Remove Old`,
-            action: () => {
-                App.remove_old()
-            }
-        },
-    ]
+    let curls = App.get_curls()
+    let items
+
+    if (curls.length) {
+        items = [
+            {
+                text: `Copy`,
+                action: () => {
+                    App.copy_curlist(e)
+                }
+            },
+            {
+                text: `Add (Top)`,
+                action: () => {
+                    App.do_add_curl(`top`)
+            },
+            },
+            {
+                text: `Add (Bottom)`,
+                action: () => {
+                    App.do_add_curl(`bottom`)
+                }
+            },
+            {
+                text: `Remove`,
+                action: () => {
+                    App.remove_a_curl()
+                }
+            },
+            {
+                text: `Remove Not Found`,
+                action: () => {
+                    App.remove_not_found()
+                }
+            },
+            {
+                text: `Remove Empty`,
+                action: () => {
+                    App.remove_empty()
+                }
+            },
+            {
+                text: `Remove Old`,
+                action: () => {
+                    App.remove_old()
+                }
+            },
+        ]
+    }
+    else {
+        items = [
+            {
+                text: `Add`,
+                action: () => {
+                    App.do_add_curl(`top`)
+                }
+            },
+        ]
+    }
 
     NeedContext.show({items: items, e: e})
 }
