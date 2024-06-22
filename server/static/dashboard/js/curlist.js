@@ -76,18 +76,22 @@ App.clean_curlist = () => {
 
 App.save_curlist = () => {
     let curlist = DOM.el(`#curlist`).value
+    let color = App.get_color()
+    let name = `curlist_${color}`
 
-    if (curlist === localStorage.getItem(`curlist`)) {
+    if (curlist === localStorage.getItem(name)) {
         return false
     }
 
-    localStorage.setItem(`curlist`, curlist)
+    localStorage.setItem(name, curlist)
     return true
 }
 
 App.load_curlist = () => {
     let curlist = DOM.el(`#curlist`)
-    let saved = localStorage.getItem(`curlist`) || ``
+    let color = App.get_color()
+    let name = `curlist_${color}`
+    let saved = localStorage.getItem(name) || ``
     curlist.value = saved
 }
 

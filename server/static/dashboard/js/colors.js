@@ -14,6 +14,8 @@ App.change_color = () => {
     let color = App.get_color()
     localStorage.setItem(`color`, color)
     App.apply_color()
+    App.load_curlist()
+    App.update(true)
 }
 
 App.get_color = () => {

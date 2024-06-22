@@ -39,15 +39,7 @@ App.clear_container = () => {
 App.empty_container = () => {
     let container = DOM.el(`#container`)
     let item = DOM.create(`div`, `info_item`)
-
-    let lines = [
-        `Add some curls to the list on the left.`,
-        `These will be monitored for status changes.`,
-        `Above you can change the status of your own curls.`,
-        `Use the claim link on the top right to get a new curl.`,
-    ]
-
-    item.innerHTML = lines.join(`<br>`)
+    item.innerHTML = App.empty_info
     container.innerHTML = ``
     container.append(item)
     App.container_is_empty()
