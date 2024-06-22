@@ -86,7 +86,7 @@ body, html {
     text-align: left;
 }
 
-.item_icon_canvas:hover {
+.item_icon:hover .item_icon_canvas {
     filter: brightness(1.5);
 }
 
