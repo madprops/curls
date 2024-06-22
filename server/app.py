@@ -47,20 +47,20 @@ invalid = "Invalid request"
 
 
 @app.route("/", methods=["GET"])  # type: ignore
-@limiter.limit("10 per minute")
+@limiter.limit("10 per minute")  # type: ignore
 def index() -> Any:
     return render_template("index.html")
 
 
 @app.route("/dashboard", methods=["GET"])  # type: ignore
-@limiter.limit("10 per minute")
+@limiter.limit("10 per minute")  # type: ignore
 def dashboard() -> Any:
     version = config.manifest.get("version", "0.0.0")
     return render_template("dashboard.html", version=version)
 
 
 @app.route("/claim", methods=["POST", "GET"])  # type: ignore
-@limiter.limit("10 per minute")
+@limiter.limit("10 per minute")  # type: ignore
 def claim() -> Any:
     if request.method == "POST":
         try:
@@ -73,7 +73,7 @@ def claim() -> Any:
 
 
 @app.route("/change", methods=["POST", "GET"])  # type: ignore
-@limiter.limit("10 per minute")
+@limiter.limit("10 per minute")  # type: ignore
 def change() -> Any:
     if request.method == "POST":
         try:
@@ -85,7 +85,7 @@ def change() -> Any:
 
 
 @app.route("/<curl>", methods=["GET"])  # type: ignore
-@limiter.limit("10 per minute")
+@limiter.limit("10 per minute")  # type: ignore
 def get_curl(curl) -> Any:
     try:
         text = procs.curl_proc(curl)
@@ -95,7 +95,7 @@ def get_curl(curl) -> Any:
 
 
 @app.route("/curls", methods=["POST"])  # type: ignore
-@limiter.limit("10 per minute")
+@limiter.limit("10 per minute")  # type: ignore
 def get_curls() -> Any:
     try:
         return procs.curls_proc(request)

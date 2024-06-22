@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 # Standard
 import json
 import string
@@ -37,29 +39,30 @@ captcha = {
     "CHARACTER_POOL": string.ascii_lowercase,
 }
 
-def get_js_files():
+
+def get_js_files() -> list[str]:
     js_files = Path("static/dashboard/js").glob("*.js")
     return [str(f) for f in js_files]
 
 
-def bundle_js():
+def bundle_js() -> None:
     js_files = get_js_files()
     order = ["vars.js", "main.js"]
     ignore = ["bundle.js"]
 
-    with open("static/dashboard/js/bundle.js", "w") as f:
+    with Path("static/dashboard/js/bundle.js").open("w") as f:
         for o in order:
-            with open(f"static/dashboard/js/{o}", "r") as js:
+            with Path(f"static/dashboard/js/{o}").open("r") as js:
                 f.write(js.read())
                 f.write("\n\n")
 
         for js_file in js_files:
-            name = Path(js_file).name
+            file = Path(js_file)
 
-            if name in ignore:
+            if file.name in ignore:
                 continue
 
-            if name not in order:
-                with open(js_file, "r") as js:
+            if file.name not in order:
+                with file.open("r") as js:
                     f.write(js.read())
                     f.write("\n\n")
