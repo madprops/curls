@@ -381,7 +381,7 @@ App.insert_item = (item) => {
     App.urlize(item_status)
 
     let date = new Date(item.updated + "Z")
-    let s_date = dateFormat(date, `dd/mm/yy HH:MM`)
+    let s_date = dateFormat(date, `dd/mmm/yy - h:MM tt`)
     item_updated.textContent = s_date
     item_updated.title = date
 
