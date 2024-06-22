@@ -29,8 +29,7 @@ App.insert_items = (items) => {
     App.unselect()
 
     if (inserted) {
-        let container = DOM.el(`#container`)
-        container.classList.remove(`empty`)
+        App.container_not_empty()
     }
 }
 

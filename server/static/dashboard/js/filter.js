@@ -33,6 +33,12 @@ App.do_filter = () => {
 
     let els = DOM.els(`#container .item`)
 
+    if (!els.length) {
+        return
+    }
+
+    let one_shown = false
+
     for (let el of els) {
         let values = App.get_item_values(el)
         let curl = values.curl.toLowerCase()
@@ -41,17 +47,41 @@ App.do_filter = () => {
 
         if (curl.includes(value) || status.includes(value) || updated.includes(value)) {
             el.classList.remove(`hidden`)
+            one_shown = true
         }
         else {
             el.classList.add(`hidden`)
         }
+    }
+
+    if (one_shown) {
+        App.container_not_empty()
+    }
+    else {
+        App.container_is_empty()
     }
 }
 
 App.unfilter_all = () => {
     let els = DOM.els(`#container .item`)
 
+    if (!els.length) {
+        return
+    }
+
     for (let el of els) {
         el.classList.remove(`hidden`)
     }
+
+    App.container_not_empty()
+}
+
+App.container_is_empty = () => {
+    let container = DOM.el(`#container`)
+    container.classList.add(`empty`)
+}
+
+App.container_not_empty = () => {
+    let container = DOM.el(`#container`)
+    container.classList.remove(`empty`)
 }
