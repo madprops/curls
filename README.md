@@ -2,6 +2,8 @@
 
 ![](https://i.imgur.com/TieJlTx.gif)
 
+(Notice in this demo how each color has their own set of curls)
+
 This is a text status host.
 
 Users claim a `curl` and get a key to be able to update it.
