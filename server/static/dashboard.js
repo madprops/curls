@@ -226,6 +226,8 @@ App.insert_items = (items) => {
     App.last_items = items
 
     for (let item of items) {
+        item.original_status = item.status
+
         if (!item.status) {
             item.status = `Not updated yet`
         }
@@ -788,6 +790,12 @@ App.show_curlist_menu = (e) => {
             }
         },
         {
+            text: `Remove Empty`,
+            action: () => {
+                App.remove_empty()
+            }
+        },
+        {
             text: `Remove Old`,
             action: () => {
                 App.remove_old()
@@ -830,25 +838,7 @@ App.do_add_curl = (where, curl = ``, update = true) => {
     }
 }
 
-App.remove_not_found = () => {
-    let missing = App.last_missing
-    let curlist = DOM.el(`#curlist`)
-    let curls = App.get_curls()
-    let cleaned = []
-    let removed = []
-
-    for (let curl of curls) {
-        if (!missing.includes(curl)) {
-            cleaned.push(curl)
-        }
-        else {
-            removed.push(curl)
-        }
-    }
-    if (!removed.length) {
-        return
-    }
-
+App.save_cleaned = (cleaned, removed) => {
     let s = App.plural(removed.length, `item`, `items`)
 
     if (confirm(`Remove ${removed.length} ${s}?`)) {
@@ -861,6 +851,55 @@ App.remove_not_found = () => {
     }
 }
 
+App.remove_not_found = () => {
+    let missing = App.last_missing
+    let curls = App.get_curls()
+    let cleaned = []
+    let removed = []
+
+    for (let curl of curls) {
+        if (!missing.includes(curl)) {
+            cleaned.push(curl)
+        }
+        else {
+            removed.push(curl)
+        }
+    }
+
+    if (!removed.length) {
+        return
+    }
+
+    App.save_cleaned(cleaned, removed)
+}
+
+App.remove_empty = () => {
+    let curls = App.get_curls()
+    let cleaned = []
+    let removed = []
+
+    for (let curl of curls) {
+        let item = App.get_item(curl)
+
+        if (!item) {
+            continue
+        }
+
+        if (!item.original_status) {
+            removed.push(curl)
+            continue
+        }
+
+        cleaned.push(curl)
+    }
+
+    if (!removed.length) {
+        return
+    }
+
+    App.save_cleaned(cleaned, removed)
+}
+
 App.remove_old = () => {
     let curls = App.get_curls()
     let now = Date.now()
@@ -868,7 +907,13 @@ App.remove_old = () => {
     let removed = []
 
     for (let curl of curls) {
-        let date = App.last_items.find(item => item.curl === curl)?.updated
+        let item = App.get_item(curl)
+
+        if (!item) {
+            continue
+        }
+
+        let date = item.updated
 
         if (date) {
             let datetime = new Date(date + "Z").getTime()
@@ -886,17 +931,11 @@ App.remove_old = () => {
         return
     }
 
-    let s = App.plural(removed.length, `item`, `items`)
+    App.save_cleaned(cleaned, removed)
+}
 
-    if (confirm(`Remove ${removed.length} ${s}?`)) {
-        let curlist = DOM.el(`#curlist`)
-        curlist.value = cleaned.join(`\n`)
-        App.clean_curlist()
-
-        if (App.save_curlist()) {
-            App.update(true)
-        }
-    }
+App.get_item = (curl) => {
+    return App.last_items.find(item => item.curl === curl)
 }
 
 App.add_owned_curl = (curl) => {
