@@ -36,3 +36,31 @@ captcha = {
     "ONLY_UPPERCASE": False,
     "CHARACTER_POOL": string.ascii_lowercase,
 }
+
+def get_js_files():
+    js_files = Path("static/dashboard").glob("*.js")
+    return [str(f) for f in js_files]
+
+
+def bundle_js():
+    js_files = get_js_files()
+    order = ["vars.js", "main.js"]
+    ignore = ["bundle.js"]
+
+    with open("static/dashboard/bundle.js", "w") as f:
+        for o in order:
+            with open(f"static/dashboard/{o}", "r") as js:
+                f.write(js.read())
+                f.write("\n\n")
+
+        for js_file in js_files:
+            name = Path(js_file).name
+
+            if name in ignore:
+                continue
+
+            if name not in order:
+                with open(js_file, "r") as js:
+                    print(Path(js_file).name)
+                    f.write(js.read())
+                    f.write("\n\n")
