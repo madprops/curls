@@ -20,6 +20,7 @@ App.last_items = []
 App.last_used_curls = []
 App.last_missing = []
 App.clear_delay = 800
+App.max_picker_items = 10
 
 App.curl_too_long = `Error: Curl is too long`
 App.key_too_long = `Error: Key is too long`
@@ -949,6 +950,10 @@ App.add_to_picker = () => {
         }
 
         cleaned.push(item)
+
+        if (cleaned.length >= App.max_picker_items) {
+            break
+        }
     }
 
     App.picker_items = cleaned
