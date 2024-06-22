@@ -4,10 +4,10 @@ App.unselect = () => {
 
 App.plural = (n, singular, plural) => {
     if (n === 1) {
-      return singular
+        return singular
     }
     else {
-      return plural
+        return plural
     }
 }
 
@@ -18,9 +18,9 @@ App.info = (msg) => {
 }
 
 App.error = (msg) => {
-  if (App.console_logs) {
-    console.info(`❌ ${msg}`)
-  }
+    if (App.console_logs) {
+        console.info(`❌ ${msg}`)
+    }
 }
 
 App.sanitize = (s) => {
@@ -40,42 +40,52 @@ App.get_url = (curl) => {
 
 App.create_debouncer = (func, delay) => {
     if (typeof func !== `function`) {
-      App.error(`Invalid debouncer function`)
-      return
+        App.error(`Invalid debouncer function`)
+        return
     }
 
     if (!delay) {
-      App.error(`Invalid debouncer delay`)
-      return
+        App.error(`Invalid debouncer delay`)
+        return
     }
 
     let timer
     let obj = {}
 
-    function clear () {
-      clearTimeout(timer)
+    function clear() {
+        clearTimeout(timer)
     }
 
-    function run (...args) {
-      func(...args)
+    function run(...args) {
+        func(...args)
     }
 
     obj.call = (...args) => {
-      clear()
+        clear()
 
-      timer = setTimeout(() => {
-        run(...args)
-      }, delay)
+        timer = setTimeout(() => {
+            run(...args)
+        }, delay)
     }
 
     obj.now = (...args) => {
-      clear()
-      run(...args)
+        clear()
+        run(...args)
     }
 
     obj.cancel = () => {
-      clear()
+        clear()
     }
 
     return obj
-  }
+}
+
+App.switch_state = (current, list) => {
+    let index = list.indexOf(current)
+
+    if (index === -1) {
+        throw new Error(`Invalid state: ${current}`)
+    }
+
+    return list[(index + 1) % list.length] || list[1]
+}

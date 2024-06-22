@@ -40,3 +40,7 @@ App.colors = {
     purple: `rgb(193, 56, 255)`,
     white: `rgb(255, 255, 255)`,
 }
+
+App.update_modes = [
+    `disabled`, `minutes_1`, `minutes_5`, `minutes_10`, `minutes_30`
+]

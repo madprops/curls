@@ -31,29 +31,20 @@ App.check_updater = (saved) => {
 
 App.change_updater = () => {
     let saved = App.get_updater()
-
-    if (saved === `minutes_5`) {
-        saved = `disabled`
-    }
-    else {
-        saved = `minutes_5`
-    }
-
+    saved = App.switch_state(saved, App.update_modes)
     localStorage.setItem(`updater`, saved)
     App.check_updater(saved)
     App.refresh_updater()
-
-    if (saved.startsWith(`minutes_`)) {
-        App.update(true)
-    }
 }
 
 App.refresh_updater = () => {
     let el = DOM.el(`#updater`)
     let updater = App.get_updater()
 
-    if (updater === `minutes_5`) {
-        el.textContent = `Updating every 5 minutes`
+    if (updater.startsWith(`minutes_`)) {
+        let num = parseInt(updater.split(`_`)[1])
+        let word = App.plural(num, `minute`, `minutes`)
+        el.textContent = `Updating every ${num} ${word}`
     }
     else {
         el.textContent = `No auto updates`
