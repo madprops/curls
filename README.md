@@ -4,6 +4,8 @@
 
 (Notice in this demo how each color has their own set of curls)
 
+(Also notice the $ switcher to switch between curls you own)
+
 This is a text status host.
 
 Users claim a `curl` and get a key to be able to update it.
