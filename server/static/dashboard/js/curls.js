@@ -134,7 +134,7 @@ App.curl_to_top = (e) => {
     App.do_add_curl(`top`, curl, false)
 
     if (App.get_sort() === `order`) {
-        App.update(true)
+        App.item_to_top(curl)
     }
 }
 
@@ -145,7 +145,7 @@ App.curl_to_bottom = (e) => {
     App.do_add_curl(`bottom`, curl, false)
 
     if (App.get_sort() === `order`) {
-        App.update(true)
+        App.item_to_bottom(curl)
     }
 }
 

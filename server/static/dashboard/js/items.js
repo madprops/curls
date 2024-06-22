@@ -23,7 +23,6 @@ App.insert_items = (items) => {
     }
 
     App.unselect()
-    App.check_first_item()
 }
 
 App.insert_item = (item) => {
@@ -58,7 +57,7 @@ App.insert_item = (item) => {
     container.append(el)
 }
 
-App.get_item = (curl) => {
+App.get_last_item = (curl) => {
     return App.last_items.find(item => item.curl === curl)
 }
 
@@ -112,5 +111,43 @@ App.sort_items = (items) => {
         items.sort((a, b) => {
             return a.curl.localeCompare(b.curl)
         })
+    }
+}
+
+App.remove_item = (curl) => {
+    let item = App.get_item(curl)
+
+    if (item) {
+        item.remove()
+    }
+}
+
+App.item_to_top = (curl) => {
+    let item = App.get_item(curl)
+
+    if (item) {
+        let container = DOM.el(`#container`)
+        container.prepend(item)
+    }
+}
+
+App.item_to_bottom = (curl) => {
+    let item = App.get_item(curl)
+
+    if (item) {
+        let container = DOM.el(`#container`)
+        container.append(item)
+    }
+}
+
+App.get_item = (curl) => {
+    let els = DOM.els(`#container .item`)
+
+    for (let el of els) {
+        let curl_ = DOM.el(`.item_curl`, el).textContent
+
+        if (curl === curl_) {
+            return el
+        }
     }
 }

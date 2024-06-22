@@ -36,7 +36,7 @@ App.remove_empty = () => {
     let removed = []
 
     for (let curl of curls) {
-        let item = App.get_item(curl)
+        let item = App.get_last_item(curl)
 
         if (!item) {
             continue
@@ -64,7 +64,7 @@ App.remove_old = () => {
     let removed = []
 
     for (let curl of curls) {
-        let item = App.get_item(curl)
+        let item = App.get_last_item(curl)
 
         if (!item) {
             continue
@@ -100,7 +100,7 @@ App.remove_curl = (e) => {
     }
 }
 
-App.do_remove_curl = (curl, update = true) => {
+App.do_remove_curl = (curl, remove_item = true) => {
     let curls = App.get_curls()
     let cleaned = []
 
@@ -111,10 +111,9 @@ App.do_remove_curl = (curl, update = true) => {
     }
 
     curlist.value = cleaned.join(`\n`)
+    App.save_curlist()
 
-    if (App.save_curlist()) {
-        if (update) {
-            App.update(true)
-        }
+    if (remove_item) {
+        App.remove_item(curl)
     }
 }

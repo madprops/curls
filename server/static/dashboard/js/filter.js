@@ -45,8 +45,6 @@ App.do_filter = () => {
             el.classList.add(`hidden`)
         }
     }
-
-    App.check_first_item()
 }
 
 App.unfilter_all = () => {
@@ -54,24 +52,5 @@ App.unfilter_all = () => {
 
     for (let el of els) {
         el.classList.remove(`hidden`)
-    }
-
-    App.check_first_item()
-}
-
-App.check_first_item = () => {
-    let els = DOM.els(`#container .item`)
-    let first = false
-
-    for (let el of els) {
-        if (!el.classList.contains(`hidden`)) {
-            if (!first) {
-                el.classList.add(`first_item`)
-                first = true
-                continue
-            }
-        }
-
-        el.classList.remove(`first_item`)
     }
 }
