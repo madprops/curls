@@ -1,6 +1,6 @@
 # Curls
 
-![](https://i.imgur.com/iZ2CSrc.gif)
+![](https://i.imgur.com/TieJlTx.gif)
 
 This is a text status host.
 
@@ -79,6 +79,10 @@ The curls are ordered based on the order in the `curlist` at the left.
 ### Alpha
 
 The curls are ordered alphanumerically.
+
+### Colors
+
+Each color has their own set of curls. You can use them as profiles.
 
 ---
 
