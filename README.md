@@ -6,6 +6,8 @@
 
 (Also notice the $ picker to switch between curls you own)
 
+---
+
 ## What is this?
 
 This is a text status host.
@@ -119,6 +121,8 @@ Make a `systemd` service to start gunicorn with a non-root user.
 ### Bundle
 
 The js files in static/dashboard/js get bundled into `bundle.js` when the server starts.
+
+---
 
 ## Rate Limiter
 
