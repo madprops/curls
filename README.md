@@ -84,21 +84,21 @@ The curls are ordered alphanumerically.
 
 ## Installing
 
-Create a `virtual env` inside `server` and install dependencies using `requirements.txt`
+Everything happens inside `/server`
 
-Create a `captcha_key.txt` file inside `/server` and put a secret key for the captcha there.
+Create a `virtual env` and install dependencies using `requirements.txt`
 
-The file is read at startup.
+Run `init_db.sh` to create the sqlite3 database.
+
+Create `captcha_key.txt` and fill it with a secret key for the captcha.
 
 ### Development
 
 To run a dev server use `venv/bin/python -m flask run --debug`
 
-To debug quickly create `captcha_cheat.txt` to use as the captcha.
+To debug quickly create `captcha_cheat.txt` and fill it to use as the captcha.
 
 ### Production
-
-Run `/server/init_db.sh` to create the sqlite3 database.
 
 Use `gunicorn` to run it in production.
 
