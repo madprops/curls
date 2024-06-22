@@ -224,3 +224,7 @@ select {
 .glow:hover {
     text-shadow: 0 0 10px var(--color), 0 0 20px var(--color), 0 0 30px var(--color), 0 0 40px var(--color), 0 0 50px var(--color), 0 0 60px var(--color);
 }
+
+.info_item {
+    padding-top: 1rem;
+}

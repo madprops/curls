@@ -47,7 +47,7 @@ App.empty_container = () => {
         `Use the claim link on the top right to get a new curl.`,
     ]
 
-    item.innerHTML = lines.join(`<br><br>`)
+    item.innerHTML = lines.join(`<br>`)
     container.innerHTML = ``
     container.append(item)
     App.unselect()
