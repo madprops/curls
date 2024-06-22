@@ -92,6 +92,12 @@ The curls are ordered alphanumerically.
 
 Each color has their own set of curls. You can use them as profiles.
 
+### $ Picker
+
+When you make a successful change to a curl, the curl is saved to your picker list.
+
+So you can easily switch between them by clicking the $ button.
+
 ---
 
 ## Installing
