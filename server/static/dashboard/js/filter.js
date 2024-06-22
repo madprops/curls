@@ -34,11 +34,11 @@ App.do_filter = () => {
     let els = DOM.els(`#container .item`)
 
     for (let el of els) {
-        let  curl = DOM.el(`.item_curl`, el).innerText.toLowerCase()
-        let status = DOM.el(`.item_status`, el).innerText.toLowerCase()
-        let updated = DOM.el(`.item_updated`, el).innerText.toLowerCase()
+        let values = App.get_item_values(el)
 
-        if (curl.includes(value) || status.includes(value) || updated.includes(value)) {
+        if (values.curl.includes(value) ||
+        values.status.includes(value) ||
+        values.updated.includes(value)) {
             el.classList.remove(`hidden`)
         }
         else {
