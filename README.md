@@ -84,6 +84,8 @@ The curls are ordered alphanumerically.
 
 ## Installing
 
+Create a `virtual env` and install dependencies using `requirements.txt`
+
 Create a `captcha_key.txt` file inside `/server` and put a secret key for the captcha there.
 
 The file is read at startup.
