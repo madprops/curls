@@ -352,6 +352,10 @@ App.clean_curlist = () => {
         }
 
         cleaned.push(curl)
+
+        if (cleaned.length >= App.max_curls) {
+            break
+        }
     }
 
     curlist.value = cleaned.join(`\n`)
