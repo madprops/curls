@@ -90,7 +90,7 @@ Create a `captcha_key.txt` file inside `/server` and put a secret key for the ca
 
 The file is read at startup.
 
-## Development
+### Development
 
 To run a dev server use `venv/bin/python -m flask run --debug`
 
