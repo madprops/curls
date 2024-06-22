@@ -35,7 +35,7 @@ limiter = Limiter(
     get_remote_address,
     app=app,
     default_limits=[rate_limit],
-    storage_uri="memory://",
+    storage_uri="redis://localhost:6379",
     strategy="fixed-window",
 )
 

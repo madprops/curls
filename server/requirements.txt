@@ -3,3 +3,4 @@ Flask-Cors == 4.0.1
 Flask-Limiter == 3.7.0
 flask-simple-captcha == 5.5.5
 gunicorn == 22.0.0
+redis == 5.0.6
