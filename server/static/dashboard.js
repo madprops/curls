@@ -21,6 +21,10 @@ App.last_used_curls = []
 App.last_missing = []
 App.clear_delay = 800
 
+App.curl_too_long = `Error: Curl is too long`
+App.key_too_long = `Error: Key is too long`
+App.status_too_long = `Error: Status is too long`
+
 App.colors = {
     red: `rgb(255, 89, 89)`,
     green: `rgb(87, 255, 87)`,
@@ -530,17 +534,20 @@ App.change = () => {
     }
 
     if (curl.length > App.curl_max_length) {
-        App.info(`Error: Curl is too long`)
+        App.info(App.curl_too_long)
+        alert(App.curl_too_long)
         return
     }
 
     if (key.length > App.key_length) {
-        App.info(`Error: Key is too long`)
+        App.info(App.key_too_long)
+        alert(App.key_too_long)
         return
     }
 
     if (status.length > App.status_max_length) {
-        App.info(`Error: Status is too long`)
+        App.info(App.status_too_long)
+        alert(App.status_too_long)
         return
     }
 
@@ -570,6 +577,10 @@ App.change = () => {
             App.update(true, false)
             App.add_owned_curl(curl)
             App.add_to_picker()
+        }
+        else {
+            App.info(ans)
+            alert(ans)
         }
     })
     .catch(e => {

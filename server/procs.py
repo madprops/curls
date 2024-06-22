@@ -11,6 +11,12 @@ import db
 import config
 import app
 
+
+invalid_curl = "Error: Invalid curl"
+invalid_key = "Error: Invalid key"
+invalid_status = "Error: Invalid status"
+
+
 def claim_proc(request: Any) -> str:
     c_hash = request.form.get("captcha-hash")
     c_text = request.form.get("captcha-text")
@@ -23,12 +29,12 @@ def claim_proc(request: Any) -> str:
 
     if check_catpcha:
         if not app.simple_captcha.verify(c_text, c_hash):
-            return "Failed captcha"
+            return "Error: Failed captcha"
 
     curl = curl.strip().lower()
 
     if not check_curl(curl):
-        return "Error: Invalid curl"
+        return invalid_curl
 
     if curl_exists(curl):
         return "Error: Curl already exists"
@@ -55,13 +61,13 @@ def change_proc(request: Any) -> str:
         return "Error: Empty fields"
 
     if not check_curl(curl):
-        return "Error: Invalid curl"
+        return invalid_curl
 
     if not check_status(status):
-        return "Error: Invalid status"
+        return invalid_status
 
     if not check_key(curl, key):
-        return "Error: Invalid key"
+        return invalid_key
 
     update_status(curl, status)
     return "ok"
@@ -69,7 +75,7 @@ def change_proc(request: Any) -> str:
 
 def curl_proc(curl: str) -> str:
     if not check_curl(curl):
-        return "Invalid curl"
+        return invalid_curl
 
     return get_status(curl)
 
@@ -82,7 +88,7 @@ def curls_proc(request: Any) -> Any:
 
     for curl in curls:
         if not check_curl(curl):
-            return "Invalid curl"
+            return invalid_curl
 
     results = get_curl_list(curls)
     return jsonify(results)
