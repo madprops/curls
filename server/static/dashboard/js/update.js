@@ -5,13 +5,17 @@ App.setup_updater = () => {
         App.change_updater()
     })
 
-    let saved = localStorage.getItem(`updater`) || `minutes_5`
-    App.check_updater(saved)
-    App.refresh_updater()
+    DOM.ev(updater, `auxclick`, (e) => {
+        if (e.button === 1) {
+            App.disable_updates()
+        }
+    })
 
     App.update_debouncer = App.create_debouncer((force, feedback) => {
         App.do_update(force, feedback)
     }, App.update_debouncer_delay)
+
+    App.load_updater()
 }
 
 App.get_updater = () => {
@@ -151,4 +155,17 @@ App.clear_updating = () => {
         let button = DOM.el(`#update`)
         button.classList.remove(`active`)
     }, App.clear_delay)
+}
+
+App.load_updater = () => {
+    let saved = localStorage.getItem(`updater`) || `minutes_5`
+    App.check_updater(saved)
+    App.refresh_updater()
+}
+
+App.disable_updates = () => {
+    let saved = `disabled`
+    localStorage.setItem(`updater`, saved)
+    App.check_updater(saved)
+    App.refresh_updater()
 }
