@@ -4,7 +4,7 @@
 
 (Notice in this demo how each color has their own set of curls)
 
-(Also notice the $ switcher to switch between curls you own)
+(Also notice the $ picker to switch between curls you own)
 
 This is a text status host.
 
