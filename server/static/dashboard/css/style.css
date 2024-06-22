@@ -173,6 +173,10 @@ button:hover {
     color: rgb(0, 0, 0);
 }
 
+button:active {
+    transform: translateY(1px);
+}
+
 select {
     background-color: rgb(0, 0, 0);
     color: var(--color);
