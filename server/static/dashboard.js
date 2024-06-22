@@ -605,18 +605,6 @@ App.urlize = (el) => {
 }
 
 App.setup_change = () => {
-    let curl = DOM.el(`#change_curl`)
-
-    DOM.ev(curl, `focusout`, (e) => {
-        App.save_change()
-    })
-
-    let key = DOM.el(`#change_key`)
-
-    DOM.ev(key, `focusout`, (e) => {
-        App.save_change()
-    })
-
     let status = DOM.el(`#change_status`)
 
     DOM.ev(status, `keyup`, (e) => {
@@ -983,6 +971,7 @@ App.show_picker = (e) => {
             action: () => {
                 DOM.el(`#change_curl`).value = item.curl
                 DOM.el(`#change_key`).value = item.key
+                App.add_to_picker()
             }
         })
     }
