@@ -28,6 +28,7 @@ App.change_debouncer_delay = 250
 App.changing = false
 App.updating = false
 App.network = `🛜`
+App.color = `green`
 
 App.curl_too_long = `Curl is too long`
 App.key_too_long = `Key is too long`

@@ -12,7 +12,8 @@ App.setup_color = () => {
 
 App.change_color = () => {
     let color = App.get_color()
-    localStorage.setItem(`color`, color)
+    App.color = color
+    localStorage.setItem(`color`, App.color)
     App.apply_color()
     App.load_curlist()
     App.update(true)
@@ -24,13 +25,12 @@ App.get_color = () => {
 }
 
 App.apply_color = () => {
-    let color = App.get_color()
-    let rgb = App.colors[color]
+    let rgb = App.colors[App.color]
     document.documentElement.style.setProperty(`--color`, rgb)
 }
 
 App.move_to_color = (e) => {
-    let current = App.get_color()
+    let current = App.color
     let items = []
 
     function add (value, name) {
