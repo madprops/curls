@@ -128,6 +128,8 @@ Make a `systemd` service to start gunicorn with a non-root user.
 
 The js files in static/dashboard/js get bundled into `bundle.js` when the server starts.
 
+There is a `bundle.py` file that can be called directly to force a bundle.
+
 ---
 
 ## Rate Limiter
