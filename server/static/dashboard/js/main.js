@@ -45,3 +45,11 @@ App.empty_container = () => {
     App.container_is_empty()
     App.unselect()
 }
+
+App.check_empty = () => {
+    let els = DOM.el(`#container .item`)
+
+    if (!els) {
+        App.empty_container()
+    }
+}

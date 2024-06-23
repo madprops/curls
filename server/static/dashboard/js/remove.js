@@ -117,3 +117,13 @@ App.do_remove_curl = (curl, remove_item = true) => {
         App.remove_item(curl)
     }
 }
+
+App.remove_item = (curl) => {
+    let el = App.get_item(curl).element
+
+    if (el) {
+        el.remove()
+    }
+
+    App.check_empty()
+}

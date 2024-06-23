@@ -28,3 +28,41 @@ App.apply_color = () => {
     let rgb = App.colors[color]
     document.documentElement.style.setProperty(`--color`, rgb)
 }
+
+App.move_to_color = (e) => {
+    let current = App.get_color()
+    let items = []
+
+    function add (value, name) {
+        if (current !== value) {
+            items.push({
+                text: name,
+                action: () => {
+                    App.do_move_to_color(value, e)
+                }
+            })
+        }
+    }
+
+    add(`red`, `Red`)
+    add(`green`, `Green`)
+    add(`blue`, `Blue`)
+    add(`yellow`, `Yellow`)
+    add(`purple`, `Purple`)
+    add(`white`, `White`)
+
+    NeedContext.show({items: items, e: e})
+}
+
+App.do_move_to_color = (color, e) => {
+    let item = e.target.closest(`.item`)
+    let curl = item.querySelector(`.item_curl`).textContent
+    App.do_remove_curl(curl)
+    let curlist = App.get_color_curlist(color)
+    curlist += `\n${curl}`
+    localStorage.setItem(`curlist_${color}`, curlist)
+}
+
+App.get_color_curlist = (color) => {
+    return localStorage.getItem(`curlist_${color}`) || ``
+}

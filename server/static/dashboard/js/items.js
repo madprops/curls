@@ -68,6 +68,12 @@ App.show_item_menu = (e) => {
             }
         },
         {
+            text: `Move`,
+            action: () => {
+                App.move_to_color(e)
+            }
+        },
+        {
             text: `Remove`,
             action: () => {
                 App.remove_curl(e)
@@ -109,14 +115,6 @@ App.sort_items = (items) => {
         items.sort((a, b) => {
             return a.curl.localeCompare(b.curl)
         })
-    }
-}
-
-App.remove_item = (curl) => {
-    let el = App.get_item(curl).element
-
-    if (el) {
-        el.remove()
     }
 }
 
