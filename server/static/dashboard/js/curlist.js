@@ -110,6 +110,9 @@ App.show_curlist_menu = (e) => {
                 }
             },
             {
+                separator: true,
+            },
+            {
                 text: `Add (Top)`,
                 action: () => {
                     App.do_add_curl(`top`)
@@ -122,6 +125,9 @@ App.show_curlist_menu = (e) => {
                 }
             },
             {
+                separator: true,
+            },
+            {
                 text: `Sort Asc`,
                 action: () => {
                     App.sort_curlist(`asc`)
@@ -132,6 +138,9 @@ App.show_curlist_menu = (e) => {
                 action: () => {
                     App.sort_curlist(`desc`)
                 }
+            },
+            {
+                separator: true,
             },
             {
                 text: `Remove`,
