@@ -132,10 +132,7 @@ App.curl_to_top = (e) => {
     let curl = item.querySelector(`.item_curl`).textContent
     App.do_remove_curl(curl, false)
     App.do_add_curl(`top`, curl, false)
-
-    if (App.get_sort() === `order`) {
-        App.item_to_top(curl)
-    }
+    App.sort_if_order()
 }
 
 App.curl_to_bottom = (e) => {
@@ -143,10 +140,7 @@ App.curl_to_bottom = (e) => {
     let curl = item.querySelector(`.item_curl`).textContent
     App.do_remove_curl(curl, false)
     App.do_add_curl(`bottom`, curl, false)
-
-    if (App.get_sort() === `order`) {
-        App.item_to_bottom(curl)
-    }
+    App.sort_if_order()
 }
 
 App.setup_sort = () => {
@@ -164,4 +158,10 @@ App.change_sort = () => {
     let mode = App.get_sort()
     localStorage.setItem(`sort`, mode)
     App.update(true)
+}
+
+App.sort_if_order = () => {
+    if (App.get_sort() == `order`) {
+        App.update(true)
+    }
 }

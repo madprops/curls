@@ -217,4 +217,5 @@ App.do_sort_curlist = (how) => {
     DOM.el(`#curlist`).value = lines.join(`\n`)
     App.clean_curlist()
     App.save_curlist()
+    App.sort_if_order()
 }
