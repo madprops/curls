@@ -32,6 +32,11 @@ App.setup_curlist = () => {
     App.load_curlist()
 }
 
+App.get_curlist = () => {
+    let curlist = DOM.el(`#curlist`)
+    return curlist.value
+}
+
 App.clean_curlist = () => {
     let curlist = DOM.el(`#curlist`)
     let curlist_top = DOM.el(`#curlist_top`)
@@ -119,6 +124,18 @@ App.show_curlist_menu = (e) => {
                 }
             },
             {
+                text: `Sort Asc`,
+                action: () => {
+                    App.sort_curlist(`asc`)
+                }
+            },
+            {
+                text: `Sort Desc`,
+                action: () => {
+                    App.sort_curlist(`desc`)
+                }
+            },
+            {
                 text: `Remove`,
                 action: () => {
                     App.remove_a_curl()
@@ -178,4 +195,26 @@ App.toggle_curlist = () => {
 
     App.curlist_enabled = !App.curlist_enabled
     localStorage.setItem(`curlist_enabled`, App.curlist_enabled)
+}
+
+App.sort_curlist = (how) => {
+    if (confirm(`Sort the curlist (${how})?`)) {
+        App.do_sort_curlist(how)
+    }
+}
+
+App.do_sort_curlist = (how) => {
+    let curlist = App.get_curlist()
+    let lines = curlist.split(`\n`).filter(x => x !== ``)
+
+    if (how === `asc`) {
+        lines.sort()
+    }
+    else if (how === `desc`) {
+        lines.sort().reverse()
+    }
+
+    DOM.el(`#curlist`).value = lines.join(`\n`)
+    App.clean_curlist()
+    App.save_curlist()
 }
