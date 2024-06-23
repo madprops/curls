@@ -48,7 +48,7 @@ App.clean_curlist = () => {
         words.push(...parts)
     }
 
-    words = words.filter(x => x.match(/^[a-zA-Z0-9]+$/))
+    words = words.map(x => x.replace(/[^a-zA-Z0-9]/g, ``))
     let cleaned = []
 
     for (let curl of words) {
