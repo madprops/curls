@@ -2,6 +2,7 @@ App.setup_color = () => {
     let color = DOM.el(`#color`)
     let saved = localStorage.getItem(`color`) || `green`
     color.value = saved
+    App.color = saved
 
     DOM.ev(color, `change`, () => {
         App.change_color()

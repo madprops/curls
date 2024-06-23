@@ -1,10 +1,10 @@
 App.setup = () => {
     App.setup_buttons()
+    App.setup_color()
     App.setup_curlist()
     App.setup_updater()
     App.setup_container()
     App.setup_sort()
-    App.setup_color()
     App.setup_change()
     App.setup_picker()
     App.clean_curlist()
