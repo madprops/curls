@@ -54,6 +54,10 @@ App.clean_curlist = () => {
     for (let curl of words) {
         curl = curl.toLowerCase().trim()
 
+        if (!curl) {
+            continue
+        }
+
         if (curl.length > App.curl_max_length) {
             continue
         }
