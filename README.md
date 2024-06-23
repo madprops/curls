@@ -76,9 +76,9 @@ I have my own implementation of a program that uses curls.
 
 It is located at: `https://curls.merkoba.com/dashboard`
 
-The code is found [here](https://github.com/madprops/curls/tree/main/server/static/dashboard).
+The html template is found [here](https://github.com/madprops/curls/blob/main/server/templates/dashboard.html).
 
-The template is found [here](https://github.com/madprops/curls/blob/main/server/templates/dashboard.html)
+The code is found [here](https://github.com/madprops/curls/tree/main/server/static/dashboard).
 
 ### Recent
 
