@@ -78,6 +78,8 @@ It is located at: `https://curls.merkoba.com/dashboard`
 
 The code is found [here](https://github.com/madprops/curls/tree/main/server/static/dashboard).
 
+The template is found [here](https://github.com/madprops/curls/blob/main/server/templates/dashboard.html)
+
 ### Recent
 
 The most recently updated curls go at the top.
