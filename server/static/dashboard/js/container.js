@@ -5,6 +5,9 @@ App.setup_container = () => {
         if (e.target.closest(`.item_updated`)) {
             App.change_date_mode()
         }
+        else if (e.target.classList.contains(`item_updated`)) {
+            App.change_date_mode()
+        }
     })
 }
 
