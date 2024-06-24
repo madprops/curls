@@ -15,10 +15,18 @@ App.insert_items = (items) => {
     }
 
     App.unselect()
+    App.check_empty()
+}
 
-    if (App.items.length) {
-        App.container_not_empty()
+App.refresh_items = () => {
+    App.clear_container()
+
+    for (let item of App.items) {
+        App.insert_item(item)
     }
+
+    App.unselect()
+    App.check_empty()
 }
 
 App.insert_item = (item) => {
@@ -142,5 +150,5 @@ App.get_missing = () => {
 App.change_date_mode = () => {
     App.date_mode = App.date_mode === `12` ? `24` : `12`
     localStorage.setItem(`date_mode`, App.date_mode)
-    App.update(true)
+    App.refresh_items()
 }

@@ -39,7 +39,10 @@ App.empty_container = () => {
 App.check_empty = () => {
     let els = DOM.el(`#container .item`)
 
-    if (!els) {
+    if (els) {
+        App.container_not_empty()
+    }
+    else {
         App.empty_container()
     }
 }
