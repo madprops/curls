@@ -21,7 +21,7 @@ def claim_proc(request: Any) -> str:
     c_hash = request.form.get("captcha-hash")
     c_text = request.form.get("captcha-text")
 
-    curl = request.form["curl"]
+    curl = request.form["curl"].strip()
     check_catpcha = True
 
     if config.captcha_cheat and (c_text == config.captcha_cheat):
@@ -53,8 +53,8 @@ def claim_proc(request: Any) -> str:
 
 
 def change_proc(request: Any) -> str:
-    curl = request.form.get("curl")
-    key = request.form.get("key")
+    curl = request.form.get("curl").strip()
+    key = request.form.get("key").strip()
     status = request.form.get("status").strip()
 
     if (not curl) or (not key) or (not status):
