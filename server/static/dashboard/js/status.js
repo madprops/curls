@@ -1,13 +1,4 @@
 App.setup_status = () => {
-    let list = localStorage.getItem('status_list') || `[]`
-
-    try {
-        App.status_list = JSON.parse(list)
-    }
-    catch (e) {
-        App.status_list = []
-    }
-
     let status = DOM.el(`#change_status`)
 
     DOM.ev(status, `keydown`, (e) => {
@@ -34,25 +25,38 @@ App.setup_status = () => {
     status.value = ``
 }
 
+App.get_status_list = () => {
+    let list = localStorage.getItem('status_list') || `[]`
+
+    try {
+        return JSON.parse(list)
+    }
+    catch (e) {
+        return []
+    }
+}
+
 App.save_status = (status) => {
     let cleaned = []
 
-    for (let item of App.status_list) {
+    for (let item of App.get_status_list()) {
         if (item !== status) {
             cleaned.push(item)
         }
     }
 
-    App.status_list = [status, ...cleaned].slice(0, App.max_status_list)
-    localStorage.setItem(`status_list`, JSON.stringify(App.status_list))
+    let list = [status, ...cleaned].slice(0, App.max_status_list)
+    localStorage.setItem(`status_list`, JSON.stringify(list))
 }
 
 App.show_status_menu = () => {
-    if (!App.status_list.length) {
+    let status_list = App.get_status_list()
+
+    if (!status_list.length) {
         return
     }
 
-    let items = App.status_list.map(status => {
+    let items = status_list.map(status => {
         return {
             text: status,
             action: () => {
