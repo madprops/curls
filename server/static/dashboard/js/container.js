@@ -2,6 +2,7 @@ App.setup_container = () => {
     let container = DOM.el(`#container`)
 
     DOM.ev(container, `click`, (e) => {
+        console.log(111)
         if (e.target.closest(`.item_updated`)) {
             App.change_date_mode()
         }
