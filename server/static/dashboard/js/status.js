@@ -14,6 +14,9 @@ App.setup_status = () => {
         if (e.key === `ArrowUp`) {
             e.preventDefault()
         }
+        else if (e.key === `ArrowDown`) {
+            e.preventDefault()
+        }
     })
 
     DOM.ev(status, `keyup`, (e) => {
@@ -21,6 +24,9 @@ App.setup_status = () => {
             App.change()
         }
         else if (e.key === `ArrowUp`) {
+            App.show_status_menu(e)
+        }
+        else if (e.key === `ArrowDown`) {
             App.show_status_menu(e)
         }
     })
@@ -61,5 +67,9 @@ App.show_status_menu = (e) => {
 App.set_status = (status) => {
     let el = DOM.el(`#change_status`)
     el.value = status
-    el.focus()
+    App.focus_status()
+}
+
+App.focus_status = () => {
+    DOM.el(`#change_status`).focus()
 }
