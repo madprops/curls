@@ -24,10 +24,10 @@ App.setup_status = () => {
             App.change()
         }
         else if (e.key === `ArrowUp`) {
-            App.show_status_menu(e)
+            App.show_status_menu()
         }
         else if (e.key === `ArrowDown`) {
-            App.show_status_menu(e)
+            App.show_status_menu()
         }
     })
 
@@ -47,7 +47,7 @@ App.save_status = (status) => {
     localStorage.setItem(`status_list`, JSON.stringify(App.status_list))
 }
 
-App.show_status_menu = (e) => {
+App.show_status_menu = () => {
     if (!App.status_list.length) {
         return
     }
@@ -61,7 +61,8 @@ App.show_status_menu = (e) => {
         }
     })
 
-    NeedContext.show({items: items, e: e})
+    let el = DOM.el(`#change_status`)
+    NeedContext.show({items: items, element: el})
 }
 
 App.set_status = (status) => {
