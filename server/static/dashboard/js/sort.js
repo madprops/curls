@@ -18,7 +18,7 @@ App.setup_sort = () => {
 App.change_sort = () => {
     let mode = App.get_sort()
     localStorage.setItem(`sort`, mode)
-    App.update(true)
+    App.refresh_items()
 }
 
 App.sort_if_order = () => {

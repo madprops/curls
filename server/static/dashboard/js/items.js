@@ -3,23 +3,16 @@ App.setup_items = () => {
 }
 
 App.insert_items = (items) => {
-    App.clear_container()
     App.last_items = items
     let missing = App.get_missing()
     App.last_missing = missing
     App.items = [...items, ...missing]
-    App.sort_items(App.items)
-
-    for (let item of App.items) {
-        App.insert_item(item)
-    }
-
-    App.unselect()
-    App.check_empty()
+    App.refresh_items()
 }
 
 App.refresh_items = () => {
     App.clear_container()
+    App.sort_items(App.items)
 
     for (let item of App.items) {
         App.insert_item(item)
