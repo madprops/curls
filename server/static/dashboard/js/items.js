@@ -1,10 +1,10 @@
 App.insert_items = (items) => {
     App.clear_container()
-    App.sort_items(items)
     App.last_items = items
     let missing = App.get_missing()
     App.last_missing = missing
     App.items = [...items, ...missing]
+    App.sort_items(App.items)
 
     for (let item of App.items) {
         App.insert_item(item)
@@ -94,28 +94,6 @@ App.show_item_menu = (e) => {
     ]
 
     NeedContext.show({items: items, e: e})
-}
-
-App.sort_items = (items) => {
-    let mode = App.get_sort()
-
-    if (mode === `recent`) {
-        items.sort((a, b) => {
-            return b.updated.localeCompare(a.updated)
-        })
-    }
-    else if (mode === `order`) {
-        let used_curls = App.last_used_curls
-
-        items.sort((a, b) => {
-            return used_curls.indexOf(a.curl) - used_curls.indexOf(b.curl)
-        })
-    }
-    else if (mode === `alpha`) {
-        items.sort((a, b) => {
-            return a.curl.localeCompare(b.curl)
-        })
-    }
 }
 
 App.item_to_top = (curl) => {

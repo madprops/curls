@@ -142,26 +142,3 @@ App.curl_to_bottom = (e) => {
     App.do_add_curl(`bottom`, curl, false)
     App.sort_if_order()
 }
-
-App.setup_sort = () => {
-    let sort = DOM.el(`#sort`)
-
-    DOM.ev(sort, `change`, () => {
-        App.change_sort()
-    })
-
-    let saved = localStorage.getItem(`sort`) || `recent`
-    sort.value = saved
-}
-
-App.change_sort = () => {
-    let mode = App.get_sort()
-    localStorage.setItem(`sort`, mode)
-    App.update(true)
-}
-
-App.sort_if_order = () => {
-    if (App.get_sort() == `order`) {
-        App.update(true)
-    }
-}
