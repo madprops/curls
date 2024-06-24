@@ -29,7 +29,6 @@ App.change_debouncer_delay = 250
 App.changing = false
 App.updating = false
 App.network = `🛜`
-App.color = `green`
 App.date_mode = `12`
 
 App.curl_too_long = `Curl is too long`

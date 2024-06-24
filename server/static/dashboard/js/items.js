@@ -1,5 +1,5 @@
-App.setup_items = () => {
-    App.date_mode = localStorage.getItem(`date_mode`) || `12`
+App.get_date_mode = () => {
+    return localStorage.getItem(`date_mode`) || `12`
 }
 
 App.insert_items = (items) => {
@@ -43,12 +43,13 @@ App.insert_item = (item) => {
     App.urlize(item_status)
 
     let date = new Date(item.updated + "Z")
+    let date_mode = App.get_date_mode()
     let s_date
 
-    if (App.date_mode === `12`) {
+    if (date_mode === `12`) {
         s_date = dateFormat(date, `dd/mmm/yy - h:MM tt`)
     }
-    else if (App.date_mode === `24`) {
+    else if (date_mode === `24`) {
         s_date = dateFormat(date, `dd/mmm/yy - HH:MM`)
     }
 
@@ -141,12 +142,15 @@ App.get_missing = () => {
 }
 
 App.change_date_mode = () => {
-    App.date_mode = App.date_mode === `12` ? `24` : `12`
-    localStorage.setItem(`date_mode`, App.date_mode)
+    let date_mode = App.get_date_mode()
+    date_mode = date_mode === `12` ? `24` : `12`
+    localStorage.setItem(`date_mode`, date_mode)
     App.refresh_items()
 }
 
 App.get_owned_items = () => {
-    return App.items.filter(item => App.picker_items.find(
+    let picker_items = App.get_picker_items()
+
+    return App.items.filter(item => picker_items.find(
         picker => picker.curl === item.curl))
 }

@@ -1,38 +1,34 @@
 App.setup_color = () => {
     let color = DOM.el(`#color`)
-    let saved = localStorage.getItem(`color`) || `green`
-    color.value = saved
-    App.color = saved
+    color.value = App.get_color()
 
-    DOM.ev(color, `change`, () => {
-        App.change_color()
+    DOM.ev(color, `change`, (e) => {
+        App.change_color(e)
     })
 
     App.apply_color()
 }
 
-App.change_color = () => {
-    let color = App.get_color()
-    App.color = color
-    localStorage.setItem(`color`, App.color)
+App.change_color = (e) => {
+    let color = e.target.value
+    localStorage.setItem(`color`, color)
     App.apply_color()
     App.load_curlist()
     App.update(true)
 }
 
 App.get_color = () => {
-    let color = DOM.el(`#color`)
-    return color.options[color.selectedIndex].value
+    return localStorage.getItem(`color`) || `green`
 }
 
 App.apply_color = () => {
-    let rgb = App.colors[App.color]
+    let rgb = App.colors[App.get_color()]
     document.documentElement.style.setProperty(`--color`, rgb)
     App.update_title()
 }
 
 App.move_to_color = (e) => {
-    let current = App.color
+    let current = App.get_color()
     let items = []
 
     function add (value, name) {

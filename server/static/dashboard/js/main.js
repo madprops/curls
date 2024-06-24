@@ -2,7 +2,6 @@ App.setup = () => {
     App.setup_buttons()
     App.setup_color()
     App.setup_curlist()
-    App.setup_items()
     App.setup_container()
     App.setup_updater()
     App.setup_sort()
@@ -29,6 +28,6 @@ App.setup_buttons = () => {
 }
 
 App.update_title = () => {
-    let color = App.capitalize(App.color)
+    let color = App.capitalize(App.get_color())
     document.title = `Curls - ${color}`
 }

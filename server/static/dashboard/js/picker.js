@@ -5,14 +5,18 @@ App.setup_picker = () => {
         App.show_picker(e)
     })
 
-    let saved = localStorage.getItem(`picker`) || `[]`
-    App.picker_items = JSON.parse(saved)
+    let items = App.get_picker_items()
 
-    if (App.picker_items.length) {
-        let first = App.picker_items[0]
+    if (items.length) {
+        let first = items[0]
         DOM.el(`#change_curl`).value = first.curl
         DOM.el(`#change_key`).value = first.key
     }
+}
+
+App.get_picker_items = () => {
+    let saved = localStorage.getItem(`picker`) || `[]`
+    return JSON.parse(saved)
 }
 
 App.add_to_picker = () => {
@@ -20,7 +24,7 @@ App.add_to_picker = () => {
     let key = DOM.el(`#change_key`).value
     let cleaned = [{curl, key}]
 
-    for (let item of App.picker_items) {
+    for (let item of App.get_picker_items()) {
         if (item.curl === curl) {
             continue
         }
@@ -32,21 +36,21 @@ App.add_to_picker = () => {
         }
     }
 
-    App.picker_items = cleaned
-    localStorage.setItem(`picker`, JSON.stringify(App.picker_items))
+    localStorage.setItem(`picker`, JSON.stringify(cleaned))
 }
 
 App.show_picker = (e) => {
     let items = []
+    let picker_items = App.get_picker_items()
 
-    if (!App.picker_items.length) {
+    if (!picker_items.length) {
         items.push({
             text: `Empty`,
             action: () => {}
         })
     }
 
-    for (let item of App.picker_items) {
+    for (let item of picker_items) {
         items.push({
             text: item.curl,
             action: () => {
