@@ -96,9 +96,13 @@ App.switch_state = (current, list, reverse = false) => {
 
 App.wheel_direction = (e) => {
     if (e.deltaY > 0) {
-      return `down`
+        return `down`
     }
     else {
-      return `up`
+        return `up`
     }
-  }
+}
+
+App.capitalize = (s) => {
+    return s.charAt(0).toUpperCase() + s.slice(1)
+}

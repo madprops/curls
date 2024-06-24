@@ -27,3 +27,8 @@ App.setup_buttons = () => {
         App.toggle_curlist()
     })
 }
+
+App.update_title = () => {
+    let color = App.capitalize(App.color)
+    document.title = `Curlist - ${color}`
+}

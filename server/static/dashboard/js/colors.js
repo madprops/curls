@@ -28,6 +28,7 @@ App.get_color = () => {
 App.apply_color = () => {
     let rgb = App.colors[App.color]
     document.documentElement.style.setProperty(`--color`, rgb)
+    App.update_title()
 }
 
 App.move_to_color = (e) => {
