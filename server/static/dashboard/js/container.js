@@ -46,3 +46,28 @@ App.check_empty = () => {
         App.empty_container()
     }
 }
+
+App.check_visible = () => {
+    let els = DOM.els(`#container .item`)
+
+    for (let el of els) {7
+        if (el.classList.contains(`hidden`)) {
+            continue
+        }
+
+        App.container_not_empty()
+        return
+    }
+
+    App.container_is_empty()
+}
+
+App.container_is_empty = () => {
+    let container = DOM.el(`#container`)
+    container.classList.add(`empty`)
+}
+
+App.container_not_empty = () => {
+    let container = DOM.el(`#container`)
+    container.classList.remove(`empty`)
+}

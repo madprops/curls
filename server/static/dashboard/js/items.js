@@ -145,3 +145,8 @@ App.change_date_mode = () => {
     localStorage.setItem(`date_mode`, App.date_mode)
     App.refresh_items()
 }
+
+App.get_owned_items = () => {
+    return App.items.filter(item => App.picker_items.find(
+        picker => picker.curl === item.curl))
+}

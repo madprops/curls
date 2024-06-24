@@ -52,7 +52,6 @@ App.sort_items = (items) => {
             return b.curl.localeCompare(a.curl)
         })
     }
-
 }
 
 App.get_sort = () => {
