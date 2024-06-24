@@ -60,7 +60,7 @@ App.insert_item = (item) => {
     }
 
     item_updated.textContent = s_date
-    item_updated.title = date
+    item_updated.title = `Click to toggle between 12 and 24 hour formats`
 
     el.append(item_icon)
     el.append(item_curl)
