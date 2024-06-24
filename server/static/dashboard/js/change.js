@@ -1,14 +1,4 @@
 App.setup_change = () => {
-    let status = DOM.el(`#change_status`)
-
-    DOM.ev(status, `keyup`, (e) => {
-        if (e.key === `Enter`) {
-            App.change()
-        }
-    })
-
-    status.value = ``
-
     let submit = DOM.el(`#change_submit`)
 
     DOM.ev(submit, `click`, () => {
@@ -34,7 +24,7 @@ App.do_change = () => {
 
     let curl = DOM.el(`#change_curl`).value.toLowerCase()
     let key = DOM.el(`#change_key`).value
-    let status = DOM.el(`#change_status`).value
+    let status = DOM.el(`#change_status`).value.trim()
 
     if (!curl || !key || !status) {
         return
@@ -66,6 +56,7 @@ App.do_change = () => {
     params.append(`status`, status)
 
     App.show_changing()
+    App.save_status(status)
     App.changing = true
     App.info(`Change: Request ${App.network}`)
 

@@ -8,6 +8,7 @@ App.setup = () => {
     App.setup_change()
     App.setup_picker()
     App.clean_curlist()
+    App.setup_status()
     App.setup_filter()
     App.update(true)
 }

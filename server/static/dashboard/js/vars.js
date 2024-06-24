@@ -22,6 +22,7 @@ App.last_used_curls = []
 App.last_missing = []
 App.clear_delay = 800
 App.max_picker_items = 100
+App.max_status_list = 12
 App.filter_debouncer_delay = 250
 App.update_debouncer_delay = 250
 App.change_debouncer_delay = 250

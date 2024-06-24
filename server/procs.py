@@ -55,7 +55,7 @@ def claim_proc(request: Any) -> str:
 def change_proc(request: Any) -> str:
     curl = request.form.get("curl")
     key = request.form.get("key")
-    status = request.form.get("status")
+    status = request.form.get("status").strip()
 
     if (not curl) or (not key) or (not status):
         return "Error: Empty fields"
