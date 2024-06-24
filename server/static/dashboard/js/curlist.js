@@ -19,13 +19,11 @@ App.setup_curlist = () => {
     })
 
     let enabled = localStorage.getItem(`curlist_enabled`) || `true`
-    App.curlist_enabled = enabled === `true`
 
-    if (!App.curlist_enabled) {
-        App.hide_curlist()
+    if (enabled === `true`) {
+        App.show_curlist()
     }
-
-    if (!App.curlist_enabled) {
+    else {
         App.hide_curlist()
     }
 
@@ -190,11 +188,13 @@ App.show_curlist_menu = (e) => {
 App.show_curlist = () => {
     let left_side = DOM.el(`#left_side`)
     left_side.classList.remove(`hidden`)
+    App.curlist_enabled = true
 }
 
 App.hide_curlist = () => {
     let left_side = DOM.el(`#left_side`)
     left_side.classList.add(`hidden`)
+    App.curlist_enabled = false
 }
 
 App.toggle_curlist = () => {
@@ -205,7 +205,6 @@ App.toggle_curlist = () => {
         App.show_curlist()
     }
 
-    App.curlist_enabled = !App.curlist_enabled
     localStorage.setItem(`curlist_enabled`, App.curlist_enabled)
 }
 
