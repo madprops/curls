@@ -54,3 +54,8 @@ App.sort_items = (items) => {
     }
 
 }
+
+App.get_sort = () => {
+    let sort = DOM.el(`#sort`)
+    return sort.options[sort.selectedIndex].value
+}

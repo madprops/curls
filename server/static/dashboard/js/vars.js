@@ -30,6 +30,7 @@ App.changing = false
 App.updating = false
 App.network = `🛜`
 App.color = `green`
+App.date_mode = `12`
 
 App.curl_too_long = `Curl is too long`
 App.key_too_long = `Key is too long`

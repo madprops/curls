@@ -1,3 +1,7 @@
+App.setup_items = () => {
+    App.date_mode = localStorage.getItem(`date_mode`) || `12`
+}
+
 App.insert_items = (items) => {
     App.clear_container()
     App.last_items = items
@@ -38,7 +42,15 @@ App.insert_item = (item) => {
     App.urlize(item_status)
 
     let date = new Date(item.updated + "Z")
-    let s_date = dateFormat(date, `dd/mmm/yy - h:MM tt`)
+    let s_date
+
+    if (App.date_mode === `12`) {
+        s_date = dateFormat(date, `dd/mmm/yy - h:MM tt`)
+    }
+    else if (App.date_mode === `24`) {
+        s_date = dateFormat(date, `dd/mmm/yy - HH:MM`)
+    }
+
     item_updated.textContent = s_date
     item_updated.title = date
 
@@ -125,4 +137,10 @@ App.get_missing = () => {
     }
 
     return missing
+}
+
+App.change_date_mode = () => {
+    App.date_mode = App.date_mode === `12` ? `24` : `12`
+    localStorage.setItem(`date_mode`, App.date_mode)
+    App.update(true)
 }
