@@ -1,6 +1,6 @@
 App.setup_color = () => {
     let color = DOM.el(`#color`)
-    color.value = App.get_color()
+    color.value = App.load_color()
 
     DOM.ev(color, `change`, (e) => {
         App.change_color(e)
@@ -17,8 +17,12 @@ App.change_color = (e) => {
     App.update(true)
 }
 
-App.get_color = () => {
+App.load_color = () => {
     return localStorage.getItem(`color`) || `green`
+}
+
+App.get_color = () => {
+    return DOM.el(`#color`).value
 }
 
 App.apply_color = () => {

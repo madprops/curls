@@ -33,8 +33,7 @@ App.setup_curlist = () => {
 }
 
 App.get_curlist = () => {
-    let curlist = DOM.el(`#curlist`)
-    return curlist.value
+    return DOM.el(`#curlist`).value
 }
 
 App.clean_curlist = () => {

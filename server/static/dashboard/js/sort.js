@@ -1,22 +1,15 @@
 App.setup_sort = () => {
     let sort = DOM.el(`#sort`)
 
-    DOM.ev(sort, `change`, () => {
-        App.change_sort()
+    DOM.ev(sort, `change`, (e) => {
+        App.change_sort(e)
     })
 
-    let saved = localStorage.getItem(`sort`) || `recent`
-    let values = Array.from(sort.options).map(option => option.value)
-
-    if (!values.includes(saved)) {
-        saved = `recent`
-    }
-
-    sort.value = saved
+    sort.value = App.load_sort()
 }
 
-App.change_sort = () => {
-    let mode = App.get_sort()
+App.change_sort = (e) => {
+    let mode = e.target.value
     localStorage.setItem(`sort`, mode)
     App.refresh_items()
 }
@@ -54,7 +47,17 @@ App.sort_items = (items) => {
     }
 }
 
+App.load_sort = () => {
+    let saved = localStorage.getItem(`sort`) || `recent`
+    let values = Array.from(sort.options).map(option => option.value)
+
+    if (!values.includes(saved)) {
+        saved = `recent`
+    }
+
+    return saved
+}
+
 App.get_sort = () => {
-    let sort = DOM.el(`#sort`)
-    return sort.options[sort.selectedIndex].value
+    return DOM.el(`#sort`).value
 }
