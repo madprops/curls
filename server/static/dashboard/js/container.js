@@ -2,12 +2,21 @@ App.setup_container = () => {
     let container = DOM.el(`#container`)
 
     DOM.ev(container, `click`, (e) => {
-        console.log(111)
         if (e.target.closest(`.item_updated`)) {
             App.change_date_mode()
+            return
         }
-        else if (e.target.classList.contains(`item_updated`)) {
-            App.change_date_mode()
+
+        if (e.target.closest(`.item_icon`)) {
+            App.show_item_menu(e)
+            return
+        }
+    })
+
+    DOM.ev(container, `contextmenu`, (e) => {
+        if (e.target.closest(`.item_icon`)) {
+            e.preventDefault()
+            App.show_item_menu(e)
         }
     })
 }

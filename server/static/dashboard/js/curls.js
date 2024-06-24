@@ -106,27 +106,6 @@ App.copy_item = (e) => {
     }, 1000)
 }
 
-App.setup_container = () => {
-    let container = DOM.el(`#container`)
-
-    DOM.ev(container, `click`, (e) => {
-        let icon = e.target.closest(`.item_icon`)
-
-        if (icon) {
-            App.show_item_menu(e)
-        }
-    })
-
-    DOM.ev(container, `contextmenu`, (e) => {
-        let icon = e.target.closest(`.item_icon`)
-
-        if (icon) {
-            e.preventDefault()
-            App.show_item_menu(e)
-        }
-    })
-}
-
 App.curl_to_top = (e) => {
     let item = e.target.closest(`.item`)
     let curl = item.querySelector(`.item_curl`).textContent

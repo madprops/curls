@@ -138,6 +138,6 @@ There is a `bundle.py` file that can be called directly to force a bundle.
 
 ## Rate Limiter
 
-There is a rate limiter to limit all API endpoints to 20 requests per minute.
+There is a rate limiter to limit all API endpoints to 12 requests per minute.
 
 This depends on `redis`.
