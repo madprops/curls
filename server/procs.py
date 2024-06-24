@@ -45,6 +45,7 @@ def claim_proc(request: Any) -> str:
     lines = [
         f"Your curl is: <b>{curl}</b>",
         f"Your key is: <b>{key}</b>",
+        "The key is secret and shouldn't be shared",
         "Save the key somewhere so it doesn't get lost",
         "There is no way to recover a lost key",
     ]
