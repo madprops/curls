@@ -99,7 +99,6 @@ App.update_curls = async (feedback = true) => {
     }
 
     let used_curls = App.get_used_curls()
-    App.last_used_curls = used_curls
 
     if (!used_curls.length) {
         App.empty_container()

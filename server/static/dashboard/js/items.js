@@ -3,8 +3,10 @@ App.get_date_mode = () => {
 }
 
 App.insert_items = (items) => {
-    let missing = App.get_missing(items)
-    App.items = [...items, ...missing]
+    App.items = items
+    App.items.map(x => x.missing = false)
+    let missing = App.get_missing()
+    App.items.push(...missing)
     App.refresh_items()
 }
 
@@ -127,16 +129,20 @@ App.item_to_bottom = (curl) => {
     }
 }
 
-App.get_missing = (items) => {
-    let used = App.last_used_curls
-    let curls = used.filter(curl => !items.find(item => item.curl === curl))
+App.get_missing = () => {
+    let used = App.get_used_curls()
+    let curls = used.filter(curl => !App.items.find(item => item.curl === curl))
     let missing = []
 
     for (let curl of curls) {
-        missing.push({curl: curl, status: `Not found`, updated: `0`})
+        missing.push({curl: curl, status: `Not found`, updated: `0`, missing: true})
     }
 
     return missing
+}
+
+App.get_missing_items = () => {
+    return App.items.filter(item => item.missing)
 }
 
 App.change_date_mode = () => {
