@@ -18,6 +18,7 @@ App.refresh_items = () => {
 
     App.unselect()
     App.check_empty()
+    App.check_filter()
 }
 
 App.insert_item = (item) => {

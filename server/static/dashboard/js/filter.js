@@ -181,3 +181,11 @@ App.show_filter_menu = (e) => {
 
     NeedContext.show({items: items, e: e})
 }
+
+App.check_filter = () => {
+    let filter = DOM.el(`#filter`)
+
+    if (filter.value) {
+        App.do_filter()
+    }
+}
