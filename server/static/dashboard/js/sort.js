@@ -35,14 +35,24 @@ App.sort_items = (items) => {
             return used_curls.indexOf(a.curl) - used_curls.indexOf(b.curl)
         })
     }
-    else if (mode === `alpha_asc`) {
+    else if (mode === `ascending`) {
         items.sort((a, b) => {
             return a.curl.localeCompare(b.curl)
         })
     }
-    else if (mode === `alpha_desc`) {
+    else if (mode === `descending`) {
         items.sort((a, b) => {
             return b.curl.localeCompare(a.curl)
+        })
+    }
+    else if (mode === `short`) {
+        items.sort((a, b) => {
+            return a.curl.length - b.curl.length
+        })
+    }
+    else if (mode === `long`) {
+        items.sort((a, b) => {
+            return b.curl.length - a.curl.length
         })
     }
 }
