@@ -152,7 +152,7 @@ App.get_owned_items = () => {
         picker => picker.curl === item.curl))
 }
 
-App.get_today_items = () => {
+App.get_items_by_date = (what) => {
     let cleaned = []
     let now = App.now()
 
@@ -160,12 +160,24 @@ App.get_today_items = () => {
         let date = new Date(item.updated + "Z")
         let diff = now - date
 
-        if (diff < App.DAY) {
+        if (diff < what) {
             cleaned.push(item)
         }
     }
 
     return cleaned
+}
+
+App.get_today_items = () => {
+    return App.get_items_by_date(App.DAY)
+}
+
+App.get_week_items = () => {
+    return App.get_items_by_date(App.WEEK)
+}
+
+App.get_month_items = () => {
+    return App.get_items_by_date(App.MONTH)
 }
 
 App.reset_items = () => {

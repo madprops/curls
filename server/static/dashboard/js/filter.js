@@ -31,18 +31,25 @@ App.filter = () => {
 
 App.do_filter = () => {
     let value = DOM.el(`#filter`).value.toLowerCase().trim()
-    let owned = value === `[owned]`
-    let today = value === `[today]`
+    let is_special = false
     let special = []
 
-    if (owned) {
+    if (value === `[owned]`) {
         special = App.get_owned_items()
+        is_special = true
     }
-    else if (today) {
+    else if (value === `[today]`) {
         special = App.get_today_items()
+        is_special = true
     }
-
-    let is_special = owned || today
+    else if (value === `[week]`) {
+        special = App.get_week_items()
+        is_special = true
+    }
+    else if (value === `[month]`) {
+        special = App.get_month_items()
+        is_special = true
+    }
 
     if (!value) {
         App.unfilter_all()
@@ -114,6 +121,16 @@ App.filter_today = () => {
     App.do_filter()
 }
 
+App.filter_week = () => {
+    App.set_filter(`[week]`)
+    App.do_filter()
+}
+
+App.filter_month = () => {
+    App.set_filter(`[month]`)
+    App.do_filter()
+}
+
 App.set_filter = (value) => {
     DOM.el(`#filter`).value = value
 }
@@ -136,6 +153,18 @@ App.show_filter_menu = (e) => {
             text: `Today`,
             action: () => {
                 App.filter_today()
+            }
+        },
+        {
+            text: `Week`,
+            action: () => {
+                App.filter_week()
+            }
+        },
+        {
+            text: `Month`,
+            action: () => {
+                App.filter_month()
             }
         },
     ]
