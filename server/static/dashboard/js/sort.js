@@ -46,13 +46,27 @@ App.sort_items = (items) => {
         })
     }
     else if (mode === `short`) {
+        // Sort by length and then alpha
         items.sort((a, b) => {
-            return a.curl.length - b.curl.length
+            let diff = a.curl.length - b.curl.length
+
+            if (diff !== 0) {
+                return diff
+            }
+
+            return a.curl.localeCompare(b.curl)
         })
     }
     else if (mode === `long`) {
+        // Sort by length and then alpha
         items.sort((a, b) => {
-            return b.curl.length - a.curl.length
+            let diff = b.curl.length - a.curl.length
+
+            if (diff !== 0) {
+                return diff
+            }
+
+            return a.curl.localeCompare(b.curl)
         })
     }
 }
