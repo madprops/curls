@@ -17,6 +17,12 @@ App.setup_filter = () => {
     DOM.ev(button, `click`, (e) => {
         App.show_filter_menu(e)
     })
+
+    DOM.ev(button, `auxclick`, (e) => {
+        if (e.button === 1) {
+            App.clear_filter()
+        }
+    })
 }
 
 App.clear_filter = () => {
