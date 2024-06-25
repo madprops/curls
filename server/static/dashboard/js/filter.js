@@ -32,11 +32,17 @@ App.filter = () => {
 App.do_filter = () => {
     let value = DOM.el(`#filter`).value.toLowerCase().trim()
     let owned = value === `[owned]`
-    let owned_items = []
+    let today = value === `[today]`
+    let special = []
 
     if (owned) {
-        owned_items = App.get_owned_items()
+        special = App.get_owned_items()
     }
+    else if (today) {
+        special = App.get_today_items()
+    }
+
+    let is_special = owned || today
 
     if (!value) {
         App.unfilter_all()
@@ -63,8 +69,8 @@ App.do_filter = () => {
         let status = item.status.toLowerCase()
         let updated = item.updated.toLowerCase()
 
-        if (owned) {
-            if (owned_items.find(owned_item => owned_item.curl === item.curl)) {
+        if (is_special) {
+            if (special.find(s => s.curl === item.curl)) {
                 unhide(el)
             }
             else {
@@ -103,6 +109,11 @@ App.filter_owned = () => {
     App.do_filter()
 }
 
+App.filter_today = () => {
+    App.set_filter(`[today]`)
+    App.do_filter()
+}
+
 App.set_filter = (value) => {
     DOM.el(`#filter`).value = value
 }
@@ -119,6 +130,12 @@ App.show_filter_menu = (e) => {
             text: `Owned`,
             action: () => {
                 App.filter_owned()
+            }
+        },
+        {
+            text: `Today`,
+            action: () => {
+                App.filter_today()
             }
         },
     ]

@@ -154,3 +154,19 @@ App.get_owned_items = () => {
     return App.items.filter(item => picker_items.find(
         picker => picker.curl === item.curl))
 }
+
+App.get_today_items = () => {
+    let cleaned = []
+    let now = App.now()
+
+    for (let item of App.items) {
+        let date = new Date(item.updated + "Z")
+        let diff = now - date
+
+        if (diff < App.DAY) {
+            cleaned.push(item)
+        }
+    }
+
+    return cleaned
+}
