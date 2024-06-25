@@ -27,13 +27,7 @@ App.clear_container = () => {
 }
 
 App.empty_container = () => {
-    let container = DOM.el(`#container`)
-    let item = DOM.create(`div`, `info_item`)
-    item.innerHTML = App.empty_info
-    container.innerHTML = ``
-    container.append(item)
-    App.container_is_empty()
-    App.unselect()
+    App.set_container_info(App.empty_info)
 }
 
 App.check_empty = () => {
@@ -73,9 +67,13 @@ App.container_not_empty = () => {
 }
 
 App.container_loading = () => {
+    App.set_container_info(`Loading...`)
+}
+
+App.set_container_info = (info) => {
     let container = DOM.el(`#container`)
     let item = DOM.create(`div`, `info_item`)
-    item.innerHTML = `Loading...`
+    item.innerHTML = info
     container.innerHTML = ``
     container.append(item)
     App.container_is_empty()
