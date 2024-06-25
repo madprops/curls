@@ -30,36 +30,35 @@ App.filter = () => {
 }
 
 App.do_filter = () => {
-    let value = DOM.el(`#filter`).value.toLowerCase().trim()
-    let is_special = false
-    let special = []
-
-    if (value === `[owned]`) {
-        special = App.get_owned_items()
-        is_special = true
-    }
-    else if (value === `[today]`) {
-        special = App.get_today_items()
-        is_special = true
-    }
-    else if (value === `[week]`) {
-        special = App.get_week_items()
-        is_special = true
-    }
-    else if (value === `[month]`) {
-        special = App.get_month_items()
-        is_special = true
-    }
-
-    if (!value) {
-        App.unfilter_all()
-        return
-    }
-
     let els = DOM.els(`#container .item`)
 
     if (!els.length) {
         return
+    }
+
+    let value = DOM.el(`#filter`).value.toLowerCase().trim()
+    let is_special = false
+    let special = []
+
+    if (value.startsWith(`[owned]`)) {
+        special = App.get_owned_items()
+        is_special = true
+    }
+    else if (value.startsWith(`[today]`)) {
+        special = App.get_today_items()
+        is_special = true
+    }
+    else if (value.startsWith(`[week]`)) {
+        special = App.get_week_items()
+        is_special = true
+    }
+    else if (value.startsWith(`[month]`)) {
+        special = App.get_month_items()
+        is_special = true
+    }
+
+    if (is_special) {
+        value = value.split(` `).slice(1).join(` `)
     }
 
     function hide (el) {
@@ -70,6 +69,10 @@ App.do_filter = () => {
         el.classList.remove(`hidden`)
     }
 
+    function check (curl, status, updated) {
+        return curl.includes(value) || status.includes(value) || updated.includes(value)
+    }
+
     for (let el of els) {
         let item = App.get_item(el.dataset.curl)
         let curl = item.curl.toLowerCase()
@@ -78,14 +81,19 @@ App.do_filter = () => {
 
         if (is_special) {
             if (special.find(s => s.curl === item.curl)) {
-                unhide(el)
+                if (check(curl, status, updated)) {
+                    unhide(el)
+                }
+                else {
+                    hide(el)
+                }
             }
             else {
                 hide(el)
             }
         }
         else {
-            if (curl.includes(value) || status.includes(value) || updated.includes(value)) {
+            if (check(curl, status, updated)) {
                 unhide(el)
             }
             else {
