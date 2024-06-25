@@ -1,3 +1,7 @@
+window.onload = () => {
+    App.setup()
+}
+
 App.setup = () => {
     App.setup_buttons()
     App.setup_color()
