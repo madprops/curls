@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 # Standard
 from pathlib import Path
 
