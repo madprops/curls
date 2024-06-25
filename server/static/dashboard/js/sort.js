@@ -23,16 +23,23 @@ App.sort_if_order = () => {
 App.sort_items = (items) => {
     let mode = App.get_sort()
 
-    if (mode === `recent`) {
-        items.sort((a, b) => {
-            return b.updated.localeCompare(a.updated)
-        })
-    }
-    else if (mode === `order`) {
+    if (mode === `order`) {
         let used_curls = App.get_used_curls()
 
         items.sort((a, b) => {
             return used_curls.indexOf(a.curl) - used_curls.indexOf(b.curl)
+        })
+    }
+    else if (mode === `newest`) {
+        items.sort((a, b) => {
+            let compare = b.updated.localeCompare(a.updated)
+            return compare !== 0 ? compare : a.curl.localeCompare(b.curl)
+        })
+    }
+    if (mode === `oldest`) {
+        items.sort((a, b) => {
+            let compare = a.updated.localeCompare(b.updated)
+            return compare !== 0 ? compare : a.curl.localeCompare(b.curl)
         })
     }
     else if (mode === `ascending`) {
@@ -72,11 +79,12 @@ App.sort_items = (items) => {
 }
 
 App.load_sort = () => {
-    let saved = localStorage.getItem(`sort`) || `recent`
+    let defvalue = `newest`
+    let saved = localStorage.getItem(`sort`) || defvalue
     let values = Array.from(sort.options).map(option => option.value)
 
     if (!values.includes(saved)) {
-        saved = `recent`
+        saved = defvalue
     }
 
     return saved
