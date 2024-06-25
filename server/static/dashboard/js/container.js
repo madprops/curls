@@ -71,3 +71,13 @@ App.container_not_empty = () => {
     let container = DOM.el(`#container`)
     container.classList.remove(`empty`)
 }
+
+App.container_loading = () => {
+    let container = DOM.el(`#container`)
+    let item = DOM.create(`div`, `info_item`)
+    item.innerHTML = `Loading...`
+    container.innerHTML = ``
+    container.append(item)
+    App.container_is_empty()
+    App.unselect()
+}

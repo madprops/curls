@@ -29,7 +29,7 @@ App.sort_items = (items) => {
         })
     }
     else if (mode === `order`) {
-        let used_curls = App.last_used_curls
+        let used_curls = App.get_used_curls()
 
         items.sort((a, b) => {
             return used_curls.indexOf(a.curl) - used_curls.indexOf(b.curl)

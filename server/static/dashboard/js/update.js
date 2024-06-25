@@ -120,6 +120,7 @@ App.update_curls = async (feedback = true) => {
     let response = ``
     App.updating = true
     App.info(`Update: Request ${App.network}`)
+    App.container_loading()
 
     try {
         response = await fetch(url, {
