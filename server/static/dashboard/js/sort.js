@@ -16,7 +16,7 @@ App.change_sort = (e) => {
 
 App.sort_if_order = () => {
     if (App.get_sort() == `order`) {
-        App.update(true)
+        App.refresh_items()
     }
 }
 

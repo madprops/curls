@@ -209,7 +209,9 @@ App.toggle_curlist = () => {
 }
 
 App.sort_curlist = (how) => {
-    if (confirm(`Sort the curlist (${how})?`)) {
+    let w = how === `asc` ? `Ascending` : `Descending`
+
+    if (confirm(`Sort the curls (${w})?`)) {
         App.do_sort_curlist(how)
     }
 }
