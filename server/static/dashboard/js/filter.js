@@ -140,7 +140,9 @@ App.filter_month = () => {
 }
 
 App.set_filter = (value) => {
-    DOM.el(`#filter`).value = value
+    let el = DOM.el(`#filter`)
+    el.value = value + ` `
+    el.focus()
 }
 
 App.show_filter_menu = (e) => {
