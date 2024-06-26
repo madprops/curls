@@ -4,6 +4,7 @@ App.setup_curlist = () => {
 
     DOM.ev(curlist, `focusout`, () => {
         App.clean_curlist()
+        App.update_curlist_top()
 
         if (App.save_curls()) {
             App.update(true)
