@@ -4,18 +4,13 @@ from __future__ import annotations
 from pathlib import Path
 
 
-def get_main() -> list[str]:
-    js_files = Path("static/dashboard/js/main").glob("*.js")
-    return [str(f) for f in js_files]
-
-
-def get_libs() -> list[str]:
-    js_files = Path("static/dashboard/js/libs").glob("*.js")
-    return [str(f) for f in js_files]
+def get_files(path: str, ext: str) -> list[str]:
+    files = Path(path).glob(f"*.{ext}")
+    return [str(f) for f in files]
 
 
 def bundle_dashboard_libs() -> None:
-    files = get_libs()
+    files = get_files("static/dashboard/js/libs", "js")
     first: list[str] = ["needcontext.js"]
     last: list[str] = []
 
@@ -40,7 +35,7 @@ def bundle_dashboard_libs() -> None:
 
 
 def bundle_dashboard_main() -> None:
-    files = get_main()
+    files = get_files("static/dashboard/js/main", "js")
     first: list[str] = ["vars.js", "main.js"]
     last: list[str] = ["load.js"]
 
