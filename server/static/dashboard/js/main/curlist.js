@@ -83,33 +83,44 @@ App.update_curlist_top = () => {
     curlist_top.textContent = `Curls (${curls.length})`
 }
 
-App.save_curlist = () => {
-    let curlist = App.get_curlist()
-    let color = App.color_mode
-    let value = App.get_curlist_by_color(color)
+App.save_curlist_curls = (color, curls) => {
+    let name = App.get_curlist_name(color)
+    localStorage.setItem(name, JSON.stringify(curls))
+}
 
-    if (curlist === value) {
-        return false
+App.save_curlist = () => {
+    let color = App.color_mode
+    let curls = App.get_curls()
+    let saved = App.get_curlist_by_color(color)
+
+    if (App.same_list(curls, saved)) {
+        return
     }
 
-    let name = App.get_curlist_name(color)
-    localStorage.setItem(name, curlist)
+    App.save_curlist_curls(color, curls)
     return true
 }
 
 App.load_curlist = () => {
     let color = App.color_mode
     let saved = App.get_curlist_by_color(color)
-    App.set_curlist(saved)
+    App.set_curlist(saved.join(`\n`))
 }
 
 App.get_curlist_name = (color) => {
-    return `curlist_${color}`
+    return `curls_${color}`
 }
 
 App.get_curlist_by_color = (color) => {
     let name = App.get_curlist_name(color)
-    return localStorage.getItem(name) || ``
+    let saved = localStorage.getItem(name) || `[]`
+
+    try {
+        return JSON.parse(saved)
+    }
+    catch (err) {
+        return []
+    }
 }
 
 App.copy_curlist = (e) => {
@@ -296,13 +307,13 @@ App.export_curlist = () => {
     let curlists = {}
 
     for (let color in App.colors) {
-        let value = App.get_curlist_by_color(color)
+        let curlist = App.get_curlist_by_color(color)
 
-        if (!value) {
+        if (!curlist.length) {
             continue
         }
 
-        curlists[color] = value
+        curlists[color] = curlist
     }
 
     if (!Object.keys(curlists).length) {
@@ -316,7 +327,7 @@ App.export_curlist = () => {
 }
 
 App.import_curlist = () => {
-    let data = prompt(`Paste the data`).trim()
+    let data = prompt(`Paste the data`)
 
     if (!data) {
         return
@@ -333,8 +344,7 @@ App.import_curlist = () => {
                 continue
             }
 
-            let name = App.get_curlist_name(color)
-            localStorage.setItem(name, value)
+            App.save_curlist_curls(color, value)
             modified = true
         }
 
@@ -346,9 +356,11 @@ App.import_curlist = () => {
         let current = curlists[App.color_mode]
 
         if (current) {
-            App.set_curlist(curlists[App.color_mode])
+            let curlist = curlists[App.color_mode]
+            App.set_curlist(curlist.join(`\n`))
         }
 
+        App.update_curlist_top()
         App.update(true)
     }
     catch (err) {
