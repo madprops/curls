@@ -364,8 +364,12 @@ App.clear_curlists = () => {
             localStorage.setItem(name, ``)
         }
 
-        App.set_curlist(``)
-        App.update_curlist_top()
-        App.update(true)
+        App.clear_curlist()
     }
+}
+
+App.clear_curlist = () => {
+    App.set_curlist(``)
+    App.update_curlist_top()
+    App.empty_container()
 }
