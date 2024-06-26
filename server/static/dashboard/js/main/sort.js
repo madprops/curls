@@ -59,12 +59,14 @@ App.sort_items = (items) => {
     }
     else if (mode === `status_asc`) {
         items.sort((a, b) => {
-            return a.status.localeCompare(b.status)
+            let compare = a.status.localeCompare(b.status)
+            return compare !== 0 ? compare : a.curl.localeCompare(b.curl)
         })
     }
     else if (mode === `status_desc`) {
         items.sort((a, b) => {
-            return b.status.localeCompare(a.status)
+            let compare = b.status.localeCompare(a.status)
+            return compare !== 0 ? compare : a.curl.localeCompare(b.curl)
         })
     }
     else if (mode === `short_curl`) {
