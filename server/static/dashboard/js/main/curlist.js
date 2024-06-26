@@ -87,6 +87,7 @@ App.save_curlist = () => {
         return false
     }
 
+    let name = App.get_curlist_name(color)
     localStorage.setItem(name, curlist)
     return true
 }
@@ -97,8 +98,12 @@ App.load_curlist = () => {
     App.set_curlist(saved)
 }
 
+App.get_curlist_name = (color) => {
+    return `curlist_${color}`
+}
+
 App.get_curlist_by_color = (color) => {
-    let name = `curlist_${color}`
+    let name = App.get_curlist_name(color)
     return localStorage.getItem(name) || ``
 }
 
@@ -176,6 +181,27 @@ App.show_curlist_menu = (e) => {
                     App.remove_old()
                 }
             },
+            {
+                separator: true,
+            },
+            {
+                text: `Export`,
+                action: () => {
+                    App.export_curlist()
+                }
+            },
+            {
+                text: `Import`,
+                action: () => {
+                    App.import_curlist()
+                }
+            },
+            {
+                text: `Clear`,
+                action: () => {
+                    App.clear_curlists()
+                }
+            },
         ]
     }
     else {
@@ -184,6 +210,27 @@ App.show_curlist_menu = (e) => {
                 text: `Add`,
                 action: () => {
                     App.do_add_curl(`top`)
+                }
+            },
+            {
+                separator: true,
+            },
+            {
+                text: `Export`,
+                action: () => {
+                    App.export_curlist()
+                }
+            },
+            {
+                text: `Import`,
+                action: () => {
+                    App.import_curlist()
+                }
+            },
+            {
+                text: `Clear`,
+                action: () => {
+                    App.clear_curlists()
                 }
             },
         ]
@@ -238,4 +285,63 @@ App.do_sort_curlist = (how) => {
     App.clean_curlist()
     App.save_curlist()
     App.sort_if_order()
+}
+
+App.export_curlist = () => {
+    let curlists = {}
+
+    for (let color in App.colors) {
+        curlists[color] = App.get_curlist_by_color(color)
+    }
+
+    let data = App.sanitize(JSON.stringify(curlists))
+    let message = `Copy the data below:<br><br>${data}`
+    App.set_container_info(message)
+}
+
+App.import_curlist = () => {
+    let data = prompt(`Paste the data`).trim()
+
+    if (!data) {
+        return
+    }
+
+    try {
+        let curlists = JSON.parse(data)
+
+        for (let color in curlists) {
+            let value = curlists[color]
+
+            if (!value) {
+                continue
+            }
+
+            let name = App.get_curlist_name(color)
+            localStorage.setItem(name, value)
+        }
+
+        let current = curlists[App.color_mode]
+
+        if (current) {
+            App.set_curlist(curlists[App.color_mode])
+        }
+
+        App.update(true)
+    }
+    catch (err) {
+        App.error(err)
+        App.set_container_info(`Error: Invalid data`)
+    }
+}
+
+App.clear_curlists = () => {
+    if (confirm(`Clear all curls in all colors?`)) {
+        for (let color in App.colors) {
+            let name = App.get_curlist_name(color)
+            localStorage.setItem(name, ``)
+        }
+
+        App.set_curlist(``)
+        App.update(true)
+    }
 }

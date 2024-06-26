@@ -238,3 +238,8 @@ select {
 #claim {
     user-select: none;
 }
+
+.info_item {
+    word-break: break-all;
+    max-width: 80%;
+}
