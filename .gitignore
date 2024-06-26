@@ -17,4 +17,5 @@ curls.db
 .directory
 captcha_key.txt
 captcha_cheat.txt
-*bundle.js
+bundle.js
+bundle.*.js
