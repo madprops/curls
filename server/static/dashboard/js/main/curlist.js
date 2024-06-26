@@ -325,7 +325,7 @@ App.import_curlist = () => {
     }
     catch (err) {
         App.error(err)
-        App.set_container_info(`Error: Invalid data`)
+        alert(err)
     }
 }
 

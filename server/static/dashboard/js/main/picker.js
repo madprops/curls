@@ -45,21 +45,80 @@ App.show_picker = (e) => {
 
     if (!picker_items.length) {
         items.push({
-            text: `Empty`,
-            action: () => {}
+            text: `Import`,
+            action: () => {
+                App.import_pickers()
+            },
         })
     }
+    else {
+        for (let item of picker_items) {
+            items.push({
+                text: item.curl,
+                action: () => {
+                    DOM.el(`#change_curl`).value = item.curl
+                    DOM.el(`#change_key`).value = item.key
+                    App.add_to_picker()
+                },
+            })
+        }
 
-    for (let item of picker_items) {
+        if (items.length) {
+            items.push({
+                separator: true,
+            })
+        }
+
         items.push({
-            text: item.curl,
+            text: `Export`,
             action: () => {
-                DOM.el(`#change_curl`).value = item.curl
-                DOM.el(`#change_key`).value = item.key
-                App.add_to_picker()
-            }
+                App.export_pickers()
+            },
+        })
+
+        items.push({
+            text: `Import`,
+            action: () => {
+                App.import_pickers()
+            },
+        })
+
+        items.push({
+            text: `Clear`,
+            action: () => {
+                App.clear_pickers()
+            },
         })
     }
 
     NeedContext.show({items: items, e: e})
+}
+
+App.export_pickers = () => {
+    let data = JSON.stringify(App.get_picker_items())
+    let message = `Copy the data below:\n\n${data}`
+    alert(message)
+}
+
+App.import_pickers = () => {
+    let data = prompt(`Paste the data`)
+
+    if (!data) {
+        return
+    }
+
+    try {
+        let items = JSON.parse(data)
+        localStorage.setItem(`picker`, JSON.stringify(items))
+    }
+    catch (err) {
+        App.error(err)
+        alert(err)
+    }
+}
+
+App.clear_pickers = () => {
+    if (confirm(`Clear all pickers?`)) {
+        localStorage.setItem(`picker`, `[]`)
+    }
 }
