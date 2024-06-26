@@ -53,7 +53,7 @@ App.empty_info = [
 App.updater_mode = `minutes_5`
 
 App.updater_modes = [
-    {value: `now`, name: `Update Now`, skip: true},
+    {value: `now`, name: `Update`, skip: true},
     {value: App.separator},
     {value: `minutes_1`, name: `1 Minute`},
     {value: `minutes_5`, name: `5 Minutes`},
