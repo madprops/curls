@@ -1,6 +1,6 @@
 App.setup_color = () => {
     let color = DOM.el(`#color`)
-    let saved = App.load_color()
+    App.color_mode = App.load_color()
 
     let lines = [
         `Click to pick color`,
@@ -12,7 +12,7 @@ App.setup_color = () => {
 
     Combo.register({
         items: App.color_modes,
-        value: saved,
+        value: App.color_mode,
         element: color,
         default: `green`,
         action: (value) => {

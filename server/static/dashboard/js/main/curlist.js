@@ -40,7 +40,7 @@ App.set_curlist = (value) => {
 }
 
 App.clean_curlist = () => {
-    let curls = App.get_curls()
+    let curls = App.get_curlist_by_color(App.color_mode)
     let words = []
 
     for (let curl of curls) {
@@ -73,8 +73,18 @@ App.clean_curlist = () => {
         }
     }
 
-    App.set_curlist(cleaned.join(`\n`))
+    if (App.same_list(cleaned, curls)) {
+        return
+    }
+
+    App.save_curls(App.color_mode, cleaned)
+    App.refresh_curlist()
     App.update_curlist_top()
+}
+
+App.refresh_curlist = () => {
+    let curls = App.get_curls()
+    App.set_curlist(curls.join(`\n`))
 }
 
 App.update_curlist_top = () => {
@@ -83,7 +93,7 @@ App.update_curlist_top = () => {
     curlist_top.textContent = `Curls (${curls.length})`
 }
 
-App.save_curlist_curls = (color, curls) => {
+App.save_curls = (color, curls) => {
     let name = App.get_curlist_name(color)
     localStorage.setItem(name, JSON.stringify(curls))
 }
@@ -97,7 +107,7 @@ App.save_curlist = () => {
         return
     }
 
-    App.save_curlist_curls(color, curls)
+    App.save_curls(color, curls)
     return true
 }
 
@@ -344,7 +354,7 @@ App.import_curlist = () => {
                 continue
             }
 
-            App.save_curlist_curls(color, value)
+            App.save_curls(color, value)
             modified = true
         }
 

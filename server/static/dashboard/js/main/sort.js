@@ -133,7 +133,7 @@ App.sort_items = (items) => {
 App.load_sort = () => {
     let def_mode = `newest`
     let mode = localStorage.getItem(`sort`) || def_mode
-    let modes = App.sort_modes.map(x => x.mode)
+    let modes = App.sort_modes.map(x => x.value)
 
     if (!modes.includes(mode)) {
         mode = def_mode
