@@ -55,7 +55,7 @@ App.sort_items = (items) => {
             return compare !== 0 ? compare : a.curl.localeCompare(b.curl)
         })
     }
-    if (mode === `oldest`) {
+    else if (mode === `oldest`) {
         items.sort((a, b) => {
             let compare = a.updated.localeCompare(b.updated)
             return compare !== 0 ? compare : a.curl.localeCompare(b.curl)
