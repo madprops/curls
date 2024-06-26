@@ -4,7 +4,6 @@ App.setup_curlist = () => {
 
     DOM.ev(curlist, `focusout`, () => {
         App.clean_curlist()
-        App.update_curlist_top()
 
         if (App.save_curls()) {
             App.update(true)
@@ -30,7 +29,6 @@ App.setup_curlist = () => {
     }
 
     App.load_curlist()
-    App.update_curlist_top()
 }
 
 App.get_curlist = () => {
@@ -39,6 +37,7 @@ App.get_curlist = () => {
 
 App.set_curlist = (value) => {
     DOM.el(`#curlist`).value = value
+    App.update_curlist_top()
 }
 
 App.clean_curlist = () => {
@@ -368,7 +367,6 @@ App.import_curlist = () => {
             App.set_curlist(curlist.join(`\n`))
         }
 
-        App.update_curlist_top()
         App.update(true)
     }
     catch (err) {
@@ -390,6 +388,5 @@ App.clear_curlists = () => {
 
 App.clear_curlist = () => {
     App.set_curlist(``)
-    App.update_curlist_top()
     App.empty_container()
 }
