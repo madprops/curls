@@ -116,3 +116,35 @@ App.curl_to_bottom = (e) => {
     App.do_add_curl(`bottom`, curl, false)
     App.sort_if_order()
 }
+
+App.save_curls = (color, curls) => {
+    if (!color) {
+        color = App.color_mode
+    }
+
+    if (!curls) {
+        curls = App.get_curls()
+    }
+
+    let saved = App.get_curls_by_color(color)
+
+    if (App.same_list(curls, saved)) {
+        return false
+    }
+
+    let name = App.get_curlist_name(color)
+    localStorage.setItem(name, JSON.stringify(curls))
+    return true
+}
+
+App.get_curls_by_color = (color) => {
+    let name = App.get_curlist_name(color)
+    let saved = localStorage.getItem(name) || `[]`
+
+    try {
+        return JSON.parse(saved)
+    }
+    catch (err) {
+        return []
+    }
+}

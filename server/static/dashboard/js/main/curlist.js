@@ -77,57 +77,20 @@ App.clean_curlist = () => {
     App.set_curlist(cleaned.join(`\n`))
 }
 
-App.refresh_curlist = () => {
-    let curls = App.get_curls()
-    App.set_curlist(curls.join(`\n`))
-}
-
 App.update_curlist_top = () => {
     let curlist_top = DOM.el(`#curlist_top`)
     let curls = App.get_curls()
     curlist_top.textContent = `Curls (${curls.length})`
 }
 
-App.save_curls = (color, curls) => {
-    if (!color) {
-        color = App.color_mode
-    }
-
-    if (!curls) {
-        curls = App.get_curls()
-    }
-
-    let saved = App.get_curlist_by_color(color)
-
-    if (App.same_list(curls, saved)) {
-        return false
-    }
-
-    let name = App.get_curlist_name(color)
-    localStorage.setItem(name, JSON.stringify(curls))
-    return true
-}
-
 App.load_curlist = () => {
     let color = App.color_mode
-    let saved = App.get_curlist_by_color(color)
+    let saved = App.get_curls_by_color(color)
     App.set_curlist(saved.join(`\n`))
 }
 
 App.get_curlist_name = (color) => {
     return `curls_${color}`
-}
-
-App.get_curlist_by_color = (color) => {
-    let name = App.get_curlist_name(color)
-    let saved = localStorage.getItem(name) || `[]`
-
-    try {
-        return JSON.parse(saved)
-    }
-    catch (err) {
-        return []
-    }
 }
 
 App.copy_curlist = (e) => {
@@ -314,7 +277,7 @@ App.export_curlist = () => {
     let curlists = {}
 
     for (let color in App.colors) {
-        let curlist = App.get_curlist_by_color(color)
+        let curlist = App.get_curls_by_color(color)
 
         if (!curlist.length) {
             continue
