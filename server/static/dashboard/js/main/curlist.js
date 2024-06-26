@@ -40,7 +40,6 @@ App.set_curlist = (value) => {
 }
 
 App.clean_curlist = () => {
-    let curlist_top = DOM.el(`#curlist_top`)
     let curls = App.get_curls()
     let words = []
 
@@ -75,7 +74,13 @@ App.clean_curlist = () => {
     }
 
     App.set_curlist(cleaned.join(`\n`))
-    curlist_top.textContent = `Curls (${cleaned.length})`
+    App.update_curlist_top()
+}
+
+App.update_curlist_top = () => {
+    let curlist_top = DOM.el(`#curlist_top`)
+    let curls = App.get_curls()
+    curlist_top.textContent = `Curls (${curls.length})`
 }
 
 App.save_curlist = () => {
@@ -291,12 +296,23 @@ App.export_curlist = () => {
     let curlists = {}
 
     for (let color in App.colors) {
-        curlists[color] = App.get_curlist_by_color(color)
+        let value = App.get_curlist_by_color(color)
+
+        if (!value) {
+            continue
+        }
+
+        curlists[color] = value
+    }
+
+    if (!Object.keys(curlists).length) {
+        alert(`No curls to export`)
+        return
     }
 
     let data = App.sanitize(JSON.stringify(curlists))
-    let message = `Copy the data below:<br><br>${data}`
-    App.set_container_info(message)
+    let message = `Copy the data below:\n\n${data}`
+    alert(message)
 }
 
 App.import_curlist = () => {
@@ -308,6 +324,7 @@ App.import_curlist = () => {
 
     try {
         let curlists = JSON.parse(data)
+        let modified = false
 
         for (let color in curlists) {
             let value = curlists[color]
@@ -318,6 +335,12 @@ App.import_curlist = () => {
 
             let name = App.get_curlist_name(color)
             localStorage.setItem(name, value)
+            modified = true
+        }
+
+        if (!modified) {
+            alert(`No curls to import`)
+            return
         }
 
         let current = curlists[App.color_mode]
@@ -342,6 +365,7 @@ App.clear_curlists = () => {
         }
 
         App.set_curlist(``)
+        App.update_curlist_top()
         App.update(true)
     }
 }
