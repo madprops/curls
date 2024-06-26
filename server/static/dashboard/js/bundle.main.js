@@ -1,7 +1,3 @@
-window.onload = () => {
-    App.setup()
-}
-
 const App = {}
 
 App.SECOND = 1000
@@ -1790,5 +1786,9 @@ App.check_filter = () => {
     if (filter.value) {
         App.do_filter()
     }
+}
+
+window.onload = () => {
+    App.setup()
 }
 

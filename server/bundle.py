@@ -16,10 +16,11 @@ def get_js_libs() -> list[str]:
 
 def bundle_js() -> None:
     lib_files = get_js_libs()
-    order = ["needcontext.js", "dom.js", "jdenticon.js", "dateformat.js"]
+    first = ["needcontext.js"]
+    last = []
 
     with Path("static/dashboard/js/bundle.libs.js").open("w") as f:
-        for o in order:
+        for o in first:
             with Path(f"static/dashboard/js/libs/{o}").open("r") as js:
                 f.write(js.read())
                 f.write("\n\n")
@@ -27,16 +28,22 @@ def bundle_js() -> None:
         for lib_file in lib_files:
             file = Path(lib_file)
 
-            if file.name not in order:
+            if (file.name not in first) and (file.name not in last):
                 with file.open("r") as js:
                     f.write(js.read())
                     f.write("\n\n")
 
+        for o in last:
+            with Path(f"static/dashboard/js/libs/{o}").open("r") as js:
+                f.write(js.read())
+                f.write("\n\n")
+
     main_files = get_js_main()
-    order = ["load.js", "vars.js", "main.js"]
+    first = ["vars.js", "main.js"]
+    last = ["load.js"]
 
     with Path("static/dashboard/js/bundle.main.js").open("w") as f:
-        for o in order:
+        for o in first:
             with Path(f"static/dashboard/js/main/{o}").open("r") as js:
                 f.write(js.read())
                 f.write("\n\n")
@@ -44,10 +51,15 @@ def bundle_js() -> None:
         for main_file in main_files:
             file = Path(main_file)
 
-            if file.name not in order:
+            if (file.name not in first) and (file.name not in last):
                 with file.open("r") as js:
                     f.write(js.read())
                     f.write("\n\n")
+
+        for o in last:
+            with Path(f"static/dashboard/js/main/{o}").open("r") as js:
+                f.write(js.read())
+                f.write("\n\n")
 
 
 if __name__ == "__main__":
