@@ -220,6 +220,10 @@ App.show_updater_menu = (e) => {
                 App.set_updater(mode)
             }
         })
+
+        if (mode === `disabled`) {
+            items.push({separator: true})
+        }
     }
 
     NeedContext.show({items: items, e: e})
