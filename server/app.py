@@ -39,7 +39,7 @@ limiter = Limiter(
     strategy="fixed-window",
 )
 
-bundle.bundle_js()
+bundle.bundle_dashboard()
 
 
 # ---
