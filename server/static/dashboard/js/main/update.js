@@ -8,6 +8,7 @@ App.setup_updater = () => {
     ]
 
     updater.title = lines.join(`\n`)
+    App.load_updater()
 
     Combo.register({
         items: App.updater_modes,
@@ -25,8 +26,6 @@ App.setup_updater = () => {
     App.update_debouncer = App.create_debouncer((force, feedback) => {
         App.do_update(force, feedback)
     }, App.update_debouncer_delay)
-
-    App.load_updater()
 }
 
 App.get_updater = () => {
