@@ -47,14 +47,24 @@ App.sort_items = (items) => {
             return compare !== 0 ? compare : a.curl.localeCompare(b.curl)
         })
     }
-    else if (mode === `ascending`) {
+    else if (mode === `curl_asc`) {
         items.sort((a, b) => {
             return a.curl.localeCompare(b.curl)
         })
     }
-    else if (mode === `descending`) {
+    else if (mode === `curl_desc`) {
         items.sort((a, b) => {
             return b.curl.localeCompare(a.curl)
+        })
+    }
+    else if (mode === `status_asc`) {
+        items.sort((a, b) => {
+            return a.status.localeCompare(b.status)
+        })
+    }
+    else if (mode === `status_desc`) {
+        items.sort((a, b) => {
+            return b.status.localeCompare(a.status)
         })
     }
     else if (mode === `short_curl`) {
