@@ -1,8 +1,22 @@
 App.setup_sort = () => {
     let sort = DOM.el(`#sort`)
 
+    let lines = [
+        `Click to pick sort`,
+        `Wheel to cycle sorts`,
+        `Middle Click to reset`,
+    ]
+
+    sort.title = lines.join(`\n`)
+
     DOM.ev(sort, `change`, (e) => {
         App.change_sort(e.target.value)
+    })
+
+    DOM.ev(sort, `auxclick`, (e) => {
+        if (e.button === 1) {
+            App.reset_sort()
+        }
     })
 
     DOM.ev(sort, `wheel`, (e) => {
@@ -156,4 +170,9 @@ App.cycle_sort = (direction) => {
     let new_value = values[index]
     sort.value = new_value
     App.change_sort(new_value)
+}
+
+App.reset_sort = () => {
+    DOM.el(`#sort`).value = `newest`
+    App.change_sort(`newest`)
 }
