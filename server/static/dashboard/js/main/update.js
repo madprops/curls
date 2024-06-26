@@ -172,7 +172,7 @@ App.set_updater = (what) => {
 }
 
 App.load_updater = () => {
-    let saved = localStorage.getItem(`updater`) || `minutes_5`
+    let saved = App.get_updater()
     App.set_updater(saved)
 }
 

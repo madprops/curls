@@ -34,8 +34,11 @@ App.get_curlist = () => {
     return DOM.el(`#curlist`).value
 }
 
+App.set_curlist = (value) => {
+    DOM.el(`#curlist`).value = value
+}
+
 App.clean_curlist = () => {
-    let curlist = DOM.el(`#curlist`)
     let curlist_top = DOM.el(`#curlist_top`)
     let curls = App.get_curls()
     let words = []
@@ -70,16 +73,16 @@ App.clean_curlist = () => {
         }
     }
 
-    curlist.value = cleaned.join(`\n`)
+    App.set_curlist(cleaned.join(`\n`))
     curlist_top.textContent = `Curls (${cleaned.length})`
 }
 
 App.save_curlist = () => {
-    let curlist = DOM.el(`#curlist`).value
+    let curlist = App.get_curlist()
     let color = App.get_color()
-    let name = `curlist_${color}`
+    let value = App.get_curlist_by_color(color)
 
-    if (curlist === localStorage.getItem(name)) {
+    if (curlist === value) {
         return false
     }
 
@@ -88,11 +91,14 @@ App.save_curlist = () => {
 }
 
 App.load_curlist = () => {
-    let curlist = DOM.el(`#curlist`)
     let color = App.get_color()
+    let saved = App.get_curlist_by_color(color)
+    App.set_curlist(saved)
+}
+
+App.get_curlist_by_color = (color) => {
     let name = `curlist_${color}`
-    let saved = localStorage.getItem(name) || ``
-    curlist.value = saved
+    return localStorage.getItem(name) || ``
 }
 
 App.copy_curlist = (e) => {
@@ -227,7 +233,7 @@ App.do_sort_curlist = (how) => {
         lines.sort().reverse()
     }
 
-    DOM.el(`#curlist`).value = lines.join(`\n`)
+    App.set_curlist(lines.join(`\n`))
     App.clean_curlist()
     App.save_curlist()
     App.sort_if_order()
