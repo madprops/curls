@@ -137,35 +137,3 @@ App.load_sort = () => {
 
     return mode
 }
-
-App.cycle_sort = (direction) => {
-    let sort = DOM.el(`#sort`)
-
-    let values = Array.from(sort.options)
-    .filter(x => !x.disabled).map(option => option.value)
-
-    let index = values.indexOf(sort.value)
-
-    if (direction === `up`) {
-        index--
-    }
-    else if (direction === `down`) {
-        index++
-    }
-
-    if (index < 0) {
-        index = values.length - 1
-    }
-    else if (index >= values.length) {
-        index = 0
-    }
-
-    let new_value = values[index]
-    sort.value = new_value
-    App.change_sort(new_value)
-}
-
-App.reset_sort = () => {
-    DOM.el(`#sort`).value = `newest`
-    App.change_sort(`newest`)
-}

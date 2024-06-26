@@ -14,7 +14,7 @@ Combo.register = (args = {}) => {
 
     DOM.ev(args.element, `wheel`, (e) => {
         let direction = App.wheel_direction(e)
-        Combo.cycle(args)
+        Combo.cycle(args, direction)
         e.preventDefault()
     })
 
@@ -37,11 +37,42 @@ Combo.show_menu = (args, e) => {
         items.push({
             text: mode.name,
             action: () => {
-                args.action(mode.value)
-                Combo.update_name(args)
+                Combo.action(args, mode.value)
             }
         })
     }
 
     NeedContext.show({items: items, e: e})
+}
+
+Combo.action = (args, value) => {
+    args.action(value)
+    Combo.update_name(args)
+}
+
+Combo.reset = (args) => {
+    Combo.action(args, args.default)
+}
+
+Combo.cycle = (args, direction) => {
+    let value = args.get()
+    let values = args.items.filter(x => !x.disabled).map(option => option.value)
+    let index = values.indexOf(value)
+
+    if (direction === `up`) {
+        index--
+    }
+    else if (direction === `down`) {
+        index++
+    }
+
+    if (index < 0) {
+        index = values.length - 1
+    }
+    else if (index >= values.length) {
+        index = 0
+    }
+
+    let new_value = values[index]
+    Combo.action(args, new_value)
 }
