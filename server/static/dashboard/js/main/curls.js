@@ -50,19 +50,21 @@ App.do_add_curl = (where, curl = ``, update = true) => {
         }
     }
 
-    let curlist = DOM.el(`#curlist`)
+    let curls = App.get_curls_by_color(App.color_mode)
 
     if (where === `top`) {
-        curlist.value = `${curl}\n${curlist.value}`
+        curls.unshift(curl)
     }
     else if (where === `bottom`) {
-        curlist.value += `\n${curl}`
+        curls.push(curl)
     }
 
-    App.clean_curlist()
+    if (App.save_curls(App.color_mode, curls)) {
+        App.refresh_curlist()
 
-    if (App.save_curls() && update) {
-        App.update(true)
+        if (update) {
+            App.update(true)
+        }
     }
 }
 

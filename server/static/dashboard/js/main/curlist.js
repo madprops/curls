@@ -77,6 +77,11 @@ App.clean_curlist = () => {
     App.set_curlist(cleaned.join(`\n`))
 }
 
+App.refresh_curlist = () => {
+    let curls = App.get_curls_by_color(App.color_mode)
+    App.set_curlist(curls.join(`\n`))
+}
+
 App.update_curlist_top = () => {
     let curlist_top = DOM.el(`#curlist_top`)
     let curls = App.get_curls()
