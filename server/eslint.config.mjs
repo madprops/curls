@@ -19,6 +19,7 @@ export default [
       globals: {
         App: "writable",
         DOM: "writable",
+        Combo: "writable",
         Addlist: "writable",
         NiceGesture: "writable",
         NeedContext: "writable",
