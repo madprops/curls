@@ -68,17 +68,6 @@ App.do_add_curl = (where, curl = ``, update = true) => {
     }
 }
 
-App.save_cleaned = (cleaned, removed) => {
-    let s = App.plural(removed.length, `item`, `items`)
-
-    if (confirm(`Remove ${removed.length} ${s}?`)) {
-        App.set_curlist(cleaned.join(`\n`))
-        App.clean_curlist()
-        App.save_curls()
-        App.remove_items(removed)
-    }
-}
-
 App.add_owned_curl = (curl) => {
     let curls = App.get_curls()
 
@@ -134,13 +123,13 @@ App.save_curls = (color, curls) => {
         return false
     }
 
-    let name = App.get_curlist_name(color)
+    let name = App.get_curls_name(color)
     localStorage.setItem(name, JSON.stringify(curls))
     return true
 }
 
 App.get_curls_by_color = (color) => {
-    let name = App.get_curlist_name(color)
+    let name = App.get_curls_name(color)
     let saved = localStorage.getItem(name) || `[]`
 
     try {

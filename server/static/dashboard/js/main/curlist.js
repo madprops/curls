@@ -94,7 +94,7 @@ App.load_curlist = () => {
     App.set_curlist(saved.join(`\n`))
 }
 
-App.get_curlist_name = (color) => {
+App.get_curls_name = (color) => {
     return `curls_${color}`
 }
 
@@ -346,7 +346,7 @@ App.import_curlist = () => {
 App.clear_curlists = () => {
     if (confirm(`Clear all curls in all colors?`)) {
         for (let color in App.colors) {
-            let name = App.get_curlist_name(color)
+            let name = App.get_curls_name(color)
             localStorage.setItem(name, ``)
         }
 
