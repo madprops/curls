@@ -24,9 +24,19 @@ App.setup_buttons = () => {
     DOM.ev(toggle_curlist, `click`, () => {
         App.toggle_curlist()
     })
+
+    let claim = DOM.el(`#claim`)
+
+    DOM.ev(claim, `click`, () => {
+        App.claim()
+    })
 }
 
 App.update_title = () => {
     let color = App.capitalize(App.color_mode)
     document.title = `Curls - ${color}`
+}
+
+App.claim = () => {
+    window.open(`/claim`, `_blank`)
 }

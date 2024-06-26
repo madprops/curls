@@ -167,7 +167,7 @@ input[type="password"]
     cursor: pointer;
     outline: none;
     font-size: 1rem;
-    padding: 0.11rem;
+    padding: 0.09rem;
     padding-left: 0.25rem;
     padding-right: 0.25rem;
     user-select: none;
@@ -233,10 +233,6 @@ select {
 
 .glow:hover {
     text-shadow: 0 0 10px var(--color), 0 0 20px var(--color), 0 0 30px var(--color), 0 0 40px var(--color), 0 0 50px var(--color), 0 0 60px var(--color);
-}
-
-#claim {
-    user-select: none;
 }
 
 .info_item {
