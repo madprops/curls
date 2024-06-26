@@ -84,7 +84,7 @@ App.sort_items = (items) => {
             return compare !== 0 ? compare : a.curl.localeCompare(b.curl)
         })
     }
-    else if (mode === `short_curl`) {
+    else if (mode === `curl_short`) {
         items.sort((a, b) => {
             let diff = a.curl.length - b.curl.length
 
@@ -95,7 +95,7 @@ App.sort_items = (items) => {
             return a.curl.localeCompare(b.curl)
         })
     }
-    else if (mode === `long_curl`) {
+    else if (mode === `curl_long`) {
         items.sort((a, b) => {
             let diff = b.curl.length - a.curl.length
 
@@ -106,7 +106,7 @@ App.sort_items = (items) => {
             return a.curl.localeCompare(b.curl)
         })
     }
-    else if (mode === `short_status`) {
+    else if (mode === `status_short`) {
         items.sort((a, b) => {
             let diff = a.status.length - b.status.length
 
@@ -117,7 +117,7 @@ App.sort_items = (items) => {
             return a.curl.localeCompare(b.curl)
         })
     }
-    else if (mode === `long_status`) {
+    else if (mode === `status_long`) {
         items.sort((a, b) => {
             let diff = b.status.length - a.status.length
 

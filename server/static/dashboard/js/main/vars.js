@@ -66,17 +66,18 @@ App.sort_modes = [
     {value: App.separator},
     {value: `newest`, name: `Newest`},
     {value: `oldest`, name: `Oldest`},
+    {value: App.separator},
     {value: `curl_asc`, name: `Curl Asc`},
     {value: `curl_desc`, name: `Curl Desc`},
     {value: App.separator},
     {value: `status_asc`, name: `Status Asc`},
     {value: `status_desc`, name: `Status Desc`},
     {value: App.separator},
-    {value: `short_curl`, name: `Short Curl`},
-    {value: `long_curl`, name: `Long Curl`},
+    {value: `curl_short`, name: `Curl Short`},
+    {value: `curl_long`, name: `Curl Long`},
     {value: App.separator},
-    {value: `short_status`, name: `Short Status`},
-    {value: `long_status`, name: `Long Status`},
+    {value: `status_short`, name: `Status Short`},
+    {value: `status_long`, name: `Status Long`},
 ]
 
 App.color_mode = `green`
