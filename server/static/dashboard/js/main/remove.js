@@ -111,7 +111,7 @@ App.do_remove_curl = (curl, remove_item = true) => {
     }
 
     App.set_curlist(cleaned.join(`\n`))
-    App.save_curlist()
+    App.save_curls()
 
     if (remove_item) {
         App.remove_item(curl)

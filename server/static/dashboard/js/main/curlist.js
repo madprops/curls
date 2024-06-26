@@ -5,7 +5,7 @@ App.setup_curlist = () => {
     DOM.ev(curlist, `focusout`, () => {
         App.clean_curlist()
 
-        if (App.save_curlist()) {
+        if (App.save_curls()) {
             App.update(true)
         }
     })
@@ -73,13 +73,11 @@ App.clean_curlist = () => {
         }
     }
 
-    if (App.same_list(cleaned, curls)) {
-        return
-    }
-
-    App.save_curls(App.color_mode, cleaned)
-    App.refresh_curlist()
     App.update_curlist_top()
+
+    if (App.save_curls(App.color_mode, cleaned)) {
+        App.refresh_curlist()
+    }
 }
 
 App.refresh_curlist = () => {
@@ -94,20 +92,22 @@ App.update_curlist_top = () => {
 }
 
 App.save_curls = (color, curls) => {
-    let name = App.get_curlist_name(color)
-    localStorage.setItem(name, JSON.stringify(curls))
-}
+    if (!color) {
+        color = App.color_mode
+    }
 
-App.save_curlist = () => {
-    let color = App.color_mode
-    let curls = App.get_curls()
+    if (!curls) {
+        curls = App.get_curls()
+    }
+
     let saved = App.get_curlist_by_color(color)
 
     if (App.same_list(curls, saved)) {
-        return
+        return false
     }
 
-    App.save_curls(color, curls)
+    let name = App.get_curlist_name(color)
+    localStorage.setItem(name, JSON.stringify(curls))
     return true
 }
 
@@ -309,7 +309,7 @@ App.do_sort_curlist = (how) => {
 
     App.set_curlist(lines.join(`\n`))
     App.clean_curlist()
-    App.save_curlist()
+    App.save_curls()
     App.sort_if_order()
 }
 
@@ -348,13 +348,13 @@ App.import_curlist = () => {
         let modified = false
 
         for (let color in curlists) {
-            let value = curlists[color]
+            let curlist = curlists[color]
 
-            if (!value) {
+            if (!curlist) {
                 continue
             }
 
-            App.save_curls(color, value)
+            App.save_curls(color, curlist)
             modified = true
         }
 

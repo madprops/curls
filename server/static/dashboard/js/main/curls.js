@@ -62,7 +62,7 @@ App.do_add_curl = (where, curl = ``, update = true) => {
 
     App.clean_curlist()
 
-    if (App.save_curlist()) {
+    if (App.save_curls()) {
         if (update) {
             App.update(true)
         }
@@ -75,7 +75,7 @@ App.save_cleaned = (cleaned, removed) => {
     if (confirm(`Remove ${removed.length} ${s}?`)) {
         App.set_curlist(cleaned.join(`\n`))
         App.clean_curlist()
-        App.save_curlist()
+        App.save_curls()
         App.remove_items(removed)
     }
 }
