@@ -8,6 +8,7 @@ App.setup_sort = () => {
     DOM.ev(sort, `wheel`, (e) => {
         let direction = App.wheel_direction(e)
         App.cycle_sort(direction)
+        e.preventDefault()
     })
 
     sort.value = App.load_sort()
