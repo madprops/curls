@@ -80,7 +80,7 @@ App.clean_curlist = () => {
 
 App.save_curlist = () => {
     let curlist = App.get_curlist()
-    let color = App.get_color()
+    let color = App.color_mode
     let value = App.get_curlist_by_color(color)
 
     if (curlist === value) {
@@ -92,7 +92,7 @@ App.save_curlist = () => {
 }
 
 App.load_curlist = () => {
-    let color = App.get_color()
+    let color = App.color_mode
     let saved = App.get_curlist_by_color(color)
     App.set_curlist(saved)
 }

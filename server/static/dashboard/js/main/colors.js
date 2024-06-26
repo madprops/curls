@@ -1,17 +1,39 @@
 App.setup_color = () => {
     let color = DOM.el(`#color`)
-    color.value = App.load_color()
+    let saved = App.load_color()
 
-    DOM.ev(color, `change`, (e) => {
-        App.change_color(e)
+    let lines = [
+        `Click to pick color`,
+        `Wheel to cycle colors`,
+        `Middle Click to reset`,
+    ]
+
+    sort.title = lines.join(`\n`)
+
+    Combo.register({
+        items: App.color_modes,
+        value: saved,
+        element: color,
+        default: `green`,
+        action: (value) => {
+            App.change_color(value)
+        },
+        get: () => {
+            return App.color_mode
+        },
+
     })
 
     App.apply_color()
 }
 
-App.change_color = (e) => {
-    let color = e.target.value
-    localStorage.setItem(`color`, color)
+App.change_color = (value) => {
+    if (App.color_mode === value) {
+        return
+    }
+
+    App.color_mode = value
+    localStorage.setItem(`color`, value)
     App.apply_color()
     App.load_curlist()
     App.reset_items()
@@ -22,18 +44,14 @@ App.load_color = () => {
     return localStorage.getItem(`color`) || `green`
 }
 
-App.get_color = () => {
-    return DOM.el(`#color`).value
-}
-
 App.apply_color = () => {
-    let rgb = App.colors[App.get_color()]
+    let rgb = App.colors[App.color_mode]
     document.documentElement.style.setProperty(`--color`, rgb)
     App.update_title()
 }
 
 App.move_to_color = (e) => {
-    let current = App.get_color()
+    let current = App.color_mode
     let items = []
 
     function add (value, name) {

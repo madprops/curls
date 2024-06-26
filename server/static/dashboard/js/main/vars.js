@@ -78,3 +78,14 @@ App.sort_modes = [
     {value: `short_status`, name: `Short Status`},
     {value: `long_status`, name: `Long Status`},
 ]
+
+App.color_mode = `green`
+
+App.color_modes = [
+    {value: `red`, name: `Red`},
+    {value: `green`, name: `Green`},
+    {value: `blue`, name: `Blue`},
+    {value: `yellow`, name: `Yellow`},
+    {value: `purple`, name: `Purple`},
+    {value: `white`, name: `White`},
+]

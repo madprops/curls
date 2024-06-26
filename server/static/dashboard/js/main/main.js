@@ -28,6 +28,6 @@ App.setup_buttons = () => {
 }
 
 App.update_title = () => {
-    let color = App.capitalize(App.get_color())
+    let color = App.capitalize(App.color_mode)
     document.title = `Curls - ${color}`
 }

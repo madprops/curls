@@ -25,6 +25,10 @@ App.setup_sort = () => {
 }
 
 App.change_sort = (value) => {
+    if (App.sort_mode === value) {
+        return
+    }
+
     App.sort_mode = value
     localStorage.setItem(`sort`, value)
     App.refresh_items()

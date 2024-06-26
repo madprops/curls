@@ -26,22 +26,22 @@ Combo.get_item = (args) => {
 }
 
 Combo.update_name = (args) => {
-    let mode = Combo.get_item(args)
-    args.element.textContent = mode.name
+    let item = Combo.get_item(args)
+    args.element.textContent = item.name
 }
 
 Combo.show_menu = (args, e) => {
     let items = []
 
-    for (let mode of App.sort_modes) {
-        if (mode.value === App.separator) {
+    for (let item of args.items) {
+        if (item.value === App.separator) {
             items.push({separator: true})
         }
         else {
             items.push({
-                text: mode.name,
+                text: item.name,
                 action: () => {
-                    Combo.action(args, mode.value)
+                    Combo.action(args, item.value)
                 }
             })
         }
