@@ -12,29 +12,32 @@ def get_files(path: str, ext: str) -> list[str]:
 def bundle_dashboard_js(what: str, first: list[str], last: list[str]) -> None:
     files = get_files(f"static/dashboard/js/{what}", "js")
 
+    def get_path(f: str) -> Path:
+        return Path(f"static/dashboard/js/{what}/{f}.js")
+
     with Path(f"static/dashboard/js/bundle.{what}.js").open("w") as f:
-        for o in first:
-            with Path(f"static/dashboard/js/{what}/{o}").open("r") as js:
+        for file_ in first:
+            with get_path(file_).open("r") as js:
                 f.write(js.read())
                 f.write("\n\n")
 
         for file_ in files:
             file = Path(file_)
 
-            if (file.name not in first) and (file.name not in last):
+            if (file.stem not in first) and (file.stem not in last):
                 with file.open("r") as js:
                     f.write(js.read())
                     f.write("\n\n")
 
-        for o in last:
-            with Path(f"static/dashboard/js/{what}/{o}").open("r") as js:
+        for file_ in last:
+            with get_path(file_).open("r") as js:
                 f.write(js.read())
                 f.write("\n\n")
 
 
 def bundle_dashboard() -> None:
-    bundle_dashboard_js("libs", ["needcontext.js"], [])
-    bundle_dashboard_js("main", ["vars.js", "main.js"], ["load.js"])
+    bundle_dashboard_js("libs", ["needcontext"], [])
+    bundle_dashboard_js("main", ["vars", "main"], ["load"])
 
 
 if __name__ == "__main__":
