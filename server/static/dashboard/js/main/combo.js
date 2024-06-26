@@ -34,12 +34,17 @@ Combo.show_menu = (args, e) => {
     let items = []
 
     for (let mode of App.sort_modes) {
-        items.push({
-            text: mode.name,
-            action: () => {
-                Combo.action(args, mode.value)
-            }
-        })
+        if (mode.value === App.separator) {
+            items.push({separator: true})
+        }
+        else {
+            items.push({
+                text: mode.name,
+                action: () => {
+                    Combo.action(args, mode.value)
+                }
+            })
+        }
     }
 
     NeedContext.show({items: items, e: e})
@@ -54,9 +59,15 @@ Combo.reset = (args) => {
     Combo.action(args, args.default)
 }
 
+Combo.get_values = (args) => {
+    return args.items
+    .filter(x => x.value !== App.separator)
+    .map(x => x.value)
+}
+
 Combo.cycle = (args, direction) => {
     let value = args.get()
-    let values = args.items.filter(x => !x.disabled).map(option => option.value)
+    let values = Combo.get_values(args)
     let index = values.indexOf(value)
 
     if (direction === `up`) {

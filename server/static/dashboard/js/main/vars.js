@@ -27,6 +27,7 @@ App.changing = false
 App.updating = false
 App.network = `🛜`
 App.date_mode = `12`
+App.separator = `__separator__`
 
 App.curl_too_long = `Curl is too long`
 App.key_too_long = `Key is too long`
@@ -62,14 +63,18 @@ App.sort_mode = `newest`
 
 App.sort_modes = [
     {value: `order`, name: `Order`},
+    {value: App.separator},
     {value: `newest`, name: `Newest`},
     {value: `oldest`, name: `Oldest`},
     {value: `curl_asc`, name: `Curl Asc`},
     {value: `curl_desc`, name: `Curl Desc`},
+    {value: App.separator},
     {value: `status_asc`, name: `Status Asc`},
     {value: `status_desc`, name: `Status Desc`},
+    {value: App.separator},
     {value: `short_curl`, name: `Short Curl`},
     {value: `long_curl`, name: `Long Curl`},
+    {value: App.separator},
     {value: `short_status`, name: `Short Status`},
     {value: `long_status`, name: `Long Status`},
 ]
