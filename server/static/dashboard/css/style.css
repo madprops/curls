@@ -160,24 +160,25 @@ input[type="password"]
     font-size: 1rem;
 }
 
-button {
+.button {
     background-color: rgb(0, 0, 0);
     color: var(--color);
     border: 1px solid var(--color);
     cursor: pointer;
     outline: none;
     font-size: 1rem;
-    padding: 0.125rem;
+    padding: 0.11rem;
     padding-left: 0.25rem;
     padding-right: 0.25rem;
+    user-select: none;
 }
 
-button:hover {
+.button:hover {
     background-color: var(--color);
     color: rgb(0, 0, 0);
 }
 
-button:active {
+.button:active {
     transform: translateY(1px);
 }
 

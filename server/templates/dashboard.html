@@ -20,28 +20,11 @@
 
         <div id="right_side">
             <div id="controls">
-                <button id="toggle_curlist" title="Toggle the curlist">&lt;</button>
+                <div class="button" id="toggle_curlist" title="Toggle the curlist">&lt;</div>
                 <div class="pointer glow" id="updater"></div>
-                <button id="update" title="Update now">Update</button>
+                <div class="button" id="update" title="Update now">Update</div>
 
-                <select id="sort">
-                    <option value="order">Order</option>
-                    <option disabled>─────</option>
-                    <option value="newest">Newest</option>
-                    <option value="oldest">Oldest</option>
-                    <option disabled>─────</option>
-                    <option value="curl_asc">Curl Asc</option>
-                    <option value="curl_desc">Curl Desc</option>
-                    <option disabled>─────</option>
-                    <option value="status_asc">Status Asc</option>
-                    <option value="status_desc">Status Desc</option>
-                    <option disabled>─────</option>
-                    <option value="short_curl">Short Curl</option>
-                    <option value="long_curl">Long Curl</option>
-                    <option disabled>─────</option>
-                    <option value="short_status">Short Status</option>
-                    <option value="long_status">Long Status</option>
-                </select>
+                <div class="button" id="sort"></div>
 
                 <select id="color" title="Change the accent color">
                     <option value="red">Red</option>
@@ -58,13 +41,13 @@
             </div>
 
             <div id="change">
-                <button id="picker" title="Switch to other used curls">$</button>
+                <div class="button" id="picker" title="Switch to other used curls">$</div>
                 <input type="text" id="change_curl" placeholder="Curl" title="A curl you own">
                 <input type="password" id="change_key" placeholder="Key" title="The key used to control the curl">
                 <input type="text" id="change_status" placeholder="Status" spellcheck="true" title="The new status of the curl">
-                <button id="change_submit" title="Change the status of your curl">Change</button>
+                <div class="button" id="change_submit" title="Change the status of your curl">Change</div>
                 <input type="text" id="filter" placeholder="Filter" title="Filter the items">
-                <button id="filter_button">@</button>
+                <div class="button" id="filter_button">@</div>
             </div>
 
             <div class="empty" id="container"></div>

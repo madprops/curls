@@ -57,3 +57,19 @@ App.empty_info = [
     `Use the claim link on the top right to get a new curl.`,
     `Each color has their own set of curls.`,
 ].join(`<br>`)
+
+App.sort_mode = `newest`
+
+App.sort_modes = [
+    {value: `order`, name: `Order`},
+    {value: `newest`, name: `Newest`},
+    {value: `oldest`, name: `Oldest`},
+    {value: `curl_asc`, name: `Curl Asc`},
+    {value: `curl_desc`, name: `Curl Desc`},
+    {value: `status_asc`, name: `Status Asc`},
+    {value: `status_desc`, name: `Status Desc`},
+    {value: `short_curl`, name: `Short Curl`},
+    {value: `long_curl`, name: `Long Curl`},
+    {value: `short_status`, name: `Short Status`},
+    {value: `long_status`, name: `Long Status`},
+]

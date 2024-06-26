@@ -8,39 +8,36 @@ App.setup_sort = () => {
     ]
 
     sort.title = lines.join(`\n`)
+    App.sort_mode = App.load_sort()
 
-    DOM.ev(sort, `change`, (e) => {
-        App.change_sort(e.target.value)
+    Combo.register({
+        items: App.sort_modes,
+        value: App.sort_mode,
+        element: sort,
+        default: `newest`,
+        action: (value) => {
+            App.change_sort(value)
+        },
+        get: () => {
+            return App.sort_mode
+        },
     })
-
-    DOM.ev(sort, `auxclick`, (e) => {
-        if (e.button === 1) {
-            App.reset_sort()
-        }
-    })
-
-    DOM.ev(sort, `wheel`, (e) => {
-        let direction = App.wheel_direction(e)
-        App.cycle_sort(direction)
-        e.preventDefault()
-    })
-
-    sort.value = App.load_sort()
 }
 
 App.change_sort = (value) => {
+    App.sort_mode = value
     localStorage.setItem(`sort`, value)
     App.refresh_items()
 }
 
 App.sort_if_order = () => {
-    if (App.get_sort() == `order`) {
+    if (App.sort_mode == `order`) {
         App.refresh_items()
     }
 }
 
 App.sort_items = (items) => {
-    let mode = App.get_sort()
+    let mode = App.sort_mode
 
     if (mode === `order`) {
         let used_curls = App.get_used_curls()
@@ -130,19 +127,15 @@ App.sort_items = (items) => {
 }
 
 App.load_sort = () => {
-    let defvalue = `newest`
-    let saved = localStorage.getItem(`sort`) || defvalue
-    let values = Array.from(sort.options).map(option => option.value)
+    let def_mode = `newest`
+    let mode = localStorage.getItem(`sort`) || def_mode
+    let modes = App.sort_modes.map(x => x.mode)
 
-    if (!values.includes(saved)) {
-        saved = defvalue
+    if (!modes.includes(mode)) {
+        mode = def_mode
     }
 
-    return saved
-}
-
-App.get_sort = () => {
-    return DOM.el(`#sort`).value
+    return mode
 }
 
 App.cycle_sort = (direction) => {
