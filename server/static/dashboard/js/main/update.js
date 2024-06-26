@@ -2,31 +2,24 @@ App.setup_updater = () => {
     let updater = DOM.el(`#updater`)
 
     let lines = [
-        `Click or Wheel to cycle update modes`,
-        `Middle Click to disable`,
-        `Right Click to show menu`,
+        `Click to pick updater`,
+        `Wheel to cycle updaters`,
+        `Middle Click to reset`,
     ]
 
     updater.title = lines.join(`\n`)
 
-    DOM.ev(updater, `click`, () => {
-        App.change_updater()
-    })
-
-    DOM.ev(updater, `auxclick`, (e) => {
-        if (e.button === 1) {
-            App.disable_updates()
-        }
-    })
-
-    DOM.ev(updater, `contextmenu`, (e) => {
-        App.show_updater_menu(e)
-        e.preventDefault()
-    })
-
-    DOM.ev(updater, `wheel`, (e) => {
-        let direction = App.wheel_direction(e)
-        App.cycle_updater(direction)
+    Combo.register({
+        items: App.updater_modes,
+        value: App.updater_mode,
+        element: updater,
+        default: `minutes_5`,
+        action: (value) => {
+            App.set_updater(value)
+        },
+        get: () => {
+            return App.updater_mode
+        },
     })
 
     App.update_debouncer = App.create_debouncer((force, feedback) => {
@@ -66,20 +59,6 @@ App.change_updater = () => {
     saved = App.switch_state(saved, App.update_modes)
     localStorage.setItem(`updater`, saved)
     App.check_updater(saved)
-    App.refresh_updater()
-}
-
-App.refresh_updater = () => {
-    let el = DOM.el(`#updater`)
-    let updater = App.get_updater()
-
-    if (updater.startsWith(`minutes_`)) {
-        let name = App.get_updater_name(updater)
-        el.textContent = `Updating every ${name}`
-    }
-    else {
-        el.textContent = `No auto updates`
-    }
 }
 
 App.start_update_timeout = () => {
@@ -177,10 +156,10 @@ App.clear_updating = () => {
     }, App.clear_delay)
 }
 
-App.set_updater = (what) => {
-    localStorage.setItem(`updater`, what)
-    App.check_updater(what)
-    App.refresh_updater()
+App.set_updater = (mode) => {
+    App.updater_mode = mode
+    localStorage.setItem(`updater`, mode)
+    App.check_updater(mode)
 }
 
 App.load_updater = () => {
@@ -190,41 +169,4 @@ App.load_updater = () => {
 
 App.disable_updates = () => {
     App.set_updater(`disabled`)
-}
-
-App.cycle_updater = (direction) => {
-    let saved = App.get_updater()
-    let reverse = direction === `up`
-    saved = App.switch_state(saved, App.update_modes, reverse)
-    App.set_updater(saved)
-}
-
-App.get_updater_name = (mode) => {
-    if (mode.startsWith(`minutes_`)) {
-        let num = parseInt(mode.split(`_`)[1])
-        let word = App.plural(num, `minute`, `minutes`)
-        return `${num} ${word}`
-    }
-    else {
-        return `Disabled`
-    }
-}
-
-App.show_updater_menu = (e) => {
-    let items = []
-
-    for (let mode of App.update_modes) {
-        items.push({
-            text: App.get_updater_name(mode),
-            action: () => {
-                App.set_updater(mode)
-            }
-        })
-
-        if (mode === `disabled`) {
-            items.push({separator: true})
-        }
-    }
-
-    NeedContext.show({items: items, e: e})
 }

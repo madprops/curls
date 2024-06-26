@@ -21,11 +21,12 @@
         <div id="right_side">
             <div id="controls">
                 <div class="button" id="toggle_curlist" title="Toggle the curlist">&lt;</div>
-                <div class="pointer glow" id="updater"></div>
+                <div class="button" id="updater"></div>
                 <div class="button" id="update" title="Update now">Update</div>
-                <div class="button" id="sort"></div>
                 <div class="button" id="color"></div>
-                <a href="/claim" target="_blank" id="claim" title="Get a key to control a new curl">Claim</a>
+                <div class="button" id="sort"></div>
+                <input type="text" id="filter" placeholder="Filter" title="Filter the items">
+                <div class="button" id="filter_button">@</div>
                 <div title="The current version of Curls and the Dashboard">v{{version}}</div>
             </div>
 
@@ -35,8 +36,7 @@
                 <input type="password" id="change_key" placeholder="Key" title="The key used to control the curl">
                 <input type="text" id="change_status" placeholder="Status" spellcheck="true" title="The new status of the curl">
                 <div class="button" id="change_submit" title="Change the status of your curl">Change</div>
-                <input type="text" id="filter" placeholder="Filter" title="Filter the items">
-                <div class="button" id="filter_button">@</div>
+                <a href="/claim" target="_blank" id="claim" title="Get a key to control a new curl">Claim</a>
             </div>
 
             <div class="empty" id="container"></div>

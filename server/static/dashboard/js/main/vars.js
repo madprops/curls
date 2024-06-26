@@ -42,15 +42,6 @@ App.colors = {
     white: `rgb(255, 255, 255)`,
 }
 
-App.update_modes = [
-    `disabled`,
-    `minutes_1`,
-    `minutes_5`,
-    `minutes_10`,
-    `minutes_30`,
-    `minutes_60`,
-]
-
 App.empty_info = [
     `Add some curls to the list on the left.`,
     `These will be monitored for status changes.`,
@@ -58,6 +49,18 @@ App.empty_info = [
     `Use the claim link on the top right to get a new curl.`,
     `Each color has their own set of curls.`,
 ].join(`<br>`)
+
+App.updater_mode = `minutes_5`
+
+App.updater_modes = [
+    {value: `disabled`, name: `Disabled`},
+    {value: App.separator},
+    {value: `minutes_1`, name: `1 Minute`},
+    {value: `minutes_5`, name: `5 Minutes`},
+    {value: `minutes_10`, name: `10 Minutes`},
+    {value: `minutes_30`, name: `30 Minutes`},
+    {value: `minutes_60`, name: `60 Minutes`},
+]
 
 App.sort_mode = `newest`
 

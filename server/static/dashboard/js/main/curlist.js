@@ -37,10 +37,12 @@ App.get_curlist = () => {
 
 App.set_curlist = (value) => {
     DOM.el(`#curlist`).value = value
+    App.clean_curlist()
     App.update_curlist_top()
 }
 
 App.clean_curlist = () => {
+    let curlist = DOM.el(`#curlist`)
     let curls = App.get_curls()
     let words = []
 
@@ -74,7 +76,7 @@ App.clean_curlist = () => {
         }
     }
 
-    App.set_curlist(cleaned.join(`\n`))
+    curlist.value = cleaned.join(`\n`)
 }
 
 App.refresh_curlist = () => {
@@ -273,7 +275,6 @@ App.do_sort_curlist = (how) => {
     }
 
     App.set_curlist(lines.join(`\n`))
-    App.clean_curlist()
     App.save_curls()
     App.sort_if_order()
 }
