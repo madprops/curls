@@ -53,13 +53,15 @@ App.empty_info = [
 App.updater_mode = `minutes_5`
 
 App.updater_modes = [
-    {value: `disabled`, name: `Disabled`},
+    {value: `now`, name: `Update Now`, skip: true},
     {value: App.separator},
     {value: `minutes_1`, name: `1 Minute`},
     {value: `minutes_5`, name: `5 Minutes`},
     {value: `minutes_10`, name: `10 Minutes`},
     {value: `minutes_30`, name: `30 Minutes`},
     {value: `minutes_60`, name: `60 Minutes`},
+    {value: App.separator},
+    {value: `disabled`, name: `Disabled`},
 ]
 
 App.sort_mode = `newest`

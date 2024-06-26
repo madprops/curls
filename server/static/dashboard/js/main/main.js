@@ -13,12 +13,6 @@ App.setup = () => {
 }
 
 App.setup_buttons = () => {
-    let update = DOM.el(`#update`)
-
-    DOM.ev(update, `click`, () => {
-        App.update(true)
-    })
-
     let toggle_curlist = DOM.el(`#toggle_curlist`)
 
     DOM.ev(toggle_curlist, `click`, () => {

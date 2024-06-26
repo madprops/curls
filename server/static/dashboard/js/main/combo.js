@@ -18,14 +18,14 @@ Combo.register = (args = {}) => {
         e.preventDefault()
     })
 
-    Combo.update_name(args)
+    Combo.update_text(args)
 }
 
 Combo.get_item = (args) => {
     return args.items.find(x => x.value === args.get())
 }
 
-Combo.update_name = (args) => {
+Combo.update_text = (args) => {
     let item = Combo.get_item(args)
     args.element.textContent = item.name
 }
@@ -54,7 +54,7 @@ Combo.show_menu = (args, e) => {
 
 Combo.action = (args, value) => {
     args.action(value)
-    Combo.update_name(args)
+    Combo.update_text(args)
 }
 
 Combo.reset = (args) => {
@@ -64,6 +64,7 @@ Combo.reset = (args) => {
 Combo.get_values = (args) => {
     return args.items
         .filter(x => x.value !== App.separator)
+        .filter(x => !x.skip)
         .map(x => x.value)
 }
 

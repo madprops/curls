@@ -141,7 +141,7 @@ App.update_curls = async (feedback = true) => {
 }
 
 App.show_updating = () => {
-    let button = DOM.el(`#update`)
+    let button = DOM.el(`#updater`)
     clearTimeout(App.clear_updating_timeout)
     button.classList.add(`active`)
 }
@@ -150,12 +150,17 @@ App.clear_updating = () => {
     App.updating = false
 
     App.clear_updating_timeout = setTimeout(() => {
-        let button = DOM.el(`#update`)
+        let button = DOM.el(`#updater`)
         button.classList.remove(`active`)
     }, App.clear_delay)
 }
 
 App.set_updater = (mode) => {
+    if (mode === `now`) {
+        App.update(true)
+        return
+    }
+
     App.updater_mode = mode
     localStorage.setItem(`updater`, mode)
     App.check_updater(mode)
