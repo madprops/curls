@@ -32,6 +32,7 @@ Combo.update_name = (args) => {
 
 Combo.show_menu = (args, e) => {
     let items = []
+    let current = args.get()
 
     for (let item of args.items) {
         if (item.value === App.separator) {
@@ -42,7 +43,8 @@ Combo.show_menu = (args, e) => {
                 text: item.name,
                 action: () => {
                     Combo.action(args, item.value)
-                }
+                },
+                selected: item.value === current,
             })
         }
     }
