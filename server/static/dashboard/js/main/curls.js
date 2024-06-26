@@ -61,10 +61,8 @@ App.do_add_curl = (where, curl = ``, update = true) => {
 
     App.clean_curlist()
 
-    if (App.save_curls()) {
-        if (update) {
-            App.update(true)
-        }
+    if (App.save_curls() && update) {
+        App.update(true)
     }
 }
 
