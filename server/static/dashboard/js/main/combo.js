@@ -35,7 +35,7 @@ Combo.show_menu = (args, e) => {
 
     for (let item of args.items) {
         if (item.value === App.separator) {
-            items.push({separator: true})
+            items.push({ separator: true })
         }
         else {
             items.push({
@@ -47,7 +47,7 @@ Combo.show_menu = (args, e) => {
         }
     }
 
-    NeedContext.show({items: items, e: e})
+    NeedContext.show({ items: items, e: e })
 }
 
 Combo.action = (args, value) => {
@@ -61,8 +61,8 @@ Combo.reset = (args) => {
 
 Combo.get_values = (args) => {
     return args.items
-    .filter(x => x.value !== App.separator)
-    .map(x => x.value)
+        .filter(x => x.value !== App.separator)
+        .map(x => x.value)
 }
 
 Combo.cycle = (args, direction) => {

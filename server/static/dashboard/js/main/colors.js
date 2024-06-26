@@ -8,7 +8,7 @@ App.setup_color = () => {
         `Middle Click to reset`,
     ]
 
-    sort.title = lines.join(`\n`)
+    color.title = lines.join(`\n`)
 
     Combo.register({
         items: App.color_modes,

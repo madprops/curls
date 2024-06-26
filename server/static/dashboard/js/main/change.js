@@ -67,25 +67,25 @@ App.do_change = () => {
         },
         body: params,
     })
-    .then(response => response.text())
-    .then(ans => {
-        App.info(`Response: ${ans}`)
-        App.clear_changing()
+        .then(response => response.text())
+        .then(ans => {
+            App.info(`Response: ${ans}`)
+            App.clear_changing()
 
-        if (ans === `ok`) {
-            App.clear_status()
-            App.update(true, false)
-            App.add_owned_curl(curl)
-            App.add_to_picker()
-        }
-        else {
-            alert(ans)
-        }
-    })
-    .catch(e => {
-        App.error(`Failed to change`)
-        App.clear_changing()
-    })
+            if (ans === `ok`) {
+                App.clear_status()
+                App.update(true, false)
+                App.add_owned_curl(curl)
+                App.add_to_picker()
+            }
+            else {
+                alert(ans)
+            }
+        })
+        .catch(e => {
+            App.error(`Failed to change`)
+            App.clear_changing()
+        })
 }
 
 App.clear_status = () => {

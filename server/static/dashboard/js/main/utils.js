@@ -13,12 +13,14 @@ App.plural = (n, singular, plural) => {
 
 App.info = (msg) => {
     if (App.console_logs) {
+        // eslint-disable-next-line no-console
         console.info(`💡 ${msg}`)
     }
 }
 
 App.error = (msg) => {
     if (App.console_logs) {
+        // eslint-disable-next-line no-console
         console.info(`❌ ${msg}`)
     }
 }

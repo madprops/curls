@@ -43,7 +43,7 @@ App.insert_item = (item) => {
     item_status.innerHTML = App.sanitize(status)
     App.urlize(item_status)
 
-    let date = new Date(item.updated + "Z")
+    let date = new Date(item.updated + `Z`)
     let date_mode = App.get_date_mode()
     let s_date
 
@@ -164,7 +164,7 @@ App.get_items_by_date = (what) => {
     let now = App.now()
 
     for (let item of App.items) {
-        let date = new Date(item.updated + "Z")
+        let date = new Date(item.updated + `Z`)
         let diff = now - date
 
         if (diff < what) {

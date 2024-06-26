@@ -19,3 +19,5 @@ captcha_key.txt
 captcha_cheat.txt
 bundle.js
 bundle.*.js
+node_modules/
+package-lock.json

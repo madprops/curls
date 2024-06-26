@@ -73,7 +73,7 @@ App.remove_old = () => {
         let date = item.updated
 
         if (date) {
-            let datetime = new Date(date + "Z").getTime()
+            let datetime = new Date(date + `Z`).getTime()
 
             if ((now - datetime) > (App.YEAR * 1)) {
                 removed.push(curl)
@@ -110,7 +110,7 @@ App.do_remove_curl = (curl, remove_item = true) => {
         }
     }
 
-    curlist.value = cleaned.join(`\n`)
+    App.set_curlist(cleaned.join(`\n`))
     App.save_curlist()
 
     if (remove_item) {

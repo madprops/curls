@@ -73,7 +73,7 @@ App.save_cleaned = (cleaned, removed) => {
     let s = App.plural(removed.length, `item`, `items`)
 
     if (confirm(`Remove ${removed.length} ${s}?`)) {
-        curlist.value = cleaned.join(`\n`)
+        App.set_curlist(cleaned.join(`\n`))
         App.clean_curlist()
         App.save_curlist()
         App.remove_items(removed)

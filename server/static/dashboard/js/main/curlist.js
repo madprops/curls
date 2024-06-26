@@ -131,7 +131,7 @@ App.show_curlist_menu = (e) => {
                 text: `Add (Top)`,
                 action: () => {
                     App.do_add_curl(`top`)
-            },
+                }
             },
             {
                 text: `Add (Bottom)`,

@@ -1,0 +1,16 @@
+{
+    "name": "Dashboard",
+    "version": "1.0.0",
+    "description": "Curls Dashboard",
+    "main": "eslint.config.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "AGPL-3.0-only",
+    "devDependencies": {
+      "@eslint/js": "^9.4.0",
+      "eslint": "^9.4.0",
+      "globals": "^15.4.0"
+    }
+  }

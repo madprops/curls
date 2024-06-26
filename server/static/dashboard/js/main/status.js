@@ -26,7 +26,7 @@ App.setup_status = () => {
 }
 
 App.get_status_list = () => {
-    let list = localStorage.getItem('status_list') || `[]`
+    let list = localStorage.getItem(`status_list`) || `[]`
 
     try {
         return JSON.parse(list)
