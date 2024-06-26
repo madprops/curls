@@ -11,6 +11,11 @@ App.setup_updater = () => {
         }
     })
 
+    DOM.ev(updater, `contextmenu`, (e) => {
+        App.show_updater_menu(e)
+        e.preventDefault()
+    })
+
     DOM.ev(updater, `wheel`, (e) => {
         let direction = App.wheel_direction(e)
         App.cycle_updater(direction)
@@ -61,9 +66,8 @@ App.refresh_updater = () => {
     let updater = App.get_updater()
 
     if (updater.startsWith(`minutes_`)) {
-        let num = parseInt(updater.split(`_`)[1])
-        let word = App.plural(num, `minute`, `minutes`)
-        el.textContent = `Updating every ${num} ${word}`
+        let name = App.get_updater_name(updater)
+        el.textContent = `Updating every ${name}`
     }
     else {
         el.textContent = `No auto updates`
@@ -185,4 +189,30 @@ App.cycle_updater = (direction) => {
     let reverse = direction === `up`
     saved = App.switch_state(saved, App.update_modes, reverse)
     App.set_updater(saved)
+}
+
+App.get_updater_name = (mode) => {
+    if (mode.startsWith(`minutes_`)) {
+        let num = parseInt(mode.split(`_`)[1])
+        let word = App.plural(num, `minute`, `minutes`)
+        return `${num} ${word}`
+    }
+    else {
+        return `Disabled`
+    }
+}
+
+App.show_updater_menu = (e) => {
+    let items = []
+
+    for (let mode of App.update_modes) {
+        items.push({
+            text: App.get_updater_name(mode),
+            action: () => {
+                App.set_updater(mode)
+            }
+        })
+    }
+
+    NeedContext.show({items: items, e: e})
 }
