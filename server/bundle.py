@@ -32,7 +32,6 @@ def bundle_dashboard_js(what: str, first: list[str], last: list[str]) -> None:
                 f.write("\n\n")
 
 
-
 def bundle_dashboard() -> None:
     bundle_dashboard_js("libs", ["needcontext.js"], [])
     bundle_dashboard_js("main", ["vars.js", "main.js"], ["load.js"])
