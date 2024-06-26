@@ -110,6 +110,30 @@ App.show_curlist_menu = (e) => {
     let curls = App.get_curls()
     let items
 
+    let data = [
+        {
+            separator: true,
+        },
+        {
+            text: `Export`,
+            action: () => {
+                App.export_curlist()
+            }
+        },
+        {
+            text: `Import`,
+            action: () => {
+                App.import_curlist()
+            }
+        },
+        {
+            text: `Clear`,
+            action: () => {
+                App.clear_curlists()
+            }
+        },
+    ]
+
     if (curls.length) {
         items = [
             {
@@ -175,27 +199,7 @@ App.show_curlist_menu = (e) => {
                     App.remove_old()
                 }
             },
-            {
-                separator: true,
-            },
-            {
-                text: `Export`,
-                action: () => {
-                    App.export_curlist()
-                }
-            },
-            {
-                text: `Import`,
-                action: () => {
-                    App.import_curlist()
-                }
-            },
-            {
-                text: `Clear`,
-                action: () => {
-                    App.clear_curlists()
-                }
-            },
+            ...data,
         ]
     }
     else {
@@ -206,27 +210,7 @@ App.show_curlist_menu = (e) => {
                     App.do_add_curl(`top`)
                 }
             },
-            {
-                separator: true,
-            },
-            {
-                text: `Export`,
-                action: () => {
-                    App.export_curlist()
-                }
-            },
-            {
-                text: `Import`,
-                action: () => {
-                    App.import_curlist()
-                }
-            },
-            {
-                text: `Clear`,
-                action: () => {
-                    App.clear_curlists()
-                }
-            },
+            ...data,
         ]
     }
 
