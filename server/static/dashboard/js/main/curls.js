@@ -37,9 +37,7 @@ App.get_used_curls = () => {
 }
 
 App.get_curls = () => {
-    let curlist = DOM.el(`#curlist`).value
-    let lines = curlist.split(`\n`).filter(x => x !== ``)
-    return lines
+    return App.get_curlist().split(`\n`)
 }
 
 App.do_add_curl = (where, curl = ``, update = true) => {

@@ -4,6 +4,7 @@ App.setup_curlist = () => {
 
     DOM.ev(curlist, `focusout`, () => {
         App.clean_curlist()
+        App.update_curlist_top()
 
         if (App.save_curls()) {
             App.update(true)
@@ -29,6 +30,7 @@ App.setup_curlist = () => {
     }
 
     App.load_curlist()
+    App.update_curlist_top()
 }
 
 App.get_curlist = () => {
@@ -40,7 +42,7 @@ App.set_curlist = (value) => {
 }
 
 App.clean_curlist = () => {
-    let curls = App.get_curlist_by_color(App.color_mode)
+    let curls = App.get_curls()
     let words = []
 
     for (let curl of curls) {
@@ -73,11 +75,7 @@ App.clean_curlist = () => {
         }
     }
 
-    App.update_curlist_top()
-
-    if (App.save_curls(App.color_mode, cleaned)) {
-        App.refresh_curlist()
-    }
+    App.set_curlist(cleaned.join(`\n`))
 }
 
 App.refresh_curlist = () => {
