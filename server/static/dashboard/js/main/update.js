@@ -1,6 +1,14 @@
 App.setup_updater = () => {
     let updater = DOM.el(`#updater`)
 
+    let lines = [
+        `Click or Wheel to cycle update modes`,
+        `Middle Click to disable`,
+        `Right Click to show menu`,
+    ]
+
+    updater.title = lines.join(`\n`)
+
     DOM.ev(updater, `click`, () => {
         App.change_updater()
     })

@@ -14,6 +14,13 @@ App.setup_filter = () => {
 
     let button = DOM.el(`#filter_button`)
 
+    let lines = [
+        `Click to show the filter menu`,
+        `Middle Click to clear`,
+    ]
+
+    button.title = lines.join(`\n`)
+
     DOM.ev(button, `click`, (e) => {
         App.show_filter_menu(e)
     })
