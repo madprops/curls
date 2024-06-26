@@ -10,8 +10,9 @@ App.setup_curlist = () => {
         }
     })
 
-    DOM.ev(curlist_top, `click`, (e) => {
+    DOM.evs(curlist_top, [`click`, `contextmenu`], (e) => {
         App.show_curlist_menu(e)
+        e.preventDefault()
     })
 
     DOM.ev(curlist_top, `contextmenu`, (e) => {

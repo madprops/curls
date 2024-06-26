@@ -21,8 +21,9 @@ App.setup_filter = () => {
 
     button.title = lines.join(`\n`)
 
-    DOM.ev(button, `click`, (e) => {
+    DOM.evs(button, [`click`, `contextmenu`], (e) => {
         App.show_filter_menu(e)
+        e.preventDefault()
     })
 
     DOM.ev(button, `auxclick`, (e) => {
