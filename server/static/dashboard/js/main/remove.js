@@ -142,7 +142,7 @@ App.save_cleaned = (cleaned, removed) => {
     let s = App.plural(removed.length, `item`, `items`)
 
     if (confirm(`Remove ${removed.length} ${s}?`)) {
-        App.save_curls()
+        App.save_curls(App.color_mode, cleaned)
         App.update_curlist()
         App.remove_items(removed)
     }
