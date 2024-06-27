@@ -91,19 +91,6 @@ App.show_picker = (e) => {
         })
     }
 
-    if (items.length) {
-        items.push({
-            separator: true,
-        })
-    }
-
-    items.push({
-        text: `Claim`,
-        action: () => {
-            App.claim()
-        },
-    })
-
     NeedContext.show({items: items, e: e})
 }
 
