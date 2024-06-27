@@ -24,6 +24,12 @@ App.setup_curlist = () => {
         }
     })
 
+    DOM.ev(curlist, `dblclick`, (e) => {
+        if (e.target.id === `curlist`) {
+            App.add_curl(`bottom`)
+        }
+    })
+
     App.curlist_drag_events()
     App.update_curlist()
 }
