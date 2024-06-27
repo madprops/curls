@@ -19,6 +19,7 @@ App.setup_curlist = () => {
         App.hide_curlist()
     }
 
+    App.curlist_drag_events()
     App.update_curlist()
 }
 
@@ -31,6 +32,7 @@ App.update_curlist = () => {
         let item = DOM.create(`div`)
         item.textContent = curl
         item.classList.add(`curlist_item`)
+        item.draggable = true
         curlist.append(item)
     }
 
@@ -290,4 +292,46 @@ App.clear_curlists = () => {
         App.update_curlist()
         App.empty_container()
     }
+}
+
+App.curlist_drag_events = () => {
+    let container = DOM.el(`#curlist`)
+
+    DOM.ev(container, `dragstart`, (e) => {
+        let curl = e.target.textContent
+        let items = Array.from(container.children)
+        App.drag_index = items.indexOf(e.target)
+        e.dataTransfer.setData(`text`, curl)
+    })
+
+    DOM.ev(container, `dragover`, (e) => {
+        e.preventDefault()
+        let items = Array.from(container.children)
+        let index = items.indexOf(e.target)
+
+        if (index === -1) {
+            return
+        }
+
+        if (index === App.drag_index) {
+            return
+        }
+
+        let curl = items[App.drag_index]
+
+        if (index > App.drag_index) {
+            container.insertBefore(curl, items[index + 1])
+        }
+        else {
+            container.insertBefore(curl, items[index])
+        }
+
+        App.drag_index = index
+    })
+
+    DOM.ev(container, `dragend`, (e) => {
+        let curls = Array.from(container.children).map(x => x.textContent)
+        App.save_curls(App.color_mode, curls)
+        App.sort_if_order()
+    })
 }
