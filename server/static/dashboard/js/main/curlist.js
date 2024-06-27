@@ -152,6 +152,12 @@ App.show_curlist_menu = (e) => {
                     App.replace_curls(e)
                 }
             },
+            {
+                text: `Empty`,
+                action: () => {
+                    App.empty_curls()
+                }
+            },
             ...data,
         ]
     }

@@ -186,3 +186,13 @@ App.clear_curls = (color = App.color_mode) => {
     let name = App.get_curls_name(color)
     localStorage.setItem(name, ``)
 }
+
+App.empty_curls = () => {
+    if (!confirm(`Empty the curls?`)) {
+        return
+    }
+
+    App.clear_curls()
+    App.update_curlist()
+    App.empty_container()
+}
