@@ -36,6 +36,14 @@ App.setup_curlist = () => {
         }
     })
 
+    DOM.ev(curlist, `auxclick`, (e) => {
+        if (e.button === 1) {
+            if (e.target.closest(`.curlist_item`)) {
+                App.remove_curl(e.target.textContent)
+            }
+        }
+    })
+
     App.curlist_drag_events()
     App.update_curlist()
 }

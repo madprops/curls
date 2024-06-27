@@ -91,10 +91,7 @@ App.remove_old = () => {
     App.save_cleaned(cleaned, removed)
 }
 
-App.remove_curl = (e) => {
-    let item = e.target.closest(`.item`)
-    let curl = item.querySelector(`.item_curl`).textContent
-
+App.remove_curl = (curl) => {
     if (confirm(`Remove ${curl}?`)) {
         App.do_remove_curl(curl)
     }
