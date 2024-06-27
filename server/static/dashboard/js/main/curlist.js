@@ -522,7 +522,7 @@ App.get_curlist_items = () => {
     return DOM.els(`#curlist .curlist_item`)
 }
 
-App.select_curlist_vertical = (direction, shift) => {
+App.select_curlist_vertical = (direction, shift, curl) => {
     let items = App.get_curlist_items()
     let selected_items = App.get_selected_items()
 
@@ -561,28 +561,29 @@ App.select_curlist_vertical = (direction, shift) => {
         return
     }
 
+    let item
+
     if (direction === `up`) {
         if (index === 0) {
             return
         }
 
-        if (!shift) {
-            App.unselect_curlist()
-        }
-
-        App.do_select_curlist_item(items[index - 1])
+        item = items[index - 1]
     }
     else if (direction === `down`) {
         if (index === (items.length - 1)) {
             return
         }
 
-        if (!shift) {
-            App.unselect_curlist()
-        }
-
-        App.do_select_curlist_item(items[index + 1])
+        item = items[index + 1]
     }
+
+    if (!shift) {
+        App.unselect_curlist()
+        App.show_peek(item.textContent)
+    }
+
+    App.do_select_curlist_item(item)
 }
 
 App.focus_curlist = () => {
