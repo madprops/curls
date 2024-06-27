@@ -28,6 +28,7 @@ App.updating = false
 App.network = `🛜`
 App.date_mode = `12`
 App.separator = `__separator__`
+App.old_delay = App.YEAR * 1
 
 App.curl_too_long = `Curl is too long`
 App.key_too_long = `Key is too long`

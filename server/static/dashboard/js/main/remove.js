@@ -75,7 +75,7 @@ App.remove_old = () => {
         if (date) {
             let datetime = new Date(date + `Z`).getTime()
 
-            if ((now - datetime) > (App.YEAR * 1)) {
+            if ((now - datetime) > (App.old_delay)) {
                 removed.push(curl)
                 continue
             }
