@@ -38,7 +38,7 @@ App.setup_curlist = () => {
             }
             else {
                 App.select_curlist_item(e.target)
-                App.peek_curl(e.target.textContent)
+                App.toggle_peek(e.target.textContent)
             }
         }
     })
