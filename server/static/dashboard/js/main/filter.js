@@ -218,3 +218,9 @@ App.check_filter = () => {
         App.do_filter()
     }
 }
+
+App.filter_one_curl = (curl) => {
+    let filter = DOM.el(`#filter`)
+    filter.value = `[curl] ${curl}`
+    App.do_filter()
+}
