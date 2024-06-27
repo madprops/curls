@@ -355,6 +355,7 @@ App.curlist_drag_events = () => {
             App.drag_items = selected
         }
         else {
+            App.select_curlist_item(e.target)
             App.drag_items = [e.target]
         }
     })
