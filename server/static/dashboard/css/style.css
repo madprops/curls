@@ -312,13 +312,13 @@ select {
 #peek.active {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.66rem;
 }
 
 .peek_icon {
     display: flex;
     justify-content: center;
-    padding-top: 0.45rem;
+    padding-top: 1rem;
     cursor: pointer;
     width: 6rem;
 }
@@ -326,7 +326,6 @@ select {
 .peek_icon_canvas {
     width: 100%;
     height: auto;
-    padding: 0.5rem;
     justify-content: center;
 }
 
@@ -335,7 +334,6 @@ select {
 }
 
 .peek_curl {
-    padding-bottom: 0.5rem;
     font-weight: bold;
 }
 
@@ -343,7 +341,7 @@ select {
     text-align: center;
     padding-left: 1rem;
     padding-right: 1rem;
-    padding-bottom: 1rem;
+    padding-bottom: 0.8rem;
 }
 
 .peek_close {
