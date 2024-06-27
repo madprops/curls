@@ -38,7 +38,11 @@ App.get_used_curls = () => {
 
 App.add_curl = (where) => {
     let curls = prompt(`Add a curls:`)
-    let words = curls.split(` `)
+    let words = curls.split(` `).filter(x => x)
+
+    if (!words.length) {
+        return
+    }
 
     if (where === `top`) {
         words = words.reverse()
@@ -147,4 +151,38 @@ App.get_curls_by_color = (color = App.color_mode) => {
     catch (err) {
         return []
     }
+}
+
+App.replace_curls = () => {
+    let curls = prompt(`Enter the curls`)
+
+    if (!curls) {
+        return
+    }
+
+    let words = curls.split(` `).filter(x => x)
+
+    if (!words.length) {
+        return
+    }
+
+    words = words.reverse()
+    App.clear_curls()
+    let added = false
+
+    for (let curl of words) {
+        if (App.do_add_curl(`top`, curl, false)) {
+            added = true
+        }
+    }
+
+    if (added) {
+        App.update_curlist()
+        App.update(true)
+    }
+}
+
+App.clear_curls = (color = App.color_mode) => {
+    let name = App.get_curls_name(color)
+    localStorage.setItem(name, ``)
 }

@@ -48,8 +48,9 @@ App.get_curls_name = (color) => {
 }
 
 App.copy_curlist = (e) => {
-    let curlist = DOM.el(`#curlist`)
-    navigator.clipboard.writeText(curlist.value)
+    let curls = App.get_curls_by_color()
+    let text = curls.join(` `)
+    navigator.clipboard.writeText(text)
 }
 
 App.show_curlist_menu = (e) => {
@@ -82,15 +83,6 @@ App.show_curlist_menu = (e) => {
 
     if (curls.length) {
         items = [
-            {
-                text: `Copy`,
-                action: () => {
-                    App.copy_curlist(e)
-                }
-            },
-            {
-                separator: true,
-            },
             {
                 text: `Add (Top)`,
                 action: () => {
@@ -143,6 +135,21 @@ App.show_curlist_menu = (e) => {
                 text: `Remove Old`,
                 action: () => {
                     App.remove_old()
+                }
+            },
+            {
+                separator: true,
+            },
+            {
+                text: `Copy`,
+                action: () => {
+                    App.copy_curlist(e)
+                }
+            },
+            {
+                text: `Replace`,
+                action: () => {
+                    App.replace_curls(e)
                 }
             },
             ...data,
@@ -271,8 +278,7 @@ App.import_curlist = () => {
 App.clear_curlists = () => {
     if (confirm(`Clear all curls in all colors?`)) {
         for (let color in App.colors) {
-            let name = App.get_curls_name(color)
-            localStorage.setItem(name, ``)
+            App.clear_curls(color)
         }
 
         App.update_curlist()
