@@ -28,6 +28,9 @@ App.setup_curlist = () => {
         if (e.target.id === `curlist`) {
             App.add_curl(`bottom`)
         }
+        else if (e.target.closest(`.curlist_item`)) {
+            App.edit_curl(e.target.textContent)
+        }
     })
 
     App.curlist_drag_events()
