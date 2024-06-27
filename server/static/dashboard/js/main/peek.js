@@ -9,6 +9,8 @@ App.show_peek = (curl) => {
     curl_.textContent = item.curl
     let status = DOM.create(`div`, `peek_status`)
     status.innerHTML = App.sanitize(item.status)
+    let updated = DOM.create(`div`, `peek_updated`)
+    updated.textContent = item.updated_text
 
     DOM.ev(icon, `click`, () => {
         App.do_copy_item(item.curl, item.status, item.updated_text, icon)
@@ -28,6 +30,7 @@ App.show_peek = (curl) => {
     peek.append(curl_)
     peek.append(status)
     peek.append(close)
+    peek.append(updated)
 
     peek.classList.add(`active`)
     App.peek_enabled = true

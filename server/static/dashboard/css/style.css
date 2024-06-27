@@ -297,8 +297,8 @@ select {
     background-color: rgb(28, 28, 28);
     border: 1px solid white;
     color: white;
-    max-width: calc(100vw - 245px);
-    min-width: 500px;
+    max-width: 800px;
+    min-width: 450px;
     right: 20px;
     top: 20px;
     align-items: center;
@@ -337,6 +337,9 @@ select {
     text-align: center;
     padding-left: 1rem;
     padding-right: 1rem;
+}
+
+.peek_updated {
     padding-bottom: 0.88rem;
 }
 
