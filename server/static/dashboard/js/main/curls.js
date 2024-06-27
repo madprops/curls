@@ -82,7 +82,7 @@ App.do_add_curl = (where, curl = ``, update = true) => {
         curls.push(curl)
     }
 
-    App.save_curls(App.color_mode, curls)
+    App.save_curls(curls)
 
     if (update) {
         App.update_curlist()
@@ -119,7 +119,7 @@ App.curl_to_top = (curl) => {
     let curls = App.get_curls()
     curls = curls.filter(x => x !== curl)
     curls.unshift(curl)
-    App.save_curls(App.color_mode, curls)
+    App.save_curls(curls)
     App.update_curlist()
     App.sort_if_order()
 }
@@ -128,16 +128,12 @@ App.curl_to_bottom = (curl) => {
     let curls = App.get_curls()
     curls = curls.filter(x => x !== curl)
     curls.push(curl)
-    App.save_curls(App.color_mode, curls)
+    App.save_curls(curls)
     App.update_curlist()
     App.sort_if_order()
 }
 
-App.save_curls = (color, curls) => {
-    if (!color) {
-        color = App.color_mode
-    }
-
+App.save_curls = (curls, color = App.color_mode) => {
     let name = App.get_curls_name(color)
     localStorage.setItem(name, JSON.stringify(curls))
 }
@@ -211,7 +207,7 @@ App.do_edit_curl = (curl, new_curl) => {
     }
 
     curls[index] = new_curl
-    App.save_curls(App.color_mode, curls)
+    App.save_curls(curls)
     App.update_curlist()
     App.update(true)
 }

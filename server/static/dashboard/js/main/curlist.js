@@ -217,7 +217,7 @@ App.do_sort_curlist = (how) => {
         curls.sort().reverse()
     }
 
-    App.save_curls()
+    App.save_curls(curls)
     App.update_curlist()
     App.sort_if_order()
 }
@@ -329,7 +329,7 @@ App.curlist_drag_events = () => {
 
     DOM.ev(container, `dragend`, (e) => {
         let curls = Array.from(container.children).map(x => x.textContent)
-        App.save_curls(App.color_mode, curls)
+        App.save_curls(curls)
         App.sort_if_order()
     })
 }
