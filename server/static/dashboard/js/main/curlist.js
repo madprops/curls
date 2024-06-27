@@ -58,9 +58,15 @@ App.setup_curlist = () => {
         }
     })
 
-    DOM.ev(curlist, `keyup`, (e) => {
+    DOM.ev(curlist, `keydown`, (e) => {
         if (e.key === `Delete`) {
             App.remove_selected_curls()
+        }
+        else if (e.key === `ArrowUp`) {
+            App.select_curlist_up()
+        }
+        else if (e.key === `ArrowDown`) {
+            App.select_curlist_down()
         }
     })
 
@@ -438,6 +444,12 @@ App.get_selected_curls = () => {
     return selected_items.map(x => x.textContent)
 }
 
+App.get_selected_items = () => {
+    let selected = `selected`
+    let items = App.get_curlist_items()
+    return items.filter(x => x.classList.contains(selected))
+}
+
 App.unselect_curlist = () => {
     let selected = `selected`
     let items = App.get_curlist_items()
@@ -449,4 +461,54 @@ App.unselect_curlist = () => {
 
 App.get_curlist_items = () => {
     return DOM.els(`#curlist .curlist_item`)
+}
+
+App.select_curlist_up = () => {
+    let selected_items = App.get_selected_items()
+
+    if (selected_items.length > 1) {
+        App.unselect_curlist()
+        selected_items[0].classList.add(`selected`)
+        return
+    }
+
+    let selected = `selected`
+    let items = App.get_curlist_items()
+    let index = items.findIndex(x => x.classList.contains(selected))
+
+    if (index === -1) {
+        return
+    }
+
+    if (index === 0) {
+        return
+    }
+
+    App.unselect_curlist()
+    items[index - 1].classList.add(selected)
+}
+
+App.select_curlist_down = () => {
+    let selected_items = App.get_selected_items()
+
+    if (selected_items.length > 1) {
+        App.unselect_curlist()
+        selected_items[selected_items.length - 1].classList.add(`selected`)
+        return
+    }
+
+    let selected = `selected`
+    let items = App.get_curlist_items()
+    let index = items.findIndex(x => x.classList.contains(selected))
+
+    if (index === -1) {
+        return
+    }
+
+    if (index === items.length - 1) {
+        return
+    }
+
+    App.unselect_curlist()
+    items[index + 1].classList.add(selected)
 }
