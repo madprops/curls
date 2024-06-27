@@ -276,7 +276,16 @@ select {
     text-shadow: 0 0 10px var(--color), 0 0 20px var(--color), 0 0 30px var(--color), 0 0 40px var(--color), 0 0 50px var(--color), 0 0 60px var(--color);
 }
 
+.glow_white:hover {
+    text-shadow: 0 0 10px white, 0 0 20px white, 0 0 30px white, 0 0 40px white, 0 0 50px white, 0 0 60px white;
+}
+
 .glow {
+    cursor: pointer;
+    user-select: none;
+}
+
+.glow_white {
     cursor: pointer;
     user-select: none;
 }
@@ -308,6 +317,7 @@ select {
     justify-content: center;
     align-items: center;
     padding-top: 0.5rem;
+    cursor: pointer;
 }
 
 .peek_icon_canvas {
@@ -333,4 +343,10 @@ select {
     padding-left: 1rem;
     padding-right: 1rem;
     padding-bottom: 1rem;
+}
+
+.peek_close {
+    position: absolute;
+    right: 1rem;
+    top: 0.5rem;
 }

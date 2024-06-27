@@ -104,14 +104,13 @@ App.copy_item = (e) => {
     let curl = item.querySelector(`.item_curl`).textContent
     let status = item.querySelector(`.item_status`).textContent
     let updated = item.querySelector(`.item_updated`).textContent
-    App.do_copy_item(curl, status, updated)
+    let icon = item.querySelector(`.item_icon`)
+    App.do_copy_item(curl, status, updated, icon)
 }
 
-App.do_copy_item = (curl, status, updated) => {
+App.do_copy_item = (curl, status, updated, icon) => {
     let msg = `${curl}\n${status}\n${updated}`
     navigator.clipboard.writeText(msg)
-
-    let icon = item.querySelector(`.item_icon`)
     icon.classList.add(`blink`)
 
     setTimeout(() => {
@@ -251,12 +250,22 @@ App.peek_curl = (curl) => {
     status.innerHTML = App.sanitize(item.status)
 
     DOM.ev(icon, `click`, () => {
-        App.do_copy_item(item.curl, item.status, item.updated_text)
+        App.do_copy_item(item.curl, item.status, item.updated_text, icon)
+    })
+
+    icon.title = `Click to copy`
+
+    let close = DOM.create(`div`, `peek_close glow_white`)
+    close.textContent = `Close`
+
+    DOM.ev(close, `click`, () => {
+        App.hide_peek()
     })
 
     el.append(icon)
     el.append(curl_)
     el.append(status)
+    el.append(close)
     peek.append(el)
 
     peek.classList.add(`active`)
