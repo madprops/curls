@@ -36,25 +36,39 @@ App.get_used_curls = () => {
     return used_curls
 }
 
-App.do_add_curl = (where, curl = ``, update = true) => {
-    if (!curl) {
-        curl = prompt(`Add a curl:`)
+App.add_curl = (where) => {
+    let curls = prompt(`Add a curls:`)
+    let words = curls.split(` `)
 
-        if (!curl) {
-            return
+    if (where === `top`) {
+        words = words.reverse()
+    }
+
+    let added = false
+
+    for (let curl of words) {
+        if (App.do_add_curl(where, curl, false)) {
+            added = true
         }
     }
 
+    if (added) {
+        App.update_curlist()
+        App.update(true)
+    }
+}
+
+App.do_add_curl = (where, curl = ``, update = true) => {
     if (!curl) {
-        return
+        return false
     }
 
     if (curl.length > App.curl_max_length) {
-        return
+        return false
     }
 
     if (!/^[a-zA-Z0-9]+$/.test(curl)) {
-        return
+        return false
     }
 
     let curls = App.get_curls_by_color()
@@ -68,11 +82,12 @@ App.do_add_curl = (where, curl = ``, update = true) => {
     }
 
     App.save_curls(App.color_mode, curls)
-    App.update_curlist()
 
     if (update) {
-        App.update(true)
+        App.update_curlist()
     }
+
+    return true
 }
 
 App.add_owned_curl = (curl) => {

@@ -94,13 +94,13 @@ App.show_curlist_menu = (e) => {
             {
                 text: `Add (Top)`,
                 action: () => {
-                    App.do_add_curl(`top`)
+                    App.add_curl(`top`)
                 }
             },
             {
                 text: `Add (Bottom)`,
                 action: () => {
-                    App.do_add_curl(`bottom`)
+                    App.add_curl(`bottom`)
                 }
             },
             {
@@ -153,7 +153,7 @@ App.show_curlist_menu = (e) => {
             {
                 text: `Add`,
                 action: () => {
-                    App.do_add_curl(`top`)
+                    App.add_curl(`top`)
                 }
             },
             ...data,
