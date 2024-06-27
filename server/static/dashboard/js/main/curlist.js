@@ -102,8 +102,13 @@ App.setup_curlist = () => {
 
     let filter = DOM.el(`#curlist_filter`)
 
-    DOM.ev(filter, `keyup`, () => {
-        App.filter_curlist()
+    DOM.ev(filter, `keyup`, (e) => {
+        if (e.key === `Escape`) {
+            App.unfilter_curlist()
+        }
+        else {
+            App.filter_curlist()
+        }
     })
 
     App.curlist_filter_debouncer = App.create_debouncer(
@@ -639,4 +644,9 @@ App.do_filter_curlist = () => {
 
 App.unfilter_curlist = () => {
     DOM.el(`#curlist_filter`).value = ``
+    let els = App.get_curlist_items()
+
+    for (let el of els) {
+        el.classList.remove(`hidden`)
+    }
 }
