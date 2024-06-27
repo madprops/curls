@@ -28,9 +28,9 @@ body, html {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    padding-left: 0.6rem;
+    padding-left: 0.66rem;
     padding-top: 0.7rem;
-    padding-bottom: 0.6rem;
+    padding-bottom: 0.66rem;
 }
 
 #right_side {
@@ -39,9 +39,9 @@ body, html {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    padding-right: 0.6rem;
+    padding-right: 0.66rem;
     padding-top: 0.7rem;
-    padding-bottom: 0.6rem;
+    padding-bottom: 0.66rem;
 }
 
 #curlist {
@@ -85,7 +85,6 @@ body, html {
     cursor: default;
     position: relative;
     margin-top: 0.5rem;
-    margin-right: 0.25rem;
     overflow-x: hidden;
     overflow-y: auto;
 }
