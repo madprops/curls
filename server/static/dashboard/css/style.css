@@ -70,13 +70,19 @@ body, html {
     padding-bottom: 0.09rem;
     padding-left: 0.5rem;
     padding-right: 0.3rem;
+    border-top: 1px solid transparent;
     border-bottom: 1px solid transparent;
 }
 
 .curlist_item.selected {
     background-color: var(--color);
     color: var(--background);
-    border-bottom: 1px solid rgb(55, 166, 55);
+    border-top: 1px solid var(--background);
+    border-bottom: 1px solid var(--background);
+}
+
+.curlist_item+.curlist_item {
+    border-top: 1px solid transparent;
 }
 
 #container {
