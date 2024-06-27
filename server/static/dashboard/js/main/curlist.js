@@ -464,16 +464,21 @@ App.get_curlist_items = () => {
 }
 
 App.select_curlist_up = (shift) => {
+    let selected = `selected`
+    let items = App.get_curlist_items()
     let selected_items = App.get_selected_items()
 
-    if ((selected_items.length > 1) && !shift) {
-        App.unselect_curlist()
-        selected_items[0].classList.add(`selected`)
+    if (!selected_items.length) {
+        items[items.length - 1].classList.add(selected)
         return
     }
 
-    let selected = `selected`
-    let items = App.get_curlist_items()
+    if ((selected_items.length > 1) && !shift) {
+        App.unselect_curlist()
+        selected_items[0].classList.add(selected)
+        return
+    }
+
     let index = items.findIndex(x => x === selected_items[0])
 
     if (index === -1) {
@@ -492,16 +497,21 @@ App.select_curlist_up = (shift) => {
 }
 
 App.select_curlist_down = (shift) => {
+    let selected = `selected`
+    let items = App.get_curlist_items()
     let selected_items = App.get_selected_items()
 
-    if ((selected_items.length > 1) && !shift) {
-        App.unselect_curlist()
-        selected_items[selected_items.length - 1].classList.add(`selected`)
+    if (!selected_items.length) {
+        items[0].classList.add(selected)
         return
     }
 
-    let selected = `selected`
-    let items = App.get_curlist_items()
+    if ((selected_items.length > 1) && !shift) {
+        App.unselect_curlist()
+        selected_items[selected_items.length - 1].classList.add(selected)
+        return
+    }
+
     let index = items.findIndex(x => x === selected_items[selected_items.length - 1])
 
     if (index === -1) {
