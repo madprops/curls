@@ -118,6 +118,7 @@ App.change_date_mode = () => {
     let date_mode = App.get_date_mode()
     date_mode = date_mode === `12` ? `24` : `12`
     localStorage.setItem(`date_mode`, date_mode)
+    App.add_dates_to_items()
     App.refresh_items()
 }
 
