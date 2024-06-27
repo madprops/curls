@@ -188,7 +188,7 @@ App.clear_curls = (color = App.color_mode) => {
     localStorage.setItem(name, ``)
 }
 
-App.empty_curls = () => {
+App.remove_all_curls = () => {
     if (confirm(`Remove all the curls?`)) {
         App.clear_curls()
         App.update_curlist()

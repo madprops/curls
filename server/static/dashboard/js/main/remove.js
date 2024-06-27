@@ -171,6 +171,12 @@ App.show_remove_menu = (e) => {
                 App.remove_old()
             }
         },
+        {
+            text: `Remove All`,
+            action: () => {
+                App.remove_all_curls()
+            }
+        },
     ]
 
     NeedContext.show({items: items, e: e})

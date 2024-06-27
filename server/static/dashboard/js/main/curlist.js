@@ -158,12 +158,6 @@ App.show_curlist_menu = (e) => {
                     App.show_remove_menu(e)
                 }
             },
-            {
-                text: `Empty`,
-                action: () => {
-                    App.empty_curls()
-                }
-            },
             ...data,
         ]
     }
