@@ -63,10 +63,10 @@ App.setup_curlist = () => {
             App.remove_selected_curls()
         }
         else if (e.key === `ArrowUp`) {
-            App.select_curlist_up(e.shiftKey)
+            App.select_curlist(`up`, e.shiftKey)
         }
         else if (e.key === `ArrowDown`) {
-            App.select_curlist_down(e.shiftKey)
+            App.select_curlist(`down`, e.shiftKey)
         }
     })
 
@@ -463,68 +463,68 @@ App.get_curlist_items = () => {
     return DOM.els(`#curlist .curlist_item`)
 }
 
-App.select_curlist_up = (shift) => {
+App.select_curlist = (direction, shift) => {
     let selected = `selected`
     let items = App.get_curlist_items()
     let selected_items = App.get_selected_items()
 
     if (!selected_items.length) {
-        items[items.length - 1].classList.add(selected)
+        if (direction === `up`) {
+            items[items.length - 1].classList.add(selected)
+        }
+        else if (direction === `down`) {
+            items[0].classList.add(selected)
+        }
+
         return
     }
 
     if ((selected_items.length > 1) && !shift) {
         App.unselect_curlist()
-        selected_items[0].classList.add(selected)
+
+        if (direction === `up`) {
+            selected_items[0].classList.add(selected)
+        }
+        else if (direction === `down`) {
+            selected_items[selected_items.length - 1].classList.add(selected)
+        }
+
         return
     }
 
-    let index = items.findIndex(x => x === selected_items[0])
+    let index
+
+    if (direction === `up`) {
+        index = items.findIndex(x => x === selected_items[0])
+    }
+    else if (direction === `down`) {
+        index = items.findIndex(x => x === selected_items[selected_items.length - 1])
+    }
 
     if (index === -1) {
         return
     }
 
-    if (index === 0) {
-        return
+    if (direction === `up`) {
+        if (index === 0) {
+            return
+        }
+
+        if (!shift) {
+            App.unselect_curlist()
+        }
+
+        items[index - 1].classList.add(selected)
     }
+    else if (direction === `down`) {
+        if (index === (items.length - 1)) {
+            return
+        }
 
-    if (!shift) {
-        App.unselect_curlist()
+        if (!shift) {
+            App.unselect_curlist()
+        }
+
+        items[index + 1].classList.add(selected)
     }
-
-    items[index - 1].classList.add(selected)
-}
-
-App.select_curlist_down = (shift) => {
-    let selected = `selected`
-    let items = App.get_curlist_items()
-    let selected_items = App.get_selected_items()
-
-    if (!selected_items.length) {
-        items[0].classList.add(selected)
-        return
-    }
-
-    if ((selected_items.length > 1) && !shift) {
-        App.unselect_curlist()
-        selected_items[selected_items.length - 1].classList.add(selected)
-        return
-    }
-
-    let index = items.findIndex(x => x === selected_items[selected_items.length - 1])
-
-    if (index === -1) {
-        return
-    }
-
-    if (index === items.length - 1) {
-        return
-    }
-
-    if (!shift) {
-        App.unselect_curlist()
-    }
-
-    items[index + 1].classList.add(selected)
 }
