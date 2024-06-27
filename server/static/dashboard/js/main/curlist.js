@@ -133,33 +133,6 @@ App.show_curlist_menu = (e) => {
                 separator: true,
             },
             {
-                text: `Remove`,
-                action: () => {
-                    App.remove_a_curl()
-                }
-            },
-            {
-                text: `Remove Not Found`,
-                action: () => {
-                    App.remove_not_found()
-                }
-            },
-            {
-                text: `Remove Empty`,
-                action: () => {
-                    App.remove_empty()
-                }
-            },
-            {
-                text: `Remove Old`,
-                action: () => {
-                    App.remove_old()
-                }
-            },
-            {
-                separator: true,
-            },
-            {
                 text: `Copy`,
                 action: () => {
                     App.copy_curlist(e)
@@ -169,6 +142,12 @@ App.show_curlist_menu = (e) => {
                 text: `Replace`,
                 action: () => {
                     App.replace_curls(e)
+                }
+            },
+            {
+                text: `Remove`,
+                action: (e) => {
+                    App.show_remove_menu(e)
                 }
             },
             {

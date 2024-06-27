@@ -147,3 +147,34 @@ App.save_cleaned = (cleaned, removed) => {
         App.remove_items(removed)
     }
 }
+
+App.show_remove_menu = (e) => {
+    let items = [
+        {
+            text: `Remove One`,
+            action: () => {
+                App.remove_a_curl()
+            }
+        },
+        {
+            text: `Remove Not Found`,
+            action: () => {
+                App.remove_not_found()
+            }
+        },
+        {
+            text: `Remove Empty`,
+            action: () => {
+                App.remove_empty()
+            }
+        },
+        {
+            text: `Remove Old`,
+            action: () => {
+                App.remove_old()
+            }
+        },
+    ]
+
+    NeedContext.show({items: items, e: e})
+}
