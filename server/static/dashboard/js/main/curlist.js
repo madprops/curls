@@ -90,6 +90,14 @@ App.setup_curlist = () => {
                 e.preventDefault()
             }
         }
+        else if (e.key === `Escape`) {
+            if (App.peek_enabled) {
+                App.hide_peek()
+            }
+            else {
+                App.unselect_curlist()
+            }
+        }
     })
 
     App.curlist_drag_events()
