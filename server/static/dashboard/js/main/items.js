@@ -7,20 +7,24 @@ App.insert_items = (items) => {
     App.items.map(x => x.missing = false)
     let missing = App.get_missing()
     App.items.push(...missing)
+    App.add_dates_to_items()
     App.refresh_items()
 }
 
-App.refresh_items = () => {
+App.refresh_items = (items = App.items, check_filter = true) => {
     App.clear_container()
-    App.sort_items(App.items)
+    App.sort_items(items)
 
-    for (let item of App.items) {
+    for (let item of items) {
         App.insert_item(item)
     }
 
     App.unselect()
     App.check_empty()
-    App.check_filter()
+
+    if (check_filter) {
+        App.check_filter()
+    }
 }
 
 App.insert_item = (item) => {
@@ -43,18 +47,7 @@ App.insert_item = (item) => {
     item_status.innerHTML = App.sanitize(status)
     App.urlize(item_status)
 
-    let date = new Date(item.updated + `Z`)
-    let date_mode = App.get_date_mode()
-    let s_date
-
-    if (date_mode === `12`) {
-        s_date = dateFormat(date, `dd/mmm/yy - h:MM tt`)
-    }
-    else if (date_mode === `24`) {
-        s_date = dateFormat(date, `dd/mmm/yy - HH:MM`)
-    }
-
-    item_updated.textContent = s_date
+    item_updated.textContent = item.updated_text
     item_updated.title = `Click to toggle between 12 and 24 hour formats`
 
     el.append(item_icon)
@@ -165,4 +158,21 @@ App.get_month_items = () => {
 
 App.reset_items = () => {
     App.items = []
+}
+
+App.add_dates_to_items = () => {
+    for (let item of App.items) {
+        let date = new Date(item.updated + `Z`)
+        let date_mode = App.get_date_mode()
+        let s_date
+
+        if (date_mode === `12`) {
+            s_date = dateFormat(date, `dd/mmm/yy - h:MM tt`)
+        }
+        else if (date_mode === `24`) {
+            s_date = dateFormat(date, `dd/mmm/yy - HH:MM`)
+        }
+
+        item.updated_text = s_date
+    }
 }

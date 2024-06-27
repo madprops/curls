@@ -92,7 +92,11 @@ body, html {
     display: flex;
     flex-direction: row;
     align-items: center;
-    border-bottom: 1px solid var(--color);
+    border: 1px solid var(--color);
+}
+
+.item+.item {
+    border-top: 0;
 }
 
 .item_icon,
