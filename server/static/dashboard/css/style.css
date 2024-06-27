@@ -76,6 +76,7 @@ body, html {
     background-color: var(--color);
     color: var(--background);
     text-shadow: none !important;
+    box-shadow: 0 0 0 1px rgb(38, 118, 73) inset;
 }
 
 #container {
