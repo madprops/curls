@@ -302,8 +302,11 @@ select {
     border: 1px solid white;
     color: white;
     max-width: calc(100vw - 245px);
+    min-width: 500px;
     right: 20px;
     top: 20px;
+    align-items: center;
+    justify-content: center;
 }
 
 #peek.active {
@@ -315,17 +318,16 @@ select {
 .peek_icon {
     display: flex;
     justify-content: center;
-    align-items: center;
     padding-top: 0.5rem;
     cursor: pointer;
+    width: 6rem;
 }
 
 .peek_icon_canvas {
-    width: 5rem;
+    width: 100%;
     height: auto;
     padding: 0.5rem;
     justify-content: center;
-    align-items: center;
 }
 
 .peek_icon:hover .peek_icon_canvas {
@@ -333,7 +335,6 @@ select {
 }
 
 .peek_curl {
-    text-align: center;
     padding-bottom: 0.5rem;
     font-weight: bold;
 }
