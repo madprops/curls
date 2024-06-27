@@ -267,7 +267,7 @@ select {
     }
 }
 
-.active {
+.button.active {
     animation: colorchange 1s infinite;
     border-radius: 8px;
 }
@@ -283,4 +283,54 @@ select {
 
 #claim {
     text-align: center;
+}
+
+#peek {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    background-color: rgb(28, 28, 28);
+    border: 1px solid white;
+    color: white;
+    max-width: calc(100vw - 245px);
+    right: 20px;
+    top: 20px;
+}
+
+#peek.active {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.peek_icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 0.5rem;
+}
+
+.peek_icon_canvas {
+    width: 5rem;
+    height: auto;
+    padding: 0.5rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.peek_icon:hover .peek_icon_canvas {
+    filter: brightness(1.5);
+}
+
+.peek_curl {
+    text-align: center;
+    padding-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.peek_status {
+    text-align: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 1rem;
 }

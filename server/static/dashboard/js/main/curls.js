@@ -104,6 +104,10 @@ App.copy_item = (e) => {
     let curl = item.querySelector(`.item_curl`).textContent
     let status = item.querySelector(`.item_status`).textContent
     let updated = item.querySelector(`.item_updated`).textContent
+    App.do_copy_item(curl, status, updated)
+}
+
+App.do_copy_item = (curl, status, updated) => {
     let msg = `${curl}\n${status}\n${updated}`
     navigator.clipboard.writeText(msg)
 
@@ -230,4 +234,34 @@ App.check_curl = (curl) => {
 
 App.copy_curl = (curl) => {
     navigator.clipboard.writeText(curl)
+}
+
+App.peek_curl = (curl) => {
+    let peek = DOM.el(`#peek`)
+    let item = App.get_item(curl)
+    peek.innerHTML = ``
+    let el = DOM.create(`div`)
+    let icon = DOM.create(`div`, `peek_icon`)
+    let canvas = DOM.create(`canvas`, `peek_icon_canvas`)
+    jdenticon.update(canvas, item.curl)
+    icon.append(canvas)
+    let curl_ = DOM.create(`div`, `peek_curl`)
+    curl_.textContent = item.curl
+    let status = DOM.create(`div`, `peek_status`)
+    status.innerHTML = App.sanitize(item.status)
+
+    DOM.ev(icon, `click`, () => {
+        App.do_copy_item(item.curl, item.status, item.updated_text)
+    })
+
+    el.append(icon)
+    el.append(curl_)
+    el.append(status)
+    peek.append(el)
+
+    peek.classList.add(`active`)
+}
+
+App.hide_peek = () => {
+    DOM.el(`#peek`).classList.remove(`active`)
 }
