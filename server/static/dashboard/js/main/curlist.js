@@ -388,6 +388,11 @@ App.curlist_drag_events = () => {
 
 App.show_curlist_item_menu = (e) => {
     let selected = App.get_selected_items()
+
+    if (!selected.length || !selected.includes(e.target)) {
+        App.select_curlist_item(e.target)
+    }
+
     let items = []
 
     if (selected.length > 1) {
