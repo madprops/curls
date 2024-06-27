@@ -140,8 +140,6 @@ App.do_filter = () => {
             }
         }
     }
-
-    App.check_visible()
 }
 
 App.unfilter_all = () => {
@@ -154,8 +152,6 @@ App.unfilter_all = () => {
     for (let el of els) {
         el.classList.remove(`hidden`)
     }
-
-    App.check_visible()
 }
 
 App.filter_owned = () => {

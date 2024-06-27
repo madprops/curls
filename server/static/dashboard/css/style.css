@@ -59,7 +59,7 @@ body, html {
 }
 
 #curlist::-webkit-scrollbar {
-	width: 0;
+    width: 0;
 }
 
 .curlist_item {
@@ -67,8 +67,8 @@ body, html {
     user-select: none;
     padding-top: 0.1rem;
     padding-bottom: 0.1rem;
-    padding-left: 0.25rem;
-    padding-right: 0.25rem;
+    padding-left: 0.5rem;
+    padding-right: 0.3rem;
     cursor: pointer;
 }
 
@@ -92,20 +92,13 @@ body, html {
     display: flex;
     flex-direction: row;
     align-items: center;
-    border-left: 1px solid var(--color);
-    border-right: 1px solid var(--color);
     border-bottom: 1px solid var(--color);
-}
-
-#container:not(.empty) {
-    border-top: 1px solid var(--color);
 }
 
 .item_icon,
 .item_curl,
 .item_status,
-.item_updated
-{
+.item_updated {
     padding-top: 0.8rem;
     padding-bottom: 0.8rem;
 }
@@ -158,8 +151,7 @@ body, html {
 /*  */
 
 #controls,
-#change
-{
+#change {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -172,9 +164,8 @@ body, html {
 
 a:visited,
 a:link,
-a:hover
-{
-	color: var(--color);
+a:hover {
+    color: var(--color);
 }
 
 .pointer {
@@ -183,8 +174,7 @@ a:hover
 }
 
 input[type="text"],
-input[type="password"]
-{
+input[type="password"] {
     background-color: var(--background);
     color: var(--color);
     border: 1px solid var(--color);
@@ -236,9 +226,11 @@ select {
     0% {
         opacity: 1;
     }
+
     50% {
         opacity: 0;
     }
+
     100% {
         opacity: 1;
     }
@@ -255,11 +247,22 @@ select {
 }
 
 @keyframes colorchange {
-    0%   {border-color: rgb(255, 102, 102);}
-    25%  {border-color: rgb(125, 255, 125);}
-    50%  {border-color: rgb(157, 157, 255);}
-    100% {border-color: white;}
-  }
+    0% {
+        border-color: rgb(255, 102, 102);
+    }
+
+    25% {
+        border-color: rgb(125, 255, 125);
+    }
+
+    50% {
+        border-color: rgb(157, 157, 255);
+    }
+
+    100% {
+        border-color: white;
+    }
+}
 
 .active {
     animation: colorchange 1s infinite;
