@@ -54,9 +54,9 @@ body, html {
     display: flex;
     flex-direction: column;
     cursor: default;
-    width: 99%;
     position: relative;
     margin-top: 0.5rem;
+    margin-right: 0.25rem;
 }
 
 .item {
@@ -239,9 +239,4 @@ select {
 
 .glow:hover {
     text-shadow: 0 0 10px var(--color), 0 0 20px var(--color), 0 0 30px var(--color), 0 0 40px var(--color), 0 0 50px var(--color), 0 0 60px var(--color);
-}
-
-.info_item {
-    word-break: break-all;
-    max-width: 80%;
 }
