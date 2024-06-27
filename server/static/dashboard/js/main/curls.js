@@ -188,14 +188,6 @@ App.clear_curls = (color = App.color_mode) => {
     localStorage.setItem(name, ``)
 }
 
-App.remove_all_curls = () => {
-    if (confirm(`Remove all the curls?`)) {
-        App.clear_curls()
-        App.update_curlist()
-        App.empty_container()
-    }
-}
-
 App.edit_curl = (curl) => {
     let new_curl = prompt(`Edit the curl`, curl)
 
