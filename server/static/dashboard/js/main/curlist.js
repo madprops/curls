@@ -120,10 +120,13 @@ App.setup_curlist = () => {
     App.update_curlist()
 }
 
-App.update_curlist = () => {
+App.update_curlist = (curls) => {
     let curlist = DOM.el(`#curlist`)
     curlist.innerHTML = ``
-    let curls = App.get_curls()
+
+    if (!curls) {
+        curls = App.get_curls()
+    }
 
     for (let curl of curls) {
         let item = DOM.create(`div`)
@@ -134,7 +137,6 @@ App.update_curlist = () => {
         curlist.append(item)
     }
 
-    App.unfilter_curlist()
     App.update_curlist_top()
 }
 
@@ -628,25 +630,19 @@ App.filter_curlist = () => {
 
 App.do_filter_curlist = () => {
     let value = DOM.el(`#curlist_filter`).value.toLowerCase().trim()
-    let els = App.get_curlist_items()
+    let cleaned = []
 
-    for (let el of els) {
-        let curl = el.textContent
-
-        if (curl.includes(value)) {
-            el.classList.remove(`hidden`)
-        }
-        else {
-            el.classList.add(`hidden`)
+    for (let item of App.items) {
+        if (item.curl.includes(value)) {
+            cleaned.push(item)
         }
     }
+
+    let curls = cleaned.map(x => x.curl)
+    App.update_curlist(curls)
 }
 
 App.unfilter_curlist = () => {
     DOM.el(`#curlist_filter`).value = ``
-    let els = App.get_curlist_items()
-
-    for (let el of els) {
-        el.classList.remove(`hidden`)
-    }
+    App.update_curlist()
 }
