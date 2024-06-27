@@ -524,6 +524,11 @@ App.get_curlist_items = () => {
 
 App.select_curlist_vertical = (direction, shift, curl) => {
     let items = App.get_curlist_items()
+
+    if (items.length <= 1) {
+        return
+    }
+
     let selected_items = App.get_selected_items()
 
     if (!selected_items.length) {
@@ -561,22 +566,24 @@ App.select_curlist_vertical = (direction, shift, curl) => {
         return
     }
 
-    let item
+    let new_index = index
 
     if (direction === `up`) {
-        if (index === 0) {
-            return
-        }
+        new_index -= 1
 
-        item = items[index - 1]
+        if (new_index < 0) {
+            new_index = items.length - 1
+        }
     }
     else if (direction === `down`) {
-        if (index === (items.length - 1)) {
-            return
-        }
+        new_index += 1
 
-        item = items[index + 1]
+        if (new_index >= items.length) {
+            new_index = 0
+        }
     }
+
+    let item = items[new_index]
 
     if (!shift) {
         App.unselect_curlist()
