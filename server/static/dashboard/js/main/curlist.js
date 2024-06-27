@@ -63,10 +63,10 @@ App.setup_curlist = () => {
             App.remove_selected_curls()
         }
         else if (e.key === `ArrowUp`) {
-            App.select_curlist_up()
+            App.select_curlist_up(e.shiftKey)
         }
         else if (e.key === `ArrowDown`) {
-            App.select_curlist_down()
+            App.select_curlist_down(e.shiftKey)
         }
     })
 
@@ -463,10 +463,10 @@ App.get_curlist_items = () => {
     return DOM.els(`#curlist .curlist_item`)
 }
 
-App.select_curlist_up = () => {
+App.select_curlist_up = (shift) => {
     let selected_items = App.get_selected_items()
 
-    if (selected_items.length > 1) {
+    if ((selected_items.length > 1) && !shift) {
         App.unselect_curlist()
         selected_items[0].classList.add(`selected`)
         return
@@ -474,7 +474,7 @@ App.select_curlist_up = () => {
 
     let selected = `selected`
     let items = App.get_curlist_items()
-    let index = items.findIndex(x => x.classList.contains(selected))
+    let index = items.findIndex(x => x === selected_items[0])
 
     if (index === -1) {
         return
@@ -484,14 +484,17 @@ App.select_curlist_up = () => {
         return
     }
 
-    App.unselect_curlist()
+    if (!shift) {
+        App.unselect_curlist()
+    }
+
     items[index - 1].classList.add(selected)
 }
 
-App.select_curlist_down = () => {
+App.select_curlist_down = (shift) => {
     let selected_items = App.get_selected_items()
 
-    if (selected_items.length > 1) {
+    if ((selected_items.length > 1) && !shift) {
         App.unselect_curlist()
         selected_items[selected_items.length - 1].classList.add(`selected`)
         return
@@ -499,7 +502,7 @@ App.select_curlist_down = () => {
 
     let selected = `selected`
     let items = App.get_curlist_items()
-    let index = items.findIndex(x => x.classList.contains(selected))
+    let index = items.findIndex(x => x === selected_items[selected_items.length - 1])
 
     if (index === -1) {
         return
@@ -509,6 +512,9 @@ App.select_curlist_down = () => {
         return
     }
 
-    App.unselect_curlist()
+    if (!shift) {
+        App.unselect_curlist()
+    }
+
     items[index + 1].classList.add(selected)
 }
