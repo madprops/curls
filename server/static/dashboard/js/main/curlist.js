@@ -1,15 +1,5 @@
 App.setup_curlist = () => {
-    let curlist = DOM.el(`#curlist`)
     let curlist_top = DOM.el(`#curlist_top`)
-
-    DOM.ev(curlist, `focusout`, () => {
-        App.clean_curlist()
-        App.update_curlist_top()
-
-        if (App.save_curls()) {
-            App.update(true)
-        }
-    })
 
     DOM.evs(curlist_top, [`click`, `contextmenu`], (e) => {
         App.show_curlist_menu(e)
@@ -29,68 +19,28 @@ App.setup_curlist = () => {
         App.hide_curlist()
     }
 
-    App.load_curlist()
+    App.update_curlist()
 }
 
-App.set_curlist = (value) => {
-    DOM.el(`#curlist`).value = value
-    App.clean_curlist()
-    App.update_curlist_top()
-}
-
-App.clean_curlist = () => {
+App.update_curlist = () => {
     let curlist = DOM.el(`#curlist`)
-    let curls = App.get_curlist()
-    let words = []
+    curlist.innerHTML = ``
+    let curls = App.get_curls_by_color()
 
     for (let curl of curls) {
-        let parts = curl.split(` `)
-        words.push(...parts)
+        let item = DOM.create(`div`)
+        item.textContent = curl
+        item.classList.add(`curlist_item`)
+        curlist.append(item)
     }
 
-    words = words.map(x => x.replace(/[^a-zA-Z0-9]/g, ``))
-    let cleaned = []
-
-    for (let curl of words) {
-        curl = curl.toLowerCase().trim()
-
-        if (!curl) {
-            continue
-        }
-
-        if (curl.length > App.curl_max_length) {
-            continue
-        }
-
-        if (cleaned.includes(curl)) {
-            continue
-        }
-
-        cleaned.push(curl)
-
-        if (cleaned.length >= App.max_curls) {
-            break
-        }
-    }
-
-    curlist.value = cleaned.join(`\n`)
-}
-
-App.refresh_curlist = () => {
-    let curls = App.get_curls_by_color()
-    App.set_curlist(curls.join(`\n`))
+    App.update_curlist_top()
 }
 
 App.update_curlist_top = () => {
     let curlist_top = DOM.el(`#curlist_top`)
-    let curls = App.get_curlist()
+    let curls = App.get_curls_by_color()
     curlist_top.textContent = `Curls (${curls.length})`
-}
-
-App.load_curlist = () => {
-    let color = App.color_mode
-    let saved = App.get_curls_by_color(color)
-    App.set_curlist(saved.join(`\n`))
 }
 
 App.get_curls_name = (color) => {
@@ -103,7 +53,7 @@ App.copy_curlist = (e) => {
 }
 
 App.show_curlist_menu = (e) => {
-    let curls = App.get_curlist()
+    let curls = App.get_curls_by_color()
     let items
 
     let data = [
@@ -254,8 +204,8 @@ App.do_sort_curlist = (how) => {
         curls.sort().reverse()
     }
 
-    App.set_curlist(curls.join(`\n`))
     App.save_curls()
+    App.update_curlist()
     App.sort_if_order()
 }
 
@@ -309,13 +259,7 @@ App.import_curlist = () => {
             return
         }
 
-        let current = curlists[App.color_mode]
-
-        if (current) {
-            let curlist = curlists[App.color_mode]
-            App.set_curlist(curlist.join(`\n`))
-        }
-
+        App.update_curlist()
         App.update(true)
     }
     catch (err) {
@@ -331,17 +275,7 @@ App.clear_curlists = () => {
             localStorage.setItem(name, ``)
         }
 
-        App.clear_curlist()
+        App.update_curlist()
+        App.empty_container()
     }
-}
-
-App.clear_curlist = () => {
-    App.set_curlist(``)
-    App.empty_container()
-}
-
-App.get_curlist = () => {
-    let value = DOM.el(`#curlist`).value
-    let lines = value.split(`\n`)
-    return lines.filter(x => x.trim() !== ``)
 }

@@ -1,5 +1,5 @@
 App.get_used_curls = () => {
-    let curls = App.get_curlist()
+    let curls = App.get_curls_by_color()
 
     if (!curls.length) {
         return []
@@ -45,7 +45,20 @@ App.do_add_curl = (where, curl = ``, update = true) => {
         }
     }
 
+    if (!curl) {
+        return
+    }
+
+    if (curl.length > App.curl_max_length) {
+        return
+    }
+
+    if (!/^[a-zA-Z0-9]+$/.test(curl)) {
+        return
+    }
+
     let curls = App.get_curls_by_color()
+    curls = curls.filter(x => x !== curl)
 
     if (where === `top`) {
         curls.unshift(curl)
@@ -54,17 +67,16 @@ App.do_add_curl = (where, curl = ``, update = true) => {
         curls.push(curl)
     }
 
-    if (App.save_curls(App.color_mode, curls)) {
-        App.refresh_curlist()
+    App.save_curls(App.color_mode, curls)
+    App.update_curlist()
 
-        if (update) {
-            App.update(true)
-        }
+    if (update) {
+        App.update(true)
     }
 }
 
 App.add_owned_curl = (curl) => {
-    let curls = App.get_curlist()
+    let curls = App.get_curls_by_color()
 
     if (!curls.includes(curl)) {
         App.do_add_curl(`top`, curl)
@@ -90,7 +102,6 @@ App.copy_item = (e) => {
 App.curl_to_top = (e) => {
     let item = e.target.closest(`.item`)
     let curl = item.querySelector(`.item_curl`).textContent
-    App.do_remove_curl(curl, false)
     App.do_add_curl(`top`, curl, false)
     App.sort_if_order()
 }
@@ -98,7 +109,6 @@ App.curl_to_top = (e) => {
 App.curl_to_bottom = (e) => {
     let item = e.target.closest(`.item`)
     let curl = item.querySelector(`.item_curl`).textContent
-    App.do_remove_curl(curl, false)
     App.do_add_curl(`bottom`, curl, false)
     App.sort_if_order()
 }
@@ -108,19 +118,8 @@ App.save_curls = (color, curls) => {
         color = App.color_mode
     }
 
-    if (!curls) {
-        curls = App.get_curlist()
-    }
-
-    let saved = App.get_curls_by_color(color)
-
-    if (App.same_list(curls, saved)) {
-        return false
-    }
-
     let name = App.get_curls_name(color)
     localStorage.setItem(name, JSON.stringify(curls))
-    return true
 }
 
 App.get_curls_by_color = (color = App.color_mode) => {
