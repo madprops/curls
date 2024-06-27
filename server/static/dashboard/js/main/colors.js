@@ -36,7 +36,6 @@ App.change_color = (value) => {
     localStorage.setItem(`color`, value)
     App.apply_color()
     App.reset_items()
-    App.unfilter_curlist()
     App.update_curlist()
     App.container_loading()
     App.update(true)

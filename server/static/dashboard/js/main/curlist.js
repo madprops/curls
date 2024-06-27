@@ -138,6 +138,7 @@ App.update_curlist = (curls) => {
     }
 
     App.update_curlist_top()
+    App.clear_curlist_filter()
 }
 
 App.update_curlist_top = () => {
@@ -639,10 +640,14 @@ App.do_filter_curlist = () => {
     }
 
     let curls = cleaned.map(x => x.curl)
-    App.update_curlist(curls)
+    App.update_curlist(curls, false)
+}
+
+App.clear_curlist_filter = () => {
+    DOM.el(`#curlist_filter`).value = ``
 }
 
 App.unfilter_curlist = () => {
-    DOM.el(`#curlist_filter`).value = ``
-    App.update_curlist()
+    App.clear_curlist_filter()
+    App.update_curlist(false)
 }
