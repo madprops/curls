@@ -19,6 +19,11 @@ body, html {
     gap: 0.8rem;
     width: 100vw;
     height: 100vh;
+    padding-left: 0.66rem;
+    padding-right: 0.66rem;
+    padding-top: 0.7rem;
+    padding-bottom: 0.66rem;
+    box-sizing: border-box;
 }
 
 #left_side {
@@ -28,9 +33,6 @@ body, html {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    padding-left: 0.66rem;
-    padding-top: 0.7rem;
-    padding-bottom: 0.66rem;
 }
 
 #right_side {
@@ -39,9 +41,6 @@ body, html {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    padding-right: 0.66rem;
-    padding-top: 0.7rem;
-    padding-bottom: 0.66rem;
 }
 
 #curlist {
