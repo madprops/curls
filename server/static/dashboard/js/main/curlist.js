@@ -32,10 +32,6 @@ App.setup_curlist = () => {
     App.load_curlist()
 }
 
-App.get_curlist = () => {
-    return DOM.el(`#curlist`).value
-}
-
 App.set_curlist = (value) => {
     DOM.el(`#curlist`).value = value
     App.clean_curlist()
@@ -44,7 +40,7 @@ App.set_curlist = (value) => {
 
 App.clean_curlist = () => {
     let curlist = DOM.el(`#curlist`)
-    let curls = App.get_curls()
+    let curls = App.get_curlist()
     let words = []
 
     for (let curl of curls) {
@@ -81,13 +77,13 @@ App.clean_curlist = () => {
 }
 
 App.refresh_curlist = () => {
-    let curls = App.get_curls_by_color(App.color_mode)
+    let curls = App.get_curls_by_color()
     App.set_curlist(curls.join(`\n`))
 }
 
 App.update_curlist_top = () => {
     let curlist_top = DOM.el(`#curlist_top`)
-    let curls = App.get_curls()
+    let curls = App.get_curlist()
     curlist_top.textContent = `Curls (${curls.length})`
 }
 
@@ -107,7 +103,7 @@ App.copy_curlist = (e) => {
 }
 
 App.show_curlist_menu = (e) => {
-    let curls = App.get_curls()
+    let curls = App.get_curlist()
     let items
 
     let data = [
@@ -249,17 +245,16 @@ App.sort_curlist = (how) => {
 }
 
 App.do_sort_curlist = (how) => {
-    let curlist = App.get_curlist()
-    let lines = curlist.split(`\n`).filter(x => x !== ``)
+    let curls = App.get_curls_by_color()
 
     if (how === `asc`) {
-        lines.sort()
+        curls.sort()
     }
     else if (how === `desc`) {
-        lines.sort().reverse()
+        curls.sort().reverse()
     }
 
-    App.set_curlist(lines.join(`\n`))
+    App.set_curlist(curls.join(`\n`))
     App.save_curls()
     App.sort_if_order()
 }
@@ -343,4 +338,10 @@ App.clear_curlists = () => {
 App.clear_curlist = () => {
     App.set_curlist(``)
     App.empty_container()
+}
+
+App.get_curlist = () => {
+    let value = DOM.el(`#curlist`).value
+    let lines = value.split(`\n`)
+    return lines.filter(x => x.trim() !== ``)
 }
