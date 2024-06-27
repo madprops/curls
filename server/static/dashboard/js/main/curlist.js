@@ -100,6 +100,17 @@ App.setup_curlist = () => {
         }
     })
 
+    let filter = DOM.el(`#curlist_filter`)
+
+    DOM.ev(filter, `keyup`, () => {
+        App.filter_curlist()
+    })
+
+    App.curlist_filter_debouncer = App.create_debouncer(
+        App.do_filter_curlist, App.curlist_filter_debouncer_delay)
+
+    filter.value = ``
+
     App.curlist_drag_events()
     App.update_curlist()
 }
@@ -118,6 +129,7 @@ App.update_curlist = () => {
         curlist.append(item)
     }
 
+    App.unfilter_curlist()
     App.update_curlist_top()
 }
 
@@ -603,4 +615,28 @@ App.select_curlist_vertical = (direction, shift, curl) => {
 
 App.focus_curlist = () => {
     DOM.el(`#curlist`).focus()
+}
+
+App.filter_curlist = () => {
+    App.curlist_filter_debouncer.call()
+}
+
+App.do_filter_curlist = () => {
+    let value = DOM.el(`#curlist_filter`).value.toLowerCase().trim()
+    let els = App.get_curlist_items()
+
+    for (let el of els) {
+        let curl = el.textContent
+
+        if (curl.includes(value)) {
+            el.classList.remove(`hidden`)
+        }
+        else {
+            el.classList.add(`hidden`)
+        }
+    }
+}
+
+App.unfilter_curlist = () => {
+    DOM.el(`#curlist_filter`).value = ``
 }

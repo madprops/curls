@@ -41,6 +41,10 @@ App.start_keyboard = () => {
     DOM.ev(DOM.el(`#main`), `click`, (e) => {
         if (!e.target.closest(`#curlist`)) {
             App.unselect_curlist()
+
+            if (!e.target.closest(`#peek`)) {
+                App.hide_peek()
+            }
         }
     })
 }

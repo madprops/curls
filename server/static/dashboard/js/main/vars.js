@@ -21,6 +21,7 @@ App.clear_delay = 800
 App.max_picker_items = 1000
 App.max_status_list = 100
 App.filter_debouncer_delay = 250
+App.curlist_filter_debouncer_delay = 250
 App.update_debouncer_delay = 250
 App.change_debouncer_delay = 250
 App.changing = false

@@ -33,6 +33,7 @@ body, html {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    align-items: stretch;
 }
 
 #right_side {
@@ -243,12 +244,6 @@ select {
     animation: blink 500ms infinite;
 }
 
-#left_top {
-    display: flex;
-    flex-direction: row;
-    gap: 0.5rem;
-}
-
 @keyframes colorchange {
     0% {
         border-color: rgb(255, 102, 102);
@@ -348,4 +343,9 @@ select {
     position: absolute;
     right: 1rem;
     top: 0.62rem;
+}
+
+#curlist_filter {
+    width: 100%;
+    box-sizing: border-box;
 }
