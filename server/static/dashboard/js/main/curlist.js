@@ -2,6 +2,18 @@ App.setup_curlist = () => {
     let curlist = DOM.el(`#curlist`)
     let curlist_top = DOM.el(`#curlist_top`)
 
+    let lines = [
+        `Add the curls you want to monitor here`,
+        `Double Click on empty space to add curls`,
+        `Click on the header to show the menu`,
+        `Right on empty space to show the menu`,
+        `Right on items to show the item menu`,
+        `You can select curls with mouse and keyboard`,
+        `Press Delete to remove selected curls`,
+    ]
+
+    curlist.title = lines.join(`\n`)
+
     DOM.evs(curlist_top, [`click`, `contextmenu`], (e) => {
         App.show_curlist_menu(e)
         e.preventDefault()
@@ -67,6 +79,11 @@ App.setup_curlist = () => {
         }
         else if (e.key === `ArrowDown`) {
             App.select_curlist(`down`, e.shiftKey)
+        }
+        else if (e.key === `c`) {
+            if (e.ctrlKey) {
+                App.copy_curlist(e)
+            }
         }
     })
 
