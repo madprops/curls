@@ -10,7 +10,7 @@ App.remove_a_curl = () => {
 
 App.remove_not_found = () => {
     let missing = App.get_missing_items().map(x => x.curl)
-    let curls = App.get_curls_by_color()
+    let curls = App.get_curls()
     let cleaned = []
     let removed = []
 
@@ -31,7 +31,7 @@ App.remove_not_found = () => {
 }
 
 App.remove_empty = () => {
-    let curls = App.get_curls_by_color()
+    let curls = App.get_curls()
     let cleaned = []
     let removed = []
 
@@ -58,7 +58,7 @@ App.remove_empty = () => {
 }
 
 App.remove_old = () => {
-    let curls = App.get_curls_by_color()
+    let curls = App.get_curls()
     let now = Date.now()
     let cleaned = []
     let removed = []
@@ -101,7 +101,7 @@ App.remove_curl = (e) => {
 }
 
 App.do_remove_curl = (curl, remove_item = true) => {
-    let curls = App.get_curls_by_color()
+    let curls = App.get_curls()
     let cleaned = []
 
     for (let curl_ of curls) {

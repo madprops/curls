@@ -25,7 +25,7 @@ App.setup_curlist = () => {
 App.update_curlist = () => {
     let curlist = DOM.el(`#curlist`)
     curlist.innerHTML = ``
-    let curls = App.get_curls_by_color()
+    let curls = App.get_curls()
 
     for (let curl of curls) {
         let item = DOM.create(`div`)
@@ -39,7 +39,7 @@ App.update_curlist = () => {
 
 App.update_curlist_top = () => {
     let curlist_top = DOM.el(`#curlist_top`)
-    let curls = App.get_curls_by_color()
+    let curls = App.get_curls()
     curlist_top.textContent = `Curls (${curls.length})`
 }
 
@@ -48,13 +48,13 @@ App.get_curls_name = (color) => {
 }
 
 App.copy_curlist = (e) => {
-    let curls = App.get_curls_by_color()
+    let curls = App.get_curls()
     let text = curls.join(` `)
     navigator.clipboard.writeText(text)
 }
 
 App.show_curlist_menu = (e) => {
-    let curls = App.get_curls_by_color()
+    let curls = App.get_curls()
     let items
 
     let data = [
@@ -208,7 +208,7 @@ App.sort_curlist = (how) => {
 }
 
 App.do_sort_curlist = (how) => {
-    let curls = App.get_curls_by_color()
+    let curls = App.get_curls()
 
     if (how === `asc`) {
         curls.sort()
@@ -226,7 +226,7 @@ App.export_curlist = () => {
     let curlists = {}
 
     for (let color in App.colors) {
-        let curlist = App.get_curls_by_color(color)
+        let curlist = App.get_curls(color)
 
         if (!curlist.length) {
             continue

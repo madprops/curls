@@ -1,5 +1,5 @@
 App.get_used_curls = () => {
-    let curls = App.get_curls_by_color()
+    let curls = App.get_curls()
 
     if (!curls.length) {
         return []
@@ -75,7 +75,7 @@ App.do_add_curl = (where, curl = ``, update = true) => {
         return false
     }
 
-    let curls = App.get_curls_by_color()
+    let curls = App.get_curls()
     curls = curls.filter(x => x !== curl)
 
     if (where === `top`) {
@@ -95,7 +95,7 @@ App.do_add_curl = (where, curl = ``, update = true) => {
 }
 
 App.add_owned_curl = (curl) => {
-    let curls = App.get_curls_by_color()
+    let curls = App.get_curls()
 
     if (!curls.includes(curl)) {
         App.do_add_curl(`top`, curl)
@@ -141,7 +141,7 @@ App.save_curls = (color, curls) => {
     localStorage.setItem(name, JSON.stringify(curls))
 }
 
-App.get_curls_by_color = (color = App.color_mode) => {
+App.get_curls = (color = App.color_mode) => {
     let name = App.get_curls_name(color)
     let saved = localStorage.getItem(name) || `[]`
 
