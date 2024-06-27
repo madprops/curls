@@ -155,7 +155,7 @@ App.get_curls = (color = App.color_mode) => {
 }
 
 App.replace_curls = () => {
-    let curls = prompt(`Enter the curls`)
+    let curls = prompt(`Enter the new curls. This will replace the entire list`)
 
     if (!curls) {
         return
