@@ -38,6 +38,11 @@ App.get_used_curls = () => {
 
 App.add_curl = (where) => {
     let curls = prompt(`Add a curls`)
+
+    if (!curls) {
+        return
+    }
+
     let words = curls.split(` `).filter(x => x)
 
     if (!words.length) {
