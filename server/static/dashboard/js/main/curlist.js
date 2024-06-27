@@ -73,16 +73,20 @@ App.setup_curlist = () => {
     DOM.ev(curlist, `keydown`, (e) => {
         if (e.key === `Delete`) {
             App.remove_selected_curls()
+            e.preventDefault()
         }
         else if (e.key === `ArrowUp`) {
             App.select_curlist(`up`, e.shiftKey)
+            e.preventDefault()
         }
         else if (e.key === `ArrowDown`) {
             App.select_curlist(`down`, e.shiftKey)
+            e.preventDefault()
         }
         else if (e.key === `c`) {
             if (e.ctrlKey) {
                 App.copy_curlist(e)
+                e.preventDefault()
             }
         }
     })
