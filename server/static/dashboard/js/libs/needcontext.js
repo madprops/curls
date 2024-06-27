@@ -1,4 +1,4 @@
-// NeedContext v5.4
+// NeedContext v6.0
 
 // Main object
 const NeedContext = {}
@@ -1017,6 +1017,3 @@ NeedContext.count_items = () => {
   items = items.filter(x => !x.fake)
   return items.length
 }
-
-// Start
-NeedContext.init()

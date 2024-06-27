@@ -1,4 +1,5 @@
 App.setup = () => {
+    NeedContext.init()
     App.setup_buttons()
     App.setup_color()
     App.setup_curlist()
