@@ -37,7 +37,7 @@ App.get_used_curls = () => {
 }
 
 App.add_curl = (where) => {
-    let curls = prompt(`Add a curls:`)
+    let curls = prompt(`Add a curls`)
     let words = curls.split(` `).filter(x => x)
 
     if (!words.length) {
@@ -63,15 +63,7 @@ App.add_curl = (where) => {
 }
 
 App.do_add_curl = (where, curl = ``, update = true) => {
-    if (!curl) {
-        return false
-    }
-
-    if (curl.length > App.curl_max_length) {
-        return false
-    }
-
-    if (!/^[a-zA-Z0-9]+$/.test(curl)) {
+    if (!App.check_curl(curl)) {
         return false
     }
 
@@ -193,4 +185,48 @@ App.empty_curls = () => {
         App.update_curlist()
         App.empty_container()
     }
+}
+
+App.edit_curl = (curl) => {
+    let new_curl = prompt(`Edit the curl`, curl)
+
+    if (!new_curl) {
+        return
+    }
+
+    App.do_edit_curl(curl, new_curl)
+}
+
+App.do_edit_curl = (curl, new_curl) => {
+    if (!App.check_curl(new_curl)) {
+        return
+    }
+
+    let curls = App.get_curls()
+    let index = curls.indexOf(curl)
+
+    if (index === -1) {
+        return
+    }
+
+    curls[index] = new_curl
+    App.save_curls(App.color_mode, curls)
+    App.update_curlist()
+    App.update(true)
+}
+
+App.check_curl = (curl) => {
+    if (!curl) {
+        return false
+    }
+
+    if (curl.length > App.curl_max_length) {
+        return false
+    }
+
+    if (!/^[a-zA-Z0-9]+$/.test(curl)) {
+        return false
+    }
+
+    return true
 }

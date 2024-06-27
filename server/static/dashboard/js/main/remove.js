@@ -1,5 +1,5 @@
 App.remove_a_curl = () => {
-    let curl = prompt(`Remove a curl:`)
+    let curl = prompt(`Remove a curl`)
 
     if (!curl) {
         return

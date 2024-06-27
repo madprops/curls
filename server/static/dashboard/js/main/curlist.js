@@ -1,13 +1,10 @@
 App.setup_curlist = () => {
+    let curlist = DOM.el(`#curlist`)
     let curlist_top = DOM.el(`#curlist_top`)
 
     DOM.evs(curlist_top, [`click`, `contextmenu`], (e) => {
         App.show_curlist_menu(e)
         e.preventDefault()
-    })
-
-    DOM.ev(curlist_top, `contextmenu`, (e) => {
-        App.show_curlist_menu(e)
     })
 
     let enabled = localStorage.getItem(`curlist_enabled`) || `true`
@@ -18,6 +15,14 @@ App.setup_curlist = () => {
     else {
         App.hide_curlist()
     }
+
+    DOM.ev(curlist, `contextmenu`, (e) => {
+        e.preventDefault()
+
+        if (e.target.closest(`.curlist_item`)) {
+            App.show_curlist_item_menu(e)
+        }
+    })
 
     App.curlist_drag_events()
     App.update_curlist()
@@ -334,4 +339,23 @@ App.curlist_drag_events = () => {
         App.save_curls(App.color_mode, curls)
         App.sort_if_order()
     })
+}
+
+App.show_curlist_item_menu = (e) => {
+    let items = [
+        {
+            text: `Edit`,
+            action: () => {
+                App.edit_curl(e.target.textContent)
+            }
+        },
+        {
+            text: `Remove`,
+            action: () => {
+                App.remove_a_curl(e.target.textContent)
+            }
+        },
+    ]
+
+    NeedContext.show({items: items, e: e})
 }
