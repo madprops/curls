@@ -66,8 +66,8 @@ body, html {
 .curlist_item {
     cursor: default;
     user-select: none;
-    padding-top: 0.1rem;
-    padding-bottom: 0.1rem;
+    padding-top: 0.09rem;
+    padding-bottom: 0.09rem;
     padding-left: 0.5rem;
     padding-right: 0.3rem;
     border-bottom: 1px solid transparent;
