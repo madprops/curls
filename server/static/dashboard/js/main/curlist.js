@@ -16,6 +16,20 @@ App.setup_curlist = () => {
         App.hide_curlist()
     }
 
+    DOM.ev(curlist, `click`, (e) => {
+        if (e.target.closest(`.curlist_item`)) {
+            if (e.shiftKey) {
+                App.select_curlist_range(e.target)
+            }
+            else if (e.ctrlKey) {
+                App.select_curlist_toggle(e.target)
+            }
+            else {
+                App.select_curlist_item(e.target)
+            }
+        }
+    })
+
     DOM.ev(curlist, `contextmenu`, (e) => {
         e.preventDefault()
 
@@ -42,6 +56,16 @@ App.setup_curlist = () => {
                 App.remove_curl(e.target.textContent)
             }
         }
+    })
+
+    DOM.ev(curlist, `keyup`, (e) => {
+        if (e.key === `Delete`) {
+            App.remove_selected_curls()
+        }
+    })
+
+    DOM.ev(curlist, `focusout`, (e) => {
+        App.unselect_curlist()
     })
 
     App.curlist_drag_events()
@@ -297,14 +321,14 @@ App.curlist_drag_events = () => {
 
     DOM.ev(container, `dragstart`, (e) => {
         let curl = e.target.textContent
-        let items = Array.from(container.children)
+        let items = App.get_curlist_items()
         App.drag_index = items.indexOf(e.target)
         e.dataTransfer.setData(`text`, curl)
     })
 
     DOM.ev(container, `dragover`, (e) => {
         e.preventDefault()
-        let items = Array.from(container.children)
+        let items = App.get_curlist_items()
         let index = items.indexOf(e.target)
 
         if (index === -1) {
@@ -328,7 +352,7 @@ App.curlist_drag_events = () => {
     })
 
     DOM.ev(container, `dragend`, (e) => {
-        let curls = Array.from(container.children).map(x => x.textContent)
+        let curls = App.get_curlist_items().map(x => x.textContent)
         App.save_curls(curls)
         App.sort_if_order()
     })
@@ -369,4 +393,59 @@ App.show_curlist_item_menu = (e) => {
     ]
 
     NeedContext.show({items: items, e: e})
+}
+
+App.select_curlist_item = (target) => {
+    let selected = `selected`
+    let items = App.get_curlist_items()
+
+    for (let item of items) {
+        item.classList.remove(selected)
+    }
+
+    target.classList.add(selected)
+}
+
+App.select_curlist_range = (target) => {
+    let selected = `selected`
+    let items = App.get_curlist_items()
+    let index = items.indexOf(target)
+    let last = items.findIndex(x => x.classList.contains(selected))
+
+    if (last === -1) {
+        target.classList.add(selected)
+        return
+    }
+
+    let start = Math.min(index, last)
+    let end = Math.max(index, last)
+
+    for (let i = start; i <= end; i++) {
+        items[i].classList.add(selected)
+    }
+}
+
+App.select_curlist_toggle = (target) => {
+    let selected = `selected`
+    target.classList.toggle(selected)
+}
+
+App.get_selected_curls = () => {
+    let selected = `selected`
+    let items = App.get_curlist_items()
+    let selected_items = items.filter(x => x.classList.contains(selected))
+    return selected_items.map(x => x.textContent)
+}
+
+App.unselect_curlist = () => {
+    let selected = `selected`
+    let items = App.get_curlist_items()
+
+    for (let item of items) {
+        item.classList.remove(selected)
+    }
+}
+
+App.get_curlist_items = () => {
+    return DOM.els(`#curlist .curlist_item`)
 }

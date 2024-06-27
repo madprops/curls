@@ -44,14 +44,24 @@ body, html {
     color: var(--color);
     font-size: 1rem;
     border: 1px solid var(--color);
-    padding: 0.35rem;
     outline: none;
     overflow-x: hidden;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
 }
 
 .curlist_item {
     cursor: default;
     user-select: none;
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+}
+
+.curlist_item.selected {
+    background-color: var(--color);
+    color: var(--background);
 }
 
 #container {

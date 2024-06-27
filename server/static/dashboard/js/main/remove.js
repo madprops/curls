@@ -191,3 +191,24 @@ App.remove_all_curls = () => {
         App.empty_container()
     }
 }
+
+App.remove_selected_curls = () => {
+    let selected = App.get_selected_curls()
+    let cleaned = []
+    let removed = []
+
+    for (let curl of App.get_curls()) {
+        if (!selected.includes(curl)) {
+            cleaned.push(curl)
+        }
+        else {
+            removed.push(curl)
+        }
+    }
+
+    if (!removed.length) {
+        return
+    }
+
+    App.save_cleaned(cleaned, removed)
+}
