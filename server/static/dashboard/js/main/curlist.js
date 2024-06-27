@@ -87,10 +87,6 @@ App.setup_curlist = () => {
         }
     })
 
-    DOM.ev(curlist, `focusout`, (e) => {
-        App.unselect_curlist()
-    })
-
     App.curlist_drag_events()
     App.update_curlist()
 }
@@ -383,38 +379,53 @@ App.curlist_drag_events = () => {
 }
 
 App.show_curlist_item_menu = (e) => {
-    let items = [
-        {
-            text: `Edit`,
-            action: () => {
-                App.edit_curl(e.target.textContent)
-            }
-        },
-        {
-            text: `Copy`,
-            action: () => {
-                App.copy_curl(e.target.textContent)
-            }
-        },
-        {
-            text: `Remove`,
-            action: () => {
-                App.remove_a_curl(e.target.textContent)
-            }
-        },
-        {
-            text: `To Top`,
-            action: () => {
-                App.curl_to_top(e.target.textContent)
-            }
-        },
-        {
-            text: `To Bottom`,
-            action: () => {
-                App.curl_to_bottom(e.target.textContent)
-            }
-        },
-    ]
+    let selected = App.get_selected_items()
+    let items = []
+
+    if (selected.length > 1) {
+        items = [
+            {
+                text: `Remove`,
+                action: () => {
+                    App.remove_selected_curls()
+                }
+            },
+        ]
+    }
+    else {
+        items = [
+            {
+                text: `Edit`,
+                action: () => {
+                    App.edit_curl(e.target.textContent)
+                }
+            },
+            {
+                text: `Copy`,
+                action: () => {
+                    App.copy_curl(e.target.textContent)
+                }
+            },
+            {
+                text: `Remove`,
+                action: () => {
+                    App.remove_a_curl(e.target.textContent)
+                }
+            },
+            {
+                text: `To Top`,
+                action: () => {
+                    App.curl_to_top(e.target.textContent)
+                }
+            },
+            {
+                text: `To Bottom`,
+                action: () => {
+                    App.curl_to_bottom(e.target.textContent)
+                }
+            },
+        ]
+    }
 
     NeedContext.show({items: items, e: e})
 }

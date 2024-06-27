@@ -10,6 +10,7 @@ App.setup = () => {
     App.setup_picker()
     App.setup_status()
     App.setup_filter()
+    App.start_keyboard()
     App.update(true)
 }
 
@@ -28,4 +29,12 @@ App.update_title = () => {
 
 App.claim = () => {
     window.open(`/claim`, `_blank`)
+}
+
+App.start_keyboard = () => {
+    DOM.ev(DOM.el(`#main`), `click`, (e) => {
+        if (!e.target.closest(`#curlist`)) {
+            App.unselect_curlist()
+        }
+    })
 }
