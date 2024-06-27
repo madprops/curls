@@ -221,7 +221,9 @@ App.show_curlist_menu = (e) => {
         ]
     }
 
-    NeedContext.show({ items: items, e: e })
+    NeedContext.show({ items: items, e: e, after_hide: () => {
+        App.focus_curlist()
+    }})
 }
 
 App.show_curlist = () => {
@@ -444,7 +446,9 @@ App.show_curlist_item_menu = (e) => {
         ]
     }
 
-    NeedContext.show({ items: items, e: e })
+    NeedContext.show({ items: items, e: e, after_hide: () => {
+        App.focus_curlist()
+    }})
 }
 
 App.select_curlist_item = (target) => {
@@ -459,7 +463,7 @@ App.select_curlist_item = (target) => {
 
 App.do_select_curlist_item = (target) => {
     target.classList.add(`selected`)
-    target.scrollIntoView({ block: `center` })
+    target.scrollIntoView({ block: `nearest` })
 }
 
 App.do_unselect_curlist_item = (target) => {
@@ -572,4 +576,8 @@ App.select_curlist_vertical = (direction, shift) => {
 
         App.do_select_curlist_item(items[index + 1])
     }
+}
+
+App.focus_curlist = () => {
+    DOM.el(`#curlist`).focus()
 }
