@@ -350,6 +350,12 @@ App.show_curlist_item_menu = (e) => {
             }
         },
         {
+            text: `Copy`,
+            action: () => {
+                App.copy_curl(e.target.textContent)
+            }
+        },
+        {
             text: `Remove`,
             action: () => {
                 App.remove_a_curl(e.target.textContent)

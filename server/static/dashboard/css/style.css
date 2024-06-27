@@ -47,6 +47,7 @@ body, html {
 
 .curlist_item {
     cursor: default;
+    user-select: none;
 }
 
 #container {
