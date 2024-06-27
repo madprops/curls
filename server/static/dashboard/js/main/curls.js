@@ -238,8 +238,6 @@ App.copy_curl = (curl) => {
 App.peek_curl = (curl) => {
     let peek = DOM.el(`#peek`)
     let item = App.get_item(curl)
-    peek.innerHTML = ``
-    let el = DOM.create(`div`)
     let icon = DOM.create(`div`, `peek_icon`)
     let canvas = DOM.create(`canvas`, `peek_icon_canvas`)
     jdenticon.update(canvas, item.curl)
@@ -262,11 +260,11 @@ App.peek_curl = (curl) => {
         App.hide_peek()
     })
 
-    el.append(icon)
-    el.append(curl_)
-    el.append(status)
-    el.append(close)
-    peek.append(el)
+    peek.innerHTML = ``
+    peek.append(icon)
+    peek.append(curl_)
+    peek.append(status)
+    peek.append(close)
 
     peek.classList.add(`active`)
 }
