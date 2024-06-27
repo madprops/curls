@@ -83,7 +83,7 @@ App.do_filter = () => {
         return
     }
 
-    if (scope && !value) {
+    if ((scope !== `all`) && !value) {
         return
     }
 
