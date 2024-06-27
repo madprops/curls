@@ -75,11 +75,15 @@ App.do_filter = () => {
     }
 
     if (is_special) {
-        value = value.split(` `).slicdo_e(1).join(` `)
+        value = value.split(` `).slice(1).join(` `)
     }
 
     if (!value && !is_special) {
         App.refresh_items()
+        return
+    }
+
+    if (scope && !value) {
         return
     }
 
