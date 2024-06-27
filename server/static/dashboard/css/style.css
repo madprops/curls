@@ -280,3 +280,7 @@ select {
     cursor: pointer;
     user-select: none;
 }
+
+#claim {
+    text-align: center;
+}
