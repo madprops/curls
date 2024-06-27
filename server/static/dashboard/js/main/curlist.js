@@ -313,7 +313,7 @@ App.import_curlist = () => {
                 continue
             }
 
-            App.save_curls(color, curlist)
+            App.save_curls(curlist, color)
             modified = true
         }
 
