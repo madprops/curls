@@ -110,7 +110,7 @@ App.do_remove_curl = (curl, remove_item = true) => {
         }
     }
 
-    App.save_curls()
+    App.save_curls(App.color_mode, cleaned)
     App.update_curlist()
 
     if (remove_item) {

@@ -22,14 +22,17 @@ App.setup_curlist = () => {
         if (e.target.closest(`.curlist_item`)) {
             App.show_curlist_item_menu(e)
         }
+        else {
+            App.show_curlist_menu(e)
+        }
     })
 
     DOM.ev(curlist, `dblclick`, (e) => {
-        if (e.target.id === `curlist`) {
-            App.add_curl(`bottom`)
-        }
-        else if (e.target.closest(`.curlist_item`)) {
+        if (e.target.closest(`.curlist_item`)) {
             App.edit_curl(e.target.textContent)
+        }
+        else {
+            App.add_curl(`bottom`)
         }
     })
 
