@@ -217,7 +217,7 @@ App.show_curlist_menu = (e) => {
         ]
     }
 
-    NeedContext.show({items: items, e: e})
+    NeedContext.show({ items: items, e: e })
 }
 
 App.show_curlist = () => {
@@ -342,12 +342,24 @@ App.curlist_drag_events = () => {
     DOM.ev(container, `dragstart`, (e) => {
         let curl = e.target.textContent
         let items = App.get_curlist_items()
+
         App.drag_index = items.indexOf(e.target)
+        App.drag_y = e.clientY
+
         e.dataTransfer.setData(`text`, curl)
+        e.dataTransfer.setDragImage(new Image(), 0, 0)
+
+        let selected = App.get_selected_items()
+
+        if (selected.length && selected.includes(e.target)) {
+            App.drag_items = selected
+        }
+        else {
+            App.drag_items = [e.target]
+        }
     })
 
-    DOM.ev(container, `dragover`, (e) => {
-        e.preventDefault()
+    DOM.ev(container, `dragenter`, (e) => {
         let items = App.get_curlist_items()
         let index = items.indexOf(e.target)
 
@@ -355,20 +367,15 @@ App.curlist_drag_events = () => {
             return
         }
 
-        if (index === App.drag_index) {
-            return
-        }
+        let direction = e.clientY > App.drag_y ? `down` : `up`
+        App.drag_y = e.clientY
 
-        let curl = items[App.drag_index]
-
-        if (index > App.drag_index) {
-            container.insertBefore(curl, items[index + 1])
+        if (direction === `up`) {
+            e.target.before(...App.drag_items)
         }
-        else {
-            container.insertBefore(curl, items[index])
+        else if (direction === `down`) {
+            e.target.after(...App.drag_items)
         }
-
-        App.drag_index = index
     })
 
     DOM.ev(container, `dragend`, (e) => {
@@ -427,7 +434,7 @@ App.show_curlist_item_menu = (e) => {
         ]
     }
 
-    NeedContext.show({items: items, e: e})
+    NeedContext.show({ items: items, e: e })
 }
 
 App.select_curlist_item = (target) => {
