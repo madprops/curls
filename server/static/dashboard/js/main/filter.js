@@ -53,6 +53,7 @@ App.do_filter = () => {
     let value = DOM.el(`#filter`).value.toLowerCase().trim()
     let is_special = false
     let special = []
+    let scope = `all`
 
     if (value.startsWith(`[owned]`)) {
         special = App.get_owned_items()
@@ -68,6 +69,14 @@ App.do_filter = () => {
     }
     else if (value.startsWith(`[month]`)) {
         special = App.get_month_items()
+        is_special = true
+    }
+    else if (value.startsWith(`[curl]`)) {
+        scope = `curl`
+        is_special = true
+    }
+    else if (value.startsWith(`[status]`)) {
+        scope = `status`
         is_special = true
     }
 
@@ -93,7 +102,23 @@ App.do_filter = () => {
         let status = item.status.toLowerCase()
         let updated = item.updated.toLowerCase()
 
-        if (is_special) {
+        if (scope === `curl`) {
+            if (curl.includes(value)) {
+                unhide(el)
+            }
+            else {
+                hide(el)
+            }
+        }
+        else if (scope === `status`) {
+            if (status.includes(value)) {
+                unhide(el)
+            }
+            else {
+                hide(el)
+            }
+        }
+        else if (is_special) {
             if (special.find(s => s.curl === item.curl)) {
                 if (check(curl, status, updated)) {
                     unhide(el)
@@ -153,6 +178,16 @@ App.filter_month = () => {
     App.do_filter()
 }
 
+App.filter_curl = () => {
+    App.set_filter(`[curl]`)
+    App.do_filter()
+}
+
+App.filter_status = () => {
+    App.set_filter(`[status]`)
+    App.do_filter()
+}
+
 App.set_filter = (value) => {
     let el = DOM.el(`#filter`)
     el.value = value + ` `
@@ -189,6 +224,18 @@ App.show_filter_menu = (e) => {
             text: `Month`,
             action: () => {
                 App.filter_month()
+            }
+        },
+        {
+            text: `Curl`,
+            action: () => {
+                App.filter_curl()
+            }
+        },
+        {
+            text: `Status`,
+            action: () => {
+                App.filter_status()
             }
         },
     ]
