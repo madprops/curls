@@ -188,11 +188,9 @@ App.clear_curls = (color = App.color_mode) => {
 }
 
 App.empty_curls = () => {
-    if (!confirm(`Empty the curls?`)) {
-        return
+    if (confirm(`Empty the curls?`)) {
+        App.clear_curls()
+        App.update_curlist()
+        App.empty_container()
     }
-
-    App.clear_curls()
-    App.update_curlist()
-    App.empty_container()
 }
