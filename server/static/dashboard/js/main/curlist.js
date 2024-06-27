@@ -118,13 +118,13 @@ App.show_curlist_menu = (e) => {
                 separator: true,
             },
             {
-                text: `Sort (Ascending)`,
+                text: `Sort (Asc)`,
                 action: () => {
                     App.sort_curlist(`asc`)
                 }
             },
             {
-                text: `Sort (Descending)`,
+                text: `Sort (Desc)`,
                 action: () => {
                     App.sort_curlist(`desc`)
                 }
