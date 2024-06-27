@@ -355,6 +355,18 @@ App.show_curlist_item_menu = (e) => {
                 App.remove_a_curl(e.target.textContent)
             }
         },
+        {
+            text: `To Top`,
+            action: () => {
+                App.curl_to_top(e.target.textContent)
+            }
+        },
+        {
+            text: `To Bottom`,
+            action: () => {
+                App.curl_to_bottom(e.target.textContent)
+            }
+        },
     ]
 
     NeedContext.show({items: items, e: e})

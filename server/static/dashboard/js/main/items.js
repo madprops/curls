@@ -82,30 +82,6 @@ App.show_item_menu = (e) => {
                 App.copy_item(e)
             }
         },
-        {
-            text: `Move`,
-            action: () => {
-                App.move_to_color(e)
-            }
-        },
-        {
-            text: `Remove`,
-            action: () => {
-                App.remove_curl(e)
-            }
-        },
-        {
-            text: `To Top`,
-            action: () => {
-                App.curl_to_top(e)
-            }
-        },
-        {
-            text: `To Bottom`,
-            action: () => {
-                App.curl_to_bottom(e)
-            }
-        },
     ]
 
     NeedContext.show({items: items, e: e})

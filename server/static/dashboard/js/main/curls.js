@@ -110,17 +110,21 @@ App.copy_item = (e) => {
     }, 1000)
 }
 
-App.curl_to_top = (e) => {
-    let item = e.target.closest(`.item`)
-    let curl = item.querySelector(`.item_curl`).textContent
-    App.do_add_curl(`top`, curl, false)
+App.curl_to_top = (curl) => {
+    let curls = App.get_curls()
+    curls = curls.filter(x => x !== curl)
+    curls.unshift(curl)
+    App.save_curls(App.color_mode, curls)
+    App.update_curlist()
     App.sort_if_order()
 }
 
-App.curl_to_bottom = (e) => {
-    let item = e.target.closest(`.item`)
-    let curl = item.querySelector(`.item_curl`).textContent
-    App.do_add_curl(`bottom`, curl, false)
+App.curl_to_bottom = (curl) => {
+    let curls = App.get_curls()
+    curls = curls.filter(x => x !== curl)
+    curls.push(curl)
+    App.save_curls(App.color_mode, curls)
+    App.update_curlist()
     App.sort_if_order()
 }
 
