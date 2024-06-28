@@ -1,13 +1,18 @@
 App.setup_peek = () => {
     let checkbox = DOM.el(`#peek_enabled`)
-
-    DOM.ev(checkbox, `change`, () => {
-        App.peek_enabled = checkbox.checked
-        localStorage.setItem(`peek_enabled`, App.peek_enabled)
-    })
-
     App.peek_enabled = App.load_peek_enabled()
     checkbox.checked = App.peek_enabled
+    let checkbox_item = DOM.el(`#peek_enabled_item`)
+
+    DOM.ev(checkbox_item, `click`, () => {
+        App.peek_enabled = !App.peek_enabled
+        checkbox.checked = App.peek_enabled
+        App.save_peek_enabled()
+    })
+}
+
+App.save_peek_enabled = () => {
+    localStorage.setItem(`peek_enabled`, App.peek_enabled)
 }
 
 App.load_peek_enabled = () => {
