@@ -61,13 +61,8 @@ body, html {
     outline: none;
     padding-top: 0.25rem;
     padding-bottom: 0.25rem;
-    scrollbar-width: none;
     border-collapse: collapse;
     width: 100%;
-}
-
-#curlist::-webkit-scrollbar {
-    width: 0;
 }
 
 .curlist_item {
