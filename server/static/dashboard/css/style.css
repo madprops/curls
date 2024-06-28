@@ -103,6 +103,7 @@ body, html {
     display: table;
     cursor: default;
     border-collapse: collapse;
+    table-layout: fixed;
 }
 
 .item {
@@ -113,7 +114,8 @@ body, html {
 .item_icon,
 .item_curl,
 .item_status,
-.item_updated {
+.item_updated
+{
     display: table-cell;
     padding-top: 0.8rem;
     padding-bottom: 0.8rem;
@@ -142,24 +144,23 @@ body, html {
 
 .item_curl {
     color: var(--color);
-    width: 128px;
+    width: 140px;
+    max-width: 140px;
     text-align: left;
-    padding-right: 0.8rem;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .item_status {
     text-align: left;
-    flex-grow: 1;
-    flex-shrink: 1;
-    margin-right: 0.8rem;
+    padding-right: 0.8rem;
+    padding-left: 0.8rem;
 }
 
 .item_updated {
     color: var(--color);
     white-space: nowrap;
     text-align: right;
-    flex-grow: 0;
-    flex-shrink: 0;
     padding-right: 0.5rem;
     cursor: pointer;
 }
