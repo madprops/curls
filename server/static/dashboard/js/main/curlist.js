@@ -114,6 +114,7 @@ App.setup_curlist = () => {
     DOM.ev(filter, `keydown`, (e) => {
         if (e.key === `Escape`) {
             App.clear_curlist_filter()
+            App.hide_peek()
         }
         else if (e.key === `ArrowUp`) {
             App.select_curlist_vertical(`up`, e.shiftKey)

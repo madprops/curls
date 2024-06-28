@@ -10,7 +10,7 @@ body, html {
     font-family: var(--font);
     background-color: var(--background);
     color: var(--color);
-    font-size: 19px;
+    font-size: 18px;
 }
 
 #main {
@@ -227,15 +227,6 @@ input[type="password"] {
 
 .button:active {
     transform: translateY(1px);
-}
-
-select {
-    background-color: var(--background);
-    color: var(--color);
-    border: 0px solid var(--color);
-    border-bottom: 1px solid var(--color);
-    outline: none;
-    font-size: 1rem;
 }
 
 .hidden {

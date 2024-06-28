@@ -62,24 +62,3 @@ App.start_keyboard = () => {
         }
     })
 }
-
-App.setup_font = () => {
-    let font = DOM.el(`#font`)
-
-    DOM.ev(font, `change`, (e) => {
-        localStorage.setItem(`font`, e.target.value)
-        App.set_font()
-    })
-
-    font.value = App.load_font()
-    App.set_font()
-}
-
-App.set_font = () => {
-    let font = App.load_font()
-    document.documentElement.style.setProperty(`--font`, font)
-}
-
-App.load_font = () => {
-    return localStorage.getItem(`font`) || `sans-serif`
-}

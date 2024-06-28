@@ -36,6 +36,7 @@ App.peek_open = false
 App.default_color = `green`
 App.default_sort = `newest`
 App.default_updater = `minutes_5`
+App.default_font = `sans-serif`
 App.peek_curl = ``
 
 App.curl_too_long = `Curl is too long`
@@ -59,7 +60,7 @@ App.empty_info = [
     `Click <a href="/claim" target="_blank">here</a> to claim your own curl.`,
 ].join(`<br>`)
 
-App.updater_mode = `minutes_5`
+App.updater_mode = App.default_updater
 
 App.updater_modes = [
     {value: `now`, name: `Update`, skip: true},
@@ -73,7 +74,7 @@ App.updater_modes = [
     {value: `disabled`, name: `Disabled`},
 ]
 
-App.sort_mode = `newest`
+App.sort_mode = App.default_sort
 
 App.sort_modes = [
     {value: `order`, name: `Order`},
@@ -94,7 +95,7 @@ App.sort_modes = [
     {value: `status_long`, name: `Status Long`},
 ]
 
-App.color_mode = `green`
+App.color_mode = App.default_color
 
 App.color_modes = [
     {value: `red`, name: `Red`},
@@ -103,4 +104,13 @@ App.color_modes = [
     {value: `yellow`, name: `Yellow`},
     {value: `purple`, name: `Purple`},
     {value: `white`, name: `White`},
+]
+
+App.font_mode = App.default_font
+
+App.font_modes = [
+    {value: `sans-serif`, name: `Sans`},
+    {value: `serif`, name: `Serif`},
+    {value: `monospace`, name: `Mono`},
+    {value: `cursive`, name: `Cursive`},
 ]
