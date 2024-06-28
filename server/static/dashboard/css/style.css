@@ -148,8 +148,8 @@ body, html {
 }
 
 .item_curl {
-    width: 140px;
-    max-width: 140px;
+    width: 150px;
+    max-width: 150px;
     color: var(--color);
     text-align: left;
     white-space: nowrap;
