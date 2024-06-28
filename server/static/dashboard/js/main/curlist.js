@@ -111,7 +111,7 @@ App.setup_curlist = () => {
 
     let filter = DOM.el(`#curlist_filter`)
 
-    DOM.ev(filter, `keyup`, (e) => {
+    DOM.ev(filter, `keydown`, (e) => {
         if (e.key === `Escape`) {
             App.clear_curlist_filter()
         }
