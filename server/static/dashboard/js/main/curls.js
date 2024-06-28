@@ -101,25 +101,6 @@ App.add_owned_curl = (curl) => {
     }
 }
 
-App.copy_item = (e) => {
-    let item = e.target.closest(`.item`)
-    let curl = item.querySelector(`.item_curl`).textContent
-    let status = item.querySelector(`.item_status`).textContent
-    let updated = item.querySelector(`.item_updated`).textContent
-    let icon = item.querySelector(`.item_icon`)
-    App.do_copy_item(curl, status, updated, icon)
-}
-
-App.do_copy_item = (curl, status, updated, icon) => {
-    let msg = `${curl}\n${status}\n${updated}`
-    navigator.clipboard.writeText(msg)
-    icon.classList.add(`blink`)
-
-    setTimeout(() => {
-        icon.classList.remove(`blink`)
-    }, 1000)
-}
-
 App.curl_to_top = (curl) => {
     let curls = App.get_curls()
     curls = curls.filter(x => x !== curl)

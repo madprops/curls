@@ -38,8 +38,8 @@ App.show_peek = (curl) => {
     let updated = DOM.create(`div`, `peek_updated`)
     updated.textContent = item.updated_text
 
-    DOM.ev(icon, `click`, () => {
-        App.do_copy_item(item.curl, item.status, item.updated_text, icon)
+    DOM.ev(icon, `click`, (e) => {
+        App.show_item_menu(curl, e)
     })
 
     icon.title = `Click to copy`

@@ -95,12 +95,12 @@ App.get_item = (curl) => {
     return App.items.find(item => item.curl === curl)
 }
 
-App.show_item_menu = (e) => {
+App.show_item_menu = (curl, e) => {
     let items = [
         {
             text: `Copy`,
             action: () => {
-                App.copy_item(e)
+                App.copy_item(curl)
             }
         },
     ]
@@ -204,4 +204,34 @@ App.add_dates_to_items = () => {
 
         item.updated_text = s_date
     }
+}
+
+App.copy_item = (curl) => {
+    let item = App.get_item(curl)
+
+    if (!item) {
+        return
+    }
+
+
+    let msg = `${item.curl}\n${item.status}\n${item.updated_text}`
+    navigator.clipboard.writeText(msg)
+
+    function blink (icon) {
+        if (!icon) {
+            return
+        }
+
+        icon.classList.add(`blink`)
+
+        setTimeout(() => {
+            icon.classList.remove(`blink`)
+        }, 1000)
+    }
+
+    if (App.peek_open && App.peek_curl === curl) {
+        blink(DOM.el(`#peek .peek_icon`))
+    }
+
+    blink(DOM.el(`.item_icon`, item.element))
 }

@@ -9,7 +9,8 @@ App.setup_container = () => {
         }
 
         if (e.target.closest(`.item_icon`)) {
-            App.show_item_menu(e)
+            let curl = e.target.closest(`.item`).dataset.curl
+            App.show_item_menu(curl, e)
             return
         }
     })
@@ -17,7 +18,8 @@ App.setup_container = () => {
     DOM.ev(container, `contextmenu`, (e) => {
         if (e.target.closest(`.item_icon`)) {
             e.preventDefault()
-            App.show_item_menu(e)
+            let curl = e.target.closest(`.item`).dataset.curl
+            App.show_item_menu(curl, e)
         }
     })
 
