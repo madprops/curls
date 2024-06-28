@@ -625,6 +625,10 @@ App.select_curlist_vertical = (direction, shift, curl) => {
         new_index -= 1
 
         if (new_index < 0) {
+            if (shift) {
+                return
+            }
+
             new_index = items.length - 1
             on_edge = true
         }
@@ -633,6 +637,10 @@ App.select_curlist_vertical = (direction, shift, curl) => {
         new_index += 1
 
         if (new_index >= items.length) {
+            if (shift) {
+                return
+            }
+
             new_index = 0
             on_edge = true
         }
