@@ -8,13 +8,16 @@ App.setup_status = () => {
         else if (e.key === `ArrowDown`) {
             e.preventDefault()
         }
+        else if (e.key === `Enter`) {
+            App.change()
+        }
+        else if (e.key === `Escape`) {
+            status.value = ``
+        }
     })
 
     DOM.ev(status, `keyup`, (e) => {
-        if (e.key === `Enter`) {
-            App.change()
-        }
-        else if (e.key === `ArrowUp`) {
+        if (e.key === `ArrowUp`) {
             App.show_status_menu()
         }
         else if (e.key === `ArrowDown`) {

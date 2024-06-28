@@ -365,3 +365,7 @@ select {
     width: 100%;
     box-sizing: border-box;
 }
+
+.needcontext-text {
+    max-width: 300px !important;
+}
