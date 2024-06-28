@@ -36,8 +36,10 @@ App.get_used_curls = () => {
     return used_curls
 }
 
-App.add_curl = (where, value = ``) => {
-    let curls = prompt(`Add curls. Separated by spaces`, value)
+App.add_curl = (where, curls = ``) => {
+    if (!curls) {
+        curls = prompt(`Add curls. Separated by spaces`)
+    }
 
     if (!curls) {
         return
@@ -233,4 +235,9 @@ App.check_curl = (curl) => {
 
 App.copy_curl = (curl) => {
     navigator.clipboard.writeText(curl)
+}
+
+App.check_add_curl = () => {
+    let value = App.get_curlist_filter_value()
+    App.add_curl(`top`, value)
 }

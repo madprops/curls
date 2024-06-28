@@ -729,8 +729,3 @@ App.extract_curlist_item = (item) => {
 App.extract_curlist_curl = (item) => {
     return item.closest(`.curlist_item`).textContent
 }
-
-App.check_add_curl = () => {
-    let value = App.get_curlist_filter_value()
-    App.add_curl(`top`, value)
-}
