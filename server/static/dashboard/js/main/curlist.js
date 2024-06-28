@@ -110,6 +110,7 @@ App.setup_curlist = () => {
     })
 
     let filter = DOM.el(`#curlist_filter`)
+    filter.title = `Press Enter to add a curl`
 
     DOM.ev(filter, `keydown`, (e) => {
         if (e.key === `Escape`) {
@@ -730,10 +731,6 @@ App.extract_curlist_curl = (item) => {
 }
 
 App.check_add_curl = () => {
-    let visible = App.curlist_get_visible()
     let value = App.get_curlist_filter_value()
-
-    if (!visible.length) {
-        App.add_curl(`top`, value)
-    }
+    App.add_curl(`top`, value)
 }
