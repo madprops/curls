@@ -115,6 +115,9 @@ App.setup_curlist = () => {
         if (e.key === `Escape`) {
             App.clear_curlist_filter()
         }
+        else if (e.key === `Enter`) {
+            App.check_add_curl()
+        }
         else if (e.key === `ArrowUp`) {
             App.select_curlist_vertical(`up`, e.shiftKey)
             e.preventDefault()
@@ -159,6 +162,7 @@ App.update_curlist = (curls) => {
 
     App.update_curlist_top()
     App.blank_curlist_filter()
+    DOM.el(`#curlist_container`).scrollTop = 0
 }
 
 App.update_curlist_top = () => {
@@ -670,9 +674,13 @@ App.curlist_get_visible = () => {
     return els.filter(x => !x.classList.contains(`hidden`))
 }
 
+App.get_curlist_filter_value = () => {
+    return DOM.el(`#curlist_filter`).value.toLowerCase().trim()
+}
+
 App.do_filter_curlist = () => {
     let els = App.get_curlist_elements()
-    let value = DOM.el(`#curlist_filter`).value.toLowerCase().trim()
+    let value = App.get_curlist_filter_value()
 
     function hide (el) {
         el.classList.add(`hidden`)
@@ -719,4 +727,13 @@ App.extract_curlist_item = (item) => {
 
 App.extract_curlist_curl = (item) => {
     return item.closest(`.curlist_item`).textContent
+}
+
+App.check_add_curl = () => {
+    let visible = App.curlist_get_visible()
+    let value = App.get_curlist_filter_value()
+
+    if (!visible.length) {
+        App.add_curl(`top`, value)
+    }
 }

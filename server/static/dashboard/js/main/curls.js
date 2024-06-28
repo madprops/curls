@@ -36,8 +36,8 @@ App.get_used_curls = () => {
     return used_curls
 }
 
-App.add_curl = (where) => {
-    let curls = prompt(`Add curls. Separated by spaces`)
+App.add_curl = (where, value = ``) => {
+    let curls = prompt(`Add curls. Separated by spaces`, value)
 
     if (!curls) {
         return

@@ -50,6 +50,7 @@ body, html {
     overflow-x: hidden;
     overflow-y: auto;
     padding-top: 0.35rem;
+    padding-bottom: 0.35rem;
 }
 
 #curlist {
@@ -146,9 +147,9 @@ body, html {
 
 .item_curl {
     color: var(--color);
-    width: 150px;
+    width: 128px;
     text-align: left;
-    margin-right: 0.8rem;
+    padding-right: 0.8rem;
 }
 
 .item_status {
