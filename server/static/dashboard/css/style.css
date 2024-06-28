@@ -387,7 +387,7 @@ select {
 .footer_item {
     display: flex;
     flex-direction: row;
-    gap: 0.5rem;
+    gap: 0.35rem;
     align-items: center;
     justify-content: center;
 }
