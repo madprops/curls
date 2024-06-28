@@ -47,17 +47,16 @@ body, html {
 #curlist_container {
     flex-grow: 1;
     border: 1px solid var(--color);
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 #curlist {
     display: table;
-    flex-grow: 1;
     background-color: var(--background);
     color: var(--color);
     font-size: 1rem;
     outline: none;
-    overflow-x: hidden;
-    overflow-y: auto;
     padding-top: 0.25rem;
     padding-bottom: 0.25rem;
     scrollbar-width: none;
@@ -101,14 +100,22 @@ body, html {
     border-top: 1px solid transparent;
 }
 
+#container_container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
 #container {
     display: table;
     cursor: default;
-    position: relative;
     margin-top: 0.5rem;
-    overflow-x: hidden;
-    overflow-y: auto;
     border-collapse: collapse;
+    position: relative;
 }
 
 .item {

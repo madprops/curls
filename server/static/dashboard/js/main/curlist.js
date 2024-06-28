@@ -707,6 +707,8 @@ App.clear_curlist_filter = () => {
     for (let el of els) {
         el.classList.remove(`hidden`)
     }
+
+    App.unselect_curlist()
 }
 
 App.extract_curlist_item = (item) => {
