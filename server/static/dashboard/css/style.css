@@ -108,6 +108,7 @@ body, html {
     cursor: default;
     border-collapse: collapse;
     table-layout: fixed;
+    width: calc(100% - 1px);
 }
 
 .item {
@@ -147,9 +148,9 @@ body, html {
 }
 
 .item_curl {
-    color: var(--color);
     width: 140px;
     max-width: 140px;
+    color: var(--color);
     text-align: left;
     white-space: nowrap;
     overflow: hidden;
@@ -161,7 +162,14 @@ body, html {
     padding-left: 0.8rem;
 }
 
+.item_status.nowrap {
+    white-space: nowrap;
+    overflow: hidden;
+}
+
 .item_updated {
+    width: 200px;
+    max-width: 200px;
     color: var(--color);
     white-space: nowrap;
     text-align: right;

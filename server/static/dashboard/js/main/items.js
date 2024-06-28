@@ -1,3 +1,26 @@
+App.setup_items = () => {
+    let wrap_checkbox = DOM.el(`#wrap_enabled`)
+    App.wrap_enabled = App.load_wrap_enabled()
+    wrap_checkbox.checked = App.wrap_enabled
+    let wrap_checkbox_item = DOM.el(`#wrap_enabled_item`)
+
+    DOM.ev(wrap_checkbox_item, `click`, () => {
+        App.wrap_enabled = !App.wrap_enabled
+        wrap_checkbox.checked = App.wrap_enabled
+        App.save_wrap_enabled()
+        App.refresh_items()
+    })
+}
+
+App.save_wrap_enabled = () => {
+    localStorage.setItem(`wrap_enabled`, App.wrap_enabled)
+}
+
+App.load_wrap_enabled = () => {
+    let saved = localStorage.getItem(`wrap_enabled`) || `true`
+    return saved === `true`
+}
+
 App.get_date_mode = () => {
     return localStorage.getItem(`date_mode`) || `12`
 }
@@ -39,6 +62,11 @@ App.insert_item = (item) => {
 
     let item_curl = DOM.create(`div`, `item_curl`)
     let item_status = DOM.create(`div`, `item_status`)
+
+    if (!App.wrap_enabled) {
+        item_status.classList.add(`nowrap`)
+    }
+
     let item_updated = DOM.create(`div`, `item_updated glow`)
 
     item_curl.textContent = item.curl

@@ -39,6 +39,7 @@ App.default_sort = `newest`
 App.default_updater = `minutes_5`
 App.default_font = `sans-serif`
 App.peek_curl = ``
+App.wrap_enabled = true
 
 App.curl_too_long = `Curl is too long`
 App.key_too_long = `Key is too long`
