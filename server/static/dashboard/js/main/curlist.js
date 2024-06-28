@@ -147,7 +147,7 @@ App.update_curlist = (curls) => {
 
     for (let curl of curls) {
         let item = DOM.create(`div`)
-        item.classList.add(`curlist_item`, `glow`)
+        item.classList.add(`curlist_item`)
         item.draggable = true
 
         let curl_ = DOM.create(`div`, `curlist_item_curl`)

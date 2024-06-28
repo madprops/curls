@@ -73,6 +73,7 @@ body, html {
     display: table-row;
     cursor: default;
     user-select: none;
+    cursor: pointer;
 }
 
 .curlist_item_curl {
