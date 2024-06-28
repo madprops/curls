@@ -39,7 +39,7 @@ App.refresh_items = (items = App.items, check_filter = true) => {
     App.sort_items(items)
 
     for (let item of items) {
-        App.insert_item(item)
+        App.create_element(item)
     }
 
     App.unselect()
@@ -50,7 +50,7 @@ App.refresh_items = (items = App.items, check_filter = true) => {
     }
 }
 
-App.insert_item = (item) => {
+App.create_element = (item) => {
     let container = DOM.el(`#container`)
     let el = DOM.create(`div`, `item`)
     let item_icon = DOM.create(`div`, `item_icon`)
@@ -73,6 +73,7 @@ App.insert_item = (item) => {
     item_curl.title = item.curl
     let status = item.status || `Not updated yet`
     item_status.innerHTML = App.sanitize(status)
+    item_status.title = status
     App.urlize(item_status)
 
     item_updated.textContent = item.updated_text
