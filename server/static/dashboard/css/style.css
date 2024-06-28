@@ -49,6 +49,7 @@ body, html {
     border: 1px solid var(--color);
     overflow-x: hidden;
     overflow-y: auto;
+    padding-top: 0.5rem;
 }
 
 #curlist {
@@ -72,19 +73,18 @@ body, html {
     display: table-row;
     cursor: default;
     user-select: none;
-    padding-top: 0.09rem;
-    padding-bottom: 0.09rem;
 }
 
 .curlist_item_curl {
     display: table-cell;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
     text-align: left;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-
 }
 
 .curlist_item.selected {
