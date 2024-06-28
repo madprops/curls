@@ -607,13 +607,17 @@ App.select_curlist_vertical = (direction, shift, curl) => {
     }
 
     if ((selected_items.length > 1) && !shift) {
+        let item
+
         if (direction === `up`) {
-            App.select_curlist_item(selected_items[0])
+            item = selected_items[0]
         }
         else if (direction === `down`) {
-            App.select_curlist_item(selected_items[selected_items.length - 1])
+            item = selected_items[selected_items.length - 1]
         }
 
+        App.select_curlist_item(item)
+        App.show_peek(App.extract_curlist_curl(item))
         return
     }
 

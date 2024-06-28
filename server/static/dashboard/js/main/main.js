@@ -57,7 +57,7 @@ App.claim = () => {
 
 App.start_keyboard = () => {
     DOM.ev(DOM.el(`#main`), `click`, (e) => {
-        if (!e.target.closest(`#curlist`)) {
+        if (!e.target.closest(`#curlist_container`)) {
             App.unselect_curlist()
 
             if (!e.target.closest(`#peek`)) {

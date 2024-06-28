@@ -51,6 +51,7 @@ body, html {
     overflow-y: auto;
     padding-top: 0.35rem;
     padding-bottom: 0.35rem;
+    outline: none;
 }
 
 #curlist {
@@ -61,7 +62,6 @@ body, html {
     padding-top: 0.25rem;
     padding-bottom: 0.25rem;
     border-collapse: collapse;
-    outline: none;
     width: 100%;
 }
 
