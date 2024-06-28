@@ -236,8 +236,3 @@ App.check_curl = (curl) => {
 App.copy_curl = (curl) => {
     navigator.clipboard.writeText(curl)
 }
-
-App.check_add_curl = () => {
-    let value = App.get_curlist_filter_value()
-    App.add_curl(`top`, value)
-}

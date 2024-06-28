@@ -110,14 +110,10 @@ App.setup_curlist = () => {
     })
 
     let filter = DOM.el(`#curlist_filter`)
-    filter.title = `Press Enter to add a curl`
 
     DOM.ev(filter, `keydown`, (e) => {
         if (e.key === `Escape`) {
             App.clear_curlist_filter()
-        }
-        else if (e.key === `Enter`) {
-            App.check_add_curl()
         }
         else if (e.key === `ArrowUp`) {
             App.select_curlist_vertical(`up`, e.shiftKey)
