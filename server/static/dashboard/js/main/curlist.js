@@ -588,21 +588,20 @@ App.get_curlist_elements = () => {
 
 App.select_curlist_vertical = (direction, shift, curl) => {
     let items = App.curlist_get_visible()
-
-    if (items.length <= 1) {
-        return
-    }
-
     let selected_items = App.get_selected_items()
 
     if (!selected_items.length) {
+        let item
+
         if (direction === `up`) {
-            App.do_select_curlist_item(items[items.length - 1])
+            item = items[items.length - 1]
         }
         else if (direction === `down`) {
-            App.do_select_curlist_item(items[0])
+            item = items[0]
         }
 
+        App.do_select_curlist_item(item)
+        App.show_peek(App.extract_curlist_curl(item))
         return
     }
 
