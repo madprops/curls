@@ -446,7 +446,13 @@ App.curlist_drag_events = () => {
 
 App.get_curlist_curls = () => {
     let elements = App.get_curlist_elements()
-    return elements.map(x => x.closest(`.curlist_item_curl`).textContent)
+    let curls = []
+
+    for (let el of elements) {
+        curls.push(el.textContent)
+    }
+
+    return curls
 }
 
 App.show_curlist_item_menu = (e) => {
@@ -554,8 +560,13 @@ App.select_curlist_toggle = (target) => {
 App.get_selected_curls = () => {
     let items = App.get_curlist_elements()
     let selected_items = items.filter(x => x.classList.contains(`selected`))
-    let curl_els = selected_items.map(x => x.closest(`.curlist_item_curl`))
-    return curl_els.map(x => x.textContent)
+    let curls = []
+
+    for (let item of selected_items) {
+        curls.push(item.textContent)
+    }
+
+    return curls
 }
 
 App.get_selected_items = () => {
@@ -723,5 +734,11 @@ App.extract_curlist_item = (item) => {
 }
 
 App.extract_curlist_curl = (item) => {
-    return item.closest(`.curlist_item`).textContent
+    let el = item.closest(`.curlist_item`)
+
+    if (!el) {
+        return ``
+    }
+
+    return el.textContent
 }
