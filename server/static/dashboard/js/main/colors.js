@@ -24,6 +24,14 @@ App.setup_color = () => {
 
     })
 
+    App.colors_alpha = {}
+
+    for (let color in App.colors) {
+        let numbers = App.colors[color].match(/\d+/g)
+        let rgba = `rgba(${numbers[0]}, ${numbers[1]}, ${numbers[2]}, 0.18)`
+        App.colors_alpha[color] = rgba
+    }
+
     App.apply_color()
 }
 
@@ -47,7 +55,9 @@ App.load_color = () => {
 
 App.apply_color = () => {
     let rgb = App.colors[App.color_mode]
+    let rgba = App.colors_alpha[App.color_mode]
     document.documentElement.style.setProperty(`--color`, rgb)
+    document.documentElement.style.setProperty(`--color_alpha`, rgba)
     App.update_title()
 }
 
