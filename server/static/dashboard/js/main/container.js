@@ -1,4 +1,5 @@
 App.setup_container = () => {
+    let outer = DOM.el(`#container_outer`)
     let container = DOM.el(`#container`)
 
     DOM.ev(container, `click`, (e) => {
@@ -19,6 +20,16 @@ App.setup_container = () => {
             App.show_item_menu(e)
         }
     })
+
+    DOM.ev(outer, `scroll`, (e) => {
+        App.check_scroll()
+    })
+
+    let observer = new MutationObserver((list, observer) => {
+        App.check_scroll()
+    })
+
+    observer.observe(container, { childList: true })
 }
 
 App.clear_container = () => {
@@ -63,4 +74,28 @@ App.scroll_container_top = () => {
 App.scroll_container_bottom = () => {
     let container = DOM.el(`#container_outer`)
     container.scrollTop = container.scrollHeight
+}
+
+App.check_scroll = () => {
+    let outer = DOM.el(`#container_outer`)
+    let top = DOM.el(`#scroller_top`)
+    let bottom = DOM.el(`#scroller_bottom`)
+
+    let height = outer.clientHeight
+    let scroll = outer.scrollHeight
+    let scrolltop = outer.scrollTop
+
+    if (scrolltop > 0) {
+        top.classList.remove(`disabled`)
+    }
+    else {
+        top.classList.add(`disabled`)
+    }
+
+    if (scrolltop < (scroll - height)) {
+        bottom.classList.remove(`disabled`)
+    }
+    else {
+        bottom.classList.add(`disabled`)
+    }
 }

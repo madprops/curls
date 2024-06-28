@@ -387,3 +387,8 @@ input[type="password"] {
 #version {
     margin-left: auto;
 }
+
+.disabled {
+    pointer-events: none;
+    opacity: 0.6;
+}
