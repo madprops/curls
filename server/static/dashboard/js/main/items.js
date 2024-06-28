@@ -39,7 +39,7 @@ App.insert_item = (item) => {
 
     let item_curl = DOM.create(`div`, `item_curl`)
     let item_status = DOM.create(`div`, `item_status`)
-    let item_updated = DOM.create(`div`, `item_updated`)
+    let item_updated = DOM.create(`div`, `item_updated glow`)
 
     item_curl.textContent = item.curl
     item_curl.title = item.curl
