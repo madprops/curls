@@ -1,5 +1,5 @@
 App.setup_curlist = () => {
-    let curlist = DOM.el(`#curlist`)
+    let container = DOM.el(`#curlist_container`)
     let curlist_top = DOM.el(`#curlist_top`)
 
     let lines = [
@@ -12,7 +12,7 @@ App.setup_curlist = () => {
         `Press Delete to remove selected curls`,
     ]
 
-    curlist.title = lines.join(`\n`)
+    container.title = lines.join(`\n`)
 
     DOM.evs(curlist_top, [`click`, `contextmenu`], (e) => {
         App.show_curlist_menu(e)
@@ -28,7 +28,7 @@ App.setup_curlist = () => {
         App.hide_curlist()
     }
 
-    DOM.ev(curlist, `click`, (e) => {
+    DOM.ev(container, `click`, (e) => {
         let item = App.extract_curlist_item(e.target)
         let curl = App.extract_curlist_curl(e.target)
 
@@ -46,7 +46,7 @@ App.setup_curlist = () => {
         }
     })
 
-    DOM.ev(curlist, `contextmenu`, (e) => {
+    DOM.ev(container, `contextmenu`, (e) => {
         let item = App.extract_curlist_item(e.target)
 
         if (item) {
@@ -59,7 +59,7 @@ App.setup_curlist = () => {
         e.preventDefault()
     })
 
-    DOM.ev(curlist, `dblclick`, (e) => {
+    DOM.ev(container, `dblclick`, (e) => {
         let item = App.extract_curlist_item(e.target)
 
         if (item) {
@@ -70,7 +70,7 @@ App.setup_curlist = () => {
         }
     })
 
-    DOM.ev(curlist, `auxclick`, (e) => {
+    DOM.ev(container, `auxclick`, (e) => {
         let item = App.extract_curlist_item(e.target)
 
         if (e.button === 1) {
@@ -80,7 +80,7 @@ App.setup_curlist = () => {
         }
     })
 
-    DOM.ev(curlist, `keydown`, (e) => {
+    DOM.ev(container, `keydown`, (e) => {
         if (e.key === `Delete`) {
             App.remove_selected_curls()
             e.preventDefault()
