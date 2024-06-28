@@ -61,7 +61,7 @@ App.show_status_menu = () => {
 
     let items = status_list.map(status => {
         return {
-            text: status,
+            text: status.substring(0, App.status_menu_max_length),
             action: () => {
                 App.set_status(status)
             }
