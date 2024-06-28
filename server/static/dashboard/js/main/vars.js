@@ -24,6 +24,7 @@ App.filter_debouncer_delay = 250
 App.curlist_filter_debouncer_delay = 250
 App.update_debouncer_delay = 250
 App.change_debouncer_delay = 250
+App.check_scroll_debouncer_delay = 120
 App.status_menu_max_length = 110
 App.changing = false
 App.updating = false

@@ -13,6 +13,7 @@ App.setup = () => {
     App.setup_peek()
     App.start_keyboard()
     App.setup_font()
+    App.setup_resize()
     App.update(true)
 }
 
@@ -60,5 +61,11 @@ App.start_keyboard = () => {
                 App.hide_peek()
             }
         }
+    })
+}
+
+App.setup_resize = () => {
+    window.addEventListener(`resize`, (event) => {
+        App.check_scroll()
     })
 }
