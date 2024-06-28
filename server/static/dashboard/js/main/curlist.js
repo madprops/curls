@@ -115,6 +115,14 @@ App.setup_curlist = () => {
         if (e.key === `Escape`) {
             App.clear_curlist_filter()
         }
+        else if (e.key === `ArrowUp`) {
+            App.select_curlist_vertical(`up`, e.shiftKey)
+            e.preventDefault()
+        }
+        else if (e.key === `ArrowDown`) {
+            App.select_curlist_vertical(`down`, e.shiftKey)
+            e.preventDefault()
+        }
         else {
             App.filter_curlist()
         }
@@ -573,7 +581,7 @@ App.get_curlist_elements = () => {
 }
 
 App.select_curlist_vertical = (direction, shift, curl) => {
-    let items = App.get_curlist_elements()
+    let items = App.curlist_get_visible()
 
     if (items.length <= 1) {
         return
@@ -653,6 +661,11 @@ App.focus_curlist = () => {
 
 App.filter_curlist = () => {
     App.curlist_filter_debouncer.call()
+}
+
+App.curlist_get_visible = () => {
+    let els = App.get_curlist_elements()
+    return els.filter(x => !x.classList.contains(`hidden`))
 }
 
 App.do_filter_curlist = () => {
