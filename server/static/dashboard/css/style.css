@@ -329,7 +329,7 @@ select {
 .peek_icon {
     display: flex;
     justify-content: center;
-    padding-top: 1rem;
+    padding-top: 0.8rem;
     cursor: pointer;
     width: 6rem;
 }
@@ -361,7 +361,7 @@ select {
 .peek_close {
     position: absolute;
     right: 1rem;
-    top: 0.62rem;
+    top: 0.66rem;
 }
 
 #curlist_filter {
