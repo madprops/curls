@@ -34,12 +34,14 @@ App.setup_buttons = () => {
 
     DOM.ev(top, `click`, () => {
         App.scroll_container_top()
+        App.do_check_scroll()
     })
 
     let bottom = DOM.el(`#scroller_bottom`)
 
     DOM.ev(bottom, `click`, () => {
         App.scroll_container_bottom()
+        App.do_check_scroll()
     })
 }
 

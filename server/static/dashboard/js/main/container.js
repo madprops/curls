@@ -84,6 +84,7 @@ App.check_scroll = () => {
 }
 
 App.do_check_scroll = () => {
+    App.check_scroll_debouncer.cancel()
     let outer = DOM.el(`#container_outer`)
     let top = DOM.el(`#scroller_top`)
     let bottom = DOM.el(`#scroller_bottom`)
