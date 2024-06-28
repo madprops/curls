@@ -44,21 +44,25 @@ body, html {
     gap: 0.5rem;
 }
 
+#curlist_container {
+    flex-grow: 1;
+    border: 1px solid var(--color);
+}
+
 #curlist {
     display: table;
     flex-grow: 1;
-    resize: none;
     background-color: var(--background);
     color: var(--color);
     font-size: 1rem;
-    border: 1px solid var(--color);
     outline: none;
     overflow-x: hidden;
     overflow-y: auto;
     padding-top: 0.25rem;
     padding-bottom: 0.25rem;
     scrollbar-width: none;
-    /* border-collapse: collapse; */
+    border-collapse: collapse;
+    width: 100%;
 }
 
 #curlist::-webkit-scrollbar {
