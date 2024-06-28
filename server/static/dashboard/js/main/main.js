@@ -28,6 +28,18 @@ App.setup_buttons = () => {
     DOM.ev(claim, `click`, () => {
         App.claim()
     })
+
+    let top = DOM.el(`#scroller_top`)
+
+    DOM.ev(top, `click`, () => {
+        App.scroll_container_top()
+    })
+
+    let bottom = DOM.el(`#scroller_bottom`)
+
+    DOM.ev(bottom, `click`, () => {
+        App.scroll_container_bottom()
+    })
 }
 
 App.update_title = () => {

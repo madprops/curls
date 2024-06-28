@@ -54,3 +54,13 @@ App.set_container_info = (info) => {
 App.get_container_items = () => {
     return DOM.els(`#container .item`)
 }
+
+App.scroll_container_top = () => {
+    let container = DOM.el(`#container_outer`)
+    container.scrollTop = 0
+}
+
+App.scroll_container_bottom = () => {
+    let container = DOM.el(`#container_outer`)
+    container.scrollTop = container.scrollHeight
+}

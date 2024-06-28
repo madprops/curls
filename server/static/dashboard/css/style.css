@@ -93,7 +93,7 @@ body, html {
     color: var(--background);
 }
 
-#container_container {
+#container_outer {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -388,7 +388,7 @@ select {
 .footer_item {
     display: flex;
     flex-direction: row;
-    gap: 0.4rem;
+    gap: 0.5rem;
     align-items: center;
     justify-content: center;
 }
