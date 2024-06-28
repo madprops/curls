@@ -478,12 +478,6 @@ App.show_curlist_item_menu = (e) => {
                 }
             },
             {
-                text: `Filter`,
-                action: () => {
-                    App.filter_one_curl(curl)
-                }
-            },
-            {
                 text: `Copy`,
                 action: () => {
                     App.copy_curl(curl)

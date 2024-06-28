@@ -74,8 +74,6 @@ body, html {
     user-select: none;
     padding-top: 0.09rem;
     padding-bottom: 0.09rem;
-    border-top: 1px solid transparent;
-    border-bottom: 1px solid transparent;
 }
 
 .curlist_item_curl {
@@ -92,12 +90,6 @@ body, html {
 .curlist_item.selected {
     background-color: var(--color);
     color: var(--background);
-    border-top: 1px solid var(--background);
-    border-bottom: 1px solid var(--background);
-}
-
-.curlist_item+.curlist_item {
-    border-top: 1px solid transparent;
 }
 
 #container_container {
