@@ -84,6 +84,10 @@ body, html {
     text-overflow: ellipsis;
 }
 
+.curlist_item:hover {
+    background-color: var(--color_alpha);
+}
+
 .curlist_item.selected {
     background-color: var(--color);
     color: var(--background);
