@@ -1,4 +1,25 @@
+App.setup_peek = () => {
+    let checkbox = DOM.el(`#peek_enabled`)
+
+    DOM.ev(checkbox, `change`, () => {
+        App.peek_enabled = checkbox.checked
+        localStorage.setItem(`peek_enabled`, App.peek_enabled)
+    })
+
+    App.peek_enabled = App.load_peek_enabled()
+    checkbox.checked = App.peek_enabled
+}
+
+App.load_peek_enabled = () => {
+    let saved = localStorage.getItem(`peek_enabled`) || `true`
+    return saved === `true`
+}
+
 App.show_peek = (curl) => {
+    if (!App.peek_enabled) {
+        return
+    }
+
     let peek = DOM.el(`#peek`)
     let item = App.get_item(curl)
     let icon = DOM.create(`div`, `peek_icon`)
@@ -33,19 +54,23 @@ App.show_peek = (curl) => {
     peek.append(updated)
 
     peek.classList.add(`active`)
-    App.peek_enabled = true
+    App.peek_open = true
     App.peek_curl = curl
 }
 
 App.hide_peek = () => {
+    if (!App.peek_open) {
+        return
+    }
+
     DOM.el(`#peek`).classList.remove(`active`)
-    App.peek_enabled = false
+    App.peek_open = false
     App.peek_curl = ``
 }
 
 App.toggle_peek = (curl) => {
     if (curl === App.peek_curl) {
-        if (App.peek_enabled) {
+        if (App.peek_open) {
             App.hide_peek()
         }
         else {

@@ -28,8 +28,7 @@
                 <div class="button" id="sort"></div>
                 <div class="button" id="updater"></div>
                 <input type="text" id="filter" placeholder="Filter" title="Filter the items">
-                <div class="button" id="filter_button">@</div>
-                <div title="The current version of Curls and the Dashboard">v{{version}}</div>
+                <div class="button" id="filter_button">Filters</div>
             </div>
 
             <div id="change">
@@ -42,6 +41,26 @@
 
             <div id="container_container">
                 <div id="container"></div>
+            </div>
+
+            <div id="footer">
+                <div class="footer_item">
+                    <div>Peek</div>
+                    <input id="peek_enabled" type="checkbox">
+                </div>
+
+                <div class="footer_item">
+                    <div>Font</div>
+
+                    <select id="font">
+                        <option>serif</option>
+                        <option>cursive</option>
+                        <option>monospace</option>
+                        <option>sans-serif</option>
+                    </select>
+                </div>
+
+                <div id="version" title="The current version of Curls and the Dashboard">v{{version}}</div>
             </div>
         </div>
 
