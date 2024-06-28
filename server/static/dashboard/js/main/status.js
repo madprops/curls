@@ -64,7 +64,10 @@ App.show_status_menu = () => {
             text: status.substring(0, App.status_menu_max_length),
             action: () => {
                 App.set_status(status)
-            }
+            },
+            alt_action: () => {
+                App.remove_status(status)
+            },
         }
     })
 
@@ -80,4 +83,24 @@ App.set_status = (status) => {
 
 App.focus_status = () => {
     DOM.el(`#change_status`).focus()
+}
+
+App.remove_status = (status) => {
+    if (confirm(`Remove this status?`)) {
+        App.do_remove_status(status)
+    }
+}
+
+App.do_remove_status = (status) => {
+    let cleaned = []
+
+    for (let status_ of App.get_status_list()) {
+        if (status_ === status) {
+            continue
+        }
+
+        cleaned.push(status_)
+    }
+
+    localStorage.setItem(`status_list`, JSON.stringify(cleaned))
 }

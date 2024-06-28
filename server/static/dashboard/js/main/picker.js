@@ -60,7 +60,7 @@ App.show_picker = (e) => {
                     DOM.el(`#change_key`).value = item.key
                     App.add_to_picker()
                 },
-                alt_action: (e) => {
+                alt_action: () => {
                     App.remove_picker(item.curl)
                 },
             })
