@@ -42,7 +42,7 @@ App.show_peek = (curl) => {
         App.show_item_menu(curl, e)
     })
 
-    icon.title = `Click to copy`
+    icon.title = `Click to show a menu`
 
     let close = DOM.create(`div`, `peek_close glow_white`)
     close.textContent = `Close`
