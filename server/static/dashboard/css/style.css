@@ -168,8 +168,8 @@ body, html {
 }
 
 .item_updated {
-    width: 200px;
-    max-width: 200px;
+    width: 225px;
+    max-width: 225px;
     color: var(--color);
     white-space: nowrap;
     text-align: right;
