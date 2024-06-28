@@ -31,7 +31,7 @@ App.empty_container = () => {
 }
 
 App.check_empty = () => {
-    let els = DOM.el(`#container .item`)
+    let els = App.get_container_items()
 
     if (!els) {
         App.empty_container()
@@ -49,4 +49,8 @@ App.set_container_info = (info) => {
     container.innerHTML = ``
     container.append(item)
     App.unselect()
+}
+
+App.get_container_items = () => {
+    return DOM.els(`#container .item`)
 }

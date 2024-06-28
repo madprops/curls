@@ -29,34 +29,41 @@ App.setup_curlist = () => {
     }
 
     DOM.ev(curlist, `click`, (e) => {
-        if (e.target.closest(`.curlist_item`)) {
+        let item = App.extract_curlist_item(e.target)
+        let curl = App.extract_curlist_curl(e.target)
+
+        if (item) {
             if (e.shiftKey) {
-                App.select_curlist_range(e.target)
+                App.select_curlist_range(item)
             }
             else if (e.ctrlKey) {
-                App.select_curlist_toggle(e.target)
+                App.select_curlist_toggle(item)
             }
             else {
-                App.select_curlist_item(e.target)
-                App.toggle_peek(e.target.textContent)
+                App.select_curlist_item(item)
+                App.toggle_peek(curl)
             }
         }
     })
 
     DOM.ev(curlist, `contextmenu`, (e) => {
-        e.preventDefault()
+        let item = App.extract_curlist_item(e.target)
 
-        if (e.target.closest(`.curlist_item`)) {
+        if (item) {
             App.show_curlist_item_menu(e)
         }
         else {
             App.show_curlist_menu(e)
         }
+
+        e.preventDefault()
     })
 
     DOM.ev(curlist, `dblclick`, (e) => {
-        if (e.target.closest(`.curlist_item`)) {
-            App.edit_curl(e.target.textContent)
+        let item = App.extract_curlist_item(e.target)
+
+        if (item) {
+            App.edit_curl(App.extract_curlist_curl(item))
         }
         else {
             App.add_curl(`bottom`)
@@ -64,9 +71,11 @@ App.setup_curlist = () => {
     })
 
     DOM.ev(curlist, `auxclick`, (e) => {
+        let item = App.extract_curlist_item(e.target)
+
         if (e.button === 1) {
-            if (e.target.closest(`.curlist_item`)) {
-                App.remove_curl(e.target.textContent)
+            if (item) {
+                App.remove_curl(App.extract_curlist_curl(item))
             }
         }
     })
@@ -130,15 +139,18 @@ App.update_curlist = (curls) => {
 
     for (let curl of curls) {
         let item = DOM.create(`div`)
-        item.textContent = curl
-        item.classList.add(`curlist_item`)
-        item.classList.add(`glow`)
+        item.classList.add(`curlist_item`, `glow`)
         item.draggable = true
+
+        let curl_ = DOM.create(`div`, `curlist_item_curl`)
+        curl_.textContent = curl
+        item.append(curl_)
+
         curlist.append(item)
     }
 
     App.update_curlist_top()
-    App.clear_curlist_filter()
+    App.blank_curlist_filter()
 }
 
 App.update_curlist_top = () => {
@@ -151,7 +163,7 @@ App.get_curls_name = (color) => {
     return `curls_${color}`
 }
 
-App.copy_curlist = (e) => {
+App.copy_curlist = () => {
     let curls = App.get_curls()
     let text = curls.join(` `)
     navigator.clipboard.writeText(text)
@@ -220,13 +232,13 @@ App.show_curlist_menu = (e) => {
             {
                 text: `Copy`,
                 action: () => {
-                    App.copy_curlist(e)
+                    App.copy_curlist()
                 }
             },
             {
                 text: `Replace`,
                 action: () => {
-                    App.replace_curls(e)
+                    App.replace_curls()
                 }
             },
             {
@@ -375,10 +387,11 @@ App.curlist_drag_events = () => {
     let container = DOM.el(`#curlist`)
 
     DOM.ev(container, `dragstart`, (e) => {
-        let curl = e.target.textContent
-        let items = App.get_curlist_items()
+        let item = App.extract_curlist_item(e.target)
+        let curl = App.extract_curlist_curl(e.target)
+        let items = App.get_curlist_elements()
 
-        App.drag_index = items.indexOf(e.target)
+        App.drag_index = items.indexOf(item)
         App.drag_y = e.clientY
 
         e.dataTransfer.setData(`text`, curl)
@@ -386,18 +399,19 @@ App.curlist_drag_events = () => {
 
         let selected = App.get_selected_items()
 
-        if (selected.length && selected.includes(e.target)) {
+        if (selected.length && selected.includes(item)) {
             App.drag_items = selected
         }
         else {
-            App.select_curlist_item(e.target)
-            App.drag_items = [e.target]
+            App.select_curlist_item(item)
+            App.drag_items = [item]
         }
     })
 
     DOM.ev(container, `dragenter`, (e) => {
-        let items = App.get_curlist_items()
-        let index = items.indexOf(e.target)
+        let items = App.get_curlist_elements()
+        let item = App.extract_curlist_item(e.target)
+        let index = items.indexOf(item)
 
         if (index === -1) {
             return
@@ -407,25 +421,32 @@ App.curlist_drag_events = () => {
         App.drag_y = e.clientY
 
         if (direction === `up`) {
-            e.target.before(...App.drag_items)
+            item.before(...App.drag_items)
         }
         else if (direction === `down`) {
-            e.target.after(...App.drag_items)
+            item.after(...App.drag_items)
         }
     })
 
     DOM.ev(container, `dragend`, (e) => {
-        let curls = App.get_curlist_items().map(x => x.textContent)
+        let curls = App.get_curlist_curls()
         App.save_curls(curls)
         App.sort_if_order()
     })
 }
 
+App.get_curlist_curls = () => {
+    let elements = App.get_curlist_elements()
+    return elements.map(x => x.closest(`.curlist_item_curl`).textContent)
+}
+
 App.show_curlist_item_menu = (e) => {
     let selected = App.get_selected_items()
+    let item = App.extract_curlist_item(e.target)
+    let curl = App.extract_curlist_curl(e.target)
 
-    if (!selected.length || !selected.includes(e.target)) {
-        App.select_curlist_item(e.target)
+    if (!selected.length || !selected.includes(item)) {
+        App.select_curlist_item(item)
     }
 
     let items = []
@@ -445,37 +466,37 @@ App.show_curlist_item_menu = (e) => {
             {
                 text: `Edit`,
                 action: () => {
-                    App.edit_curl(e.target.textContent)
+                    App.edit_curl(curl)
                 }
             },
             {
                 text: `Filter`,
                 action: () => {
-                    App.filter_one_curl(e.target.textContent)
+                    App.filter_one_curl(curl)
                 }
             },
             {
                 text: `Copy`,
                 action: () => {
-                    App.copy_curl(e.target.textContent)
+                    App.copy_curl(curl)
                 }
             },
             {
                 text: `Remove`,
                 action: () => {
-                    App.remove_a_curl(e.target.textContent)
+                    App.remove_curl(curl)
                 }
             },
             {
                 text: `To Top`,
                 action: () => {
-                    App.curl_to_top(e.target.textContent)
+                    App.curl_to_top(curl)
                 }
             },
             {
                 text: `To Bottom`,
                 action: () => {
-                    App.curl_to_bottom(e.target.textContent)
+                    App.curl_to_bottom(curl)
                 }
             },
         ]
@@ -487,7 +508,7 @@ App.show_curlist_item_menu = (e) => {
 }
 
 App.select_curlist_item = (target) => {
-    let items = App.get_curlist_items()
+    let items = App.get_curlist_elements()
 
     for (let item of items) {
         App.do_unselect_curlist_item(item)
@@ -496,9 +517,9 @@ App.select_curlist_item = (target) => {
     App.do_select_curlist_item(target)
 }
 
-App.do_select_curlist_item = (target) => {
+App.do_select_curlist_item = (target, block = `nearest`) => {
     target.classList.add(`selected`)
-    target.scrollIntoView({ block: `nearest` })
+    target.scrollIntoView({ block: block })
 }
 
 App.do_unselect_curlist_item = (target) => {
@@ -506,7 +527,7 @@ App.do_unselect_curlist_item = (target) => {
 }
 
 App.select_curlist_range = (target) => {
-    let items = App.get_curlist_items()
+    let items = App.get_curlist_elements()
     let index = items.indexOf(target)
     let last = items.findIndex(x => x.classList.contains(`selected`))
 
@@ -528,30 +549,31 @@ App.select_curlist_toggle = (target) => {
 }
 
 App.get_selected_curls = () => {
-    let items = App.get_curlist_items()
+    let items = App.get_curlist_elements()
     let selected_items = items.filter(x => x.classList.contains(`selected`))
-    return selected_items.map(x => x.textContent)
+    let curl_els = selected_items.map(x => x.closest(`.curlist_item_curl`))
+    return curl_els.map(x => x.textContent)
 }
 
 App.get_selected_items = () => {
-    let items = App.get_curlist_items()
+    let items = App.get_curlist_elements()
     return items.filter(x => x.classList.contains(`selected`))
 }
 
 App.unselect_curlist = () => {
-    let items = App.get_curlist_items()
+    let items = App.get_curlist_elements()
 
     for (let item of items) {
         item.classList.remove(`selected`)
     }
 }
 
-App.get_curlist_items = () => {
+App.get_curlist_elements = () => {
     return DOM.els(`#curlist .curlist_item`)
 }
 
 App.select_curlist_vertical = (direction, shift, curl) => {
-    let items = App.get_curlist_items()
+    let items = App.get_curlist_elements()
 
     if (items.length <= 1) {
         return
@@ -595,12 +617,14 @@ App.select_curlist_vertical = (direction, shift, curl) => {
     }
 
     let new_index = index
+    let on_edge = false
 
     if (direction === `up`) {
         new_index -= 1
 
         if (new_index < 0) {
             new_index = items.length - 1
+            on_edge = true
         }
     }
     else if (direction === `down`) {
@@ -608,6 +632,7 @@ App.select_curlist_vertical = (direction, shift, curl) => {
 
         if (new_index >= items.length) {
             new_index = 0
+            on_edge = true
         }
     }
 
@@ -615,10 +640,11 @@ App.select_curlist_vertical = (direction, shift, curl) => {
 
     if (!shift) {
         App.unselect_curlist()
-        App.show_peek(item.textContent)
+        App.show_peek(App.extract_curlist_curl(item))
     }
 
-    App.do_select_curlist_item(item)
+    let block = on_edge ? `center` : `nearest`
+    App.do_select_curlist_item(item, block)
 }
 
 App.focus_curlist = () => {
@@ -630,24 +656,50 @@ App.filter_curlist = () => {
 }
 
 App.do_filter_curlist = () => {
+    let els = App.get_curlist_elements()
     let value = DOM.el(`#curlist_filter`).value.toLowerCase().trim()
-    let cleaned = []
 
-    for (let item of App.items) {
-        if (item.curl.includes(value)) {
-            cleaned.push(item)
-        }
+    function hide (el) {
+        el.classList.add(`hidden`)
     }
 
-    let curls = cleaned.map(x => x.curl)
-    App.update_curlist(curls, false)
+    function show (el) {
+        el.classList.remove(`hidden`)
+    }
+
+    for (let el of els) {
+        let curl = el.textContent.toLowerCase()
+
+        if (curl.includes(value)) {
+            show(el)
+        }
+        else {
+            hide(el)
+        }
+    }
 }
 
-App.clear_curlist_filter = () => {
+App.blank_curlist_filter = () => {
     DOM.el(`#curlist_filter`).value = ``
 }
 
-App.unfilter_curlist = () => {
-    App.clear_curlist_filter()
-    App.update_curlist(false)
+App.clear_curlist_filter = () => {
+    App.blank_curlist_filter()
+    let els = App.get_curlist_elements()
+
+    if (!els.length) {
+        return
+    }
+
+    for (let el of els) {
+        el.classList.remove(`hidden`)
+    }
+}
+
+App.extract_curlist_item = (item) => {
+    return item.closest(`.curlist_item`)
+}
+
+App.extract_curlist_curl = (item) => {
+    return item.closest(`.curlist_item`).textContent
 }

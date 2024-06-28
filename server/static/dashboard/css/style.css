@@ -45,6 +45,7 @@ body, html {
 }
 
 #curlist {
+    display: table;
     flex-grow: 1;
     resize: none;
     background-color: var(--background);
@@ -57,6 +58,7 @@ body, html {
     padding-top: 0.25rem;
     padding-bottom: 0.25rem;
     scrollbar-width: none;
+    /* border-collapse: collapse; */
 }
 
 #curlist::-webkit-scrollbar {
@@ -64,14 +66,24 @@ body, html {
 }
 
 .curlist_item {
+    display: table-row;
     cursor: default;
     user-select: none;
     padding-top: 0.09rem;
     padding-bottom: 0.09rem;
-    padding-left: 0.5rem;
-    padding-right: 0.3rem;
     border-top: 1px solid transparent;
     border-bottom: 1px solid transparent;
+}
+
+.curlist_item_curl {
+    display: table-cell;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
 }
 
 .curlist_item.selected {
@@ -86,46 +98,44 @@ body, html {
 }
 
 #container {
-    display: flex;
-    flex-direction: column;
+    display: table;
     cursor: default;
     position: relative;
     margin-top: 0.5rem;
     overflow-x: hidden;
     overflow-y: auto;
+    border-collapse: collapse;
 }
 
 .item {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+    display: table-row;
     border: 1px solid var(--color);
-}
-
-.item+.item {
-    border-top: 0;
 }
 
 .item_icon,
 .item_curl,
 .item_status,
 .item_updated {
+    display: table-cell;
     padding-top: 0.8rem;
     padding-bottom: 0.8rem;
+    vertical-align: middle;
 }
 
 .item_icon {
-    display: flex;
-    align-items: center;
+    width: 2.5rem;
     justify-content: center;
     cursor: pointer;
     text-align: left;
 }
 
 .item_icon_canvas {
-    width: 2.5rem;
+    display: flex;
+    width: 100%;
     height: auto;
     text-align: left;
+    align-items: center;
+    justify-content: center;
 }
 
 .item_icon:hover .item_icon_canvas {
@@ -135,10 +145,7 @@ body, html {
 .item_curl {
     color: var(--color);
     width: 150px;
-    overflow: hidden;
     text-align: left;
-    flex-grow: 0;
-    flex-shrink: 0;
     margin-right: 0.8rem;
 }
 

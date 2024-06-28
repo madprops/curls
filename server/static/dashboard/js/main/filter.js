@@ -33,10 +33,21 @@ App.setup_filter = () => {
     })
 }
 
+App.unfilter_all = () => {
+    let els = DOM.els(`#container .item`)
+
+    if (!els.length) {
+        return
+    }
+
+    for (let el of els) {
+        el.classList.remove(`hidden`)
+    }
+}
+
 App.clear_filter = () => {
-    let filter = DOM.el(`#filter`)
-    filter.value = ``
-    App.refresh_items()
+    DOM.el(`#filter`).value = ``
+    App.unfilter_all()
 }
 
 App.filter = () => {
@@ -44,6 +55,12 @@ App.filter = () => {
 }
 
 App.do_filter = () => {
+    let els = App.get_container_items()
+
+    if (!els.length) {
+        return
+    }
+
     let value = DOM.el(`#filter`).value.toLowerCase().trim()
     let is_special = false
     let special = []
@@ -91,39 +108,58 @@ App.do_filter = () => {
         return curl.includes(value) || status.includes(value) || updated.includes(value)
     }
 
-    let cleaned = []
+    function hide (el) {
+        el.classList.add(`hidden`)
+    }
 
-    for (let item of App.items) {
+    function show (el) {
+        el.classList.remove(`hidden`)
+    }
+
+    for (let el of els) {
+        let item = App.get_item(el.dataset.curl)
         let curl = item.curl.toLowerCase()
         let status = item.status.toLowerCase()
-        let updated = item.updated_text.toLowerCase()
+        let updated = item.updated.toLowerCase()
 
         if (scope === `curl`) {
             if (curl.includes(value)) {
-                cleaned.push(item)
+                show(el)
+            }
+            else {
+                hide(el)
             }
         }
         else if (scope === `status`) {
             if (status.includes(value)) {
-                cleaned.push(item)
+                show(el)
+            }
+            else {
+                hide(el)
             }
         }
         else if (is_special) {
             if (special.find(s => s.curl === item.curl)) {
                 if (check(curl, status, updated)) {
-                    cleaned.push(item)
+                    show(el)
                 }
+                else {
+                    hide(el)
+                }
+            }
+            else {
+                hide(el)
             }
         }
         else {
             if (check(curl, status, updated)) {
-                cleaned.push(item)
+                show(el)
+            }
+            else {
+                hide(el)
             }
         }
     }
-
-    App.clear_container()
-    App.refresh_items(cleaned, false)
 }
 
 App.filter_owned = () => {
