@@ -1,7 +1,7 @@
 App.setup_filter = () => {
     let filter = DOM.el(`#filter`)
 
-    DOM.ev(filter, `input`, (e) => {
+    DOM.ev(filter, `keyup`, (e) => {
         if (e.key === `Escape`) {
             App.clear_filter()
         }
