@@ -60,6 +60,9 @@ App.show_picker = (e) => {
                     DOM.el(`#change_key`).value = item.key
                     App.add_to_picker()
                 },
+                alt_action: (e) => {
+                    App.remove_picker(item.curl)
+                },
             })
         }
 
@@ -121,4 +124,24 @@ App.clear_pickers = () => {
     if (confirm(`Clear all pickers?`)) {
         localStorage.setItem(`picker`, `[]`)
     }
+}
+
+App.remove_picker = (curl) => {
+    if (confirm(`Remove ${curl} from the picker?`)) {
+        App.do_remove_picker(curl)
+    }
+}
+
+App.do_remove_picker = (curl) => {
+    let cleaned = []
+
+    for (let item of App.get_picker_items()) {
+        if (item.curl === curl) {
+            continue
+        }
+
+        cleaned.push(item)
+    }
+
+    localStorage.setItem(`picker`, JSON.stringify(cleaned))
 }
