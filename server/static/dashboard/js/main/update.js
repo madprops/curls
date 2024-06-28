@@ -14,7 +14,7 @@ App.setup_updater = () => {
         items: App.updater_modes,
         value: App.updater_mode,
         element: updater,
-        default: `minutes_5`,
+        default: App.default_updater,
         action: (value) => {
             App.set_updater(value)
         },
@@ -29,7 +29,7 @@ App.setup_updater = () => {
 }
 
 App.get_updater = () => {
-    return localStorage.getItem(`updater`) || `minutes_5`
+    return localStorage.getItem(`updater`) || App.default_updater
 }
 
 App.check_updater = (saved) => {

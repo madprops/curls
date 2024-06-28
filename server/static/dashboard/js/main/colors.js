@@ -14,7 +14,7 @@ App.setup_color = () => {
         items: App.color_modes,
         value: App.color_mode,
         element: color,
-        default: `green`,
+        default: App.default_color,
         action: (value) => {
             App.change_color(value)
         },
@@ -50,7 +50,7 @@ App.change_color = (value) => {
 }
 
 App.load_color = () => {
-    return localStorage.getItem(`color`) || `green`
+    return localStorage.getItem(`color`) || App.default_color
 }
 
 App.apply_color = () => {

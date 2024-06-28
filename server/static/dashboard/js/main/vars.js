@@ -32,6 +32,9 @@ App.date_mode = `12`
 App.separator = `__separator__`
 App.old_delay = App.YEAR * 1
 App.peek_enabled = false
+App.default_color = `green`
+App.default_sort = `newest`
+App.default_updater = `minutes_5`
 App.peek_curl = ``
 
 App.curl_too_long = `Curl is too long`

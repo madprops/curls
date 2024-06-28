@@ -14,7 +14,7 @@ App.setup_sort = () => {
         items: App.sort_modes,
         value: App.sort_mode,
         element: sort,
-        default: `newest`,
+        default: App.default_sort,
         action: (value) => {
             App.change_sort(value)
         },
@@ -131,7 +131,7 @@ App.sort_items = (items) => {
 }
 
 App.load_sort = () => {
-    let def_mode = `newest`
+    let def_mode = App.default_sort
     let mode = localStorage.getItem(`sort`) || def_mode
     let modes = App.sort_modes.map(x => x.value)
 
