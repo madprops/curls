@@ -41,7 +41,7 @@ App.setup_curlist = () => {
             }
             else {
                 App.select_curlist_item(item)
-                App.toggle_peek(curl)
+                App.show_peek(curl)
             }
         }
     })

@@ -25,6 +25,10 @@ App.show_peek = (curl) => {
         return
     }
 
+    if (App.peek_open && (App.peek_curl === curl)) {
+        return
+    }
+
     let peek = DOM.el(`#peek`)
     let item = App.get_item(curl)
     let icon = DOM.create(`div`, `peek_icon`)
@@ -71,18 +75,4 @@ App.hide_peek = () => {
     DOM.el(`#peek`).classList.remove(`active`)
     App.peek_open = false
     App.peek_curl = ``
-}
-
-App.toggle_peek = (curl) => {
-    if (curl === App.peek_curl) {
-        if (App.peek_open) {
-            App.hide_peek()
-        }
-        else {
-            App.show_peek(curl)
-        }
-    }
-    else {
-        App.show_peek(curl)
-    }
 }
