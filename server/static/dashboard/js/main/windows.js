@@ -29,6 +29,12 @@ App.setup_windows = () => {
         App.alert_copy()
     })
 
+    let alert_ok = DOM.el(`#alert_ok`)
+
+    DOM.ev(alert_ok, `click`, (e) => {
+        App.alert_window.close()
+    })
+
     let prompt_template = DOM.el(`#prompt_template`)
     let prompt_html = prompt_template.innerHTML
     App.prompt_window.set(prompt_html)
@@ -74,6 +80,7 @@ App.setup_windows = () => {
 App.alert_copy = () => {
     let text = DOM.el(`#alert_text`)
     App.copy_to_clipboard(text.textContent)
+    App.alert_window.close()
 }
 
 App.confirm = (title, ok) => {

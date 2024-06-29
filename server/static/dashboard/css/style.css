@@ -451,6 +451,14 @@ input[type="password"] {
     white-space: pre-wrap;
 }
 
+#alert_buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
 #confirm_items {
     display: flex;
     flex-direction: row;
