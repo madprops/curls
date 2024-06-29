@@ -23,8 +23,8 @@ App.setup_updater = () => {
         },
     })
 
-    App.update_debouncer = App.create_debouncer((force, feedback) => {
-        App.do_update(force, feedback)
+    App.update_debouncer = App.create_debouncer((force, feedback, curls) => {
+        App.do_update(force, feedback, curls)
     }, App.update_debouncer_delay)
 
     App.check_updater()
@@ -70,21 +70,21 @@ App.start_update_timeout = () => {
     }, App.update_delay)
 }
 
-App.update = (force, feedback) => {
-    App.update_debouncer.call(force, feedback)
+App.update = (force, feedback, curls) => {
+    App.update_debouncer.call(force, feedback, curls)
 }
 
-App.do_update = (force = false, feedback = true) => {
+App.do_update = (force = false, feedback = true, curls = []) => {
     clearTimeout(App.update_timeout)
 
     if (force || App.updates_enabled) {
-        App.update_curls(feedback)
+        App.update_curls(feedback, curls)
     }
 
     App.restart_update()
 }
 
-App.update_curls = async (feedback = true) => {
+App.update_curls = async (feedback = true, curls = []) => {
     App.info(`Update: Trigger`)
 
     if (App.updating) {
@@ -92,9 +92,16 @@ App.update_curls = async (feedback = true) => {
         return
     }
 
-    let used_curls = App.get_used_curls()
+    let add = false
 
-    if (!used_curls.length) {
+    if (!curls.length) {
+        curls = App.get_used_curls()
+    }
+    else {
+        add = true
+    }
+
+    if (!curls.length) {
         App.empty_container()
         return
     }
@@ -102,7 +109,7 @@ App.update_curls = async (feedback = true) => {
     let url = `/curls`
     let params = new URLSearchParams()
 
-    for (let curl of used_curls) {
+    for (let curl of curls) {
         params.append(`curl`, curl);
     }
 
@@ -112,7 +119,7 @@ App.update_curls = async (feedback = true) => {
 
     let response = ``
     App.updating = true
-    App.info(`Update: Request ${App.network}`)
+    App.info(`Update: Request ${App.network} (${curls.length})`)
 
     if (!App.items.length) {
         App.container_loading()
@@ -135,7 +142,13 @@ App.update_curls = async (feedback = true) => {
 
     try {
         let items = await response.json()
-        App.insert_items(items)
+
+        if (add) {
+            App.insert_items(App.items.concat(items))
+        }
+        else {
+            App.insert_items(items)
+        }
     }
     catch (e) {
         App.error(`Failed to parse response`)

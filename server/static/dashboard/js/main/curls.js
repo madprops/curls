@@ -47,27 +47,27 @@ App.add_curl_submit = (where, curls) => {
         return
     }
 
-    let words = App.smart_list(curls)
+    let units = App.smart_list(curls)
 
-    if (!words.length) {
+    if (!units.length) {
         return
     }
 
     if (where === `top`) {
-        words = words.reverse()
+        units = units.reverse()
     }
 
-    let added = false
+    let added = []
 
-    for (let curl of words) {
+    for (let curl of units) {
         if (App.do_add_curl(where, curl, false)) {
-            added = true
+            added.push(curl)
         }
     }
 
-    if (added) {
+    if (added.length) {
         App.update_curlist()
-        App.update(true)
+        App.update(true, true, added)
     }
 }
 
@@ -151,17 +151,17 @@ App.replace_curls_submit = (curls) => {
         return
     }
 
-    let words = curls.split(` `).filter(x => x)
+    let units = curls.split(` `).filter(x => x)
 
-    if (!words.length) {
+    if (!units.length) {
         return
     }
 
-    words = words.reverse()
+    units = units.reverse()
     App.clear_curls()
     let added = false
 
-    for (let curl of words) {
+    for (let curl of units) {
         if (App.do_add_curl(`top`, curl, false)) {
             added = true
         }

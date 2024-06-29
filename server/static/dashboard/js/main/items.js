@@ -25,12 +25,24 @@ App.get_date_mode = () => {
     return localStorage.getItem(`date_mode`) || `12`
 }
 
+App.clean_items = () => {
+    let cleaned = []
+
+    for (let item of App.items) {
+        if (!cleaned.find(x => x.curl === item.curl)) {
+            cleaned.push(item)
+        }
+    }
+
+    App.items = cleaned
+}
+
 App.insert_items = (items) => {
     App.items = items
     App.items.map(x => x.missing = false)
     let missing = App.get_missing()
     App.items.push(...missing)
-    App.add_dates_to_items()
+    App.clean_items(items)
     App.refresh_items()
 }
 
