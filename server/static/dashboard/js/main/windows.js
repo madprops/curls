@@ -10,7 +10,7 @@ App.setup_windows = () => {
     let alert_html = alert_template.innerHTML
 
     App.alert_window = Msg.factory({
-        class: "green",
+        class: `green`,
         enable_titlebar: true,
         center_titlebar: true,
     })
@@ -18,7 +18,7 @@ App.setup_windows = () => {
     App.alert_window.set(alert_html)
 
     App.prompt_window = Msg.factory({
-        class: "blue",
+        class: `blue`,
         enable_titlebar: true,
         center_titlebar: true,
     })
@@ -38,7 +38,7 @@ App.setup_windows = () => {
     let prompt_template = DOM.el(`#prompt_template`)
     let prompt_html = prompt_template.innerHTML
     App.prompt_window.set(prompt_html)
-    App.prompt_window.set_title("Prompt")
+    App.prompt_window.set_title(`Prompt`)
     let submit = DOM.el(`#prompt_submit`)
     let input = DOM.el(`#prompt_input`)
 
@@ -53,7 +53,7 @@ App.setup_windows = () => {
     })
 
     App.confirm_window = Msg.factory({
-        class: "red",
+        class: `red`,
         enable_titlebar: true,
         center_titlebar: true,
     })

@@ -187,8 +187,6 @@ App.show_remove_menu = (e) => {
 }
 
 App.remove_all_curls = () => {
-    let curls = App.get_curls()
-
     App.confirm(`Remove all curls?`, () => {
         App.clear_curls()
         App.update_curlist()
