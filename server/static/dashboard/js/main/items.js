@@ -58,6 +58,7 @@ App.create_element = (item) => {
 
     let lines = [
         `Click to show a menu`,
+        `Middle Click to remove`,
     ]
 
     if (App.sort_mode === `order`) {

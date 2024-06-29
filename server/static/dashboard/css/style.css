@@ -468,3 +468,10 @@ input[type="password"]
     align-items: center;
     justify-content: center;
 }
+
+.Msg-titlebar {
+    padding-top: 0.25rem !important;
+    padding-bottom: 0.25rem !important;
+    padding-left: 0.8rem !important;
+    padding-right: 0.8rem !important;
+}

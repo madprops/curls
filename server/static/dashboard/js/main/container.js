@@ -15,6 +15,16 @@ App.setup_container = () => {
         }
     })
 
+    DOM.ev(container, `auxclick`, (e) => {
+        if (e.button == 1) {
+            if (e.target.closest(`.item_icon`)) {
+                let curl = e.target.closest(`.item`).dataset.curl
+                App.remove_curl(curl)
+                return
+            }
+        }
+    })
+
     DOM.ev(container, `contextmenu`, (e) => {
         if (e.target.closest(`.item_icon`)) {
             e.preventDefault()

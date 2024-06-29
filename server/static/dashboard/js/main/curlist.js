@@ -305,7 +305,7 @@ App.toggle_curlist = () => {
 App.sort_curlist = (how) => {
     let w = how === `asc` ? `Asc` : `Desc`
 
-    App.confirm(`Sort the curls (${w})?`, () => {
+    App.confirm(`Sort the curls (${w})`, () => {
         App.do_sort_curlist(how)
     })
 }
@@ -388,7 +388,7 @@ App.import_curlist_submit = (data) => {
 }
 
 App.clear_curlists = () => {
-    App.confirm(`Clear all curls in all colors?`, () => {
+    App.confirm(`Clear all curls in all colors`, () => {
         for (let color in App.colors) {
             App.clear_curls(color)
         }
