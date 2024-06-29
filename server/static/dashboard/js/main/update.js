@@ -152,6 +152,7 @@ App.update_curls = async (feedback = true, curls = []) => {
     }
     catch (e) {
         App.error(`Failed to parse response`)
+        App.error(e)
     }
 
     App.clear_updating()

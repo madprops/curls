@@ -30,7 +30,7 @@ App.add_items = (items) => {
     App.items = [...items]
 
     for (let item of normal) {
-        if (cleaned.find(x => x.curl === item.curl)) {
+        if (App.items.find(x => x.curl === item.curl)) {
             continue
         }
 
