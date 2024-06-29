@@ -81,5 +81,5 @@ App.setup_resize = () => {
 }
 
 App.show_app_info = () => {
-    App.alert(App.app_info, `Curls v${App.version}`)
+    App.alert(App.app_info, `Curls ${App.version}`)
 }
