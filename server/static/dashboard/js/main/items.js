@@ -153,6 +153,12 @@ App.get_missing_items = () => {
 }
 
 App.change_date_mode = () => {
+    let selected = window.getSelection().toString()
+
+    if (selected) {
+        return
+    }
+
     let date_mode = App.get_date_mode()
     date_mode = date_mode === `12` ? `24` : `12`
     localStorage.setItem(`date_mode`, date_mode)

@@ -44,7 +44,7 @@ App.show_peek = (curl) => {
 
     icon.title = `Click to show a menu`
 
-    let close = DOM.create(`div`, `peek_close glow_white`)
+    let close = DOM.create(`div`, `peek_close glow_white noselect`)
     close.textContent = `Close`
 
     DOM.ev(close, `click`, () => {

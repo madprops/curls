@@ -291,11 +291,13 @@ input[type="password"] {
 
 .glow {
     cursor: pointer;
-    user-select: none;
 }
 
 .glow_white {
     cursor: pointer;
+}
+
+.noselect {
     user-select: none;
 }
 
