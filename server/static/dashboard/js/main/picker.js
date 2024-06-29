@@ -104,8 +104,12 @@ App.export_pickers = () => {
 }
 
 App.import_pickers = () => {
-    let data = prompt(`Paste the data`)
+    App.prompt(`Paste the data`, (value) => {
+        App.import_pickers_submit(value)
+    })
+}
 
+App.import_pickers_submit = (data) => {
     if (!data) {
         return
     }

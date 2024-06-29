@@ -347,8 +347,12 @@ App.export_curlist = () => {
 }
 
 App.import_curlist = () => {
-    let data = prompt(`Paste the data`)
+    App.prompt(`Paste the data`, (value) => {
+        App.import_curlist_submit(value)
+    })
+}
 
+App.import_curlist_submit = (data) => {
     if (!data) {
         return
     }
