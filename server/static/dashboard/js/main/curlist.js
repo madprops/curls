@@ -74,9 +74,12 @@ App.setup_curlist = () => {
 
     DOM.ev(container, `auxclick`, (e) => {
         let item = App.extract_curlist_item(e.target)
+        let curl = App.extract_curlist_curl(e.target)
 
         if (e.button === 1) {
             if (item) {
+                App.select_curlist_item(item)
+                App.show_peek(curl)
                 App.remove_curl(App.extract_curlist_curl(item))
             }
         }
