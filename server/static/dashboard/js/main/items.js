@@ -58,8 +58,11 @@ App.create_element = (item) => {
 
     let lines = [
         `Click to show a menu`,
-        `You can re-order by dragging this if in 'order' sort mode`,
     ]
+
+    if (App.sort_mode === `order`) {
+        lines.push(`You can re-order by dragging this`)
+    }
 
     item_icon.title = lines.join(`\n`)
 
@@ -84,7 +87,13 @@ App.create_element = (item) => {
     App.urlize(item_status)
 
     item_updated.textContent = item.updated_text
-    item_updated.title = `Click to toggle between 12 and 24 hour formats`
+
+    let lines_2 = [
+        item.updated_text,
+        `Click to toggle between 12 and 24 hours`,
+    ]
+
+    item_updated.title = lines_2.join(`\n`)
 
     el.append(item_icon)
     el.append(item_curl)
@@ -228,7 +237,6 @@ App.copy_item = (curl) => {
     if (!item) {
         return
     }
-
 
     let msg = `${item.curl}\n${item.status}\n${item.updated_text}`
     App.copy_to_clipboard(msg)
