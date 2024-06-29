@@ -184,6 +184,7 @@ App.change_updater = (mode) => {
 
     App.updater_mode = mode
     localStorage.setItem(`updater`, mode)
+    App.check_updater()
 }
 
 App.disable_updates = () => {
