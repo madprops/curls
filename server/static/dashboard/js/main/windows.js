@@ -5,26 +5,25 @@ App.alert = (message,  title = `Information`) => {
     App.alert_window.show()
 }
 
-App.setup_windows = () => {
+App.create_window = (color) => {
     let common = {
         enable_titlebar: true,
         center_titlebar: true,
         window_x: `none`,
     }
 
+    return Msg.factory(Object.assign({}, common, {
+        class: color,
+    }))
+}
+
+App.setup_windows = () => {
+
     let alert_template = DOM.el(`#alert_template`)
     let alert_html = alert_template.innerHTML
-
-    App.alert_window = Msg.factory(Object.assign({
-        class: `blue`,
-    }, common))
-
+    App.alert_window = App.create_window(`green`)
     App.alert_window.set(alert_html)
-
-    App.prompt_window = Msg.factory(Object.assign({
-        class: `blue`,
-    }, common))
-
+    App.prompt_window = App.create_window(`blue`)
     let copy = DOM.el(`#alert_copy`)
 
     DOM.ev(copy, `click`, () => {
@@ -54,10 +53,7 @@ App.setup_windows = () => {
         }
     })
 
-    App.confirm_window = Msg.factory(Object.assign({
-        class: `red`,
-    }, common))
-
+    App.confirm_window = App.create_window(`red`)
     let confirm_template = DOM.el(`#confirm_template`)
     let confirm_html = confirm_template.innerHTML
     App.confirm_window.set(confirm_html)
