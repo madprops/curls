@@ -36,11 +36,13 @@ App.get_used_curls = () => {
     return used_curls
 }
 
-App.add_curl = (where, curls = ``) => {
-    if (!curls) {
-        curls = prompt(`Add curls. Separated by spaces`)
-    }
+App.add_curl = (where) => {
+    App.prompt(`Add one or more curls`, (value) => {
+        App.add_curl_submit(where, value)
+    })
+}
 
+App.add_curl_submit = (where, curls) => {
     if (!curls) {
         return
     }
@@ -137,8 +139,12 @@ App.get_curls = (color = App.color_mode) => {
 }
 
 App.replace_curls = () => {
-    let curls = prompt(`Enter the new curls. This will replace the entire list`)
+    App.prompt(`This will replace the entire list`, (value) => {
+        App.replace_curls_submit(value)
+    })
+}
 
+App.replace_curls_submit = (curls) => {
     if (!curls) {
         return
     }
@@ -171,8 +177,12 @@ App.clear_curls = (color = App.color_mode) => {
 }
 
 App.edit_curl = (curl) => {
-    let new_curl = prompt(`Edit the curl`, curl)
+    App.prompt(`Edit this curl`, (value) => {
+        App.edit_curl_submit(curl, value)
+    }, curl)
+}
 
+App.edit_curl_submit = (curl, new_curl) => {
     if (!new_curl) {
         return
     }

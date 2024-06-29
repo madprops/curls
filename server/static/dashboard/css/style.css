@@ -402,3 +402,35 @@ input[type="password"] {
     pointer-events: none;
     opacity: 0.6;
 }
+
+#prompt_items {
+    display: flex;
+    flex-direction: row;
+    gap: 0.6rem;
+}
+
+#prompt_input {
+    background-color: white;
+    border: 1px solid rgb(114, 114, 255);
+    color: black;
+    width: 12rem;
+    padding: 0.2rem;
+}
+
+.modal_button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid white;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    cursor: pointer;
+}
+
+.modal_button:hover {
+    border: 1px solid rgb(199, 224, 255);
+}
+
+.modal_button:active {
+    transform: translateY(1px);
+}
