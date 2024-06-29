@@ -117,6 +117,10 @@ App.do_remove_curl = (curl, remove_item = true) => {
     if (remove_item) {
         App.remove_item(curl)
     }
+
+    if (App.peek_curl === curl) {
+        App.hide_peek()
+    }
 }
 
 App.remove_item = (curl) => {
