@@ -434,3 +434,7 @@ input[type="password"] {
 .modal_button:active {
     transform: translateY(1px);
 }
+
+#alert_text {
+    max-width: 25rem;
+}

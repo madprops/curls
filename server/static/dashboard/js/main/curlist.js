@@ -337,13 +337,13 @@ App.export_curlist = () => {
     }
 
     if (!Object.keys(curlists).length) {
-        alert(`No curls to export`)
+        App.alert(`No curls to export`)
         return
     }
 
     let data = App.sanitize(JSON.stringify(curlists))
     let message = `Copy the data below:\n\n${data}`
-    alert(message)
+    App.alert(message)
 }
 
 App.import_curlist = () => {
@@ -373,7 +373,7 @@ App.import_curlist_submit = (data) => {
         }
 
         if (!modified) {
-            alert(`No curls to import`)
+            App.alert(`No curls to import`)
             return
         }
 
@@ -382,7 +382,7 @@ App.import_curlist_submit = (data) => {
     }
     catch (err) {
         App.error(err)
-        alert(err)
+        App.alert(err)
     }
 }
 

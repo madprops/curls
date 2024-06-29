@@ -79,3 +79,7 @@ App.setup_resize = () => {
         App.check_scroll()
     })
 }
+
+App.show_app_info = () => {
+    App.alert(App.app_info, `Curls ${App.version}`)
+}

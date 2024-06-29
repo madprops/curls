@@ -100,7 +100,7 @@ App.show_picker = (e) => {
 App.export_pickers = () => {
     let data = JSON.stringify(App.get_picker_items())
     let message = `Copy the data below:\n\n${data}`
-    alert(message)
+    App.alert(message)
 }
 
 App.import_pickers = () => {
@@ -120,7 +120,7 @@ App.import_pickers_submit = (data) => {
     }
     catch (err) {
         App.error(err)
-        alert(err)
+        App.alert(err)
     }
 }
 

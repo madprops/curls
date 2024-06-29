@@ -1,17 +1,21 @@
-App.show_message = (title, message) => {
-    App.info_window.show([title, message])
-}
-
-App.show_app_info = () => {
-    App.show_message(`Curls ${App.version}`, App.app_info)
+App.alert = (message,  title = `Information`) => {
+    App.alert_window.set_title(title)
+    let text = DOM.el(`#alert_text`)
+    text.textContent = message
+    App.alert_window.show()
 }
 
 App.setup_windows = () => {
-    App.info_window = Msg.factory({
+    let alert_template = DOM.el(`#alert_template`)
+    let alert_html = alert_template.innerHTML
+
+    App.alert_window = Msg.factory({
         class: "green",
         enable_titlebar: true,
         center_titlebar: true,
     })
+
+    App.alert_window.set(alert_html)
 
     App.prompt_window = Msg.factory({
         class: "blue",
@@ -19,9 +23,9 @@ App.setup_windows = () => {
         center_titlebar: true,
     })
 
-    let template = DOM.el(`#prompt_template`)
-    let html = template.innerHTML
-    App.prompt_window.set(html)
+    let prompt_template = DOM.el(`#prompt_template`)
+    let prompt_html = prompt_template.innerHTML
+    App.prompt_window.set(prompt_html)
     App.prompt_window.set_title("Prompt")
     let submit = DOM.el(`#prompt_submit`)
     let input = DOM.el(`#prompt_input`)
