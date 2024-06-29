@@ -239,10 +239,6 @@ input[type="password"]
     color: var(--background);
 }
 
-.button:active {
-    transform: translateY(1px);
-}
-
 .hidden {
     display: none !important;
 }
@@ -440,10 +436,6 @@ input[type="password"]
 
 .modal_button:hover {
     border: 1px solid rgb(199, 224, 255);
-}
-
-.modal_button:active {
-    transform: translateY(1px);
 }
 
 #alert_items {
