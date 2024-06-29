@@ -144,7 +144,7 @@ App.update_curls = async (feedback = true, curls = []) => {
         let items = await response.json()
 
         if (add) {
-            App.insert_items(App.items.concat(items))
+            App.add_items(items)
         }
         else {
             App.insert_items(items)

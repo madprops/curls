@@ -25,16 +25,21 @@ App.get_date_mode = () => {
     return localStorage.getItem(`date_mode`) || `12`
 }
 
-App.clean_items = () => {
-    let cleaned = []
+App.add_items = (items) => {
+    let normal = App.items.filter(item => !item.missing)
+    App.items = [...items]
 
-    for (let item of App.items) {
-        if (!cleaned.find(x => x.curl === item.curl)) {
-            cleaned.push(item)
+    for (let item of normal) {
+        if (cleaned.find(x => x.curl === item.curl)) {
+            continue
         }
+
+        App.items.push(item)
     }
 
-    App.items = cleaned
+    let missing = App.get_missing()
+    App.items.push(...missing)
+    App.refresh_items()
 }
 
 App.insert_items = (items) => {
@@ -42,7 +47,6 @@ App.insert_items = (items) => {
     App.items.map(x => x.missing = false)
     let missing = App.get_missing()
     App.items.push(...missing)
-    App.clean_items(items)
     App.refresh_items()
 }
 
