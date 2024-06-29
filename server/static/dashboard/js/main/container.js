@@ -35,6 +35,7 @@ App.setup_container = () => {
     })
 
     observer.observe(container, { childList: true })
+    App.container_drag_events()
 }
 
 App.clear_container = () => {
@@ -108,4 +109,65 @@ App.do_check_scroll = () => {
     else {
         bottom.classList.add(`disabled`)
     }
+}
+
+App.container_drag_events = () => {
+    let container = DOM.el(`#container`)
+
+    DOM.ev(container, `dragstart`, (e) => {
+        if (App.sort_mode !== `order`) {
+            e.preventDefault()
+            return false
+        }
+
+        if (!e.target.classList.contains(`item_icon`)) {
+            e.preventDefault()
+            return false
+        }
+
+        let item = e.target.closest(`.item`)
+        let curl = item.dataset.curl
+        App.drag_y_container = e.clientY
+
+        e.dataTransfer.setData(`text`, curl)
+        e.dataTransfer.setDragImage(new Image(), 0, 0)
+
+        App.drag_items_container = [item]
+    })
+
+    DOM.ev(container, `dragenter`, (e) => {
+        let items = App.get_container_items()
+        let item = e.target.closest(`.item`)
+        let index = items.indexOf(item)
+
+        if (index === -1) {
+            return
+        }
+
+        let direction = (e.clientY > App.drag_y_container) ? `down` : `up`
+        App.drag_y_container = e.clientY
+
+        if (direction === `up`) {
+            item.before(...App.drag_items_container)
+        }
+        else if (direction === `down`) {
+            item.after(...App.drag_items_container)
+        }
+    })
+
+    DOM.ev(container, `dragend`, (e) => {
+        App.order_based_on_container()
+    })
+}
+
+App.order_based_on_container = () => {
+    let items = App.get_container_items()
+    let curls = items.map(item => item.dataset.curl)
+
+    if (!curls || !curls.length) {
+        return
+    }
+
+    App.save_curls(curls)
+    App.update_curlist()
 }

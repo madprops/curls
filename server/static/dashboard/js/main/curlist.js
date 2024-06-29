@@ -399,10 +399,7 @@ App.curlist_drag_events = () => {
     DOM.ev(container, `dragstart`, (e) => {
         let item = App.extract_curlist_item(e.target)
         let curl = App.extract_curlist_curl(e.target)
-        let items = App.get_curlist_elements()
-
-        App.drag_index = items.indexOf(item)
-        App.drag_y = e.clientY
+        App.drag_y_curlist = e.clientY
 
         e.dataTransfer.setData(`text`, curl)
         e.dataTransfer.setDragImage(new Image(), 0, 0)
@@ -410,11 +407,11 @@ App.curlist_drag_events = () => {
         let selected = App.get_selected_items()
 
         if (selected.length && selected.includes(item)) {
-            App.drag_items = selected
+            App.drag_items_curlist = selected
         }
         else {
             App.select_curlist_item(item)
-            App.drag_items = [item]
+            App.drag_items_curlist = [item]
         }
     })
 
@@ -427,14 +424,14 @@ App.curlist_drag_events = () => {
             return
         }
 
-        let direction = e.clientY > App.drag_y ? `down` : `up`
-        App.drag_y = e.clientY
+        let direction = (e.clientY > App.drag_y_curlist) ? `down` : `up`
+        App.drag_y_curlist = e.clientY
 
         if (direction === `up`) {
-            item.before(...App.drag_items)
+            item.before(...App.drag_items_curlist)
         }
         else if (direction === `down`) {
-            item.after(...App.drag_items)
+            item.after(...App.drag_items_curlist)
         }
     })
 

@@ -54,7 +54,14 @@ App.create_element = (item) => {
     let container = DOM.el(`#container`)
     let el = DOM.create(`div`, `item`)
     let item_icon = DOM.create(`div`, `item_icon`)
-    item_icon.title = `Click to show a menu`
+    item_icon.draggable = true
+
+    let lines = [
+        `Click to show a menu`,
+        `You can re-order by dragging this if in 'order' sort mode`,
+    ]
+
+    item_icon.title = lines.join(`\n`)
 
     let canvas = DOM.create(`canvas`, `item_icon_canvas`)
     jdenticon.update(canvas, item.curl)
