@@ -113,25 +113,27 @@ App.show_item_menu = (curl, e) => {
         },
     ]
 
+    if (App.sort_mode === `order`) {
+        items.push({
+            separator: true,
+        })
+
+        items.push({
+            text: `To Top`,
+            action: () => {
+                App.curl_to_top(curl)
+            }
+        })
+
+        items.push({
+            text: `To Bottom`,
+            action: () => {
+                App.curl_to_bottom(curl)
+            }
+        })
+    }
+
     NeedContext.show({items: items, e: e})
-}
-
-App.item_to_top = (curl) => {
-    let el = App.get_item(curl).element
-
-    if (el) {
-        let container = DOM.el(`#container`)
-        container.prepend(el)
-    }
-}
-
-App.item_to_bottom = (curl) => {
-    let el = App.get_item(curl).element
-
-    if (el) {
-        let container = DOM.el(`#container`)
-        container.append(el)
-    }
 }
 
 App.get_missing = () => {

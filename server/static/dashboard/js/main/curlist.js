@@ -495,6 +495,9 @@ App.show_curlist_item_menu = (e) => {
                 }
             },
             {
+                separator: true,
+            },
+            {
                 text: `To Top`,
                 action: () => {
                     App.curl_to_top(curl)
