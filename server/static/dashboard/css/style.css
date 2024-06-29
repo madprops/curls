@@ -435,6 +435,7 @@ input[type="password"]
     padding-right: 0.5rem;
     cursor: pointer;
     user-select: none;
+    outline: none;
 }
 
 .modal_button:hover {
@@ -472,13 +473,4 @@ input[type="password"]
     gap: 0.6rem;
     align-items: center;
     justify-content: center;
-}
-
-#confirm_ok {
-    padding-top: 0.25rem;
-    padding-bottom: 0.25rem;
-    padding-left: 0.8rem;
-    padding-right: 0.8rem;
-    user-select: none;
-    outline: none;
 }
