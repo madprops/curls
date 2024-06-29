@@ -134,3 +134,7 @@ App.copy_to_clipboard = (text) => {
 App.smart_list = (string) => {
     return string.split(/[\s,;]+/).filter(Boolean)
 }
+
+App.clean_modes = (modes) => {
+    return modes.filter(x => x.value !== App.separator)
+}

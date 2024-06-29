@@ -8,7 +8,7 @@ App.setup_updater = () => {
     ]
 
     updater.title = lines.join(`\n`)
-    App.load_updater()
+    App.updater_mode = App.load_updater()
 
     Combo.register({
         items: App.updater_modes,
@@ -16,7 +16,7 @@ App.setup_updater = () => {
         element: updater,
         default: App.default_updater,
         action: (value) => {
-            App.set_updater(value)
+            App.change_updater(value)
         },
         get: () => {
             return App.updater_mode
@@ -26,15 +26,26 @@ App.setup_updater = () => {
     App.update_debouncer = App.create_debouncer((force, feedback) => {
         App.do_update(force, feedback)
     }, App.update_debouncer_delay)
+
+    App.check_updater()
 }
 
-App.get_updater = () => {
-    return localStorage.getItem(`updater`) || App.default_updater
+App.load_updater = () => {
+    let saved = localStorage.getItem(`updater`) || App.default_updater
+    let values = App.clean_modes(App.updater_modes).map(x => x.value)
+
+    if (!values.includes(saved)) {
+        saved = App.default_updater
+    }
+
+    return saved
 }
 
-App.check_updater = (saved) => {
-    if (saved.startsWith(`minutes_`)) {
-        let minutes = parseInt(saved.split(`_`)[1])
+App.check_updater = () => {
+    let mode = App.updater_mode
+
+    if (mode.startsWith(`minutes_`)) {
+        let minutes = parseInt(mode.split(`_`)[1])
         App.update_delay = App.MINUTE * minutes
         App.updates_enabled = true
     }
@@ -51,13 +62,6 @@ App.restart_update = () => {
     if (App.updates_enabled) {
         App.start_update_timeout()
     }
-}
-
-App.change_updater = () => {
-    let saved = App.get_updater()
-    saved = App.switch_state(saved, App.update_modes)
-    localStorage.setItem(`updater`, saved)
-    App.check_updater(saved)
 }
 
 App.start_update_timeout = () => {
@@ -155,7 +159,7 @@ App.clear_updating = () => {
     }, App.clear_delay)
 }
 
-App.set_updater = (mode) => {
+App.change_updater = (mode) => {
     if (mode === `now`) {
         App.update(true)
         return
@@ -163,14 +167,8 @@ App.set_updater = (mode) => {
 
     App.updater_mode = mode
     localStorage.setItem(`updater`, mode)
-    App.check_updater(mode)
-}
-
-App.load_updater = () => {
-    let saved = App.get_updater()
-    App.set_updater(saved)
 }
 
 App.disable_updates = () => {
-    App.set_updater(`disabled`)
+    App.change_updater(`disabled`)
 }

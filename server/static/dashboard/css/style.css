@@ -116,6 +116,7 @@ html
 .item {
     display: table-row;
     border: 1px solid var(--color);
+    border-style: var(--border);
 }
 
 .item_icon,
@@ -408,8 +409,8 @@ input[type="password"]
 
 #prompt_items {
     display: flex;
-    flex-direction: row;
-    gap: 0.6rem;
+    flex-direction: column;
+    gap: 1rem;
     align-items: center;
     justify-content: center;
 }
@@ -420,6 +421,7 @@ input[type="password"]
     color: black;
     width: 12rem;
     padding: 0.2rem;
+    text-align: center
 }
 
 .modal_button {
@@ -427,8 +429,8 @@ input[type="password"]
     align-items: center;
     justify-content: center;
     border: 1px solid white;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+    padding-left: 0.4rem;
+    padding-right: 0.4rem;
     cursor: pointer;
     user-select: none;
     outline: none;

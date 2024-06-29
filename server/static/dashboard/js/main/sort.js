@@ -131,13 +131,12 @@ App.sort_items = (items) => {
 }
 
 App.load_sort = () => {
-    let def_mode = App.default_sort
-    let mode = localStorage.getItem(`sort`) || def_mode
-    let modes = App.sort_modes.map(x => x.value)
+    let saved = localStorage.getItem(`sort`) || App.default_sort
+    let values = App.clean_modes(App.sort_modes).map(x => x.value)
 
-    if (!modes.includes(mode)) {
-        mode = def_mode
+    if (!values.includes(saved)) {
+        saved = App.default_sort
     }
 
-    return mode
+    return saved
 }

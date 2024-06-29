@@ -40,6 +40,7 @@ App.default_updater = `minutes_5`
 App.default_font = `sans-serif`
 App.peek_curl = ``
 App.wrap_enabled = true
+App.default_border = `solid`
 
 App.curl_too_long = `Curl is too long`
 App.key_too_long = `Key is too long`
@@ -125,4 +126,13 @@ App.font_modes = [
     {value: `serif`, name: `Serif`},
     {value: `monospace`, name: `Mono`},
     {value: `cursive`, name: `Cursive`},
+]
+
+App.border_mode = App.default_border
+
+App.border_modes = [
+    {value: `solid`, name: `Solid`},
+    {value: `dotted`, name: `Dotted`},
+    {value: `dashed`, name: `Dashed`},
+    {value: `none`, name: `None`},
 ]
