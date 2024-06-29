@@ -138,3 +138,11 @@ App.smart_list = (string) => {
 App.clean_modes = (modes) => {
     return modes.filter(x => x.value !== App.separator)
 }
+
+App.def_args = (def, args) => {
+    for (let key in def) {
+        if ((args[key] === undefined) && (def[key] !== undefined)) {
+            args[key] = def[key]
+        }
+    }
+}

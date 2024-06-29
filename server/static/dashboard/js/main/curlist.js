@@ -383,7 +383,7 @@ App.import_curlist_submit = (data) => {
         }
 
         App.update_curlist()
-        App.update(true)
+        App.update()
     }
     catch (err) {
         App.error(err)

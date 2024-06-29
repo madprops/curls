@@ -23,8 +23,8 @@ App.setup_updater = () => {
         },
     })
 
-    App.update_debouncer = App.create_debouncer((force, feedback, curls) => {
-        App.do_update(force, feedback, curls)
+    App.update_debouncer = App.create_debouncer((args) => {
+        App.do_update(args)
     }, App.update_debouncer_delay)
 
     App.check_updater()
@@ -70,21 +70,24 @@ App.start_update_timeout = () => {
     }, App.update_delay)
 }
 
-App.update = (force, feedback, curls) => {
-    App.update_debouncer.call(force, feedback, curls)
+App.update = (args) => {
+    App.update_debouncer.call(args)
 }
 
-App.do_update = (force = false, feedback = true, curls = []) => {
+App.do_update = (args = {}) => {
     clearTimeout(App.update_timeout)
 
-    if (force || App.updates_enabled) {
-        App.update_curls(feedback, curls)
+    let def_args = {
+        feedback: true,
+        curls: [],
     }
 
+    App.def_args(def_args, args)
+    App.update_curls(args)
     App.restart_update()
 }
 
-App.update_curls = async (feedback = true, curls = []) => {
+App.update_curls = async (args) => {
     App.info(`Update: Trigger`)
 
     if (App.updating) {
@@ -94,14 +97,14 @@ App.update_curls = async (feedback = true, curls = []) => {
 
     let add = false
 
-    if (curls.length) {
+    if (args.curls.length) {
         add = true
     }
     else {
-        curls = App.get_used_curls()
+        args.curls = App.get_used_curls()
     }
 
-    if (!curls.length) {
+    if (!args.curls.length) {
         App.empty_container()
         return
     }
@@ -109,17 +112,17 @@ App.update_curls = async (feedback = true, curls = []) => {
     let url = `/curls`
     let params = new URLSearchParams()
 
-    for (let curl of curls) {
+    for (let curl of args.curls) {
         params.append(`curl`, curl);
     }
 
-    if (feedback) {
+    if (args.feedback) {
         App.show_updating()
     }
 
     let response = ``
     App.updating = true
-    App.info(`Update: Request ${App.network} (${curls.length})`)
+    App.info(`Update: Request ${App.network} (${args.curls.length})`)
 
     if (!App.items.length) {
         App.container_loading()
@@ -175,7 +178,7 @@ App.clear_updating = () => {
 
 App.change_updater = (mode) => {
     if (mode === `now`) {
-        App.update(true)
+        App.update()
         return
     }
 

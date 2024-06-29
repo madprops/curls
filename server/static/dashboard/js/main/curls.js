@@ -67,7 +67,7 @@ App.add_curl_submit = (where, curls) => {
 
     if (added.length) {
         App.update_curlist()
-        App.update(true, true, added)
+        App.update({curls: added})
     }
 }
 
@@ -169,7 +169,7 @@ App.replace_curls_submit = (curls) => {
 
     if (added) {
         App.update_curlist()
-        App.update(true)
+        App.update()
     }
 }
 
@@ -208,7 +208,7 @@ App.do_edit_curl = (curl, new_curl) => {
     App.save_curls(curls)
     App.update_curlist()
     App.remove_curl_item(curl)
-    App.update(true, true, [new_curl])
+    App.update({curls: [new_curl]})
 }
 
 App.check_curl = (curl) => {

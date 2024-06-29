@@ -17,7 +17,7 @@ App.setup = () => {
     App.setup_border()
     App.setup_resize()
     App.setup_windows()
-    App.update(true)
+    App.update()
 }
 
 App.setup_buttons = () => {

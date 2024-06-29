@@ -46,7 +46,7 @@ App.change_color = (value) => {
     App.reset_items()
     App.update_curlist()
     App.container_loading()
-    App.update(true)
+    App.update()
 }
 
 App.load_color = () => {
