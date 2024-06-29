@@ -386,7 +386,7 @@ input[type="password"]
     border-top: 1px solid var(--color);
     margin-top: 0.35rem;
     padding-top: 0.5rem;
-    gap: 1.5rem;
+    gap: 1.25rem;
 }
 
 .footer_item {
