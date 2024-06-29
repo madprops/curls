@@ -342,8 +342,7 @@ App.export_curlist = () => {
     }
 
     let data = App.sanitize(JSON.stringify(curlists))
-    let message = `Copy the data below:\n\n${data}`
-    App.alert(message)
+    App.alert(data, `Copy the data below`)
 }
 
 App.import_curlist = () => {

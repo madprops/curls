@@ -99,8 +99,7 @@ App.show_picker = (e) => {
 
 App.export_pickers = () => {
     let data = JSON.stringify(App.get_picker_items())
-    let message = `Copy the data below:\n\n${data}`
-    App.alert(message)
+    App.alert(data, `Copy the data below`)
 }
 
 App.import_pickers = () => {
