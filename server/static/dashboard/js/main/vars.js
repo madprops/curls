@@ -70,7 +70,7 @@ App.app_info = [
     `In this Dashboard you can monitor the curls you want.`,
     `Each color has their own set of curls.`,
     `You are limited to 100 curls per color.`,
-].join(`<br>`)
+].join(`\n`)
 
 App.updater_mode = App.default_updater
 
