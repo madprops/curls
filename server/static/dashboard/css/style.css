@@ -2,7 +2,9 @@
     --background: rgb(10, 10, 10);
 }
 
-body, html {
+body,
+html
+{
     margin: 0;
     padding: 0;
     width: 100%;
@@ -182,7 +184,8 @@ body, html {
 /*  */
 
 #controls,
-#change {
+#change
+{
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -205,7 +208,8 @@ a:hover {
 }
 
 input[type="text"],
-input[type="password"] {
+input[type="password"]
+{
     background-color: var(--background);
     color: var(--color);
     border: 1px solid var(--color);
