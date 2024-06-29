@@ -119,6 +119,7 @@ App.curl_to_top = (curl) => {
     App.update_curlist()
     App.sort_if_order()
     App.focus_curl(curl)
+    App.focus_curlist_item(curl)
 }
 
 App.curl_to_bottom = (curl) => {

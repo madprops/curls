@@ -156,6 +156,7 @@ App.update_curlist = (curls) => {
         let item = DOM.create(`div`)
         item.classList.add(`curlist_item`)
         item.draggable = true
+        item.dataset.curl = curl
 
         let curl_ = DOM.create(`div`, `curlist_item_curl`)
         curl_.textContent = curl
@@ -458,7 +459,7 @@ App.get_curlist_curls = () => {
     let curls = []
 
     for (let el of elements) {
-        curls.push(el.textContent)
+        curls.push(el.dataset.curl)
     }
 
     return curls
@@ -475,7 +476,7 @@ App.show_curlist_item_menu = (args = {}) => {
 
     if (args.from === `curlist`) {
         selected = App.get_selected_items()
-        let item = App.extract_curlist_item(e.target)
+        let item = App.extract_curlist_item(args.e.target)
 
         if (!selected.length || !selected.includes(item)) {
             App.select_curlist_item(item)
@@ -533,7 +534,7 @@ App.show_curlist_item_menu = (args = {}) => {
     }
 
     NeedContext.show({
-        items: items, e: e, after_hide: () => {
+        items: items, e: args.e, after_hide: () => {
             App.focus_curlist()
         }
     })
@@ -586,7 +587,7 @@ App.get_selected_curls = () => {
     let curls = []
 
     for (let item of selected_items) {
-        curls.push(item.textContent)
+        curls.push(item.dataset.curl)
     }
 
     return curls
@@ -725,7 +726,7 @@ App.do_filter_curlist = () => {
     }
 
     for (let el of els) {
-        let curl = el.textContent.toLowerCase()
+        let curl = el.dataset.curl
 
         if (curl.includes(value)) {
             show(el)
@@ -760,11 +761,14 @@ App.extract_curlist_item = (item) => {
 }
 
 App.extract_curlist_curl = (item) => {
-    let el = item.closest(`.curlist_item`)
+    return item.dataset.curl
+}
 
-    if (!el) {
-        return ``
+App.focus_curlist_item = (curl) => {
+    let items = App.get_curlist_elements()
+    let item = items.find(x => x.dataset.curl === curl)
+
+    if (item) {
+        App.do_select_curlist_item(item)
     }
-
-    return el.textContent
 }
