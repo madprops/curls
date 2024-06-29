@@ -68,7 +68,7 @@ App.app_info = [
     `With this key you can change the status of the curl.`,
     `The key can't be recovered and should be saved securely.`,
     `In this Dashboard you can monitor the curls you want.`,
-    `Each color has their own set of curls.`,
+    `Each color has its own set of curls.`,
     `You are limited to 100 curls per color.`,
 ].join(`\n`)
 
