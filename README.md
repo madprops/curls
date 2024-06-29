@@ -72,7 +72,7 @@ There are no mechanisms to recover a lost key.
 
 ## Dashboard
 
-![](https://i.imgur.com/7Qxzugi.jpg)
+![](https://i.imgur.com/fYTr3m2.jpeg)
 
 I have my own implementation of a program that uses curls.
 
