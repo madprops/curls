@@ -62,6 +62,16 @@ App.empty_info = [
     `Click <a href="/claim" target="_blank">here</a> to claim your own curl.`,
 ].join(`<br>`)
 
+App.app_info = [
+    `Curls are pointers to text that you control.`,
+    `You can claim your own curl and receive a key.`,
+    `With this key you can change the status of the curl.`,
+    `The key can't be recovered and should be saved securely.`,
+    `In this Dashboard you can monitor the curls you want.`,
+    `Each color has their own set of curls.`,
+    `You are limited to 100 curls per color.`,
+].join(`<br>`)
+
 App.updater_mode = App.default_updater
 
 App.updater_modes = [

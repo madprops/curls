@@ -44,6 +44,12 @@ App.setup_buttons = () => {
         App.scroll_container_bottom()
         App.do_check_scroll()
     })
+
+    let version = DOM.el(`#version`)
+
+    DOM.ev(version, `click`, () => {
+        App.show_app_info()
+    })
 }
 
 App.update_title = () => {
@@ -71,4 +77,19 @@ App.setup_resize = () => {
     window.addEventListener(`resize`, (event) => {
         App.check_scroll()
     })
+}
+
+App.show_message = (title, message) => {
+    let msg = Msg.factory({
+        class: "green",
+        enable_titlebar: true,
+        center_titlebar: true,
+        persistent: false
+    })
+
+    msg.show([title, message])
+}
+
+App.show_app_info = () => {
+    App.show_message(`Curls ${App.version}`, App.app_info)
 }

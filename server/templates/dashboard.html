@@ -6,6 +6,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='dashboard/css/style.css') }}">
     <script src="{{ url_for('static', filename='dashboard/js/bundle.libs.js') }}"></script>
     <script src="{{ url_for('static', filename='dashboard/js/bundle.main.js') }}"></script>
+
+    <script>
+        App.version = "{{ version }}";
+    </script>
 </head>
 
 <body>
@@ -61,7 +65,7 @@
                     <input id="wrap_enabled" type="checkbox">
                 </div>
 
-                <div id="version" title="The current version of Curls and the Dashboard">v{{version}}</div>
+                <div class="glow noselect" id="version" title="The current version of Curls and the Dashboard">v{{version}}</div>
             </div>
         </div>
 
