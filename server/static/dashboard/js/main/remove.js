@@ -218,3 +218,15 @@ App.remove_selected_curls = () => {
 
     App.save_cleaned(cleaned, removed)
 }
+
+App.remove_curl_item = (curl) => {
+    let cleaned = []
+
+    for (let item of App.items) {
+        if (item.curl !== curl) {
+            cleaned.push(item)
+        }
+    }
+
+    App.items = cleaned
+}

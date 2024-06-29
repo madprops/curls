@@ -207,7 +207,8 @@ App.do_edit_curl = (curl, new_curl) => {
     curls[index] = new_curl
     App.save_curls(curls)
     App.update_curlist()
-    App.update(true)
+    App.remove_curl_item(curl)
+    App.update(true, true, [new_curl])
 }
 
 App.check_curl = (curl) => {
