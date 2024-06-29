@@ -231,7 +231,7 @@ App.copy_item = (curl) => {
 
 
     let msg = `${item.curl}\n${item.status}\n${item.updated_text}`
-    navigator.clipboard.writeText(msg)
+    App.copy_to_clipboard(msg)
 
     function blink (icon) {
         if (!icon) {

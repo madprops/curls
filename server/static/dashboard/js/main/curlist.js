@@ -176,7 +176,7 @@ App.get_curls_name = (color) => {
 App.copy_curlist = () => {
     let curls = App.get_curls()
     let text = curls.join(` `)
-    navigator.clipboard.writeText(text)
+    App.copy_to_clipboard(text)
 }
 
 App.show_curlist_menu = (e) => {
@@ -488,7 +488,7 @@ App.show_curlist_item_menu = (e) => {
             {
                 text: `Copy`,
                 action: () => {
-                    App.copy_curl(curl)
+                    App.copy_to_clipboard(curl)
                 }
             },
             {

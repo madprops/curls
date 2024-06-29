@@ -126,3 +126,7 @@ App.same_list = (a, b) => {
 
     return true
 }
+
+App.copy_to_clipboard = (text) => {
+    navigator.clipboard.writeText(text)
+}

@@ -427,6 +427,7 @@ input[type="password"] {
     padding-left: 0.5rem;
     padding-right: 0.5rem;
     cursor: pointer;
+    user-select: none;
 }
 
 .modal_button:hover {
@@ -435,6 +436,14 @@ input[type="password"] {
 
 .modal_button:active {
     transform: translateY(1px);
+}
+
+#alert_items {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2rem;
 }
 
 #alert_text {

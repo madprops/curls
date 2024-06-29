@@ -23,6 +23,12 @@ App.setup_windows = () => {
         center_titlebar: true,
     })
 
+    let copy = DOM.el(`#alert_copy`)
+
+    DOM.ev(copy, `click`, () => {
+        App.alert_copy()
+    })
+
     let prompt_template = DOM.el(`#prompt_template`)
     let prompt_html = prompt_template.innerHTML
     App.prompt_window.set(prompt_html)
@@ -63,6 +69,11 @@ App.setup_windows = () => {
             App.confirm_window.close()
         }
     })
+}
+
+App.alert_copy = () => {
+    let text = DOM.el(`#alert_text`)
+    App.copy_to_clipboard(text.textContent)
 }
 
 App.confirm = (title, ok) => {

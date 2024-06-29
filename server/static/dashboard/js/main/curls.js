@@ -223,7 +223,3 @@ App.check_curl = (curl) => {
 
     return true
 }
-
-App.copy_curl = (curl) => {
-    navigator.clipboard.writeText(curl)
-}
