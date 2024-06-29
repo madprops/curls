@@ -96,9 +96,9 @@ App.remove_old = () => {
 }
 
 App.remove_curl = (curl) => {
-    if (confirm(`Remove ${curl}?`)) {
+    App.confirm(`Remove ${curl}?`, () => {
         App.do_remove_curl(curl)
-    }
+    })
 }
 
 App.do_remove_curl = (curl, remove_item = true) => {
@@ -143,11 +143,11 @@ App.save_cleaned = (cleaned, removed) => {
     let s = App.plural(removed.length, `curl`, `curls`)
     let list = removed.join(`, `)
 
-    if (confirm(`Remove ${removed.length} ${s}? (${list})`)) {
+    App.confirm(`Remove ${removed.length} ${s}? (${list})`, () => {
         App.save_curls(cleaned)
         App.update_curlist()
         App.remove_items(removed)
-    }
+    })
 }
 
 App.show_remove_menu = (e) => {
@@ -191,11 +191,11 @@ App.remove_all_curls = () => {
     let curls = App.get_curls()
     let list = curls.join(`, `)
 
-    if (confirm(`Remove all curls? (${list})`)) {
+    App.confirm(`Remove all curls? (${list})`, () => {
         App.clear_curls()
         App.update_curlist()
         App.empty_container()
-    }
+    })
 }
 
 App.remove_selected_curls = () => {

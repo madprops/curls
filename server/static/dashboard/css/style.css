@@ -407,6 +407,8 @@ input[type="password"] {
     display: flex;
     flex-direction: row;
     gap: 0.6rem;
+    align-items: center;
+    justify-content: center;
 }
 
 #prompt_input {
@@ -437,4 +439,21 @@ input[type="password"] {
 
 #alert_text {
     max-width: 25rem;
+}
+
+#confirm_items {
+    display: flex;
+    flex-direction: row;
+    gap: 0.6rem;
+    align-items: center;
+    justify-content: center;
+}
+
+#confirm_ok {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    padding-left: 0.8rem;
+    padding-right: 0.8rem;
+    user-select: none;
+    outline: none;
 }

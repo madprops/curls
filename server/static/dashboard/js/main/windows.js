@@ -39,13 +39,40 @@ App.setup_windows = () => {
             App.prompt_submit()
         }
     })
+
+    App.confirm_window = Msg.factory({
+        class: "red",
+        enable_titlebar: true,
+        center_titlebar: true,
+    })
+
+    let confirm_template = DOM.el(`#confirm_template`)
+    let confirm_html = confirm_template.innerHTML
+    App.confirm_window.set(confirm_html)
+
+    let ok = DOM.el(`#confirm_ok`)
+
+    DOM.ev(ok, `click`, () => {
+        App.confirm_ok()
+        App.confirm_window.close()
+    })
+
+    DOM.ev(ok, `keydown`, (e) => {
+        if (e.key === `Enter`) {
+            App.confirm_ok()
+            App.confirm_window.close()
+        }
+    })
+}
+
+App.confirm = (title, ok) => {
+    App.confirm_ok = ok
+    App.confirm_window.set_title(title)
+    App.confirm_window.show()
+    DOM.el(`#confirm_ok`).focus()
 }
 
 App.prompt_submit = () => {
-    if (!App.prompt_callback) {
-        return
-    }
-
     let value = DOM.el(`#prompt_input`).value.trim()
     App.prompt_callback(value)
     App.prompt_window.close()
