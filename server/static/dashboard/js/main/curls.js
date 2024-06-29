@@ -47,7 +47,7 @@ App.add_curl_submit = (where, curls) => {
         return
     }
 
-    let words = curls.split(` `).filter(x => x)
+    let words = App.smart_list(curls)
 
     if (!words.length) {
         return

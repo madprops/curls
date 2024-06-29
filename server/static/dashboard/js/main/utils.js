@@ -130,3 +130,7 @@ App.same_list = (a, b) => {
 App.copy_to_clipboard = (text) => {
     navigator.clipboard.writeText(text)
 }
+
+App.smart_list = (string) => {
+    return string.split(/[\s,;]+/).filter(Boolean)
+}
