@@ -110,6 +110,7 @@ App.curl_to_top = (curl) => {
     App.save_curls(curls)
     App.update_curlist()
     App.sort_if_order()
+    App.focus_curl(curl)
 }
 
 App.curl_to_bottom = (curl) => {
@@ -119,6 +120,7 @@ App.curl_to_bottom = (curl) => {
     App.save_curls(curls)
     App.update_curlist()
     App.sort_if_order()
+    App.focus_curl(curl)
 }
 
 App.save_curls = (curls, color = App.color_mode) => {
@@ -222,4 +224,14 @@ App.check_curl = (curl) => {
     }
 
     return true
+}
+
+App.focus_curl = (curl) => {
+    let item = App.get_item(curl)
+
+    if (!item || !item.element) {
+        return
+    }
+
+    item.element.scrollIntoView({behavior: `smooth`, block: `center`})
 }
