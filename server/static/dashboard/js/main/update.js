@@ -94,11 +94,11 @@ App.update_curls = async (feedback = true, curls = []) => {
 
     let add = false
 
-    if (!curls.length) {
-        curls = App.get_used_curls()
+    if (curls.length) {
+        add = true
     }
     else {
-        add = true
+        curls = App.get_used_curls()
     }
 
     if (!curls.length) {
