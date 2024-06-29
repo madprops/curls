@@ -4,12 +4,14 @@ App.setup_curlist = () => {
 
     let lines = [
         `Add the curls you want to monitor here`,
-        `Double Click on empty space to add curls`,
+        `Double Click empty space to add curls`,
         `Click on the header to show the menu`,
-        `Right on empty space to show the menu`,
-        `Right on items to show the item menu`,
+        `Right Click empty space to show the menu`,
+        `Right Click items to show the item menu`,
         `You can select curls with mouse and keyboard`,
         `Press Delete to remove selected curls`,
+        `Double Click items to edit them`,
+        `Middle Click items to remove them`,
     ]
 
     container.title = lines.join(`\n`)
