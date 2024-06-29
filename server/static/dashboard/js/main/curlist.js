@@ -53,7 +53,7 @@ App.setup_curlist = () => {
         let curl = App.extract_curlist_curl(e.target)
 
         if (item) {
-            App.show_curlist_item_menu(curl, e)
+            App.show_curlist_item_menu({curl: curl, e: e})
         }
         else {
             App.show_curlist_menu(e)
@@ -278,9 +278,11 @@ App.show_curlist_menu = (e) => {
         ]
     }
 
-    NeedContext.show({ items: items, e: e, after_hide: () => {
-        App.focus_curlist()
-    }})
+    NeedContext.show({
+        items: items, e: e, after_hide: () => {
+            App.focus_curlist()
+        }
+    })
 }
 
 App.show_curlist = () => {
@@ -352,9 +354,9 @@ App.export_curlist = () => {
 }
 
 App.import_curlist = () => {
-    App.prompt(`Paste the data`, (value) => {
+    App.prompt({title: `Paste the data`, callback: (value) => {
         App.import_curlist_submit(value)
-    })
+    }})
 }
 
 App.import_curlist_submit = (data) => {
@@ -462,10 +464,16 @@ App.get_curlist_curls = () => {
     return curls
 }
 
-App.show_curlist_item_menu = (curl, e, from = `curlist`) => {
+App.show_curlist_item_menu = (args = {}) => {
+    let def_args = {
+        from: `curlist`,
+    }
+
+    App.def_args(def_args, args)
+
     let selected = []
 
-    if (from === `curlist`) {
+    if (args.from === `curlist`) {
         selected = App.get_selected_items()
         let item = App.extract_curlist_item(e.target)
 
@@ -491,19 +499,19 @@ App.show_curlist_item_menu = (curl, e, from = `curlist`) => {
             {
                 text: `Edit`,
                 action: () => {
-                    App.edit_curl(curl)
+                    App.edit_curl(args.curl)
                 }
             },
             {
                 text: `Copy`,
                 action: () => {
-                    App.copy_item(curl)
+                    App.copy_item(args.curl)
                 }
             },
             {
                 text: `Remove`,
                 action: () => {
-                    App.remove_curl(curl)
+                    App.remove_curl(args.curl)
                 }
             },
             {
@@ -512,21 +520,23 @@ App.show_curlist_item_menu = (curl, e, from = `curlist`) => {
             {
                 text: `To Top`,
                 action: () => {
-                    App.curl_to_top(curl)
+                    App.curl_to_top(args.curl)
                 }
             },
             {
                 text: `To Bottom`,
                 action: () => {
-                    App.curl_to_bottom(curl)
+                    App.curl_to_bottom(args.curl)
                 }
             },
         ]
     }
 
-    NeedContext.show({ items: items, e: e, after_hide: () => {
-        App.focus_curlist()
-    }})
+    NeedContext.show({
+        items: items, e: e, after_hide: () => {
+            App.focus_curlist()
+        }
+    })
 }
 
 App.select_curlist_item = (target) => {
@@ -599,7 +609,7 @@ App.get_curlist_elements = () => {
     return DOM.els(`#curlist .curlist_item`)
 }
 
-App.select_curlist_vertical = (direction, shift, curl) => {
+App.select_curlist_vertical = (direction, shift) => {
     let items = App.curlist_get_visible()
     let selected_items = App.get_selected_items()
 
@@ -706,11 +716,11 @@ App.do_filter_curlist = () => {
     let els = App.get_curlist_elements()
     let value = App.get_curlist_filter_value()
 
-    function hide (el) {
+    function hide(el) {
         el.classList.add(`hidden`)
     }
 
-    function show (el) {
+    function show(el) {
         el.classList.remove(`hidden`)
     }
 

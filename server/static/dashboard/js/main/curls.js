@@ -37,9 +37,9 @@ App.get_used_curls = () => {
 }
 
 App.add_curl = (where) => {
-    App.prompt(`Add one or more curls`, (value) => {
+    App.prompt({title: `Add one or more curls`, callback: (value) => {
         App.add_curl_submit(where, value)
-    })
+    }})
 }
 
 App.add_curl_submit = (where, curls) => {
@@ -60,35 +60,43 @@ App.add_curl_submit = (where, curls) => {
     let added = []
 
     for (let curl of units) {
-        if (App.do_add_curl(where, curl, false)) {
+        if (App.do_add_curl({where: where, curl: curl, update: false})) {
             added.push(curl)
         }
     }
 
     if (added.length) {
         App.update_curlist()
-        App.update({curls: added})
+        App.update({ curls: added })
     }
 }
 
-App.do_add_curl = (where, curl = ``, update = true) => {
-    if (!App.check_curl(curl)) {
+App.do_add_curl = (args = {}) => {
+    let def_args = {
+        where: `top`,
+        curl: ``,
+        update: true,
+    }
+
+    App.def_args(def_args, args)
+
+    if (!App.check_curl(args.curl)) {
         return false
     }
 
     let curls = App.get_curls()
-    curls = curls.filter(x => x !== curl)
+    curls = curls.filter(x => x !== args.curl)
 
-    if (where === `top`) {
-        curls.unshift(curl)
+    if (args.where === `top`) {
+        curls.unshift(args.curl)
     }
-    else if (where === `bottom`) {
-        curls.push(curl)
+    else if (args.where === `bottom`) {
+        curls.push(args.curl)
     }
 
     App.save_curls(curls)
 
-    if (update) {
+    if (args.update) {
         App.update_curlist()
     }
 
@@ -99,7 +107,7 @@ App.add_owned_curl = (curl) => {
     let curls = App.get_curls()
 
     if (!curls.includes(curl)) {
-        App.do_add_curl(`top`, curl)
+        App.do_add_curl({curl: curl})
     }
 }
 
@@ -141,9 +149,9 @@ App.get_curls = (color = App.color_mode) => {
 }
 
 App.replace_curls = () => {
-    App.prompt(`This will replace the entire list`, (value) => {
+    App.prompt({title: `This will replace the entire list`, callback: (value) => {
         App.replace_curls_submit(value)
-    })
+    }})
 }
 
 App.replace_curls_submit = (curls) => {
@@ -162,7 +170,7 @@ App.replace_curls_submit = (curls) => {
     let added = false
 
     for (let curl of units) {
-        if (App.do_add_curl(`top`, curl, false)) {
+        if (App.do_add_curl({curl: curl, update: false})) {
             added = true
         }
     }
@@ -179,9 +187,9 @@ App.clear_curls = (color = App.color_mode) => {
 }
 
 App.edit_curl = (curl) => {
-    App.prompt(`Edit this curl`, (value) => {
+    App.prompt({title: `Edit this curl`, callback: (value) => {
         App.edit_curl_submit(curl, value)
-    }, curl)
+    }, value: curl})
 }
 
 App.edit_curl_submit = (curl, new_curl) => {
@@ -208,7 +216,7 @@ App.do_edit_curl = (curl, new_curl) => {
     App.save_curls(curls)
     App.update_curlist()
     App.remove_curl_item(curl)
-    App.update({curls: [new_curl]})
+    App.update({ curls: [new_curl] })
 }
 
 App.check_curl = (curl) => {
@@ -234,5 +242,5 @@ App.focus_curl = (curl) => {
         return
     }
 
-    item.element.scrollIntoView({behavior: `smooth`, block: `center`})
+    item.element.scrollIntoView({ behavior: `smooth`, block: `center` })
 }

@@ -1,7 +1,7 @@
 App.remove_a_curl = () => {
-    App.prompt(`Remove a curl`, (value) => {
+    App.prompt({title: `Remove a curl`, callback: (value) => {
         App.remove_a_curl_submit(value)
-    })
+    }})
 }
 
 App.remove_a_curl_submit = (curl) => {

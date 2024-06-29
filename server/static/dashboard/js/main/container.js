@@ -10,7 +10,7 @@ App.setup_container = () => {
 
         if (e.target.closest(`.item_icon`)) {
             let curl = e.target.closest(`.item`).dataset.curl
-            App.show_curlist_item_menu(curl, e, `container`)
+            App.show_curlist_item_menu({curl: curl, e: e, from: `container`})
             return
         }
     })
@@ -29,7 +29,7 @@ App.setup_container = () => {
         if (e.target.closest(`.item_icon`)) {
             e.preventDefault()
             let curl = e.target.closest(`.item`).dataset.curl
-            App.show_curlist_item_menu(curl, e, `container`)
+            App.show_curlist_item_menu({curl: curl, e: e, from: `container`})
         }
     })
 

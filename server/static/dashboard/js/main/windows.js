@@ -1,4 +1,4 @@
-App.alert = (message,  title = `Information`) => {
+App.alert = (message, title = `Information`) => {
     App.alert_window.set_title(title)
     let text = DOM.el(`#alert_text`)
     text.textContent = message
@@ -91,13 +91,19 @@ App.prompt_submit = () => {
     App.prompt_window.close()
 }
 
-App.prompt = (title, callback, value = ``) => {
-    App.prompt_callback = callback
+App.prompt = (args = {}) => {
+    let def_args = {
+        value: ``,
+    }
+
+    App.def_args(def_args, args)
+
+    App.prompt_callback = args.callback
 
     let input = DOM.el(`#prompt_input`)
-    input.value = value
+    input.value = args.value
 
-    App.prompt_window.set_title(title)
+    App.prompt_window.set_title(args.title)
     App.prompt_window.show()
 
     input.focus()

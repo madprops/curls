@@ -43,7 +43,7 @@ App.show_peek = (curl) => {
     updated.textContent = item.updated_text
 
     DOM.ev(icon, `click`, (e) => {
-        App.show_curlist_item_menu(curl, e, `peek`)
+        App.show_curlist_item_menu({curl: curl, e: e, from: `peek`})
     })
 
     icon.title = `Click to show a menu`
