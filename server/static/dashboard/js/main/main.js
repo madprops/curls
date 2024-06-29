@@ -64,7 +64,7 @@ App.claim = () => {
 }
 
 App.start_keyboard = () => {
-    DOM.ev(DOM.el(`#main`), `click`, (e) => {
+    DOM.evs(DOM.el(`#main`), [`click`, `contextmenu`, `auxclick`], (e) => {
         if (!e.target.closest(`#curlist_container`)) {
             App.unselect_curlist()
 

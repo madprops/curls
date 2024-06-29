@@ -50,9 +50,10 @@ App.setup_curlist = () => {
 
     DOM.ev(container, `contextmenu`, (e) => {
         let item = App.extract_curlist_item(e.target)
+        let curl = App.extract_curlist_curl(e.target)
 
         if (item) {
-            App.show_curlist_item_menu(e)
+            App.show_curlist_item_menu(curl, e)
         }
         else {
             App.show_curlist_menu(e)
@@ -461,13 +462,16 @@ App.get_curlist_curls = () => {
     return curls
 }
 
-App.show_curlist_item_menu = (e) => {
-    let selected = App.get_selected_items()
-    let item = App.extract_curlist_item(e.target)
-    let curl = App.extract_curlist_curl(e.target)
+App.show_curlist_item_menu = (curl, e, from = `curlist`) => {
+    let selected = []
 
-    if (!selected.length || !selected.includes(item)) {
-        App.select_curlist_item(item)
+    if (from === `curlist`) {
+        selected = App.get_selected_items()
+        let item = App.extract_curlist_item(e.target)
+
+        if (!selected.length || !selected.includes(item)) {
+            App.select_curlist_item(item)
+        }
     }
 
     let items = []
@@ -493,7 +497,7 @@ App.show_curlist_item_menu = (e) => {
             {
                 text: `Copy`,
                 action: () => {
-                    App.copy_to_clipboard(curl)
+                    App.copy_item(curl)
                 }
             },
             {

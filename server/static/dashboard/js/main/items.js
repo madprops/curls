@@ -61,10 +61,6 @@ App.create_element = (item) => {
         `Middle Click to remove`,
     ]
 
-    if (App.sort_mode === `order`) {
-        lines.push(`You can re-order by dragging this`)
-    }
-
     item_icon.title = lines.join(`\n`)
 
     let canvas = DOM.create(`canvas`, `item_icon_canvas`)
@@ -111,39 +107,6 @@ App.create_element = (item) => {
 
 App.get_item = (curl) => {
     return App.items.find(item => item.curl === curl)
-}
-
-App.show_item_menu = (curl, e) => {
-    let items = [
-        {
-            text: `Copy`,
-            action: () => {
-                App.copy_item(curl)
-            }
-        },
-    ]
-
-    if (App.sort_mode === `order`) {
-        items.push({
-            separator: true,
-        })
-
-        items.push({
-            text: `To Top`,
-            action: () => {
-                App.curl_to_top(curl)
-            }
-        })
-
-        items.push({
-            text: `To Bottom`,
-            action: () => {
-                App.curl_to_bottom(curl)
-            }
-        })
-    }
-
-    NeedContext.show({items: items, e: e})
 }
 
 App.get_missing = () => {
