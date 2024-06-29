@@ -120,7 +120,7 @@ App.do_filter = () => {
         let item = App.get_item(el.dataset.curl)
         let curl = item.curl.toLowerCase()
         let status = item.status.toLowerCase()
-        let updated = item.updated.toLowerCase()
+        let updated = item.updated_text.toLowerCase()
 
         if (scope === `curl`) {
             if (curl.includes(value)) {
