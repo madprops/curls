@@ -72,6 +72,8 @@ There are no mechanisms to recover a lost key.
 
 ## Dashboard
 
+![](https://i.imgur.com/7Qxzugi.jpg)
+
 I have my own implementation of a program that uses curls.
 
 It is located at: `https://curls.merkoba.com/dashboard`
