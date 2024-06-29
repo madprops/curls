@@ -18,7 +18,6 @@ App.create_window = (color) => {
 }
 
 App.setup_windows = () => {
-
     let alert_template = DOM.el(`#alert_template`)
     let alert_html = alert_template.innerHTML
     App.alert_window = App.create_window(`green`)
