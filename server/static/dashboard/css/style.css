@@ -476,8 +476,8 @@ input[type="password"]
 }
 
 .Msg-titlebar {
-    padding-top: 0.25rem !important;
-    padding-bottom: 0.25rem !important;
+    padding-top: 0.24rem !important;
+    padding-bottom: 0.24rem !important;
     padding-left: 0.8rem !important;
     padding-right: 0.8rem !important;
     font-family: var(--font) !important;
