@@ -476,7 +476,6 @@ App.show_curlist_item_menu = (args = {}) => {
     }
 
     App.def_args(def_args, args)
-
     let selected = []
 
     if (args.from === `curlist`) {

@@ -97,14 +97,10 @@ App.prompt = (args = {}) => {
     }
 
     App.def_args(def_args, args)
-
     App.prompt_callback = args.callback
-
     let input = DOM.el(`#prompt_input`)
     input.value = args.value
-
     App.prompt_window.set_title(args.title)
     App.prompt_window.show()
-
     input.focus()
 }
