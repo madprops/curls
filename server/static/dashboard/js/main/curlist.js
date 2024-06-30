@@ -5,8 +5,8 @@ App.setup_curlist = () => {
     let lines = [
         `Add the curls you want to monitor here`,
         `Double Click empty space to add curls`,
-        `Click on the header to show a menu`,
-        `Right Click empty space to show the menu`,
+        `Click on the header to show menu`,
+        `Right Click empty space to show menu`,
         `Press Delete to remove selected curls`,
     ]
 
@@ -157,7 +157,7 @@ App.update_curlist = (curls) => {
 
         let lines = [
             `Click to peek`,
-            `Right Click to show a menu`,
+            `Right Click to show menu`,
             `Double Click to edit`,
             `Middle Click to remove`,
         ]

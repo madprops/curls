@@ -73,7 +73,7 @@ App.create_element = (item) => {
     item_icon.draggable = true
 
     let lines = [
-        `Click to show a menu`,
+        `Click to show menu`,
         `Middle Click to remove`,
     ]
 

@@ -46,7 +46,7 @@ App.show_peek = (curl) => {
         App.show_curlist_item_menu({curl: curl, e: e, from: `peek`})
     })
 
-    icon.title = `Click to show a menu`
+    icon.title = `Click to show menu`
 
     let close = DOM.create(`div`, `peek_close glow_white noselect`)
     close.textContent = `Close`
