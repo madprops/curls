@@ -96,7 +96,7 @@ App.do_filter = () => {
     }
 
     if (!value && !is_special) {
-        App.refresh_items()
+        App.unfilter_all()
         return
     }
 
