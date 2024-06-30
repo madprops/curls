@@ -98,6 +98,7 @@ App.remove_old = () => {
 App.remove_curl = (curl) => {
     App.confirm(`Remove ${curl}`, () => {
         App.do_remove_curl(curl)
+        App.hide_peek()
     })
 }
 
@@ -150,6 +151,7 @@ App.save_cleaned = (cleaned, removed) => {
         App.save_curls(cleaned)
         App.update_curlist()
         App.remove_items(removed)
+        App.hide_peek()
     })
 }
 
@@ -195,6 +197,7 @@ App.remove_all_curls = () => {
         App.clear_curls()
         App.update_curlist()
         App.empty_container()
+        App.hide_peek()
     })
 }
 
