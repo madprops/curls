@@ -44,7 +44,6 @@ App.controls_enabled = true
 App.default_border = `solid`
 App.colors_alpha = {}
 App.colors_alpha_2 = {}
-App.icon = `🇦🇬`
 
 App.curl_too_long = `Curl is too long`
 App.key_too_long = `Key is too long`

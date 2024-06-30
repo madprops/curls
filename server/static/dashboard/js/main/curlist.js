@@ -172,7 +172,7 @@ App.update_curlist = (curls) => {
 App.update_curlist_top = () => {
     let curlist_top = DOM.el(`#curlist_top`)
     let curls = App.get_curls()
-    curlist_top.innerHTML = `${App.icon}&nbsp;&nbsp;Curls (${curls.length})`
+    curlist_top.textContent = `Curls (${curls.length})`
 }
 
 App.get_curls_name = (color) => {
