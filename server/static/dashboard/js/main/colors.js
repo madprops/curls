@@ -24,15 +24,17 @@ App.setup_color = () => {
 
     })
 
-    App.colors_alpha = {}
+    App.make_alpha(App.colors_alpha, `0.18`)
+    App.make_alpha(App.colors_alpha_2, `0.5`)
+    App.apply_color()
+}
 
+App.make_alpha = (obj, a) => {
     for (let color in App.colors) {
         let numbers = App.colors[color].match(/\d+/g)
-        let rgba = `rgba(${numbers[0]}, ${numbers[1]}, ${numbers[2]}, 0.18)`
-        App.colors_alpha[color] = rgba
+        let rgba = `rgba(${numbers[0]}, ${numbers[1]}, ${numbers[2]}, ${a})`
+        obj[color] = rgba
     }
-
-    App.apply_color()
 }
 
 App.change_color = (value) => {
@@ -61,10 +63,12 @@ App.load_color = () => {
 }
 
 App.apply_color = () => {
-    let rgb = App.colors[App.color_mode]
-    let rgba = App.colors_alpha[App.color_mode]
-    document.documentElement.style.setProperty(`--color`, rgb)
-    document.documentElement.style.setProperty(`--color_alpha`, rgba)
+    let normal = App.colors[App.color_mode]
+    let alpha = App.colors_alpha[App.color_mode]
+    let alpha_2 = App.colors_alpha_2[App.color_mode]
+    document.documentElement.style.setProperty(`--color`, normal)
+    document.documentElement.style.setProperty(`--color_alpha`, alpha)
+    document.documentElement.style.setProperty(`--color_alpha_2`, alpha_2)
     App.update_title()
 }
 
