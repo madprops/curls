@@ -128,7 +128,7 @@ App.get_item = (curl) => {
 }
 
 App.get_missing = () => {
-    let used = App.get_used_curls()
+    let used = App.get_curls()
     let curls = used.filter(curl => !App.items.find(item => item.curl === curl))
     let missing = []
 

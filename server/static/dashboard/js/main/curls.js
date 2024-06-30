@@ -1,41 +1,3 @@
-App.get_used_curls = () => {
-    let curls = App.get_curls()
-
-    if (!curls.length) {
-        return []
-    }
-
-    let used_curls = []
-
-    for (let curl of curls) {
-        if (used_curls.length > App.max_curls) {
-            break
-        }
-
-        curl = curl.trim()
-
-        if (!curl) {
-            continue
-        }
-
-        if (curl.includes(` `)) {
-            continue
-        }
-
-        if (curl.length > App.curl_max_length) {
-            continue
-        }
-
-        if (used_curls.includes(curl)) {
-            continue
-        }
-
-        used_curls.push(curl)
-    }
-
-    return used_curls
-}
-
 App.add_curl = (where) => {
     App.prompt({title: `Add one or more curls`, callback: (value) => {
         App.add_curl_submit(where, value)
@@ -85,6 +47,11 @@ App.do_add_curl = (args = {}) => {
     }
 
     let curls = App.get_curls()
+
+    if (curls.length >= App.max_curls) {
+        return false
+    }
+
     curls = curls.filter(x => x !== args.curl)
 
     if (args.where === `top`) {
@@ -163,7 +130,8 @@ App.get_curls = (color = App.color_mode) => {
     let saved = localStorage.getItem(name) || `[]`
 
     try {
-        return JSON.parse(saved)
+        let curls = JSON.parse(saved)
+        return App.clean_curls(curls)
     }
     catch (err) {
         return []
@@ -265,4 +233,22 @@ App.focus_curl = (curl) => {
     }
 
     item.element.scrollIntoView({ behavior: `smooth`, block: `center` })
+}
+
+App.clean_curls = (curls) => {
+    let cleaned = []
+
+    for (let curl of curls) {
+        if (!App.check_curl(curl)) {
+            continue
+        }
+
+        cleaned.push(curl)
+
+        if (cleaned.length >= App.max_curls) {
+            break
+        }
+    }
+
+    return cleaned
 }

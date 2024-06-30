@@ -101,7 +101,7 @@ App.update_curls = async (args) => {
         add = true
     }
     else {
-        args.curls = App.get_used_curls()
+        args.curls = App.get_curls()
     }
 
     if (!args.curls.length) {

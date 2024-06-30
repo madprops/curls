@@ -44,10 +44,10 @@ App.sort_items = (items) => {
     let mode = App.sort_mode
 
     if (mode === `order`) {
-        let used_curls = App.get_used_curls()
+        let curls = App.get_curls()
 
         items.sort((a, b) => {
-            return used_curls.indexOf(a.curl) - used_curls.indexOf(b.curl)
+            return curls.indexOf(a.curl) - curls.indexOf(b.curl)
         })
     }
     else if (mode === `newest`) {
