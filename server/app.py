@@ -67,7 +67,8 @@ def claim() -> Any:
     if request.method == "POST":
         try:
             return procs.claim_proc(request)
-        except Exception:
+        except Exception as e:
+            print(e)
             return invalid
 
     captcha = simple_captcha.create()
@@ -80,7 +81,8 @@ def change() -> Any:
     if request.method == "POST":
         try:
             return procs.change_proc(request)
-        except Exception:
+        except Exception as e:
+            print(e)
             return invalid
 
     return render_template("change.html", font_size=config.font_size)

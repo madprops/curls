@@ -29,31 +29,28 @@ def claim_proc(request: Any) -> str:
 
     if check_catpcha:
         if not app.simple_captcha.verify(c_text, c_hash):
-            return "Error: Failed captcha"
+            return style("Error: Failed captcha")
 
     curl = curl.strip().lower()
 
     if not check_curl(curl):
-        return invalid_curl
+        return style(invalid_curl)
 
     if curl_exists(curl):
-        return "Error: Curl already exists"
+        return style("Error: Curl already exists")
 
     key = make_key(curl)
     add_curl(curl, key)
-    font = config.font_size
 
     lines = [
-        f"<div style='font-size: {font}'>",
         f"Your curl is: <b>{curl}</b>",
         f"Your key is: <b>{key}</b>",
         "The key is secret and shouldn't be shared",
         "Save the key somewhere so it doesn't get lost",
         "There is no way to recover a lost key",
-        "</div>",
     ]
 
-    return "<br>".join(lines)
+    return style("<br>".join(lines))
 
 
 def change_proc(request: Any) -> str:
@@ -235,3 +232,6 @@ def check_status(status: str) -> bool:
         return False
 
     return True
+
+def style(text: str) -> str:
+    return f"<div style='font-size: {config.font_size}'>{text}</div>"
