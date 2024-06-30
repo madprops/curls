@@ -436,6 +436,8 @@ input[type="password"]
     border: 1px solid white;
     padding-left: 0.4rem;
     padding-right: 0.4rem;
+    padding-top: 0.05rem;
+    padding-bottom: 0.05rem;
     cursor: pointer;
     user-select: none;
     outline: none;
