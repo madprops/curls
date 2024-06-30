@@ -181,22 +181,3 @@ App.order_based_on_container = () => {
     App.save_curls(curls)
     App.update_curlist()
 }
-
-App.toggle_scroll = () => {
-    let focused = document.activeElement
-
-    if (focused.tagName === `INPUT`) {
-        return
-    }
-
-    let outer = DOM.el(`#container_outer`)
-
-    if (outer.scrollTop === 0) {
-        App.scroll_container_bottom()
-    }
-    else {
-        App.scroll_container_top()
-    }
-
-    App.do_check_scroll()
-}

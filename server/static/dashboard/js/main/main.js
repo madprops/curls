@@ -13,7 +13,6 @@ App.setup = () => {
     App.setup_filter()
     App.setup_peek()
     App.start_mouse()
-    App.start_keyboard()
     App.setup_font()
     App.setup_border()
     App.setup_controls()
@@ -74,14 +73,6 @@ App.start_mouse = () => {
             if (!e.target.closest(`#peek`)) {
                 App.hide_peek()
             }
-        }
-    })
-}
-
-App.start_keyboard = () => {
-    window.addEventListener(`keyup`, (e) => {
-        if (e.key === `Enter`) {
-            App.toggle_scroll()
         }
     })
 }
