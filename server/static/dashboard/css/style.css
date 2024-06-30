@@ -479,3 +479,7 @@ input[type="password"]
     padding-left: 0.8rem !important;
     padding-right: 0.8rem !important;
 }
+
+input[type="checkbox"] {
+    cursor: pointer;
+}
