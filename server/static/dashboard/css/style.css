@@ -480,6 +480,7 @@ input[type="password"]
     padding-bottom: 0.25rem !important;
     padding-left: 0.8rem !important;
     padding-right: 0.8rem !important;
+    font-family: var(--font) !important;
 }
 
 input[type="checkbox"] {
