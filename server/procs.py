@@ -41,9 +41,10 @@ def claim_proc(request: Any) -> str:
 
     key = make_key(curl)
     add_curl(curl, key)
+    font = config.font_size
 
     lines = [
-        "<div style='font-size: 18px'>",
+        f"<div style='font-size: {font}'>",
         f"Your curl is: <b>{curl}</b>",
         f"Your key is: <b>{key}</b>",
         "The key is secret and shouldn't be shared",
