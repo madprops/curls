@@ -72,13 +72,14 @@ html
     cursor: default;
     user-select: none;
     cursor: pointer;
-    border: 1px solid var(--background);
+    border-top: 1px solid var(--background);
+    border-bottom: 1px solid var(--background);
 }
 
 .curlist_item_curl {
     display: table-cell;
-    padding-top: 0.21rem;
-    padding-bottom: 0.21rem;
+    padding-top: 0.22rem;
+    padding-bottom: 0.22rem;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
     text-align: left;
