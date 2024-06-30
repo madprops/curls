@@ -56,6 +56,10 @@ html
     outline: none;
 }
 
+#curlist_top {
+    border-radius: 4px;
+}
+
 #curlist {
     display: table;
     background-color: var(--background);
