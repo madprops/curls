@@ -488,3 +488,7 @@ input[type="password"]
 input[type="checkbox"] {
     cursor: pointer;
 }
+
+.needcontext-text {
+    font-family: var(--font) !important;
+}
