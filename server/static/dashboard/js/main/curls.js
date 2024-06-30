@@ -1,10 +1,10 @@
-App.add_curl = (where) => {
+App.add_curls = (where) => {
     App.prompt({title: `Add one or more curls`, callback: (value) => {
-        App.add_curl_submit(where, value)
+        App.add_curls_submit(where, value)
     }})
 }
 
-App.add_curl_submit = (where, curls) => {
+App.add_curls_submit = (where, curls) => {
     if (!curls) {
         return
     }

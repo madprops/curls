@@ -60,7 +60,7 @@ App.setup_curlist = () => {
             App.edit_curl(curl)
         }
         else {
-            App.add_curl(`bottom`)
+            App.add_curls(`bottom`)
         }
     })
 
@@ -219,13 +219,13 @@ App.show_curlist_menu = (e) => {
             {
                 text: `Add (Top)`,
                 action: () => {
-                    App.add_curl(`top`)
+                    App.add_curls(`top`)
                 }
             },
             {
                 text: `Add (Bottom)`,
                 action: () => {
-                    App.add_curl(`bottom`)
+                    App.add_curls(`bottom`)
                 }
             },
             {
@@ -272,7 +272,7 @@ App.show_curlist_menu = (e) => {
             {
                 text: `Add`,
                 action: () => {
-                    App.add_curl(`top`)
+                    App.add_curls(`top`)
                 }
             },
             ...data,

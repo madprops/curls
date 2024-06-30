@@ -33,6 +33,12 @@ App.setup_container = () => {
         }
     })
 
+    DOM.ev(outer, `dblclick`, (e) => {
+        if (e.target === outer) {
+            App.add_curls()
+        }
+    })
+
     App.check_scroll_debouncer = App.create_debouncer(
         App.do_check_scroll, App.check_scroll_debouncer_delay)
 
