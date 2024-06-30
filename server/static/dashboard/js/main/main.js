@@ -12,6 +12,7 @@ App.setup = () => {
     App.setup_status()
     App.setup_filter()
     App.setup_peek()
+    App.start_mouse()
     App.start_keyboard()
     App.setup_font()
     App.setup_border()
@@ -63,7 +64,7 @@ App.claim = () => {
     window.open(`/claim`, `_blank`)
 }
 
-App.start_keyboard = () => {
+App.start_mouse = () => {
     DOM.evs(DOM.el(`#main`), [`click`, `contextmenu`, `auxclick`], (e) => {
         if (!e.target.closest(`#curlist_container`)) {
             App.unselect_curlist()
@@ -71,6 +72,14 @@ App.start_keyboard = () => {
             if (!e.target.closest(`#peek`)) {
                 App.hide_peek()
             }
+        }
+    })
+}
+
+App.start_keyboard = () => {
+    window.addEventListener(`keyup`, (e) => {
+        if (e.key === `Enter`) {
+            App.toggle_scroll()
         }
     })
 }
