@@ -137,7 +137,6 @@ App.curls_to_bottom = (curls) => {
 }
 
 App.after_curls_move = (curls, leader) => {
-    console.log(leader)
     App.save_curls(curls)
     App.update_curlist()
     App.sort_if_order()
