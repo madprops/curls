@@ -66,7 +66,7 @@ App.empty_info = [
     `Click <a href="/claim" target="_blank">here</a> to claim your own curl.`,
 ].join(`<br>`)
 
-App.app_info = [
+App.intro = [
     `Curls are pointers to text that you control.`,
     `You can claim your own curl and receive a key.`,
     `With this key you can change the status of the curl.`,

@@ -19,6 +19,7 @@ App.setup = () => {
     App.setup_resize()
     App.setup_windows()
     App.update_autocomplete()
+    App.setup_intro()
     App.update()
 }
 
@@ -52,7 +53,7 @@ App.setup_buttons = () => {
     let version = DOM.el(`#version`)
 
     DOM.ev(version, `click`, () => {
-        App.show_app_info()
+        App.show_intro()
     })
 }
 
@@ -81,10 +82,6 @@ App.setup_resize = () => {
     window.addEventListener(`resize`, (event) => {
         App.check_scroll()
     })
-}
-
-App.show_app_info = () => {
-    App.alert(App.app_info, `Curls ${App.version}`)
 }
 
 App.update_autocomplete = () => {
