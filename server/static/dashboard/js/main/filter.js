@@ -92,7 +92,7 @@ App.do_filter = () => {
     }
 
     if (is_special) {
-        value = value.split(` `).slice(1).join(` `)
+        value = value.split(` `).slice(1).join(` `).trim()
     }
 
     if (!value && !is_special) {
@@ -101,6 +101,7 @@ App.do_filter = () => {
     }
 
     if ((scope !== `all`) && !value) {
+        App.unfilter_all()
         return
     }
 
