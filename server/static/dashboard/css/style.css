@@ -237,6 +237,7 @@ input[type="password"]
     padding-left: 0.25rem;
     padding-right: 0.25rem;
     user-select: none;
+    white-space: nowrap;
 }
 
 .button:hover {
@@ -438,6 +439,7 @@ input[type="password"]
     cursor: pointer;
     user-select: none;
     outline: none;
+    white-space: nowrap;
 }
 
 .modal_button:hover {
