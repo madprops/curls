@@ -17,14 +17,8 @@ App.setup_curlist = () => {
         e.preventDefault()
     })
 
-    let enabled = localStorage.getItem(`curlist_enabled`) || `true`
-
-    if (enabled === `true`) {
-        App.show_curlist()
-    }
-    else {
-        App.hide_curlist()
-    }
+    App.curlist_enabled = App.load_curlist_enabled()
+    App.check_curlist_enabled()
 
     DOM.ev(container, `click`, (e) => {
         let item = App.extract_curlist_item(e.target)
@@ -289,6 +283,20 @@ App.show_curlist_menu = (e) => {
             App.focus_curlist()
         }
     })
+}
+
+App.load_curlist_enabled = () => {
+    let saved = localStorage.getItem(`curlist_enabled`) || `true`
+    return saved === `true`
+}
+
+App.check_curlist_enabled = () => {
+    if (App.curlist_enabled) {
+        App.show_curlist()
+    }
+    else {
+        App.hide_curlist()
+    }
 }
 
 App.show_curlist = () => {

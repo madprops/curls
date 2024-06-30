@@ -26,8 +26,10 @@ App.load_controls_enabled = () => {
 App.check_controls = () => {
     if (App.controls_enabled) {
         DOM.show(`#controls`)
+        App.check_curlist_enabled()
     }
     else {
         DOM.hide(`#controls`)
+        DOM.hide(`#left_side`)
     }
 }
