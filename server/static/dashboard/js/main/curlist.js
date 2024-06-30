@@ -5,13 +5,9 @@ App.setup_curlist = () => {
     let lines = [
         `Add the curls you want to monitor here`,
         `Double Click empty space to add curls`,
-        `Click on the header to show the menu`,
+        `Click on the header to show a menu`,
         `Right Click empty space to show the menu`,
-        `Right Click items to show the item menu`,
-        `You can select curls with mouse and keyboard`,
         `Press Delete to remove selected curls`,
-        `Double Click items to edit them`,
-        `Middle Click items to remove them`,
     ]
 
     container.title = lines.join(`\n`)
@@ -158,8 +154,15 @@ App.update_curlist = (curls) => {
         item.classList.add(`curlist_item`)
         item.draggable = true
         item.dataset.curl = curl
-        item.title = `Click to peek`
 
+        let lines = [
+            `Click to peek`,
+            `Right Click to show a menu`,
+            `Double Click to edit`,
+            `Middle Click to remove`,
+        ]
+
+        item.title = lines.join(`\n`)
         let curl_ = DOM.create(`div`, `curlist_item_curl`)
         curl_.textContent = curl
         item.append(curl_)
