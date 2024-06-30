@@ -130,6 +130,7 @@ App.curl_to_bottom = (curl) => {
     App.update_curlist()
     App.sort_if_order()
     App.focus_curl(curl)
+    App.focus_curlist_item(curl)
 }
 
 App.save_curls = (curls, color = App.color_mode) => {
