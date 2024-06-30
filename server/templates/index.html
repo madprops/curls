@@ -1,23 +1,13 @@
-<!doctype html>
+{% extends "base.html" %}
 
-<head>
-    <title>Curls</title>
-    <link rel="icon" href="{{ url_for('static', filename='icon.jpg') }}">
+{% block title %}
+Curls
+{% endblock %}
 
-    <style>
-        #main {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            max-width: 777px;
-            font-size: {{ font_size }};
-        }
-    </style>
-</head>
-
+{% block body %}
 <form method="post" action="/change">
     <div id="main">
-        <h1>Curls</h1>
+        <div class="header">Curls</div>
 
         <div>A curl is a text status that only you can update.</div>
 
@@ -52,3 +42,4 @@
         The response is pure text.
     </div>
 </form>
+{% endblock %}

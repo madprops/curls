@@ -51,7 +51,7 @@ invalid = "Invalid request"
 @app.route("/", methods=["GET"])  # type: ignore
 @limiter.limit(rate_limit)  # type: ignore
 def index() -> Any:
-    return render_template("index.html", font_size=config.font_size)
+    return render_template("index.html")
 
 
 @app.route("/dashboard", methods=["GET"])  # type: ignore
@@ -66,13 +66,14 @@ def dashboard() -> Any:
 def claim() -> Any:
     if request.method == "POST":
         try:
-            return procs.claim_proc(request)
+            message = procs.claim_proc(request)
+            return render_template("message.html", message=message)
         except Exception as e:
             print(e)
             return invalid
 
     captcha = simple_captcha.create()
-    return render_template("claim.html", captcha=captcha, font_size=config.font_size)
+    return render_template("claim.html", captcha=captcha)
 
 
 @app.route("/change", methods=["POST", "GET"])  # type: ignore
@@ -85,7 +86,7 @@ def change() -> Any:
             print(e)
             return invalid
 
-    return render_template("change.html", font_size=config.font_size)
+    return render_template("change.html")
 
 
 @app.route("/<curl>", methods=["GET"])  # type: ignore

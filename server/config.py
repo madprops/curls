@@ -12,7 +12,6 @@ status_max_length = 500
 max_curls = 100
 captcha_key = "changeMe"
 captcha_cheat = ""
-font_size = "18px"
 captcha_key_file = Path("captcha_key.txt")
 captcha_cheat_file = Path("captcha_cheat.txt")
 manifest_file = Path("manifest.json")

@@ -29,15 +29,15 @@ def claim_proc(request: Any) -> str:
 
     if check_catpcha:
         if not app.simple_captcha.verify(c_text, c_hash):
-            return style("Error: Failed captcha")
+            return "Error: Failed captcha"
 
     curl = curl.strip().lower()
 
     if not check_curl(curl):
-        return style(invalid_curl)
+        return invalid_curl
 
     if curl_exists(curl):
-        return style("Error: Curl already exists")
+        return "Error: Curl already exists"
 
     key = make_key(curl)
     add_curl(curl, key)
@@ -50,7 +50,7 @@ def claim_proc(request: Any) -> str:
         "There is no way to recover a lost key",
     ]
 
-    return style("<br>".join(lines))
+    return "<br>".join(lines)
 
 
 def change_proc(request: Any) -> str:
@@ -232,6 +232,3 @@ def check_status(status: str) -> bool:
         return False
 
     return True
-
-def style(text: str) -> str:
-    return f"<div style='font-size: {config.font_size}'>{text}</div>"

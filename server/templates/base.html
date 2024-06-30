@@ -1,0 +1,56 @@
+<!doctype html>
+
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="icon" href="{{ url_for('static', filename='icon.jpg') }}">
+
+    <style>
+        body,
+        html {
+            color: white;
+            background-color: rgb(12, 12, 12);
+            font-family: sans-serif;
+            font-size: 18px;
+        }
+
+        #main {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 777px;
+        }
+
+        #captcha {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            padding: 0.25rem;
+            font-size: 1rem;
+        }
+
+        input[type="submit"] {
+            padding: 0.35rem;
+            font-size: 1rem;
+            background-color: #6f3eff;
+            color: white;
+        }
+
+        a:visited,
+        a:link,
+        a:hover {
+            color: white;
+        }
+
+        .header {
+            font-size: 1.6rem;
+        }
+    </style>
+</head>
+
+<body>
+    {% block body %}{% endblock %}
+</body>

@@ -1,60 +1,43 @@
-<!doctype html>
+{% extends "base.html" %}
 
-<head>
-    <title>Claim Curl</title>
-    <link rel="icon" href="{{ url_for('static', filename='icon.jpg') }}">
+{% block title %}
+Claim Curl
+{% endblock %}
 
-    <style>
-        #main {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            max-width: 777px;
-            font-size: {{ font_size }};
-        }
+{% block body %}
+<form method="post" action="/claim">
+    <div id="main">
+        <div class="header">Claim</div>
 
-        #captcha {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        input[type="text"] {
-            padding: 0.25rem;
-            font-size: 1.2rem;
-        }
-
-        input[type="submit"] {
-            padding: 0.5rem;
-            font-size: 1.2rem;
-            background-color: #ff0000;
-            color: white;
-        }
-    </style>
-</head>
-
-<body>
-    <form method="post" action="/claim">
-        <div id="main">
-            <div>
-                Curls are single lower-case words. Letters and/or numbers.
-            </div>
-
-            <div>
-                You will receive a key to be able to control the following curl:
-            </div>
-
-            <input type="text" placeholder="Write the curl you want here" name="curl">
-
-            <div>
-                Solve this slightly annoying captcha:
-            </div>
-
-            <div id="captcha">
-                {{ captcha_html(captcha)|safe }}
-            </div>
-
-            <input type="submit" value="Claim">
+        <div>
+            Curls are single lower-case words. Letters and/or numbers.
         </div>
-    </form>
-</body>
+
+        <div>
+            You will receive a key to be able to control the following curl:
+        </div>
+
+        <input type="text" id="curl" placeholder="Write the curl you want here" name="curl">
+
+        <div>
+            Solve this slightly annoying captcha:
+        </div>
+
+        <div id="captcha">
+            {{ captcha_html(captcha)|safe }}
+        </div>
+
+        <input type="submit" value="Claim">
+    </div>
+</form>
+
+<script>
+    window.onload = () => {
+        let captcha = document.querySelector("#captcha-text")
+        captcha.placeholder = "Enter the captcha here"
+
+        let curl = document.querySelector("#curl")
+        curl.focus()
+    }
+</script>
+{% endblock %}

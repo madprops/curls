@@ -1,49 +1,34 @@
-<!doctype html>
+{% extends "base.html" %}
 
-<head>
-    <title>Change Curl</title>
-    <link rel="icon" href="{{ url_for('static', filename='icon.jpg') }}">
+{% block title %}
+Change Curl
+{% endblock %}
 
-    <style>
-        #main {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            max-width: 777px;
-            font-size: {{ font_size }};
-        }
+{% block body %}
+<form method="post" action="/change">
+    <div id="main">
+        <div class="header">Change</div>
+        <input type="text" id="curl" placeholder="Curl" name="curl" autocomplete="on">
+        <input type="password" placeholder="Key" name="key" autocomplete="on">
+        <input type="text" placeholder="Status" name="status" autocomplete="on">
+        <input type="submit" value="Change">
 
-        input[type="text"], input[type="password"] {
-            padding: 0.25rem;
-            font-size: 1.2rem;
-        }
+        <br><br>
 
-        input[type="submit"] {
-            padding: 0.5rem;
-            font-size: 1.2rem;
-            background-color: #ff0000;
-            color: white;
-        }
-    </style>
-</head>
+        You can also do this using the terminal:
 
-<body>
-    <form method="post" action="/change">
-        <div id="main">
-            <input type="text" placeholder="Curl" name="curl" autocomplete="on">
-            <input type="password" placeholder="Key" name="key" autocomplete="on">
-            <input type="text" placeholder="Status" name="status" autocomplete="on">
-            <input type="submit" value="Change">
+        <br><br>
 
-            <br><br>
-
-            You can also do this using the terminal:
-
-            <br><br>
-
-            <div>
-                curl -X POST -d "curl=mycurl&key=mykey&status=mystatus" https://this.website/change
-            </div>
+        <div>
+            curl -X POST -d "curl=mycurl&key=mykey&status=mystatus" https://this.website/change
         </div>
-    </form>
-</body>
+    </div>
+</form>
+
+<script>
+    window.onload = () => {
+        let curl = document.querySelector("#curl")
+        curl.focus()
+    }
+</script>
+{% endblock %}
