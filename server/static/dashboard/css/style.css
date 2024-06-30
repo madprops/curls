@@ -104,7 +104,6 @@ html
     height: 100%;
     overflow-x: hidden;
     overflow-y: auto;
-    margin-top: 0.5rem;
 }
 
 #container {
@@ -186,17 +185,20 @@ html
 
 /*  */
 
-#controls,
-#change
+#controls {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.5rem;
+    gap: 0.8rem;
+}
+
+#controls_top,
+#controls_bottom
 {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 0.88rem;
-}
-
-#change {
-    padding-top: 0.35rem;
 }
 
 a:visited,

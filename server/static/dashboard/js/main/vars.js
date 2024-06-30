@@ -40,6 +40,7 @@ App.default_updater = `minutes_5`
 App.default_font = `sans-serif`
 App.peek_curl = ``
 App.wrap_enabled = true
+App.controls_enabled = true
 App.default_border = `solid`
 App.colors_alpha = {}
 App.colors_alpha_2 = {}

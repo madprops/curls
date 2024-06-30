@@ -16,6 +16,7 @@ App.setup = () => {
     App.start_keyboard()
     App.setup_font()
     App.setup_border()
+    App.setup_controls()
     App.setup_resize()
     App.setup_windows()
     App.update()

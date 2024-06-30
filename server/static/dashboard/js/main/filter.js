@@ -110,11 +110,11 @@ App.do_filter = () => {
     }
 
     function hide (el) {
-        el.classList.add(`hidden`)
+        DOM.hide(el)
     }
 
     function show (el) {
-        el.classList.remove(`hidden`)
+        DOM.show(el)
     }
 
     for (let el of els) {

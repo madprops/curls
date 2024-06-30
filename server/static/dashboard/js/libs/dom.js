@@ -123,3 +123,21 @@ DOM.next_all = function* (e, selector) {
 DOM.index = (el) => {
   return Array.from(el.parentNode.children).indexOf(el)
 }
+
+// Show an element
+DOM.show = (item) => {
+  if (typeof item === `string`) {
+    item = DOM.el(item)
+  }
+
+  item.classList.remove(`hidden`)
+}
+
+// Hide an element
+DOM.hide = (item) => {
+  if (typeof item === `string`) {
+    item = DOM.el(item)
+  }
+
+  item.classList.add(`hidden`)
+}

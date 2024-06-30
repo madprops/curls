@@ -292,14 +292,12 @@ App.show_curlist_menu = (e) => {
 }
 
 App.show_curlist = () => {
-    let left_side = DOM.el(`#left_side`)
-    left_side.classList.remove(`hidden`)
+    DOM.show(`#left_side`)
     App.curlist_enabled = true
 }
 
 App.hide_curlist = () => {
-    let left_side = DOM.el(`#left_side`)
-    left_side.classList.add(`hidden`)
+    DOM.hide(`#left_side`)
     App.curlist_enabled = false
 }
 
@@ -751,11 +749,11 @@ App.do_filter_curlist = () => {
     let value = App.get_curlist_filter_value()
 
     function hide(el) {
-        el.classList.add(`hidden`)
+        DOM.hide(el)
     }
 
     function show(el) {
-        el.classList.remove(`hidden`)
+        DOM.show(el)
     }
 
     for (let el of els) {
@@ -783,7 +781,7 @@ App.clear_curlist_filter = () => {
     }
 
     for (let el of els) {
-        el.classList.remove(`hidden`)
+        DOM.show(el)
     }
 
     App.unselect_curlist()
