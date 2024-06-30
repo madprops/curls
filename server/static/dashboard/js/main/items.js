@@ -39,6 +39,7 @@ App.add_items = (items) => {
 
     let missing = App.get_missing()
     App.items.push(...missing)
+    App.add_dates_to_items()
     App.refresh_items()
 }
 
@@ -47,6 +48,7 @@ App.insert_items = (items) => {
     App.items.map(x => x.missing = false)
     let missing = App.get_missing()
     App.items.push(...missing)
+    App.add_dates_to_items()
     App.refresh_items()
 }
 

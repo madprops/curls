@@ -166,7 +166,7 @@ html
     padding-right: 0.8rem;
     padding-left: 0.8rem;
     word-break: break-all;
-    white-space: wrap;
+    white-space: pre-wrap;
 }
 
 .item_status.nowrap {
