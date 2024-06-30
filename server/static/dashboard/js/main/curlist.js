@@ -64,9 +64,10 @@ App.setup_curlist = () => {
 
     DOM.ev(container, `dblclick`, (e) => {
         let item = App.extract_curlist_item(e.target)
+        let curl = App.extract_curlist_curl(item)
 
         if (item) {
-            App.edit_curl(App.extract_curlist_curl(item))
+            App.edit_curl(curl)
         }
         else {
             App.add_curl(`bottom`)
@@ -625,7 +626,8 @@ App.select_curlist_vertical = (direction, shift) => {
         }
 
         App.do_select_curlist_item(item)
-        App.show_peek(App.extract_curlist_curl(item))
+        let curl = App.extract_curlist_curl(item)
+        App.show_peek(curl)
         return
     }
 
@@ -640,7 +642,8 @@ App.select_curlist_vertical = (direction, shift) => {
         }
 
         App.select_curlist_item(item)
-        App.show_peek(App.extract_curlist_curl(item))
+        let curl = App.extract_curlist_curl(item)
+        App.show_peek(curl)
         return
     }
 
@@ -689,7 +692,8 @@ App.select_curlist_vertical = (direction, shift) => {
 
     if (!shift) {
         App.unselect_curlist()
-        App.show_peek(App.extract_curlist_curl(item))
+        let curl = App.extract_curlist_curl(item)
+        App.show_peek(curl)
     }
 
     let block = on_edge ? `center` : `nearest`
@@ -761,7 +765,12 @@ App.extract_curlist_item = (item) => {
 }
 
 App.extract_curlist_curl = (item) => {
-    return item.dataset.curl
+    if (item) {
+        return item.dataset.curl
+    }
+    else {
+        return ``
+    }
 }
 
 App.focus_curlist_item = (curl) => {
