@@ -31,12 +31,12 @@ App.change_sort = (value) => {
 
     App.sort_mode = value
     localStorage.setItem(`sort`, value)
-    App.refresh_items()
+    App.update_items()
 }
 
 App.sort_if_order = () => {
     if (App.sort_mode == `order`) {
-        App.refresh_items()
+        App.update_items()
     }
 }
 

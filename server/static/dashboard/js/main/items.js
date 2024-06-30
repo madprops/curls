@@ -8,7 +8,7 @@ App.setup_items = () => {
         App.wrap_enabled = !App.wrap_enabled
         wrap_checkbox.checked = App.wrap_enabled
         App.save_wrap_enabled()
-        App.refresh_items()
+        App.update_items()
     })
 }
 
@@ -40,7 +40,7 @@ App.add_items = (items) => {
     let missing = App.get_missing()
     App.items.push(...missing)
     App.add_dates_to_items()
-    App.refresh_items()
+    App.update_items()
 }
 
 App.insert_items = (items) => {
@@ -49,10 +49,10 @@ App.insert_items = (items) => {
     let missing = App.get_missing()
     App.items.push(...missing)
     App.add_dates_to_items()
-    App.refresh_items()
+    App.update_items()
 }
 
-App.refresh_items = (items = App.items, check_filter = true) => {
+App.update_items = (items = App.items, check_filter = true) => {
     App.clear_container()
     App.sort_items(items)
 
@@ -154,7 +154,7 @@ App.change_date_mode = () => {
     date_mode = date_mode === `12` ? `24` : `12`
     localStorage.setItem(`date_mode`, date_mode)
     App.add_dates_to_items()
-    App.refresh_items()
+    App.update_items()
 }
 
 App.get_owned_items = () => {

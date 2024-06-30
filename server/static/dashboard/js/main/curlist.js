@@ -167,6 +167,7 @@ App.update_curlist = (curls) => {
     App.update_curlist_top()
     App.blank_curlist_filter()
     DOM.el(`#curlist_container`).scrollTop = 0
+    App.update_autocomplete()
 }
 
 App.update_curlist_top = () => {

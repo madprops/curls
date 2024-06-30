@@ -19,6 +19,7 @@ App.setup = () => {
     App.setup_controls()
     App.setup_resize()
     App.setup_windows()
+    App.update_autocomplete()
     App.update()
 }
 
@@ -93,4 +94,15 @@ App.setup_resize = () => {
 
 App.show_app_info = () => {
     App.alert(App.app_info, `Curls ${App.version}`)
+}
+
+App.update_autocomplete = () => {
+    let data_list = DOM.el(`#curls_datalist`)
+    data_list.innerHTML = ``
+
+    for (let word of App.get_curls()) {
+        var option = document.createElement(`option`)
+        option.value = word
+        data_list.append(option)
+    }
 }
