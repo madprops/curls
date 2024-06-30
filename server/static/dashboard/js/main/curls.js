@@ -111,26 +111,38 @@ App.add_owned_curl = (curl) => {
     }
 }
 
-App.curl_to_top = (curl) => {
-    let curls = App.get_curls()
-    curls = curls.filter(x => x !== curl)
-    curls.unshift(curl)
-    App.save_curls(curls)
-    App.update_curlist()
-    App.sort_if_order()
-    App.focus_curl(curl)
-    App.focus_curlist_item(curl)
+App.curls_to_top = (curls) => {
+    let cleaned = curls
+
+    for (let curl of App.get_curls()) {
+        if (!cleaned.includes(curl)) {
+            cleaned.push(curl)
+        }
+    }
+
+    App.after_curls_move(cleaned, curls[0])
 }
 
-App.curl_to_bottom = (curl) => {
-    let curls = App.get_curls()
-    curls = curls.filter(x => x !== curl)
-    curls.push(curl)
+App.curls_to_bottom = (curls) => {
+    let cleaned = []
+
+    for (let curl of App.get_curls()) {
+        if (!curls.includes(curl)) {
+            cleaned.push(curl)
+        }
+    }
+
+    cleaned.push(...curls)
+    App.after_curls_move(cleaned, curls.slice(-1)[0])
+}
+
+App.after_curls_move = (curls, leader) => {
+    console.log(leader)
     App.save_curls(curls)
     App.update_curlist()
     App.sort_if_order()
-    App.focus_curl(curl)
-    App.focus_curlist_item(curl)
+    App.focus_curl(leader)
+    App.focus_curlist_item(leader)
 }
 
 App.save_curls = (curls, color = App.color_mode) => {

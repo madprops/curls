@@ -491,11 +491,28 @@ App.show_curlist_item_menu = (args = {}) => {
     let items = []
 
     if (selected.length > 1) {
+        let curls = App.get_selected_curls()
+
         items = [
             {
                 text: `Remove`,
                 action: () => {
                     App.remove_selected_curls()
+                }
+            },
+            {
+                separator: true,
+            },
+            {
+                text: `To Top`,
+                action: () => {
+                    App.curls_to_top(curls)
+                }
+            },
+            {
+                text: `To Bottom`,
+                action: () => {
+                    App.curls_to_bottom(curls)
                 }
             },
         ]
@@ -526,13 +543,13 @@ App.show_curlist_item_menu = (args = {}) => {
             {
                 text: `To Top`,
                 action: () => {
-                    App.curl_to_top(args.curl)
+                    App.curls_to_top([args.curl])
                 }
             },
             {
                 text: `To Bottom`,
                 action: () => {
-                    App.curl_to_bottom(args.curl)
+                    App.curls_to_bottom([args.curl])
                 }
             },
         ]
