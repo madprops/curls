@@ -112,7 +112,7 @@ App.add_owned_curl = (curl) => {
 }
 
 App.curls_to_top = (curls) => {
-    let cleaned = curls
+    let cleaned = [...curls]
 
     for (let curl of App.get_curls()) {
         if (!cleaned.includes(curl)) {
@@ -120,7 +120,7 @@ App.curls_to_top = (curls) => {
         }
     }
 
-    App.after_curls_move(cleaned, curls[0])
+    App.after_curls_move(cleaned, curls, curls[0])
 }
 
 App.curls_to_bottom = (curls) => {
@@ -133,14 +133,23 @@ App.curls_to_bottom = (curls) => {
     }
 
     cleaned.push(...curls)
-    App.after_curls_move(cleaned, curls.slice(-1)[0])
+    App.after_curls_move(cleaned, curls, curls.slice(-1)[0])
 }
 
-App.after_curls_move = (curls, leader) => {
-    App.save_curls(curls)
+App.after_curls_move = (new_curls, curls, leader) => {
+    App.save_curls(new_curls)
     App.update_curlist()
     App.sort_if_order()
-    App.focus_curl(leader)
+    App.unselect_curlist()
+
+    for (let curl of curls) {
+        let el = App.get_curlist_item(curl)
+
+        if (el) {
+            App.do_select_curlist_item(el, `none`)
+        }
+    }
+
     App.focus_curlist_item(leader)
 }
 

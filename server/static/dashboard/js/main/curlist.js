@@ -574,7 +574,10 @@ App.select_curlist_item = (target) => {
 
 App.do_select_curlist_item = (target, block = `nearest`) => {
     target.classList.add(`selected`)
-    target.scrollIntoView({ block: block })
+
+    if (block !== `none`) {
+        target.scrollIntoView({ block: block })
+    }
 }
 
 App.do_unselect_curlist_item = (target) => {
@@ -630,6 +633,11 @@ App.unselect_curlist = () => {
 
 App.get_curlist_elements = () => {
     return DOM.els(`#curlist .curlist_item`)
+}
+
+App.get_curlist_item = (curl) => {
+    let items = App.get_curlist_elements()
+    return items.find(x => x.dataset.curl === curl)
 }
 
 App.select_curlist_vertical = (direction, shift) => {
@@ -796,7 +804,7 @@ App.extract_curlist_curl = (item) => {
 
 App.focus_curlist_item = (curl) => {
     let items = App.get_curlist_elements()
-    let item = items.find(x => x.dataset.curl === curl)
+    let item = App.get_curlist_item(curl)
 
     if (item) {
         App.do_select_curlist_item(item)
