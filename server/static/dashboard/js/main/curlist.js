@@ -158,6 +158,7 @@ App.update_curlist = (curls) => {
         item.classList.add(`curlist_item`)
         item.draggable = true
         item.dataset.curl = curl
+        item.title = `Click to peek`
 
         let curl_ = DOM.create(`div`, `curlist_item_curl`)
         curl_.textContent = curl
