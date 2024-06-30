@@ -485,6 +485,7 @@ App.show_curlist_item_menu = (args = {}) => {
 
         if (!selected.length || !selected.includes(item)) {
             App.select_curlist_item(item)
+            selected = []
         }
     }
 
