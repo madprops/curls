@@ -32,7 +32,7 @@ App.setup_curlist = () => {
 
     DOM.ev(container, `click`, (e) => {
         let item = App.extract_curlist_item(e.target)
-        let curl = App.extract_curlist_curl(e.target)
+        let curl = App.extract_curlist_curl(item)
 
         if (item) {
             if (e.shiftKey) {
@@ -50,7 +50,7 @@ App.setup_curlist = () => {
 
     DOM.ev(container, `contextmenu`, (e) => {
         let item = App.extract_curlist_item(e.target)
-        let curl = App.extract_curlist_curl(e.target)
+        let curl = App.extract_curlist_curl(item)
 
         if (item) {
             App.show_curlist_item_menu({curl: curl, e: e})
@@ -75,13 +75,13 @@ App.setup_curlist = () => {
 
     DOM.ev(container, `auxclick`, (e) => {
         let item = App.extract_curlist_item(e.target)
-        let curl = App.extract_curlist_curl(e.target)
+        let curl = App.extract_curlist_curl(item)
 
         if (e.button === 1) {
             if (item) {
                 App.select_curlist_item(item)
                 App.show_peek(curl)
-                App.remove_curl(App.extract_curlist_curl(item))
+                App.remove_curl(curl)
             }
         }
     })
@@ -410,7 +410,7 @@ App.curlist_drag_events = () => {
 
     DOM.ev(container, `dragstart`, (e) => {
         let item = App.extract_curlist_item(e.target)
-        let curl = App.extract_curlist_curl(e.target)
+        let curl = App.extract_curlist_curl(item)
         App.drag_y_curlist = e.clientY
 
         e.dataTransfer.setData(`text`, curl)
