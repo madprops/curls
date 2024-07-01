@@ -1,5 +1,7 @@
 :root {
     --background: rgb(12, 12, 12);
+    --vertical_padding: 0.74rem;
+    --horizontal_padding: 0.66rem;
 }
 
 body,
@@ -21,10 +23,10 @@ html
     gap: 0.8rem;
     width: 100vw;
     height: 100vh;
-    padding-left: 0.66rem;
-    padding-right: 0.66rem;
-    padding-top: 0.74rem;
-    padding-bottom: 0.74rem;
+    padding-left: var(--horizontal_padding);
+    padding-right: var(--horizontal_padding);
+    padding-top: var(--vertical_padding);
+    padding-bottom: var(--vertical_padding);
     box-sizing: border-box;
 }
 
@@ -327,8 +329,8 @@ input[type="password"]
     color: white;
     max-width: 720px;
     min-width: 450px;
-    right: 20px;
-    top: 20px;
+    right: var(--horizontal_padding);
+    top: var(--vertical_padding);
     align-items: center;
     justify-content: center;
 }
