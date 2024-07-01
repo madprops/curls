@@ -25,14 +25,13 @@ App.change_border = (value) => {
 }
 
 App.apply_border = () => {
-    let bigger = [`groove`, `inset`, `outset`]
     let border
 
     if (App.border_mode === `none`) {
         border = `none`
     }
-    else if (bigger.includes(App.border_mode)) {
-        border = `3px ${App.border_mode} var(--color)`
+    else if (App.border_mode === `bigger`) {
+        border = `2px solid var(--color)`
     }
     else {
         border = `1px ${App.border_mode} var(--color)`

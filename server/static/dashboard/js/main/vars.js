@@ -137,9 +137,7 @@ App.border_modes = [
     {value: `solid`, name: `Solid`},
     {value: `dotted`, name: `Dotted`},
     {value: `dashed`, name: `Dashed`},
-    {value: `groove`, name: `Groove`},
-    {value: `inset`, name: `Inset`},
-    {value: `outset`, name: `Outset`},
+    {value: `bigger`, name: `Bigger`},
     {value: App.separator},
     {value: `none`, name: `None`},
 ]
