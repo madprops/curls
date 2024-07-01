@@ -117,7 +117,6 @@ html
 
 #container {
     display: table;
-    cursor: default;
     border-collapse: collapse;
     table-layout: fixed;
     width: 100%;
@@ -127,6 +126,10 @@ html
 .item {
     display: table-row;
     border: var(--border);
+}
+
+.item:hover {
+    background-color: var(--color_alpha);
 }
 
 .item_icon,
