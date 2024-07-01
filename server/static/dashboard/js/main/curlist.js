@@ -43,7 +43,7 @@ App.setup_curlist = () => {
         let curl = App.extract_curlist_curl(item)
 
         if (item) {
-            App.show_curlist_item_menu({curl: curl, e: e})
+            App.show_item_menu({curl: curl, e: e})
         }
         else {
             App.show_curlist_menu(e)
@@ -475,98 +475,6 @@ App.get_curlist_curls = () => {
     }
 
     return curls
-}
-
-App.show_curlist_item_menu = (args = {}) => {
-    let def_args = {
-        from: `curlist`,
-    }
-
-    App.def_args(def_args, args)
-    let selected = []
-
-    if (args.from === `curlist`) {
-        selected = App.get_selected_items()
-        let item = App.extract_curlist_item(args.e.target)
-
-        if (!selected.length || !selected.includes(item)) {
-            App.select_curlist_item(item)
-            selected = []
-        }
-    }
-
-    let items = []
-
-    if (selected.length > 1) {
-        let curls = App.get_selected_curls()
-
-        items = [
-            {
-                text: `Remove`,
-                action: () => {
-                    App.remove_selected_curls()
-                }
-            },
-            {
-                separator: true,
-            },
-            {
-                text: `To Top`,
-                action: () => {
-                    App.curls_to_top(curls)
-                }
-            },
-            {
-                text: `To Bottom`,
-                action: () => {
-                    App.curls_to_bottom(curls)
-                }
-            },
-        ]
-    }
-    else {
-        items = [
-            {
-                text: `Edit`,
-                action: () => {
-                    App.edit_curl(args.curl)
-                }
-            },
-            {
-                text: `Copy`,
-                action: () => {
-                    App.copy_item(args.curl)
-                }
-            },
-            {
-                text: `Remove`,
-                action: () => {
-                    App.remove_curl(args.curl)
-                }
-            },
-            {
-                separator: true,
-            },
-            {
-                text: `To Top`,
-                action: () => {
-                    App.curls_to_top([args.curl])
-                }
-            },
-            {
-                text: `To Bottom`,
-                action: () => {
-                    App.curls_to_bottom([args.curl])
-                }
-            },
-        ]
-    }
-
-    NeedContext.show({
-        items: items, e: args.e, after_hide: () => {
-            App.focus_curlist()
-        }
-    })
 }
 
 App.select_curlist_item = (target) => {
