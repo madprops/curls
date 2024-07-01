@@ -38,8 +38,6 @@ App.apply_border = () => {
         border = `1px ${App.border_mode} var(--color)`
     }
 
-    console.log(border)
-
     document.documentElement.style.setProperty(`--border`, border)
 }
 
