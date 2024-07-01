@@ -15,6 +15,7 @@ import app
 invalid_curl = "Error: Invalid curl"
 invalid_key = "Error: Invalid key"
 invalid_status = "Error: Invalid status"
+mtype = "text/plain"
 
 
 def claim_proc(request: Any) -> str:
@@ -86,12 +87,12 @@ def curls_proc(request: Any) -> Any:
 
     if len(curls) > config.max_curls:
         text = too_many_curls()
-        return Response(text, mimetype="text/plain")
+        return Response(text, mimetype=mtype)
 
     for curl in curls:
         if not check_curl(curl):
             text = invalid_curl
-            return Response(text, mimetype="text/plain")
+            return Response(text, mimetype=mtype)
 
     results = get_curl_list(curls)
     return jsonify(results)
