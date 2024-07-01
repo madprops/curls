@@ -25,7 +25,7 @@ App.change_border = (value) => {
 }
 
 App.apply_border = () => {
-    let bigger = [`groove`, `inset`]
+    let bigger = [`groove`, `inset`, `outset`]
     let border
 
     if (App.border_mode === `none`) {
