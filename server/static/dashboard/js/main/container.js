@@ -19,7 +19,7 @@ App.setup_container = () => {
         if (e.button == 1) {
             if (e.target.closest(`.item_icon`)) {
                 let curl = e.target.closest(`.item`).dataset.curl
-                App.remove_curl(curl)
+                App.remove_curls([curl])
                 return
             }
         }

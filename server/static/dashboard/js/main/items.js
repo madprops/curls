@@ -269,7 +269,8 @@ App.show_item_menu = (args = {}) => {
             {
                 text: `Remove`,
                 action: () => {
-                    App.remove_selected_curls()
+                    let curls = App.get_selected_curls()
+                    App.remove_curls(curls)
                 }
             },
             {
@@ -306,7 +307,7 @@ App.show_item_menu = (args = {}) => {
             {
                 text: `Remove`,
                 action: () => {
-                    App.remove_curl(args.curl)
+                    App.remove_curls([args.curl])
                 }
             },
             {

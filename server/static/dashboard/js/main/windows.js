@@ -1,10 +1,3 @@
-App.alert = (message, title = `Information`) => {
-    App.alert_window.set_title(title)
-    let text = DOM.el(`#alert_text`)
-    text.textContent = message
-    App.alert_window.show()
-}
-
 App.create_window = (color) => {
     let common = {
         enable_titlebar: true,
@@ -72,17 +65,38 @@ App.setup_windows = () => {
     })
 }
 
+App.alert = (message, title = `Information`) => {
+    App.alert_window.set_title(title)
+    let text = DOM.el(`#alert_text`)
+    text.textContent = message
+    App.alert_window.show()
+}
+
 App.alert_copy = () => {
     let text = DOM.el(`#alert_text`)
     App.copy_to_clipboard(text.textContent)
     App.alert_window.close()
 }
 
-App.confirm = (title, ok) => {
-    App.confirm_ok = ok
-    App.confirm_window.set_title(title)
+App.confirm = (args = {}) => {
+    let def_args = {
+        message: ``,
+    }
+
+    App.def_args(def_args, args)
+    App.confirm_ok = args.ok
+    App.confirm_window.set_title(args.title)
     App.confirm_window.show()
     DOM.el(`#confirm_ok`).focus()
+    let msg = DOM.el(`#confirm_message`)
+
+    if (args.message) {
+        msg.textContent = args.message
+        DOM.show(msg)
+    }
+    else {
+        DOM.hide(msg)
+    }
 }
 
 App.prompt_submit = () => {

@@ -95,13 +95,6 @@ App.remove_old = () => {
     App.save_cleaned(cleaned, removed)
 }
 
-App.remove_curl = (curl) => {
-    App.confirm(`Remove ${curl}`, () => {
-        App.do_remove_curl(curl)
-        App.hide_peek()
-    })
-}
-
 App.do_remove_curl = (curl, remove_item = true) => {
     let curls = App.get_curls()
     let cleaned = []
@@ -146,13 +139,14 @@ App.remove_items = (removed) => {
 
 App.save_cleaned = (cleaned, removed) => {
     let s = App.plural(removed.length, `curl`, `curls`)
+    let curls = removed.join(`, `)
 
-    App.confirm(`Remove ${removed.length} ${s}`, () => {
+    App.confirm({title: `Remove ${removed.length} ${s}`, ok: () => {
         App.save_curls(cleaned)
         App.update_curlist()
         App.remove_items(removed)
         App.hide_peek()
-    })
+    }, message: curls})
 }
 
 App.show_remove_menu = (e) => {
@@ -193,21 +187,20 @@ App.show_remove_menu = (e) => {
 }
 
 App.remove_all_curls = () => {
-    App.confirm(`Remove all curls`, () => {
+    App.confirm({title: `Remove all curls`, ok: () => {
         App.clear_curls()
         App.update_curlist()
         App.empty_container()
         App.hide_peek()
-    })
+    }, message: `This will remove all curls in the current color`})
 }
 
-App.remove_selected_curls = () => {
-    let selected = App.get_selected_curls()
+App.remove_curls = (curls) => {
     let cleaned = []
     let removed = []
 
     for (let curl of App.get_curls()) {
-        if (!selected.includes(curl)) {
+        if (!curls.includes(curl)) {
             cleaned.push(curl)
         }
         else {

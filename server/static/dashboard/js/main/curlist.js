@@ -67,19 +67,27 @@ App.setup_curlist = () => {
     DOM.ev(container, `auxclick`, (e) => {
         let item = App.extract_curlist_item(e.target)
         let curl = App.extract_curlist_curl(item)
+        let selected = App.get_selected_items()
 
         if (e.button === 1) {
             if (item) {
-                App.select_curlist_item(item)
-                App.show_peek(curl)
-                App.remove_curl(curl)
+                if (selected.length && selected.includes(item)) {
+                    let curls = App.get_selected_curls()
+                    App.remove_curls(curls)
+                }
+                else {
+                    App.select_curlist_item(item)
+                    App.remove_curls([curl])
+                    App.show_peek(curl)
+                }
             }
         }
     })
 
     DOM.ev(container, `keydown`, (e) => {
         if (e.key === `Delete`) {
-            App.remove_selected_curls()
+            let curls = App.get_selected_curls()
+            App.remove_curls(curls)
             e.preventDefault()
         }
         else if (e.key === `ArrowUp`) {
@@ -324,9 +332,9 @@ App.toggle_curlist = () => {
 App.sort_curlist = (how) => {
     let w = how === `asc` ? `Asc` : `Desc`
 
-    App.confirm(`Sort the curls (${w})`, () => {
+    App.confirm({title: `Sort the curls (${w})`, ok: () => {
         App.do_sort_curlist(how)
-    })
+    }})
 }
 
 App.do_sort_curlist = (how) => {
@@ -407,14 +415,14 @@ App.import_curlist_submit = (data) => {
 }
 
 App.clear_curlists = () => {
-    App.confirm(`Clear all curls in all colors`, () => {
+    App.confirm({title: `Clear all curls in all colors`, ok: () => {
         for (let color in App.colors) {
             App.clear_curls(color)
         }
 
         App.update_curlist()
         App.empty_container()
-    })
+    }})
 }
 
 App.curlist_drag_events = () => {

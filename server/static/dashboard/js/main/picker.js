@@ -124,15 +124,15 @@ App.import_pickers_submit = (data) => {
 }
 
 App.clear_pickers = () => {
-    App.confirm(`Clear all pickers`, () => {
+    App.confirm({title: `Clear all pickers`, ok: () => {
         localStorage.setItem(`picker`, `[]`)
-    })
+    }})
 }
 
 App.remove_picker = (curl) => {
-    App.confirm(`Remove ${curl} from the picker`, () => {
+    App.confirm({title: `Remove ${curl} from the picker`, ok: () => {
         App.do_remove_picker(curl)
-    })
+    }})
 }
 
 App.do_remove_picker = (curl) => {

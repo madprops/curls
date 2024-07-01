@@ -465,7 +465,7 @@ input[type="password"]
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 1.2rem;
+    gap: 1rem;
 }
 
 #alert_text {
@@ -483,8 +483,8 @@ input[type="password"]
 
 #confirm_items {
     display: flex;
-    flex-direction: row;
-    gap: 0.6rem;
+    flex-direction: column;
+    gap: 1rem;
     align-items: center;
     justify-content: center;
 }
@@ -495,6 +495,10 @@ input[type="password"]
     padding-left: 0.8rem !important;
     padding-right: 0.8rem !important;
     font-family: var(--font) !important;
+}
+
+.Msg-content {
+    padding: 0.8rem !important;
 }
 
 input[type="checkbox"] {
