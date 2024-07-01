@@ -30,6 +30,7 @@ App.setup_curlist = () => {
             }
             else if (e.ctrlKey) {
                 App.select_curlist_toggle(item)
+                App.show_peek(curl)
             }
             else {
                 App.select_curlist_item(item)
