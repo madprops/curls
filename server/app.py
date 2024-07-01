@@ -46,6 +46,7 @@ bundle.bundle_dashboard()
 
 
 invalid = "Invalid request"
+mtype = "text/plain"
 
 
 @app.route("/", methods=["GET"])  # type: ignore
@@ -70,7 +71,7 @@ def claim() -> Any:
             return render_template("message.html", message=message)
         except Exception as e:
             print(e)
-            return invalid
+            return Response(invalid, mimetype=mtype)
 
     captcha = simple_captcha.create()
     return render_template("claim.html", captcha=captcha)
@@ -81,10 +82,11 @@ def claim() -> Any:
 def change() -> Any:
     if request.method == "POST":
         try:
-            return procs.change_proc(request)
+            text = procs.change_proc(request)
+            return Response(text, mimetype=mtype)
         except Exception as e:
             print(e)
-            return invalid
+            return Response(invalid, mimetype=mtype)
 
     return render_template("change.html")
 
@@ -94,9 +96,9 @@ def change() -> Any:
 def get_curl(curl) -> Any:
     try:
         text = procs.curl_proc(curl)
-        return Response(text, mimetype="text/plain")
+        return Response(text, mimetype=mtype)
     except Exception:
-        return invalid
+        return Response(invalid, mimetype=mtype)
 
 
 @app.route("/curls", methods=["POST"])  # type: ignore
@@ -105,4 +107,4 @@ def get_curls() -> Any:
     try:
         return procs.curls_proc(request)
     except Exception:
-        return invalid
+        return Response(invalid, mimetype=mtype)

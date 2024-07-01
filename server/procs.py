@@ -3,7 +3,7 @@ from __future__ import annotations
 # Standard
 import random
 import string
-from flask import jsonify  # type: ignore
+from flask import jsonify, Response  # type: ignore
 from typing import Any
 
 # Modules
@@ -45,9 +45,9 @@ def claim_proc(request: Any) -> str:
     lines = [
         f"Your curl is: <b>{curl}</b>",
         f"Your key is: <b>{key}</b>",
-        "The key is secret and shouldn't be shared",
-        "Save the key somewhere so it doesn't get lost",
-        "There is no way to recover a lost key",
+        "The key is secret and shouldn't be shared.",
+        "Save the key somewhere so it doesn't get lost.",
+        "There is no way to recover a lost key.",
     ]
 
     return "<br>".join(lines)
@@ -85,11 +85,13 @@ def curls_proc(request: Any) -> Any:
     curls = request.form.getlist("curl")
 
     if len(curls) > config.max_curls:
-        return too_many_curls()
+        text = too_many_curls()
+        return Response(text, mimetype="text/plain")
 
     for curl in curls:
         if not check_curl(curl):
-            return invalid_curl
+            text = invalid_curl
+            return Response(text, mimetype="text/plain")
 
     results = get_curl_list(curls)
     return jsonify(results)
