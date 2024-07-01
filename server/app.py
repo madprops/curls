@@ -81,8 +81,8 @@ def claim() -> Any:
 def change() -> Any:
     if request.method == "POST":
         try:
-            text = procs.change_proc(request)
-            return Response(text, mimetype=config.text_mtype)
+            ans = procs.change_proc(request)
+            return Response(ans, mimetype=config.text_mtype)
         except Exception as e:
             print(e)
             return Response(invalid, mimetype=config.text_mtype)
@@ -94,8 +94,8 @@ def change() -> Any:
 @limiter.limit(rate_limit)  # type: ignore
 def get_curl(curl) -> Any:
     try:
-        text = procs.curl_proc(curl)
-        return Response(text, mimetype=config.text_mtype)
+        ans = procs.curl_proc(curl)
+        return Response(ans, mimetype=config.text_mtype)
     except Exception:
         return Response(invalid, mimetype=config.text_mtype)
 

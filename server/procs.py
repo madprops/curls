@@ -85,13 +85,13 @@ def curls_proc(request: Any) -> Any:
     curls = request.form.getlist("curl")
 
     if len(curls) > config.max_curls:
-        text = too_many_curls()
-        return Response(text, mimetype=config.text_mtype)
+        ans = too_many_curls()
+        return Response(ans, mimetype=config.text_mtype)
 
     for curl in curls:
         if not check_curl(curl):
-            text = invalid_curl
-            return Response(text, mimetype=config.text_mtype)
+            ans = invalid_curl
+            return Response(ans, mimetype=config.text_mtype)
 
     results = get_curl_list(curls)
     return jsonify(results)
