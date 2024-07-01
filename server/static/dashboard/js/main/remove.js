@@ -186,6 +186,11 @@ App.show_remove_menu = (e) => {
     NeedContext.show({items: items, e: e})
 }
 
+App.remove_selected_curls = () => {
+    let curls = App.get_selected_curls()
+    App.remove_curls(curls)
+}
+
 App.remove_all_curls = () => {
     App.confirm({title: `Remove all curls`, ok: () => {
         App.clear_curls()

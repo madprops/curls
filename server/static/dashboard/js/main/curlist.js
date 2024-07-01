@@ -72,8 +72,7 @@ App.setup_curlist = () => {
         if (e.button === 1) {
             if (item) {
                 if (selected.length && selected.includes(item)) {
-                    let curls = App.get_selected_curls()
-                    App.remove_curls(curls)
+                    App.remove_selected_curls()
                 }
                 else {
                     App.select_curlist_item(item)
@@ -86,8 +85,7 @@ App.setup_curlist = () => {
 
     DOM.ev(container, `keydown`, (e) => {
         if (e.key === `Delete`) {
-            let curls = App.get_selected_curls()
-            App.remove_curls(curls)
+            App.remove_selected_curls()
             e.preventDefault()
         }
         else if (e.key === `ArrowUp`) {
