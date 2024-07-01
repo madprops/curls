@@ -2,6 +2,9 @@
     --background: rgb(12, 12, 12);
     --vertical_padding: 0.74rem;
     --horizontal_padding: 0.66rem;
+    --alt_border_color: rgb(181, 181, 181);
+    --alt_background_color: rgb(28, 28, 28);
+    --alt_text_color: white;
 }
 
 body,
@@ -117,13 +120,13 @@ html
     cursor: default;
     border-collapse: collapse;
     table-layout: fixed;
-    width: calc(100% - 1px);
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .item {
     display: table-row;
-    border: 1px solid var(--color);
-    border-style: var(--border);
+    border: var(--border);
 }
 
 .item_icon,
@@ -324,9 +327,9 @@ input[type="password"]
     display: none;
     position: fixed;
     z-index: 999;
-    background-color: rgb(28, 28, 28);
-    border: 1px solid white;
-    color: white;
+    background-color: var(--alt_background_color);
+    border: 1px solid var(--alt_border_color);
+    color: var(--alt_text_color);
     max-width: 720px;
     min-width: 450px;
     right: var(--horizontal_padding);
@@ -493,6 +496,16 @@ input[type="password"]
 
 input[type="checkbox"] {
     cursor: pointer;
+}
+
+#needcontext-container {
+    background-color: var(--alt_background_color) !important;
+    border: 1px solid var(--alt_border_color) !important;
+    color: var(--alt_text_color) !important;
+}
+
+.needcontext-item-selected {
+    background-color: rgb(77, 77, 77) !important;
 }
 
 .needcontext-text {

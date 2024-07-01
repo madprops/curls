@@ -25,7 +25,22 @@ App.change_border = (value) => {
 }
 
 App.apply_border = () => {
-    document.documentElement.style.setProperty(`--border`, App.border_mode)
+    let bigger = [`groove`, `inset`]
+    let border
+
+    if (App.border_mode === `none`) {
+        border = `none`
+    }
+    else if (bigger.includes(App.border_mode)) {
+        border = `3px ${App.border_mode} var(--color)`
+    }
+    else {
+        border = `1px ${App.border_mode} var(--color)`
+    }
+
+    console.log(border)
+
+    document.documentElement.style.setProperty(`--border`, border)
 }
 
 App.load_border = () => {
