@@ -86,9 +86,9 @@ App.focus_status = () => {
 }
 
 App.remove_status = (status) => {
-    App.confirm({title: `Remove this status`, ok: () => {
+    App.confirm({title: `Remove Status`, ok: () => {
         App.do_remove_status(status)
-    }})
+    }, message: status.substring(0, 44)})
 }
 
 App.do_remove_status = (status) => {

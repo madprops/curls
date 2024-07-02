@@ -329,11 +329,11 @@ App.toggle_curlist = () => {
 }
 
 App.sort_curlist = (how) => {
-    let w = how === `asc` ? `Asc` : `Desc`
+    let w = how === `asc` ? `Ascending` : `Descending`
 
-    App.confirm({title: `Sort the curls (${w})`, ok: () => {
+    App.confirm({title: `Sort Curls`, ok: () => {
         App.do_sort_curlist(how)
-    }})
+    }, message: `${w} Order`})
 }
 
 App.do_sort_curlist = (how) => {

@@ -61,7 +61,7 @@ App.show_picker = (e) => {
                     App.add_to_picker()
                 },
                 alt_action: () => {
-                    App.remove_picker(item.curl)
+                    App.remove_picker_item(item.curl)
                 },
             })
         }
@@ -89,7 +89,7 @@ App.show_picker = (e) => {
         items.push({
             text: `Clear`,
             action: () => {
-                App.clear_pickers()
+                App.clear_picker()
             },
         })
     }
@@ -123,19 +123,19 @@ App.import_pickers_submit = (data) => {
     }
 }
 
-App.clear_pickers = () => {
-    App.confirm({title: `Clear all pickers`, ok: () => {
+App.clear_picker = () => {
+    App.confirm({title: `Clear Picker`, ok: () => {
         localStorage.setItem(`picker`, `[]`)
-    }})
+    }, message: `Remove all items from the picker`})
 }
 
-App.remove_picker = (curl) => {
-    App.confirm({title: `Remove ${curl} from the picker`, ok: () => {
-        App.do_remove_picker(curl)
-    }})
+App.remove_picker_item = (curl) => {
+    App.confirm({title: `Remove Picker Item`, ok: () => {
+        App.do_remove_picker_item(curl)
+    }, message: curl})
 }
 
-App.do_remove_picker = (curl) => {
+App.do_remove_picker_item = (curl) => {
     let cleaned = []
 
     for (let item of App.get_picker_items()) {

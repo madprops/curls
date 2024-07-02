@@ -138,7 +138,7 @@ App.remove_items = (removed) => {
 }
 
 App.save_cleaned = (cleaned, removed) => {
-    let s = App.plural(removed.length, `curl`, `curls`)
+    let s = App.plural(removed.length, `Curl`, `Curls`)
     let curls = removed.join(`, `)
 
     App.confirm({title: `Remove ${removed.length} ${s}`, ok: () => {
@@ -192,12 +192,12 @@ App.remove_selected_curls = () => {
 }
 
 App.remove_all_curls = () => {
-    App.confirm({title: `Remove all curls`, ok: () => {
+    App.confirm({title: `Remove All Curls`, ok: () => {
         App.clear_curls()
         App.update_curlist()
         App.empty_container()
         App.hide_peek()
-    }, message: `This will remove all curls in the current color`})
+    }, message: `Remove all curls in the current color`})
 }
 
 App.remove_curls = (curls) => {
@@ -233,7 +233,7 @@ App.remove_curl_item = (curl) => {
 }
 
 App.clear_all_curls = () => {
-    App.confirm({title: `Clear curls`, ok: () => {
+    App.confirm({title: `Clear Curls`, ok: () => {
         for (let color in App.colors) {
             App.clear_curls(color)
         }
