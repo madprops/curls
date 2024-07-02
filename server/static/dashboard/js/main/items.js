@@ -10,6 +10,10 @@ App.setup_items = () => {
         App.save_wrap_enabled()
         App.update_items()
     })
+
+    App.update_items_debouncer = App.create_debouncer((args) => {
+        App.do_update_items(args)
+    }, App.update_items_debouncer_delay)
 }
 
 App.save_wrap_enabled = () => {
@@ -52,18 +56,28 @@ App.insert_items = (items) => {
     App.update_items()
 }
 
-App.update_items = (items = App.items, check_filter = true) => {
-    App.clear_container()
-    App.sort_items(items)
+App.update_items = (args) => {
+    App.update_items_debouncer.call(args)
+}
 
-    for (let item of items) {
+App.do_update_items = (args = {}) => {
+    let def_args = {
+        items: App.items,
+        check_filter: true,
+    }
+
+    App.def_args(def_args, args)
+    App.clear_container()
+    App.sort_items(args.items)
+
+    for (let item of args.items) {
         App.create_element(item)
     }
 
     App.unselect()
     App.check_empty()
 
-    if (check_filter) {
+    if (args.check_filter) {
         App.check_filter()
     }
 }
