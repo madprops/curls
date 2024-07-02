@@ -643,7 +643,7 @@ App.select_curlist_vertical = (direction, shift) => {
             let item
 
             if (selected.length > 1) {
-                item = App.prev_curlist_range_item
+                item = selected[0]
             }
             else {
                 item = items[first_index - 1]
@@ -670,7 +670,7 @@ App.select_curlist_vertical = (direction, shift) => {
             let item
 
             if (selected.length > 1) {
-                item = App.prev_curlist_range_item
+                item = selected[selected.length - 1]
             }
             else {
                 item = items[last_index + 1]
