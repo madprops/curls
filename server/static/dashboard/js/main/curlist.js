@@ -481,6 +481,7 @@ App.select_curlist_item = (target) => {
     }
 
     App.do_select_curlist_item(target)
+    App.prev_curlist_range_item = target
 }
 
 App.do_select_curlist_item = (target, block = `nearest`) => {
@@ -495,20 +496,58 @@ App.do_unselect_curlist_item = (target) => {
     target.classList.remove(`selected`)
 }
 
-App.select_curlist_range = (target) => {
-    let items = App.get_curlist_elements()
-    let index = items.indexOf(target)
-    let last = items.findIndex(x => x.classList.contains(`selected`))
+App.select_curlist_range = (item) => {
+    let selected = App.get_selected_items()
 
-    if (last === -1) {
-        App.do_select_curlist_item(target)
+    if (!selected.length) {
         return
     }
 
-    let start = Math.min(index, last)
-    let end = Math.max(index, last)
+    if (item === App.prev_curlist_range_item) {
+        return
+    }
 
-    for (let i = start; i <= end; i++) {
+    let items = App.get_curlist_elements()
+    let index = items.indexOf(item)
+    let prev_index = items.indexOf(App.prev_curlist_range_item)
+    let first_index = items.indexOf(selected[0])
+    let last_index = items.indexOf(selected[selected.length - 1])
+    let direction
+
+    if (selected.length === 1) {
+        if (index < prev_index) {
+            direction = `up`
+        }
+        else {
+            direction = `down`
+        }
+    }
+    else {
+        if (App.prev_curlist_range_item === selected[0]) {
+            direction = `up`
+        }
+        else {
+            direction = `down`
+        }
+    }
+
+    if (direction === `up`) {
+        App.do_select_curlist_range(items, index, last_index)
+    }
+    else {
+        App.do_select_curlist_range(items, first_index, index)
+    }
+
+    App.prev_curlist_range_item = item
+}
+
+App.do_select_curlist_range = (items, start, end) => {
+    for (let i = 0; i < items.length; i++) {
+        if (i < start || i > end) {
+            App.do_unselect_curlist_item(items[i])
+            continue
+        }
+
         App.do_select_curlist_item(items[i])
     }
 }
