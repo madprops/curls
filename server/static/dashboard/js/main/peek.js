@@ -13,8 +13,6 @@ App.setup_peek = () => {
     App.peek_debouncer = App.create_debouncer((curl) => {
         App.do_show_peek(curl)
     }, App.peek_debouncer_delay)
-
-    filter.value = ``
 }
 
 App.save_peek_enabled = () => {
