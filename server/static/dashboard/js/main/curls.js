@@ -195,6 +195,10 @@ App.do_edit_curl = (curl, new_curl) => {
         return
     }
 
+    if (curl === new_curl) {
+        return
+    }
+
     let curls = App.get_curls()
     let index = curls.indexOf(curl)
 

@@ -86,10 +86,20 @@ App.setup_curlist = () => {
             e.preventDefault()
         }
         else if (e.key === `ArrowUp`) {
+            if (e.ctrlKey) {
+                App.curlist_move_up()
+                return
+            }
+
             App.select_curlist_vertical(`up`, e.shiftKey)
             e.preventDefault()
         }
         else if (e.key === `ArrowDown`) {
+            if (e.ctrlKey) {
+                App.curlist_move_down()
+                return
+            }
+
             App.select_curlist_vertical(`down`, e.shiftKey)
             e.preventDefault()
         }
@@ -452,9 +462,7 @@ App.curlist_drag_events = () => {
     })
 
     DOM.ev(container, `dragend`, (e) => {
-        let curls = App.get_curlist_curls()
-        App.save_curls(curls)
-        App.sort_if_order()
+        App.save_after_move()
     })
 }
 
@@ -764,4 +772,46 @@ App.focus_curlist_item = (curl) => {
     if (item) {
         App.do_select_curlist_item({item: item})
     }
+}
+
+App.curlist_move_up = () => {
+    let items = App.get_curlist_elements()
+    let selected = App.get_selected_items()
+    let first_index = items.indexOf(selected[0])
+
+    if (first_index === 0) {
+        return
+    }
+
+    if (first_index === 0) {
+        return
+    }
+
+    let prev = items[first_index - 1]
+    prev.before(...selected)
+    App.save_after_move()
+}
+
+App.curlist_move_down = () => {
+    let items = App.get_curlist_elements()
+    let selected = App.get_selected_items()
+    let last_index = items.indexOf(selected[selected.length - 1])
+
+    if (last_index === items.length - 1) {
+        return
+    }
+
+    if (last_index === items.length - 1) {
+        return
+    }
+
+    let next = items[last_index + 1]
+    next.after(...selected)
+    App.save_after_move()
+}
+
+App.save_after_move = () => {
+    let curls = App.get_curlist_curls()
+    App.save_curls(curls)
+    App.sort_if_order()
 }
