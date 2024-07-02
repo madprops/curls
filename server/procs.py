@@ -142,9 +142,7 @@ def update_status(curl: str, status: str) -> None:
     curl = curl.strip().lower()
     dbase = db.get_db()
     cursor = dbase.cursor()
-
     db_string = "UPDATE curls SET status = ?, updated = ? WHERE curl = ?"
-
     cursor.execute(db_string, (status, date_now(), curl))
     dbase.commit()
 
