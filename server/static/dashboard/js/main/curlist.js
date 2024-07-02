@@ -566,7 +566,7 @@ App.select_curlist_range = (item) => {
 }
 
 App.do_select_curlist_range = (item, start, end) => {
-    let items = App.get_curlist_elements()
+    let items = App.curlist_get_visible()
 
     for (let i = 0; i < items.length; i++) {
         if ((i < start) || (i > end)) {
