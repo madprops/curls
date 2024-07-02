@@ -432,6 +432,11 @@ input[type="password"]
     justify-content: center;
 }
 
+#prompt_message {
+    max-width: 30rem;
+    white-space: pre-wrap;
+}
+
 #prompt_input {
     background-color: white;
     border: 1px solid rgb(114, 114, 255);
@@ -468,7 +473,7 @@ input[type="password"]
     gap: 1rem;
 }
 
-#alert_text {
+#alert_message {
     max-width: 30rem;
     white-space: pre-wrap;
 }
@@ -487,6 +492,11 @@ input[type="password"]
     gap: 1rem;
     align-items: center;
     justify-content: center;
+}
+
+#confirm_message {
+    max-width: 30rem;
+    white-space: pre-wrap;
 }
 
 .Msg-titlebar {

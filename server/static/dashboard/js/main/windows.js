@@ -67,8 +67,8 @@ App.setup_windows = () => {
 
 App.alert = (message, title = `Information`) => {
     App.alert_window.set_title(title)
-    let text = DOM.el(`#alert_text`)
-    text.textContent = message
+    let msg = DOM.el(`#alert_message`)
+    msg.textContent = message
     App.alert_window.show()
 }
 
