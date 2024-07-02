@@ -107,7 +107,7 @@ App.setup_curlist = () => {
         }
         else if (e.key === `c`) {
             if (e.ctrlKey) {
-                App.copy_curlist(e)
+                App.copy_curlist()
                 e.preventDefault()
             }
         }

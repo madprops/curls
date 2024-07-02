@@ -227,16 +227,7 @@ App.add_dates_to_items = () => {
     }
 }
 
-App.copy_item = (curl) => {
-    let item = App.get_item(curl)
-
-    if (!item) {
-        return
-    }
-
-    let msg = `${item.curl}\n${item.status}\n${item.updated_text}`
-    App.copy_to_clipboard(msg)
-
+App.copy_items = (curl) => {
     function blink (icon) {
         if (!icon) {
             return
@@ -249,11 +240,27 @@ App.copy_item = (curl) => {
         }, 1000)
     }
 
-    if (App.peek_open && App.peek_curl === curl) {
-        blink(DOM.el(`#peek .peek_icon`))
+    let curls = App.get_selected_curls()
+
+    if (!curls.includes(curl)) {
+        curls = [curl]
     }
 
-    blink(DOM.el(`.item_icon`, item.element))
+    let msgs = []
+
+    for (let curl of curls) {
+        let item = App.get_item(curl)
+        msgs.push(`${item.curl}\n${item.status}\n${item.updated_text}`)
+
+        if (App.peek_open && App.peek_curl === curl) {
+            blink(DOM.el(`#peek .peek_icon`))
+        }
+
+        blink(DOM.el(`.item_icon`, item.element))
+    }
+
+    let msg = msgs.join(`\n\n`)
+    App.copy_to_clipboard(msg)
 }
 
 App.show_item_menu = (args = {}) => {
@@ -280,6 +287,12 @@ App.show_item_menu = (args = {}) => {
         let curls = App.get_selected_curls()
 
         items = [
+            {
+                text: `Copy`,
+                action: () => {
+                    App.copy_items(args.curl)
+                }
+            },
             {
                 text: `Remove`,
                 action: () => {
@@ -308,7 +321,7 @@ App.show_item_menu = (args = {}) => {
             {
                 text: `Copy`,
                 action: () => {
-                    App.copy_item(args.curl)
+                    App.copy_items(args.curl)
                 }
             },
             {
