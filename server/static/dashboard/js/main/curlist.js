@@ -22,7 +22,6 @@ App.setup_curlist = () => {
 
     DOM.ev(container, `click`, (e) => {
         let item = App.extract_curlist_item(e.target)
-        let curl = App.extract_curlist_curl(item)
 
         if (item) {
             if (e.shiftKey) {
@@ -30,11 +29,9 @@ App.setup_curlist = () => {
             }
             else if (e.ctrlKey) {
                 App.select_curlist_toggle(item)
-                App.prev_curlist_range_item = item
             }
             else {
                 App.select_curlist_item(item)
-                App.prev_curlist_range_item = item
             }
         }
     })
@@ -472,14 +469,15 @@ App.get_curlist_curls = () => {
     return curls
 }
 
-App.select_curlist_item = (target) => {
+App.select_curlist_item = (item) => {
     let items = App.get_curlist_elements()
 
-    for (let item of items) {
-        App.do_unselect_curlist_item(item)
+    for (let it of items) {
+        App.do_unselect_curlist_item(it)
     }
 
-    App.do_select_curlist_item({item: target})
+    App.do_select_curlist_item({item: item})
+    App.prev_curlist_range_item = item
 }
 
 App.do_select_curlist_item = (args = {}) => {
@@ -501,8 +499,8 @@ App.do_select_curlist_item = (args = {}) => {
     }
 }
 
-App.do_unselect_curlist_item = (target) => {
-    target.classList.remove(`selected`)
+App.do_unselect_curlist_item = (item) => {
+    item.classList.remove(`selected`)
 }
 
 App.select_curlist_range = (item) => {
@@ -516,7 +514,7 @@ App.select_curlist_range = (item) => {
         return
     }
 
-    let items = App.get_curlist_elements()
+    let items = App.curlist_get_visible()
     let index = items.indexOf(item)
     let prev_index = items.indexOf(App.prev_curlist_range_item)
     let first_index = items.indexOf(selected[0])
@@ -571,8 +569,9 @@ App.do_select_curlist_range = (item, start, end) => {
     }
 }
 
-App.select_curlist_toggle = (target) => {
-    target.classList.toggle(`selected`)
+App.select_curlist_toggle = (item) => {
+    item.classList.toggle(`selected`)
+    App.prev_curlist_range_item = item
 }
 
 App.get_selected_curls = () => {
@@ -611,9 +610,12 @@ App.get_curlist_item = (curl) => {
 
 App.select_curlist_vertical = (direction, shift) => {
     let items = App.curlist_get_visible()
-    let selected_items = App.get_selected_items()
+    let selected = App.get_selected_items()
+    let prev_index = items.indexOf(App.prev_curlist_range_item)
+    let first_index = items.indexOf(selected[0])
+    let last_index = items.indexOf(selected[selected.length - 1])
 
-    if (!selected_items.length) {
+    if (!selected.length) {
         let item
 
         if (direction === `up`) {
@@ -623,74 +625,64 @@ App.select_curlist_vertical = (direction, shift) => {
             item = items[0]
         }
 
-        App.do_select_curlist_item({item: item})
-        return
-    }
-
-    if ((selected_items.length > 1) && !shift) {
-        let item
-
-        if (direction === `up`) {
-            item = selected_items[0]
-        }
-        else if (direction === `down`) {
-            item = selected_items[selected_items.length - 1]
-        }
-
         App.select_curlist_item(item)
         return
     }
 
-    let index
-
     if (direction === `up`) {
-        index = items.findIndex(x => x === selected_items[0])
-    }
-    else if (direction === `down`) {
-        index = items.findIndex(x => x === selected_items[selected_items.length - 1])
-    }
+        if (shift) {
+            let item = items[prev_index - 1]
 
-    if (index === -1) {
-        return
-    }
-
-    let new_index = index
-    let on_edge = false
-
-    if (direction === `up`) {
-        new_index -= 1
-
-        if (new_index < 0) {
-            if (shift) {
+            if (!item) {
                 return
             }
 
-            new_index = items.length - 1
-            on_edge = true
+            App.select_curlist_range(item)
         }
-    }
-    else if (direction === `down`) {
-        new_index += 1
+        else {
+            let item
 
-        if (new_index >= items.length) {
-            if (shift) {
+            if (selected.length > 1) {
+                item = App.prev_curlist_range_item
+            }
+            else {
+                item = items[first_index - 1]
+            }
+
+            if (!item) {
                 return
             }
 
-            new_index = 0
-            on_edge = true
+            App.select_curlist_item(item)
         }
     }
+    else if (direction === `down`) {
+        if (shift) {
+            let item = items[prev_index + 1]
 
-    let item = items[new_index]
+            if (!item) {
+                return
+            }
 
-    if (!shift) {
-        App.unselect_curlist()
+            App.select_curlist_range(item)
+        }
+        else {
+            let item
+
+            if (selected.length > 1) {
+                item = App.prev_curlist_range_item
+            }
+            else {
+                item = items[last_index + 1]
+            }
+
+            if (!item) {
+                return
+            }
+
+            App.select_curlist_item(item)
+        }
     }
-
-    let block = on_edge ? `center` : `nearest`
-    App.do_select_curlist_item({item: item, block: block})
-    App.prev_curlist_range_item = item
 }
 
 App.focus_curlist = () => {
