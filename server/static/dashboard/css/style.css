@@ -331,7 +331,7 @@ input[type="password"]
     position: fixed;
     z-index: 999;
     background-color: var(--alt_background_color);
-    border: 1px solid var(--alt_border_color);
+    border: 2px solid var(--alt_border_color);
     color: var(--alt_text_color);
     max-width: 720px;
     min-width: 450px;
