@@ -216,7 +216,7 @@ App.show_curlist_menu = (e) => {
         {
             text: `Clear`,
             action: () => {
-                App.clear_curlists()
+                App.clear_all_curls()
             }
         },
     ]
@@ -411,17 +411,6 @@ App.import_curlist_submit = (data) => {
         App.error(err)
         App.alert(err)
     }
-}
-
-App.clear_curlists = () => {
-    App.confirm({title: `Clear all curls in all colors`, ok: () => {
-        for (let color in App.colors) {
-            App.clear_curls(color)
-        }
-
-        App.update_curlist()
-        App.empty_container()
-    }})
 }
 
 App.curlist_drag_events = () => {

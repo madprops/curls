@@ -231,3 +231,14 @@ App.remove_curl_item = (curl) => {
 
     App.items = cleaned
 }
+
+App.clear_all_curls = () => {
+    App.confirm({title: `Clear curls`, ok: () => {
+        for (let color in App.colors) {
+            App.clear_curls(color)
+        }
+
+        App.update_curlist()
+        App.empty_container()
+    }, message: `Remove all curls in all colors`})
+}
