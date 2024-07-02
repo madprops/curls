@@ -36,8 +36,6 @@ App.setup_curlist = () => {
                 App.select_curlist_item(item)
                 App.prev_curlist_range_item = item
             }
-
-            App.show_peek(curl)
         }
     })
 
@@ -47,7 +45,6 @@ App.setup_curlist = () => {
 
         if (item) {
             App.show_item_menu({curl: curl, e: e})
-            App.show_peek(curl)
         }
         else {
             App.show_curlist_menu(e)
@@ -81,7 +78,6 @@ App.setup_curlist = () => {
                 else {
                     App.select_curlist_item(item)
                     App.remove_curls([curl])
-                    App.show_peek(curl)
                 }
             }
         }
@@ -483,14 +479,25 @@ App.select_curlist_item = (target) => {
         App.do_unselect_curlist_item(item)
     }
 
-    App.do_select_curlist_item(target)
+    App.do_select_curlist_item({item: target})
 }
 
-App.do_select_curlist_item = (target, block = `nearest`) => {
-    target.classList.add(`selected`)
+App.do_select_curlist_item = (args = {}) => {
+    let def_args = {
+        block: `nearest`,
+        peek: true,
+    }
 
-    if (block !== `none`) {
-        target.scrollIntoView({ block: block })
+    App.def_args(def_args, args)
+    args.item.classList.add(`selected`)
+
+    if (args.block !== `none`) {
+        args.item.scrollIntoView({ block: args.block })
+    }
+
+    if (args.peek) {
+        let curl = App.extract_curlist_curl(args.item)
+        App.show_peek(curl)
     }
 }
 
@@ -541,23 +548,26 @@ App.select_curlist_range = (item) => {
     }
 
     if (direction === `up`) {
-        App.do_select_curlist_range(items, index, last_index)
+        App.do_select_curlist_range(item, index, last_index)
     }
     else {
-        App.do_select_curlist_range(items, first_index, index)
+        App.do_select_curlist_range(item, first_index, index)
     }
 
     App.prev_curlist_range_item = item
 }
 
-App.do_select_curlist_range = (items, start, end) => {
+App.do_select_curlist_range = (item, start, end) => {
+    let items = App.get_curlist_elements()
+
     for (let i = 0; i < items.length; i++) {
-        if (i < start || i > end) {
+        if ((i < start) || (i > end)) {
             App.do_unselect_curlist_item(items[i])
             continue
         }
 
-        App.do_select_curlist_item(items[i])
+        let peek = items[i] === item
+        App.do_select_curlist_item({item: items[i], peek: peek})
     }
 }
 
@@ -613,9 +623,7 @@ App.select_curlist_vertical = (direction, shift) => {
             item = items[0]
         }
 
-        App.do_select_curlist_item(item)
-        let curl = App.extract_curlist_curl(item)
-        App.show_peek(curl)
+        App.do_select_curlist_item({item: item})
         return
     }
 
@@ -630,8 +638,6 @@ App.select_curlist_vertical = (direction, shift) => {
         }
 
         App.select_curlist_item(item)
-        let curl = App.extract_curlist_curl(item)
-        App.show_peek(curl)
         return
     }
 
@@ -682,10 +688,8 @@ App.select_curlist_vertical = (direction, shift) => {
         App.unselect_curlist()
     }
 
-    let curl = App.extract_curlist_curl(item)
-    App.show_peek(curl)
     let block = on_edge ? `center` : `nearest`
-    App.do_select_curlist_item(item, block)
+    App.do_select_curlist_item({item: item, block: block})
     App.prev_curlist_range_item = item
 }
 
@@ -763,10 +767,9 @@ App.extract_curlist_curl = (item) => {
 }
 
 App.focus_curlist_item = (curl) => {
-    let items = App.get_curlist_elements()
     let item = App.get_curlist_item(curl)
 
     if (item) {
-        App.do_select_curlist_item(item)
+        App.do_select_curlist_item({item: item})
     }
 }

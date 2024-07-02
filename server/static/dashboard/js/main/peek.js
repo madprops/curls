@@ -9,6 +9,12 @@ App.setup_peek = () => {
         checkbox.checked = App.peek_enabled
         App.save_peek_enabled()
     })
+
+    App.peek_debouncer = App.create_debouncer((curl) => {
+        App.do_show_peek(curl)
+    }, App.peek_debouncer_delay)
+
+    filter.value = ``
 }
 
 App.save_peek_enabled = () => {
@@ -21,6 +27,10 @@ App.load_peek_enabled = () => {
 }
 
 App.show_peek = (curl) => {
+    App.peek_debouncer.call(curl)
+}
+
+App.do_show_peek = (curl) => {
     if (!App.peek_enabled) {
         return
     }

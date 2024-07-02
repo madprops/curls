@@ -113,7 +113,7 @@ App.after_curls_move = (new_curls, curls, leader) => {
         let el = App.get_curlist_item(curl)
 
         if (el) {
-            App.do_select_curlist_item(el, `none`)
+            App.do_select_curlist_item({item: el, block: `none`})
         }
     }
 
