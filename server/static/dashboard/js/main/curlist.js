@@ -87,6 +87,7 @@ App.setup_curlist = () => {
         }
         else if (e.key === `ArrowUp`) {
             if (e.ctrlKey) {
+                e.preventDefault()
                 App.curlist_move_up()
                 return
             }
@@ -96,6 +97,7 @@ App.setup_curlist = () => {
         }
         else if (e.key === `ArrowDown`) {
             if (e.ctrlKey) {
+                e.preventDefault()
                 App.curlist_move_down()
                 return
             }
@@ -789,6 +791,7 @@ App.curlist_move_up = () => {
 
     let prev = items[first_index - 1]
     prev.before(...selected)
+    selected[0].scrollIntoView({ block: `center` })
     App.save_after_move()
 }
 
@@ -807,6 +810,7 @@ App.curlist_move_down = () => {
 
     let next = items[last_index + 1]
     next.after(...selected)
+    selected[selected.length - 1].scrollIntoView({ block: `center` })
     App.save_after_move()
 }
 
