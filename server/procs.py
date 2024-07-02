@@ -3,6 +3,7 @@ from __future__ import annotations
 # Standard
 import random
 import string
+import datetime
 from flask import jsonify, Response  # type: ignore
 from typing import Any
 
@@ -103,8 +104,13 @@ def curls_proc(request: Any) -> Any:
 def add_curl(curl: str, key: str) -> None:
     dbase = db.get_db()
     cursor = dbase.cursor()
-    db_string = "INSERT INTO curls (curl, key, status) VALUES (?, ?, ?)"
-    cursor.execute(db_string, (curl, key, ""))
+
+    db_string = (
+        "INSERT INTO curls (created, updated, curl, key, status) VALUES (?, ?, ?, ?, ?)"
+    )
+
+    now = date_now()
+    cursor.execute(db_string, (now, now, curl, key, ""))
     dbase.commit()
 
 
@@ -137,11 +143,9 @@ def update_status(curl: str, status: str) -> None:
     dbase = db.get_db()
     cursor = dbase.cursor()
 
-    db_string = (
-        "UPDATE curls SET status = ?, updated = CURRENT_TIMESTAMP WHERE curl = ?"
-    )
+    db_string = "UPDATE curls SET status = ?, updated = ? WHERE curl = ?"
 
-    cursor.execute(db_string, (status, curl))
+    cursor.execute(db_string, (status, date_now(), curl))
     dbase.commit()
 
 
@@ -234,3 +238,7 @@ def check_status(status: str) -> bool:
         return False
 
     return True
+
+
+def date_now() -> datetime.datetime:
+    return datetime.datetime.now(datetime.timezone.utc)
