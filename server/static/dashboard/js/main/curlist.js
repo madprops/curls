@@ -680,10 +680,10 @@ App.select_curlist_vertical = (direction, shift) => {
 
     if (!shift) {
         App.unselect_curlist()
-        let curl = App.extract_curlist_curl(item)
-        App.show_peek(curl)
     }
 
+    let curl = App.extract_curlist_curl(item)
+    App.show_peek(curl)
     let block = on_edge ? `center` : `nearest`
     App.do_select_curlist_item(item, block)
     App.prev_curlist_range_item = item
