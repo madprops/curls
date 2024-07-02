@@ -69,6 +69,10 @@ App.claim = () => {
 App.start_mouse = () => {
     DOM.evs(DOM.el(`#main`), [`click`, `contextmenu`, `auxclick`], (e) => {
         if (!e.target.closest(`#curlist`)) {
+            if (e.ctrlKey || e.shiftKey) {
+                return
+            }
+
             App.unselect_curlist()
 
             if (!e.target.closest(`#peek`)) {
