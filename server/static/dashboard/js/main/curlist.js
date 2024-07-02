@@ -532,6 +532,13 @@ App.select_curlist_range = (item) => {
         }
     }
 
+    if (index > last_index) {
+        direction = `down`
+    }
+    else if (index < first_index) {
+        direction = `up`
+    }
+
     if (direction === `up`) {
         App.do_select_curlist_range(items, index, last_index)
     }
