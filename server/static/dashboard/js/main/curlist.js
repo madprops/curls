@@ -47,6 +47,7 @@ App.setup_curlist = () => {
 
         if (item) {
             App.show_item_menu({curl: curl, e: e})
+            App.show_peek(curl)
         }
         else {
             App.show_curlist_menu(e)
