@@ -103,9 +103,9 @@ App.export_pickers = () => {
 }
 
 App.import_pickers = () => {
-    App.prompt({title: `Paste the data`, callback: (value) => {
+    App.prompt({title: `Paste Data`, callback: (value) => {
         App.import_pickers_submit(value)
-    }})
+    }, message: `You get this data in Export`})
 }
 
 App.import_pickers_submit = (data) => {

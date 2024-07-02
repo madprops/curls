@@ -374,9 +374,9 @@ App.export_curlist = () => {
 }
 
 App.import_curlist = () => {
-    App.prompt({title: `Paste the data`, callback: (value) => {
+    App.prompt({title: `Paste Data`, callback: (value) => {
         App.import_curlist_submit(value)
-    }})
+    }, message: `You get this data in Export`})
 }
 
 App.import_curlist_submit = (data) => {

@@ -1,7 +1,7 @@
 App.add_curls = (where) => {
-    App.prompt({title: `Add one or more curls`, callback: (value) => {
+    App.prompt({title: `Add Curls`, callback: (value) => {
         App.add_curls_submit(where, value)
-    }})
+    }, message: `Enter one or more curls`})
 }
 
 App.add_curls_submit = (where, curls) => {
@@ -139,9 +139,9 @@ App.get_curls = (color = App.color_mode) => {
 }
 
 App.replace_curls = () => {
-    App.prompt({title: `This will replace the entire list`, callback: (value) => {
+    App.prompt({title: `Replace Curls`, callback: (value) => {
         App.replace_curls_submit(value)
-    }})
+    }, message: `This will replace the entire list`})
 }
 
 App.replace_curls_submit = (curls) => {
@@ -177,7 +177,7 @@ App.clear_curls = (color = App.color_mode) => {
 }
 
 App.edit_curl = (curl) => {
-    App.prompt({title: `Edit this curl`, callback: (value) => {
+    App.prompt({title: `Edit Curl`, callback: (value) => {
         App.edit_curl_submit(curl, value)
     }, value: curl})
 }

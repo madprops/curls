@@ -108,6 +108,7 @@ App.prompt_submit = () => {
 App.prompt = (args = {}) => {
     let def_args = {
         value: ``,
+        message: ``,
     }
 
     App.def_args(def_args, args)
@@ -115,6 +116,16 @@ App.prompt = (args = {}) => {
     let input = DOM.el(`#prompt_input`)
     input.value = args.value
     App.prompt_window.set_title(args.title)
+    let msg = DOM.el(`#prompt_message`)
+
+    if (args.message) {
+        msg.textContent = args.message
+        DOM.show(msg)
+    }
+    else {
+        DOM.hide(msg)
+    }
+
     App.prompt_window.show()
     input.focus()
 }
