@@ -30,10 +30,12 @@ App.setup_curlist = () => {
             }
             else if (e.ctrlKey) {
                 App.select_curlist_toggle(item)
+                App.prev_curlist_range_item = item
                 App.show_peek(curl)
             }
             else {
                 App.select_curlist_item(item)
+                App.prev_curlist_range_item = item
                 App.show_peek(curl)
             }
         }
@@ -481,7 +483,6 @@ App.select_curlist_item = (target) => {
     }
 
     App.do_select_curlist_item(target)
-    App.prev_curlist_range_item = target
 }
 
 App.do_select_curlist_item = (target, block = `nearest`) => {
@@ -677,6 +678,7 @@ App.select_curlist_vertical = (direction, shift) => {
 
     let block = on_edge ? `center` : `nearest`
     App.do_select_curlist_item(item, block)
+    App.prev_curlist_range_item = item
 }
 
 App.focus_curlist = () => {
