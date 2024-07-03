@@ -199,8 +199,7 @@ html
     gap: 0.8rem;
 }
 
-#controls_top,
-#controls_bottom
+.control_bar
 {
     display: flex;
     flex-direction: row;
