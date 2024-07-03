@@ -236,7 +236,7 @@ App.focus_curl = (curl) => {
         return
     }
 
-    App.scroll_element(item.element)
+    App.scroll_element({item: item.element})
 }
 
 App.clean_curls = (curls) => {

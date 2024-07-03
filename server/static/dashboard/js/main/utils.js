@@ -147,7 +147,13 @@ App.def_args = (def, args) => {
     }
 }
 
-App.scroll_element = (el, block = `center`) => {
-    el.scrollIntoView({ behavior: `smooth`, block: block })
+App.scroll_element = (args = {}) => {
+    let def_args = {
+        behavior: `instant`,
+        block: `center`,
+    }
+
+    App.def_args(def_args, args)
+    args.item.scrollIntoView({ behavior: args.behavior, block: args.block })
     window.scrollTo(0, window.scrollY)
 }

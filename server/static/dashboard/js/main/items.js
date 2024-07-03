@@ -405,7 +405,7 @@ App.do_highlight_items = (args = {}) => {
 
     if (args.curl) {
         let item = App.get_item(args.curl)
-        App.scroll_element(item.element)
+        App.scroll_element({item: item.element, behavior: `smooth`})
     }
 }
 
