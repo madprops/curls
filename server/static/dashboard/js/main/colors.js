@@ -40,6 +40,7 @@ App.change_color = (value) => {
     App.reset_items()
     App.update_curlist()
     App.container_loading()
+    App.hide_peek()
     App.update()
 }
 
