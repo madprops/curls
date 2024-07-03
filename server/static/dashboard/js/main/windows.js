@@ -73,7 +73,7 @@ App.alert = (message, title = `Information`) => {
 }
 
 App.alert_copy = () => {
-    let text = DOM.el(`#alert_text`)
+    let text = DOM.el(`#alert_message`)
     App.copy_to_clipboard(text.textContent)
     App.alert_window.close()
 }
