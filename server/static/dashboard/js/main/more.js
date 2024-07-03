@@ -130,6 +130,17 @@ App.show_more_menu = (e) => {
 }
 
 App.reset_more_options = () => {
+    let vars = [
+        App.highlight_enabled,
+        App.peek_enabled,
+        App.wrap_enabled,
+        App.controls_enabled,
+    ]
+
+    if (vars.every((x) => x)) {
+        return
+    }
+
     App.confirm({title: `Reset Options`, ok: () => {
         App.do_reset_more_options()
     }, message: `Reset all options to default`})
