@@ -35,6 +35,7 @@ App.date_mode = `12`
 App.separator = `__separator__`
 App.old_delay = App.YEAR * 1
 App.peek_enabled = true
+App.shadow_enabled = true
 App.peek_open = false
 App.default_color = `green`
 App.default_sort = `newest`

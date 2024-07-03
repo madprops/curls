@@ -70,5 +70,24 @@ App.show_more_menu = (e) => {
         })
     }
 
+    if (App.shadow_enabled) {
+        items.push({
+            text: `Disable Shadow`,
+            action: () => {
+                App.shadow_enabled = false
+                App.save_shadow_enabled()
+            }
+        })
+    }
+    else {
+        items.push({
+            text: `Enable Shadow`,
+            action: () => {
+                App.shadow_enabled = true
+                App.save_shadow_enabled()
+            }
+        })
+    }
+
     NeedContext.show({items: items, e: e})
 }

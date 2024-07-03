@@ -1,5 +1,6 @@
 App.setup_items = () => {
     App.wrap_enabled = App.load_wrap_enabled()
+    App.shadow_enabled = App.load_shadow_enabled()
 
     App.update_items_debouncer = App.create_debouncer((args) => {
         App.do_update_items(args)
@@ -12,6 +13,15 @@ App.save_wrap_enabled = () => {
 
 App.load_wrap_enabled = () => {
     let saved = localStorage.getItem(`wrap_enabled`) || `true`
+    return saved === `true`
+}
+
+App.save_shadow_enabled = () => {
+    localStorage.setItem(`shadow_enabled`, App.shadow_enabled)
+}
+
+App.load_shadow_enabled = () => {
+    let saved = localStorage.getItem(`shadow_enabled`) || `true`
     return saved === `true`
 }
 
@@ -365,6 +375,10 @@ App.show_item_menu = (args = {}) => {
 }
 
 App.shadow_items = (curl) => {
+    if (!App.shadow_enabled) {
+        return
+    }
+
     let selected = App.get_selected_curls()
 
     for (let item of App.items) {
