@@ -74,6 +74,7 @@ App.start_mouse = () => {
             }
 
             App.unselect_curlist()
+            App.unshadow_items()
 
             if (!e.target.closest(`#peek`)) {
                 App.hide_peek()

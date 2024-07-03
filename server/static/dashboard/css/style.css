@@ -128,10 +128,6 @@ html
     border: var(--border);
 }
 
-.item:hover {
-    background-color: var(--color_alpha);
-}
-
 .item_icon,
 .item_curl,
 .item_status,
@@ -527,4 +523,8 @@ input[type="checkbox"] {
 
 .needcontext-text {
     font-family: var(--font) !important;
+}
+
+.shadow {
+    background-color: var(--color_alpha);
 }

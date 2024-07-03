@@ -360,3 +360,21 @@ App.show_item_menu = (args = {}) => {
         }
     })
 }
+
+App.shadow_item = (curl) => {
+    for (let item of App.items) {
+        if (item.curl === curl) {
+            item.element.classList.add(`shadow`)
+            item.element.scrollIntoView({ behavior: `smooth`, block: `center` })
+        }
+        else {
+            item.element.classList.remove(`shadow`)
+        }
+    }
+}
+
+App.unshadow_items = () => {
+    for (let item of App.items) {
+        item.element.classList.remove(`shadow`)
+    }
+}

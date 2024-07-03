@@ -494,6 +494,7 @@ App.do_select_curlist_item = (args = {}) => {
     let def_args = {
         block: `nearest`,
         peek: true,
+        shadow: true,
     }
 
     App.def_args(def_args, args)
@@ -506,6 +507,11 @@ App.do_select_curlist_item = (args = {}) => {
     if (args.peek) {
         let curl = App.extract_curlist_curl(args.item)
         App.show_peek(curl)
+    }
+
+    if (args.shadow) {
+        let curl = App.extract_curlist_curl(args.item)
+        App.shadow_item(curl)
     }
 }
 
@@ -574,8 +580,8 @@ App.do_select_curlist_range = (item, start, end) => {
             continue
         }
 
-        let peek = items[i] === item
-        App.do_select_curlist_item({item: items[i], peek: peek})
+        let act = items[i] === item
+        App.do_select_curlist_item({item: items[i], peek: act, shadow: act})
     }
 }
 
