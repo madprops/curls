@@ -236,7 +236,7 @@ App.focus_curl = (curl) => {
         return
     }
 
-    item.element.scrollIntoView({ behavior: `smooth`, block: `center` })
+    item.element.scrollIntoView({ behavior: `instant`, block: `center` })
 }
 
 App.clean_curls = (curls) => {
