@@ -64,7 +64,7 @@ App.do_update_items = (args = {}) => {
     let def_args = {
         items: App.items,
         check_filter: true,
-        highlight: false,
+        highlight: true,
     }
 
     App.def_args(def_args, args)
