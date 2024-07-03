@@ -10,8 +10,8 @@ App.setup_peek = () => {
         App.save_peek_enabled()
     })
 
-    App.peek_debouncer = App.create_debouncer((curl) => {
-        App.do_show_peek(curl)
+    App.peek_debouncer = App.create_debouncer((args) => {
+        App.do_show_peek(args)
     }, App.peek_debouncer_delay)
 }
 
@@ -24,21 +24,27 @@ App.load_peek_enabled = () => {
     return saved === `true`
 }
 
-App.show_peek = (curl) => {
-    App.peek_debouncer.call(curl)
+App.show_peek = (args) => {
+    App.peek_debouncer.call(args)
 }
 
-App.do_show_peek = (curl) => {
-    if (!App.peek_enabled) {
+App.do_show_peek = (args = {}) => {
+    let def_args = {
+        force: false,
+    }
+
+    App.def_args(def_args, args)
+
+    if (!App.peek_enabled && !args.force) {
         return
     }
 
-    if (App.peek_open && (App.peek_curl === curl)) {
+    if (App.peek_open && (App.peek_curl === args.curl)) {
         return
     }
 
     let peek = DOM.el(`#peek`)
-    let item = App.get_item(curl)
+    let item = App.get_item(args.curl)
     let icon = DOM.create(`div`, `peek_icon`)
     let canvas = DOM.create(`canvas`, `peek_icon_canvas`)
     jdenticon.update(canvas, item.curl)
@@ -51,7 +57,7 @@ App.do_show_peek = (curl) => {
     updated.textContent = item.updated_text
 
     DOM.ev(icon, `click`, (e) => {
-        App.show_item_menu({curl: curl, e: e, from: `peek`})
+        App.show_item_menu({curl: args.curl, e: e, from: `peek`})
     })
 
     icon.title = `Click to show menu`
@@ -72,7 +78,7 @@ App.do_show_peek = (curl) => {
 
     peek.classList.add(`active`)
     App.peek_open = true
-    App.peek_curl = curl
+    App.peek_curl = args.curl
 }
 
 App.hide_peek = () => {

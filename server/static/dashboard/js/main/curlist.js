@@ -506,7 +506,7 @@ App.do_select_curlist_item = (args = {}) => {
 
     if (args.peek) {
         let curl = App.extract_curlist_curl(args.item)
-        App.show_peek(curl)
+        App.show_peek({curl: curl})
     }
 
     if (args.shadow) {
@@ -593,7 +593,7 @@ App.select_curlist_toggle = (item) => {
     item.classList.toggle(`selected`)
     App.prev_curlist_range_item = item
     App.shadow_items(curl)
-    App.show_peek(curl)
+    App.show_peek({curl: curl})
 }
 
 App.get_selected_curls = () => {

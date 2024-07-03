@@ -352,6 +352,19 @@ App.show_item_menu = (args = {}) => {
                 }
             },
         ]
+
+        if (args.from === `container`) {
+            items.push({
+                separator: true,
+            })
+
+            items.push({
+                text: `Peek`,
+                action: () => {
+                    App.show_peek({curl: args.curl, force: true})
+                }
+            })
+        }
     }
 
     NeedContext.show({
