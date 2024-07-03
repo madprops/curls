@@ -613,6 +613,8 @@ App.unselect_curlist = () => {
     for (let item of items) {
         item.classList.remove(`selected`)
     }
+
+    App.unshadow_items()
 }
 
 App.get_curlist_elements = () => {
