@@ -32,19 +32,19 @@ App.do_change = () => {
 
     if (curl.length > App.curl_max_length) {
         App.error(App.curl_too_long)
-        App.alert(App.curl_too_long)
+        App.alert({title: `Error`, message: App.curl_too_long})
         return
     }
 
     if (key.length > App.key_length) {
         App.error(App.key_too_long)
-        App.alert(App.key_too_long)
+        App.alert({title: `Error`, message: App.key_too_long})
         return
     }
 
     if (status.length > App.status_max_length) {
         App.error(App.status_too_long)
-        App.alert(App.status_too_long)
+        App.alert({title: `Error`, message: App.status_too_long})
         return
     }
 
@@ -79,7 +79,7 @@ App.do_change = () => {
                 App.add_to_picker()
             }
             else {
-                App.alert(ans)
+                App.alert({message: ans})
             }
         })
         .catch(e => {

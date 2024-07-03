@@ -65,10 +65,44 @@ App.setup_windows = () => {
     })
 }
 
-App.alert = (message, title = `Information`) => {
-    App.alert_window.set_title(title)
+App.alert = (args = {}) => {
+    let def_args = {
+        title: `Information`,
+        message: ``,
+        copy: false,
+        ok: true,
+    }
+
+    App.def_args(def_args, args)
+    App.alert_window.set_title(args.title)
     let msg = DOM.el(`#alert_message`)
-    msg.textContent = message
+
+    if (args.message) {
+        DOM.show(msg)
+        msg.textContent = args.message
+    }
+    else {
+        DOM.hide(msg)
+    }
+
+    let copy = DOM.el(`#alert_copy`)
+
+    if (args.copy) {
+        DOM.show(copy)
+    }
+    else {
+        DOM.hide(copy)
+    }
+
+    let ok = DOM.el(`#alert_ok`)
+
+    if (args.ok) {
+        DOM.show(ok)
+    }
+    else {
+        DOM.hide(ok)
+    }
+
     App.alert_window.show()
 }
 
@@ -128,4 +162,9 @@ App.prompt = (args = {}) => {
 
     App.prompt_window.show()
     input.focus()
+}
+
+App.alert_export = (data) => {
+    let data_str = App.sanitize(JSON.stringify(data))
+    App.alert({title: `Copy the data below`, message: data_str, copy: true, ok: false})
 }
