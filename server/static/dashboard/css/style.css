@@ -527,6 +527,6 @@ input[type="checkbox"] {
     font-family: var(--font) !important;
 }
 
-.shadow {
+.highlight {
     background-color: var(--color_alpha);
 }

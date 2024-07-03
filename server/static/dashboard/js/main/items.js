@@ -1,6 +1,6 @@
 App.setup_items = () => {
     App.wrap_enabled = App.load_wrap_enabled()
-    App.shadow_enabled = App.load_shadow_enabled()
+    App.highlight_enabled = App.load_highlight_enabled()
 
     App.update_items_debouncer = App.create_debouncer((args) => {
         App.do_update_items(args)
@@ -16,12 +16,12 @@ App.load_wrap_enabled = () => {
     return saved === `true`
 }
 
-App.save_shadow_enabled = () => {
-    localStorage.setItem(`shadow_enabled`, App.shadow_enabled)
+App.save_highlight_enabled = () => {
+    localStorage.setItem(`highlight_enabled`, App.highlight_enabled)
 }
 
-App.load_shadow_enabled = () => {
-    let saved = localStorage.getItem(`shadow_enabled`) || `true`
+App.load_highlight_enabled = () => {
+    let saved = localStorage.getItem(`highlight_enabled`) || `true`
     return saved === `true`
 }
 
@@ -374,8 +374,8 @@ App.show_item_menu = (args = {}) => {
     })
 }
 
-App.shadow_items = (curl) => {
-    if (!App.shadow_enabled) {
+App.highlight_items = (curl) => {
+    if (!App.highlight_enabled) {
         return
     }
 
@@ -383,10 +383,10 @@ App.shadow_items = (curl) => {
 
     for (let item of App.items) {
         if (selected.includes(item.curl)) {
-            item.element.classList.add(`shadow`)
+            item.element.classList.add(`highlight`)
         }
         else {
-            item.element.classList.remove(`shadow`)
+            item.element.classList.remove(`highlight`)
         }
     }
 
@@ -394,8 +394,8 @@ App.shadow_items = (curl) => {
     App.scroll_element(item.element)
 }
 
-App.unshadow_items = () => {
+App.unhighlight_items = () => {
     for (let item of App.items) {
-        item.element.classList.remove(`shadow`)
+        item.element.classList.remove(`highlight`)
     }
 }

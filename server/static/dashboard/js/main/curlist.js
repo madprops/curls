@@ -494,7 +494,7 @@ App.do_select_curlist_item = (args = {}) => {
     let def_args = {
         block: `nearest`,
         peek: true,
-        shadow: true,
+        highlight: true,
     }
 
     App.def_args(def_args, args)
@@ -509,9 +509,9 @@ App.do_select_curlist_item = (args = {}) => {
         App.show_peek({curl: curl})
     }
 
-    if (args.shadow) {
+    if (args.highlight) {
         let curl = App.extract_curlist_curl(args.item)
-        App.shadow_items(curl)
+        App.highlight_items(curl)
     }
 }
 
@@ -581,18 +581,18 @@ App.do_select_curlist_range = (item, start, end) => {
         }
 
         let peek = items[i] === item
-        App.do_select_curlist_item({item: items[i], peek: peek, shadow: false})
+        App.do_select_curlist_item({item: items[i], peek: peek, highlight: false})
     }
 
     let curl = App.extract_curlist_curl(item)
-    App.shadow_items(curl)
+    App.highlight_items(curl)
 }
 
 App.select_curlist_toggle = (item) => {
     let curl = App.extract_curlist_curl(item)
     item.classList.toggle(`selected`)
     App.prev_curlist_range_item = item
-    App.shadow_items(curl)
+    App.highlight_items(curl)
     App.show_peek({curl: curl})
 }
 
@@ -620,7 +620,7 @@ App.unselect_curlist = () => {
         item.classList.remove(`selected`)
     }
 
-    App.unshadow_items()
+    App.unhighlight_items()
 }
 
 App.get_curlist_elements = () => {

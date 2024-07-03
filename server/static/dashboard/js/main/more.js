@@ -15,7 +15,8 @@ App.show_more_menu = (e) => {
             action: () => {
                 App.peek_enabled = false
                 App.save_peek_enabled()
-            }
+            },
+            info: `Disable peek when selecting items in the curlist`,
         })
     }
     else {
@@ -24,7 +25,8 @@ App.show_more_menu = (e) => {
             action: () => {
                 App.peek_enabled = true
                 App.save_peek_enabled()
-            }
+            },
+            info: `Enable peek when selecting items in the curlist`,
         })
     }
 
@@ -35,7 +37,8 @@ App.show_more_menu = (e) => {
                 App.wrap_enabled = false
                 App.save_wrap_enabled()
                 App.update_items()
-            }
+            },
+            info: `Disable text wrapping in the container`,
         })
     }
     else {
@@ -45,7 +48,8 @@ App.show_more_menu = (e) => {
                 App.wrap_enabled = true
                 App.save_wrap_enabled()
                 App.update_items()
-            }
+            },
+            info: `Enable text wrapping in the container`,
         })
     }
 
@@ -56,7 +60,8 @@ App.show_more_menu = (e) => {
                 App.controls_enabled = false
                 App.save_controls_enabled()
                 App.check_controls()
-            }
+            },
+            info: `Disable the controls`,
         })
     }
     else {
@@ -66,26 +71,29 @@ App.show_more_menu = (e) => {
                 App.controls_enabled = true
                 App.save_controls_enabled()
                 App.check_controls()
-            }
+            },
+            info: `Enable the controls`,
         })
     }
 
-    if (App.shadow_enabled) {
+    if (App.highlight_enabled) {
         items.push({
-            text: `Disable Shadow`,
+            text: `Disable Highlight`,
             action: () => {
-                App.shadow_enabled = false
-                App.save_shadow_enabled()
-            }
+                App.highlight_enabled = false
+                App.save_highlight_enabled()
+            },
+            info: `Disable the higlight effect on the container when selecting items in the curlist`,
         })
     }
     else {
         items.push({
-            text: `Enable Shadow`,
+            text: `Enable Highlight`,
             action: () => {
-                App.shadow_enabled = true
-                App.save_shadow_enabled()
-            }
+                App.highlight_enabled = true
+                App.save_highlight_enabled()
+            },
+            info: `Enable the higlight effect on the container when selecting items in the curlist`,
         })
     }
 
