@@ -5,6 +5,10 @@ App.setup_items = () => {
     App.update_items_debouncer = App.create_debouncer((args) => {
         App.do_update_items(args)
     }, App.update_items_debouncer_delay)
+
+    App.highlight_items_debouncer = App.create_debouncer((args) => {
+        App.do_highlight_items(args)
+    }, App.highlight_items_debouncer_delay)
 }
 
 App.save_wrap_enabled = () => {
@@ -379,7 +383,11 @@ App.show_item_menu = (args = {}) => {
     })
 }
 
-App.highlight_items = (curl) => {
+App.highlight_items = (args) => {
+    App.highlight_items_debouncer.call(args)
+}
+
+App.do_highlight_items = (args = {}) => {
     if (!App.highlight_enabled) {
         return
     }
@@ -395,8 +403,8 @@ App.highlight_items = (curl) => {
         }
     }
 
-    if (curl) {
-        let item = App.get_item(curl)
+    if (args.curl) {
+        let item = App.get_item(args.curl)
         App.scroll_element(item.element)
     }
 }

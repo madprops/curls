@@ -585,14 +585,14 @@ App.do_select_curlist_range = (item, start, end) => {
     }
 
     let curl = App.extract_curlist_curl(item)
-    App.highlight_items(curl)
+    App.highlight_items({curl: curl})
 }
 
 App.select_curlist_toggle = (item) => {
     let curl = App.extract_curlist_curl(item)
     item.classList.toggle(`selected`)
     App.prev_curlist_range_item = item
-    App.highlight_items(curl)
+    App.highlight_items({curl: curl})
     App.show_peek({curl: curl})
 }
 
