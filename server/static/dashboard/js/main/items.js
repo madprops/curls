@@ -367,7 +367,7 @@ App.shadow_items = () => {
     for (let item of App.items) {
         if (selected.includes(item.curl)) {
             item.element.classList.add(`shadow`)
-            item.element.scrollIntoView({ behavior: `instant`, block: `center` })
+            App.scroll_element(item.element)
         }
         else {
             item.element.classList.remove(`shadow`)

@@ -501,7 +501,7 @@ App.do_select_curlist_item = (args = {}) => {
     args.item.classList.add(`selected`)
 
     if (args.block !== `none`) {
-        args.item.scrollIntoView({ block: args.block })
+        App.scroll_element(args.item, args.block)
     }
 
     if (args.peek) {
@@ -802,7 +802,7 @@ App.curlist_move_up = () => {
 
     let prev = items[first_index - 1]
     prev.before(...selected)
-    selected[0].scrollIntoView({ block: `center` })
+    App.scroll_element(selected[0])
     App.save_after_move()
 }
 
@@ -821,7 +821,7 @@ App.curlist_move_down = () => {
 
     let next = items[last_index + 1]
     next.after(...selected)
-    selected[selected.length - 1].scrollIntoView({ block: `center` })
+    App.scroll_element(selected[selected.length - 1])
     App.save_after_move()
 }
 
