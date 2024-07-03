@@ -78,7 +78,6 @@ html
 
 .curlist_item {
     display: table-row;
-    cursor: default;
     user-select: none;
     cursor: pointer;
     border-top: 1px solid var(--background);
@@ -422,26 +421,10 @@ input[type="password"]
     opacity: 0.6;
 }
 
-#prompt_items {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    align-items: center;
-    justify-content: center;
-}
-
-#prompt_message {
+.modal_message {
     max-width: 30rem;
     white-space: pre-wrap;
-}
-
-#prompt_input {
-    background-color: white;
-    border: 1px solid rgb(114, 114, 255);
-    color: black;
-    width: 14rem;
-    padding: 0.2rem;
-    text-align: center
+    cursor: auto;
 }
 
 .modal_button {
@@ -463,17 +446,12 @@ input[type="password"]
     border: 1px solid rgb(199, 224, 255);
 }
 
-#alert_items {
+.modal_items {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 1rem;
-}
-
-#alert_message {
-    max-width: 30rem;
-    white-space: pre-wrap;
 }
 
 #alert_buttons {
@@ -484,17 +462,13 @@ input[type="password"]
     gap: 1rem;
 }
 
-#confirm_items {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    align-items: center;
-    justify-content: center;
-}
-
-#confirm_message {
-    max-width: 30rem;
-    white-space: pre-wrap;
+#prompt_input {
+    background-color: white;
+    border: 1px solid rgb(114, 114, 255);
+    color: black;
+    width: 14rem;
+    padding: 0.2rem;
+    text-align: center
 }
 
 .Msg-titlebar {
