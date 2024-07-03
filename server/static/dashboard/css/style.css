@@ -330,7 +330,7 @@ input[type="password"]
     border: 2px solid var(--alt_border_color);
     color: var(--alt_text_color);
     max-width: 720px;
-    min-width: 450px;
+    min-width: 350px;
     right: var(--horizontal_padding);
     top: var(--vertical_padding);
     align-items: center;
