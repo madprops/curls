@@ -90,6 +90,10 @@ App.do_filter = () => {
         scope = `status`
         is_special = true
     }
+    else if (value.startsWith(`[date]`)) {
+        scope = `date`
+        is_special = true
+    }
 
     if (is_special) {
         value = value.split(` `).slice(1).join(` `).trim()
@@ -133,6 +137,14 @@ App.do_filter = () => {
         }
         else if (scope === `status`) {
             if (status.includes(value)) {
+                show(el)
+            }
+            else {
+                hide(el)
+            }
+        }
+        else if (scope === `date`) {
+            if (updated.includes(value)) {
                 show(el)
             }
             else {
@@ -193,6 +205,11 @@ App.filter_status = () => {
     App.do_filter()
 }
 
+App.filter_date = () => {
+    App.set_filter(`[date]`)
+    App.do_filter()
+}
+
 App.set_filter = (value) => {
     let el = DOM.el(`#filter`)
     el.value = value + ` `
@@ -205,37 +222,56 @@ App.show_filter_menu = (e) => {
             text: `Owned`,
             action: () => {
                 App.filter_owned()
-            }
+            },
+            info: `Show the curls that you control`,
+        },
+        {
+            separator: true,
         },
         {
             text: `Today`,
             action: () => {
                 App.filter_today()
-            }
+            },
+            info: `Show the curls that changed today`,
         },
         {
             text: `Week`,
             action: () => {
                 App.filter_week()
-            }
+            },
+            info: `Show the curls that changed this week`,
         },
         {
             text: `Month`,
             action: () => {
                 App.filter_month()
-            }
+            },
+            info: `Show the curls that changed this month`,
+        },
+        {
+            separator: true,
         },
         {
             text: `Curl`,
             action: () => {
                 App.filter_curl()
-            }
+            },
+            info: `Filter by curl`,
         },
         {
             text: `Status`,
             action: () => {
                 App.filter_status()
-            }
+            },
+            info: `Filter by status`,
+        },
+        {
+            text: `Date`,
+            action: () => {
+                App.filter_date()
+            },
+            info: `Filter by date`,
         },
         {
             separator: true,
@@ -244,7 +280,8 @@ App.show_filter_menu = (e) => {
             text: `Clear`,
             action: () => {
                 App.clear_filter()
-            }
+            },
+            info: `Clear the filter`,
         },
     ]
 
