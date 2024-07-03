@@ -45,6 +45,7 @@ Combo.show_menu = (args, e) => {
                     Combo.action(args, item.value)
                 },
                 selected: item.value === current,
+                info: item.info,
             })
         }
     }

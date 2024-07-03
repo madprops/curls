@@ -81,13 +81,13 @@ App.intro = [
 App.updater_mode = App.default_updater
 
 App.updater_modes = [
-    {value: `now`, name: `Update`, skip: true},
+    {value: `now`, name: `Update`, skip: true, info: `Update now`},
     {value: App.separator},
-    {value: `minutes_1`, name: `1 Minute`},
-    {value: `minutes_5`, name: `5 Minutes`},
-    {value: `minutes_10`, name: `10 Minutes`},
-    {value: `minutes_30`, name: `30 Minutes`},
-    {value: `minutes_60`, name: `60 Minutes`},
+    {value: `minutes_1`, name: `1 Minute`, info: `Update automatically every minute`},
+    {value: `minutes_5`, name: `5 Minutes`, info: `Update automatically every 5 minutes`},
+    {value: `minutes_10`, name: `10 Minutes`, info: `Update automatically every 10 minutes`},
+    {value: `minutes_30`, name: `30 Minutes`, info: `Update automatically every 30 minutes`},
+    {value: `minutes_60`, name: `60 Minutes`, info: `Update automatically every hour`},
     {value: App.separator},
     {value: `disabled`, name: `Disabled`},
 ]
@@ -95,51 +95,51 @@ App.updater_modes = [
 App.sort_mode = App.default_sort
 
 App.sort_modes = [
-    {value: `order`, name: `Order`},
+    {value: `order`, name: `Order`, info: `Use the same order as the curlist`},
     {value: App.separator},
-    {value: `newest`, name: `Newest`},
-    {value: `oldest`, name: `Oldest`},
+    {value: `newest`, name: `Newest`, info: `Most recently changed at the top`},
+    {value: `oldest`, name: `Oldest`, info: `Oldest ones at the top`},
     {value: App.separator},
-    {value: `curl_asc`, name: `Curl Asc`},
-    {value: `curl_desc`, name: `Curl Desc`},
+    {value: `curl_asc`, name: `Curl Asc`, info: `Sort curls alphabetically in ascending order`},
+    {value: `curl_desc`, name: `Curl Desc`, info: `Sort curls alphabetically in descending order`},
     {value: App.separator},
-    {value: `status_asc`, name: `Status Asc`},
-    {value: `status_desc`, name: `Status Desc`},
+    {value: `status_asc`, name: `Status Asc`, info: `Sort status alphabetically in ascending order`},
+    {value: `status_desc`, name: `Status Desc`, info: `Sort status alphabetically in descending order`},
     {value: App.separator},
-    {value: `curl_short`, name: `Curl Short`},
-    {value: `curl_long`, name: `Curl Long`},
+    {value: `curl_short`, name: `Curl Short`, info: `Sort by the length of the curl in ascending order`},
+    {value: `curl_long`, name: `Curl Long`, info: `Sort by the length of the curl in descending order`},
     {value: App.separator},
-    {value: `status_short`, name: `Status Short`},
-    {value: `status_long`, name: `Status Long`},
+    {value: `status_short`, name: `Status Short`, info: `Sort by the length of the status in ascending order`},
+    {value: `status_long`, name: `Status Long`, info: `Sort by the length of the status in descending order`},
 ]
 
 App.color_mode = App.default_color
 
 App.color_modes = [
-    {value: `red`, name: `Red`},
-    {value: `green`, name: `Green`},
-    {value: `blue`, name: `Blue`},
-    {value: `yellow`, name: `Yellow`},
-    {value: `purple`, name: `Purple`},
-    {value: `white`, name: `White`},
+    {value: `red`, name: `Red`, info: `Go to Red`},
+    {value: `green`, name: `Green`, info: `Go to Green`},
+    {value: `blue`, name: `Blue`, info: `Go to Blue`},
+    {value: `yellow`, name: `Yellow`, info: `Go to Yellow`},
+    {value: `purple`, name: `Purple`, info: `Go to Purple`},
+    {value: `white`, name: `White`, info: `Go to White`},
 ]
 
 App.font_mode = App.default_font
 
 App.font_modes = [
-    {value: `sans-serif`, name: `Sans`},
-    {value: `serif`, name: `Serif`},
-    {value: `monospace`, name: `Mono`},
-    {value: `cursive`, name: `Cursive`},
+    {value: `sans-serif`, name: `Sans`, info: `Use Sans-Serif as the font`},
+    {value: `serif`, name: `Serif`, info: `Use Serif as the font`},
+    {value: `monospace`, name: `Mono`, info: `Use Monospace as the font`},
+    {value: `cursive`, name: `Cursive`, info: `Use Cursive as the font`},
 ]
 
 App.border_mode = App.default_border
 
 App.border_modes = [
-    {value: `solid`, name: `Solid`},
-    {value: `dotted`, name: `Dotted`},
-    {value: `dashed`, name: `Dashed`},
-    {value: `bigger`, name: `Bigger`},
+    {value: `solid`, name: `Solid`, info: `Normal solid border`},
+    {value: `dotted`, name: `Dotted`, info: `Dotted border`},
+    {value: `dashed`, name: `Dashed`, info: `Dashed border`},
+    {value: `bigger`, name: `Bigger`, info: `Normal border but twice as thick`},
     {value: App.separator},
-    {value: `none`, name: `None`},
+    {value: `none`, name: `None`, info: `No border`},
 ]
