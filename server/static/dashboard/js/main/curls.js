@@ -179,7 +179,7 @@ App.clear_curls = (color = App.color_mode) => {
 App.edit_curl = (curl) => {
     App.prompt({title: `Edit Curl`, callback: (value) => {
         App.edit_curl_submit(curl, value)
-    }, value: curl})
+    }, value: curl, message: `Change the name of this curl`})
 }
 
 App.edit_curl_submit = (curl, new_curl) => {
