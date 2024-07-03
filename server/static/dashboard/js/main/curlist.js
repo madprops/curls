@@ -511,7 +511,7 @@ App.do_select_curlist_item = (args = {}) => {
 
     if (args.highlight) {
         let curl = App.extract_curlist_curl(args.item)
-        App.highlight_items(curl)
+        App.highlight_items({curl: curl})
     }
 }
 
@@ -670,7 +670,13 @@ App.select_curlist_vertical = (direction, shift) => {
                 item = selected[0]
             }
             else {
-                item = items[first_index - 1]
+                let index = first_index - 1
+
+                if (index < 0) {
+                    index = items.length - 1
+                }
+
+                item = items[index]
             }
 
             if (!item) {
@@ -697,7 +703,13 @@ App.select_curlist_vertical = (direction, shift) => {
                 item = selected[selected.length - 1]
             }
             else {
-                item = items[last_index + 1]
+                let index = first_index + 1
+
+                if (index >= items.length) {
+                    index = 0
+                }
+
+                item = items[index]
             }
 
             if (!item) {
