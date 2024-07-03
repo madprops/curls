@@ -509,10 +509,6 @@ input[type="password"]
     padding: 0.8rem !important;
 }
 
-input[type="checkbox"] {
-    cursor: pointer;
-}
-
 #needcontext-container {
     background-color: var(--alt_background_color) !important;
     border: 1px solid var(--alt_border_color) !important;
