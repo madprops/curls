@@ -373,6 +373,8 @@ App.shadow_items = () => {
             item.element.classList.remove(`shadow`)
         }
     }
+
+    window.scrollTo(0, window.scrollY)
 }
 
 App.unshadow_items = () => {
