@@ -10,6 +10,13 @@ App.setup_more = () => {
             App.reset_more_options(e)
         }
     })
+
+    let lines = [
+        "More options",
+        "Middle Click to reset",
+    ]
+
+    button.title = lines.join(`\n`)
 }
 
 App.more_change_highlight = (what) => {
