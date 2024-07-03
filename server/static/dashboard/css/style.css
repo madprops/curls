@@ -335,7 +335,7 @@ input[type="password"]
     top: var(--vertical_padding);
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 10px white;
+    box-shadow: 0 0 30px var(--alt_border_color);
     border-radius: 6px;
 }
 
