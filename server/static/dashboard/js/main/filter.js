@@ -202,12 +202,6 @@ App.set_filter = (value) => {
 App.show_filter_menu = (e) => {
     let items = [
         {
-            text: `Clear`,
-            action: () => {
-                App.clear_filter()
-            }
-        },
-        {
             text: `Owned`,
             action: () => {
                 App.filter_owned()
@@ -241,6 +235,15 @@ App.show_filter_menu = (e) => {
             text: `Status`,
             action: () => {
                 App.filter_status()
+            }
+        },
+        {
+            separator: true,
+        },
+        {
+            text: `Clear`,
+            action: () => {
+                App.clear_filter()
             }
         },
     ]
