@@ -511,7 +511,7 @@ App.do_select_curlist_item = (args = {}) => {
 
     if (args.shadow) {
         let curl = App.extract_curlist_curl(args.item)
-        App.shadow_item(curl)
+        App.shadow_items()
     }
 }
 
@@ -588,6 +588,15 @@ App.do_select_curlist_range = (item, start, end) => {
 App.select_curlist_toggle = (item) => {
     item.classList.toggle(`selected`)
     App.prev_curlist_range_item = item
+    App.curlist_check_selected(item)
+}
+
+App.curlist_check_selected = (item) => {
+    if (item.classList.contains(`selected`)) {
+        let curl = App.extract_curlist_curl(item)
+        App.show_peek(curl)
+        App.shadow_items()
+    }
 }
 
 App.get_selected_curls = () => {

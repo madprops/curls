@@ -361,9 +361,11 @@ App.show_item_menu = (args = {}) => {
     })
 }
 
-App.shadow_item = (curl) => {
+App.shadow_items = () => {
+    let selected = App.get_selected_curls()
+
     for (let item of App.items) {
-        if (item.curl === curl) {
+        if (selected.includes(item.curl)) {
             item.element.classList.add(`shadow`)
             item.element.scrollIntoView({ behavior: `smooth`, block: `center` })
         }
