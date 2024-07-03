@@ -510,7 +510,8 @@ App.do_select_curlist_item = (args = {}) => {
     }
 
     if (args.shadow) {
-        App.shadow_items()
+        let curl = App.extract_curlist_curl(args.item)
+        App.shadow_items(curl)
     }
 }
 
@@ -583,14 +584,16 @@ App.do_select_curlist_range = (item, start, end) => {
         App.do_select_curlist_item({item: items[i], peek: peek, shadow: false})
     }
 
-    App.shadow_items()
+    let curl = App.extract_curlist_curl(item)
+    App.shadow_items(curl)
 }
 
 App.select_curlist_toggle = (item) => {
+    let curl = App.extract_curlist_curl(item)
     item.classList.toggle(`selected`)
     App.prev_curlist_range_item = item
-    App.curlist_check_selected(item)
-    App.shadow_items()
+    App.shadow_items(curl)
+    App.show_peek(curl)
 }
 
 App.get_selected_curls = () => {

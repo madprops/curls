@@ -361,20 +361,20 @@ App.show_item_menu = (args = {}) => {
     })
 }
 
-App.shadow_items = () => {
+App.shadow_items = (curl) => {
     let selected = App.get_selected_curls()
 
     for (let item of App.items) {
         if (selected.includes(item.curl)) {
             item.element.classList.add(`shadow`)
-            App.scroll_element(item.element)
         }
         else {
             item.element.classList.remove(`shadow`)
         }
     }
 
-    window.scrollTo(0, window.scrollY)
+    let item = App.get_item(curl)
+    App.scroll_element(item.element)
 }
 
 App.unshadow_items = () => {

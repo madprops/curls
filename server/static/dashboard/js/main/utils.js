@@ -148,6 +148,6 @@ App.def_args = (def, args) => {
 }
 
 App.scroll_element = (el, block = `center`) => {
-    el.scrollIntoView({ behavior: `instant`, block: block })
+    el.scrollIntoView({ behavior: `smooth`, block: block })
     window.scrollTo(0, window.scrollY)
 }
