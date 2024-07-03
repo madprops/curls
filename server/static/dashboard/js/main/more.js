@@ -1,7 +1,7 @@
 App.setup_more = () => {
     let button = DOM.el(`#footer_more`)
 
-    DOM.ev(button, 'click', (e) => {
+    DOM.ev(button, `click`, (e) => {
         App.show_more_menu(e)
     })
 
@@ -12,8 +12,8 @@ App.setup_more = () => {
     })
 
     let lines = [
-        "More options",
-        "Middle Click to reset",
+        `More options`,
+        `Middle Click to reset`,
     ]
 
     button.title = lines.join(`\n`)

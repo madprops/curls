@@ -64,6 +64,7 @@ App.do_update_items = (args = {}) => {
     let def_args = {
         items: App.items,
         check_filter: true,
+        highlight: false,
     }
 
     App.def_args(def_args, args)
@@ -79,6 +80,10 @@ App.do_update_items = (args = {}) => {
 
     if (args.check_filter) {
         App.check_filter()
+    }
+
+    if (args.highlight) {
+        App.highlight_items()
     }
 }
 
@@ -390,8 +395,10 @@ App.highlight_items = (curl) => {
         }
     }
 
-    let item = App.get_item(curl)
-    App.scroll_element(item.element)
+    if (curl) {
+        let item = App.get_item(curl)
+        App.scroll_element(item.element)
+    }
 }
 
 App.unhighlight_items = () => {

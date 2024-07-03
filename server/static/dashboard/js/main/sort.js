@@ -23,7 +23,7 @@ App.change_sort = (value) => {
 
     App.sort_mode = value
     localStorage.setItem(`sort`, value)
-    App.update_items()
+    App.update_items({highlight: true})
 }
 
 App.sort_if_order = () => {
