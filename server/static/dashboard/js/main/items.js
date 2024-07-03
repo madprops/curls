@@ -1,15 +1,5 @@
 App.setup_items = () => {
-    let wrap_checkbox = DOM.el(`#wrap_enabled`)
     App.wrap_enabled = App.load_wrap_enabled()
-    wrap_checkbox.checked = App.wrap_enabled
-    let wrap_checkbox_item = DOM.el(`#wrap_enabled_item`)
-
-    DOM.ev(wrap_checkbox_item, `click`, () => {
-        App.wrap_enabled = !App.wrap_enabled
-        wrap_checkbox.checked = App.wrap_enabled
-        App.save_wrap_enabled()
-        App.update_items()
-    })
 
     App.update_items_debouncer = App.create_debouncer((args) => {
         App.do_update_items(args)

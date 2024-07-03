@@ -1,17 +1,5 @@
 App.setup_controls = () => {
-    let checkbox = DOM.el(`#controls_enabled`)
-    let checkbox_item = DOM.el(`#controls_enabled_item`)
-
     App.controls_enabled = App.load_controls_enabled()
-    checkbox.checked = App.controls_enabled
-
-    DOM.ev(checkbox_item, `click`, () => {
-        App.controls_enabled = !App.controls_enabled
-        checkbox.checked = App.controls_enabled
-        App.save_controls_enabled()
-        App.check_controls()
-    })
-
     App.check_controls()
 }
 

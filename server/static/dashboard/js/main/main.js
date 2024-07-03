@@ -13,6 +13,7 @@ App.setup = () => {
     App.setup_filter()
     App.setup_peek()
     App.start_mouse()
+    App.setup_more()
     App.setup_font()
     App.setup_border()
     App.setup_controls()
