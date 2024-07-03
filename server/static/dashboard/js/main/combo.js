@@ -18,6 +18,14 @@ Combo.register = (args = {}) => {
         e.preventDefault()
     })
 
+    let lines = [
+        `Click to pick option`,
+        `Wheel to cycle option`,
+        `Middle Click to reset`,
+    ]
+
+    args.element.title = lines.join(`\n`)
+
     Combo.update_text(args)
 }
 

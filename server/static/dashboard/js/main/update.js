@@ -1,13 +1,5 @@
 App.setup_updater = () => {
     let updater = DOM.el(`#updater`)
-
-    let lines = [
-        `Click to pick updater`,
-        `Wheel to cycle updaters`,
-        `Middle Click to reset`,
-    ]
-
-    updater.title = lines.join(`\n`)
     App.updater_mode = App.load_updater()
 
     Combo.register({

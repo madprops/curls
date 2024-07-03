@@ -1,13 +1,5 @@
 App.setup_sort = () => {
     let sort = DOM.el(`#sort`)
-
-    let lines = [
-        `Click to pick sort`,
-        `Wheel to cycle sorts`,
-        `Middle Click to reset`,
-    ]
-
-    sort.title = lines.join(`\n`)
     App.sort_mode = App.load_sort()
 
     Combo.register({

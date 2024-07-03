@@ -2,14 +2,6 @@ App.setup_color = () => {
     let color = DOM.el(`#color`)
     App.color_mode = App.load_color()
 
-    let lines = [
-        `Click to pick color`,
-        `Wheel to cycle colors`,
-        `Middle Click to reset`,
-    ]
-
-    color.title = lines.join(`\n`)
-
     Combo.register({
         items: App.color_modes,
         value: App.color_mode,
