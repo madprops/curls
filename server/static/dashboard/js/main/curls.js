@@ -141,7 +141,7 @@ App.get_curls = (color = App.color_mode) => {
 App.replace_curls = () => {
     App.prompt({title: `Replace Curls`, callback: (value) => {
         App.replace_curls_submit(value)
-    }, message: `This will replace the entire list`})
+    }, message: `Replace the entire list with this`})
 }
 
 App.replace_curls_submit = (curls) => {
