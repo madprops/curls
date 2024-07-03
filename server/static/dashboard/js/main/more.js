@@ -9,6 +9,27 @@ App.setup_more = () => {
 App.show_more_menu = (e) => {
     let items = []
 
+    if (App.highlight_enabled) {
+        items.push({
+            text: `Disable Highlight`,
+            action: () => {
+                App.highlight_enabled = false
+                App.save_highlight_enabled()
+            },
+            info: `Disable the highlight effect on the container when selecting items in the curlist`,
+        })
+    }
+    else {
+        items.push({
+            text: `Enable Highlight`,
+            action: () => {
+                App.highlight_enabled = true
+                App.save_highlight_enabled()
+            },
+            info: `Enable the highlight effect on the container when selecting items in the curlist`,
+        })
+    }
+
     if (App.peek_enabled) {
         items.push({
             text: `Disable Peek`,
@@ -73,27 +94,6 @@ App.show_more_menu = (e) => {
                 App.check_controls()
             },
             info: `Enable the controls`,
-        })
-    }
-
-    if (App.highlight_enabled) {
-        items.push({
-            text: `Disable Highlight`,
-            action: () => {
-                App.highlight_enabled = false
-                App.save_highlight_enabled()
-            },
-            info: `Disable the higlight effect on the container when selecting items in the curlist`,
-        })
-    }
-    else {
-        items.push({
-            text: `Enable Highlight`,
-            action: () => {
-                App.highlight_enabled = true
-                App.save_highlight_enabled()
-            },
-            info: `Enable the higlight effect on the container when selecting items in the curlist`,
         })
     }
 
