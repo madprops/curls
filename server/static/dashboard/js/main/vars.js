@@ -8,17 +8,16 @@ App.WEEK = App.DAY * 7
 App.MONTH = App.DAY * 30
 App.YEAR = App.DAY * 365
 
-App.update_delay = App.MINUTE * 5
-App.old_delay = App.YEAR * 1
 App.max_curls = 100
 App.curl_max_length = 20
 App.key_length = 22
 App.status_max_length = 500
-App.clear_delay = 800
 App.max_picker_items = 1000
 App.max_status_list = 100
 App.status_menu_max_length = 110
 
+App.old_delay = App.YEAR * 1
+App.update_delay = App.MINUTE * 5
 App.filter_debouncer_delay = 250
 App.curlist_filter_debouncer_delay = 250
 App.update_debouncer_delay = 250
@@ -27,6 +26,7 @@ App.check_scroll_debouncer_delay = 100
 App.update_items_debouncer_delay = 100
 App.peek_debouncer_delay = 100
 App.highlight_items_debouncer_delay = 25
+App.clear_delay = 800
 
 App.items = []
 App.colors_alpha = {}
