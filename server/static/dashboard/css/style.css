@@ -335,6 +335,8 @@ input[type="password"]
     top: var(--vertical_padding);
     align-items: center;
     justify-content: center;
+    box-shadow: 0 0 10px white;
+    border-radius: 6px;
 }
 
 #peek.active {
