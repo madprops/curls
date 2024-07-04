@@ -21,6 +21,7 @@ App.setup = () => {
     App.setup_windows()
     App.update_autocomplete()
     App.setup_intro()
+    App.setup_block()
     App.update()
 }
 

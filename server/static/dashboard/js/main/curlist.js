@@ -157,6 +157,7 @@ App.setup_curlist = () => {
 
     filter.value = ``
 
+    App.register_block(`curlist_vertical`, 100)
     App.curlist_drag_events()
     App.update_curlist()
 }
@@ -649,6 +650,10 @@ App.get_curlist_item = (curl) => {
 }
 
 App.select_curlist_vertical = (direction, shift) => {
+    if (App.block_charge(`curlist_vertical`)) {
+        return
+    }
+
     let items = App.curlist_get_visible()
     let selected = App.get_selected_items()
     let prev_index = items.indexOf(App.prev_curlist_range_item)

@@ -31,6 +31,7 @@ App.clear_delay = 800
 App.items = []
 App.colors_alpha = {}
 App.colors_alpha_2 = {}
+App.block_items = {}
 App.console_logs = true
 App.curlist_enabled = true
 App.updates_enabled = false
