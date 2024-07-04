@@ -121,13 +121,15 @@ def make_key(curl: str) -> str:
 
 
 def check_key(curl: str, key: str) -> bool:
+    curl = clean_curl(curl)
+    key = clean_key(key)
+
     if not key:
         return False
 
     if len(key) > config.key_length:
         return False
 
-    curl = clean_curl(curl)
     dbase = db.get_db()
     cursor = dbase.cursor()
     db_string = "SELECT key FROM curls WHERE curl = ?"
@@ -138,6 +140,7 @@ def check_key(curl: str, key: str) -> bool:
 
 def update_status(curl: str, status: str) -> None:
     curl = clean_curl(curl)
+    status = clean_status(status)
     dbase = db.get_db()
     cursor = dbase.cursor()
     db_string = "UPDATE curls SET status = ?, updated = ? WHERE curl = ?"
