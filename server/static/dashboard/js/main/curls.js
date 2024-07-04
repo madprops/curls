@@ -47,7 +47,7 @@ Curls.do_add = (args = {}) => {
 
     App.def_args(def_args, args)
 
-    if (!.check(args.curl)) {
+    if (!Curlist.check(args.curl)) {
         return false
     }
 
@@ -196,7 +196,7 @@ Curls.edit_submit = (curl, new_curl) => {
 }
 
 Curls.do_edit = (curl, new_curl) => {
-    if (!.check(new_curl)) {
+    if (!Curlist.check(new_curl)) {
         return
     }
 
@@ -218,7 +218,7 @@ Curls.do_edit = (curl, new_curl) => {
     App.update({ curls: [new_curl] })
 }
 
-.check = (curl) => {
+Curlist.check = (curl) => {
     if (!curl) {
         return false
     }
@@ -238,7 +238,7 @@ Curls.clean = (curls) => {
     let cleaned = []
 
     for (let curl of curls) {
-        if (!.check(curl)) {
+        if (!Curlist.check(curl)) {
             continue
         }
 

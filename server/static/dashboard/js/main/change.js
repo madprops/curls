@@ -31,7 +31,7 @@ App.do_change = () => {
         return
     }
 
-    if (curl.length > App.curl_max_length) {
+    if (curl.length > Curls.max_length) {
         App.error(App.curl_too_long)
         App.alert({title: `Error`, message: App.curl_too_long})
         return
