@@ -1,3 +1,12 @@
+/*
+
+This is a button widget
+It can be used to cycle through a list of items
+It uses NeedContext to show the menu
+It's similar to a select widget
+
+*/
+
 const Combo = {
     id: 0,
 }

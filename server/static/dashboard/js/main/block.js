@@ -1,3 +1,12 @@
+/*
+
+This is used to rate limit certain operations
+Every operation adds 1 charge to a registered item
+If the charge is above the limit, the operation is blocked
+Charges are decreased over time
+
+*/
+
 const Block = {
     interval_delay: 2000,
     date_delay: 500,
