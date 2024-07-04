@@ -1,5 +1,8 @@
-Block = {}
-Block.date_delay = 500
+Block = {
+    interval_delay: 2000,
+    date_delay: 500,
+    relief: 0.1,
+}
 
 Block.setup = () => {
     setInterval(() => {
@@ -11,11 +14,11 @@ Block.setup = () => {
             }
 
             if (item.charge > 0) {
-                let dec = Math.max(1, Math.round(item.charge * 0.1))
+                let dec = Math.max(1, Math.round(item.charge * Block.relief))
                 item.charge -= parseInt(dec)
             }
         }
-    }, 2000)
+    }, Block.interval_delay)
 }
 
 Block.register = (name, limit) => {

@@ -1,5 +1,6 @@
-const Combo = {}
-Combo.id = 0
+const Combo = {
+    id: 0,
+}
 
 Combo.register = (args = {}) => {
     DOM.evs(args.element, [`click`, `contextmenu`], (e) => {
