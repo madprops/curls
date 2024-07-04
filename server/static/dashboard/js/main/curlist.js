@@ -42,6 +42,14 @@ Curlist.setup = () => {
         e.preventDefault()
     })
 
+    DOM.ev(container, `dblclick`, (e) => {
+        let item = Curlist.extract_item(e.target)
+
+        if (!item) {
+            App.add_curls(`bottom`)
+        }
+    })
+
     DOM.ev(container, `keydown`, (e) => {
         if (e.key === `Delete`) {
             App.remove_selected_curls()
@@ -115,9 +123,6 @@ Curlist.setup = () => {
 
         if (item) {
             App.edit_curl(curl)
-        }
-        else {
-            App.add_curls(`bottom`)
         }
     })
 
