@@ -28,7 +28,7 @@ Sort.modes = [
     {value: `status_long`, name: `Status Long`, info: `Sort by the length of the status in descending order`},
 ]
 
-App.setup_sort = () => {
+Sort.setup = () => {
     let sort = DOM.el(`#sort`)
     Sort.mode = Sort.load_sort()
 
