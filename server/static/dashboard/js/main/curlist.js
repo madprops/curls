@@ -112,12 +112,8 @@ App.setup_curlist = () => {
             }
         }
         else if (e.key === `Escape`) {
-            if (App.peek_open) {
-                App.hide_peek()
-            }
-            else {
-                App.deselect_curlist()
-            }
+            App.hide_peek()
+            App.deselect_curlist()
         }
     })
 
