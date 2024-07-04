@@ -107,7 +107,7 @@ App.after_curls_move = (new_curls, curls, leader) => {
     App.save_curls(new_curls)
     App.update_curlist()
     App.sort_if_order()
-    App.unselect_curlist()
+    App.deselect_curlist()
 
     for (let curl of curls) {
         let el = App.get_curlist_item(curl)

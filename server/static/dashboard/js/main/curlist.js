@@ -116,7 +116,7 @@ App.setup_curlist = () => {
                 App.hide_peek()
             }
             else {
-                App.unselect_curlist()
+                App.deselect_curlist()
             }
         }
     })
@@ -488,7 +488,7 @@ App.select_curlist_item = (item) => {
     let items = App.get_curlist_elements()
 
     for (let it of items) {
-        App.do_unselect_curlist_item(it)
+        App.do_deselect_curlist_item(it)
     }
 
     App.do_select_curlist_item({item: item})
@@ -520,7 +520,7 @@ App.do_select_curlist_item = (args = {}) => {
     }
 }
 
-App.do_unselect_curlist_item = (item) => {
+App.do_deselect_curlist_item = (item) => {
     item.classList.remove(`selected`)
 }
 
@@ -581,7 +581,7 @@ App.do_select_curlist_range = (item, start, end) => {
 
     for (let i = 0; i < items.length; i++) {
         if ((i < start) || (i > end)) {
-            App.do_unselect_curlist_item(items[i])
+            App.do_deselect_curlist_item(items[i])
             continue
         }
 
@@ -618,7 +618,7 @@ App.get_selected_items = () => {
     return items.filter(x => x.classList.contains(`selected`))
 }
 
-App.unselect_curlist = () => {
+App.deselect_curlist = () => {
     let items = App.get_curlist_elements()
 
     for (let item of items) {
@@ -782,7 +782,7 @@ App.clear_curlist_filter = () => {
         DOM.show(el)
     }
 
-    App.unselect_curlist()
+    App.deselect_curlist()
 }
 
 App.extract_curlist_item = (item) => {
@@ -852,6 +852,7 @@ App.save_after_move = () => {
 
 App.select_curlist_items = (curls) => {
     let items = App.curlist_get_visible()
+    App.deselect_curlist()
 
     for (let curl of curls) {
         let item = App.get_curlist_item(curl)

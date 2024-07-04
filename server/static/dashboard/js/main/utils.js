@@ -1,4 +1,4 @@
-App.unselect = () => {
+App.deselect = () => {
     window.getSelection().removeAllRanges()
 }
 

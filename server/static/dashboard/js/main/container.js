@@ -75,7 +75,7 @@ App.set_container_info = (info) => {
     item.innerHTML = info
     container.innerHTML = ``
     container.append(item)
-    App.unselect()
+    App.deselect()
 }
 
 App.get_container_items = () => {

@@ -80,7 +80,7 @@ App.do_update_items = (args = {}) => {
         App.create_element(item)
     }
 
-    App.unselect()
+    App.deselect()
     App.check_empty()
 
     if (args.check_filter) {
