@@ -1,3 +1,12 @@
+/*
+
+The curlist is the sidebar at the last
+This is the list of curls of a specific color
+Several features are implemented
+Like navigation, selection, filtering
+
+*/
+
 const Curlist = {
     enabled: true,
     mouse_down: false,
