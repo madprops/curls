@@ -380,6 +380,10 @@ Container.do_highlight = (args = {}) => {
     let selected = Curlist.get_selected_curls()
 
     for (let item of Items.list) {
+        if (!item || !item.element) {
+            continue
+        }
+
         if (selected.includes(item.curl)) {
             item.element.classList.add(`highlight`)
         }
@@ -390,6 +394,9 @@ Container.do_highlight = (args = {}) => {
 
     if (args.curl) {
         let item = Items.get(args.curl)
-        App.scroll_element({item: item.element, behavior: args.behavior})
+
+        if (item && item.element) {
+            App.scroll_element({item: item.element, behavior: args.behavior})
+        }
     }
 }
