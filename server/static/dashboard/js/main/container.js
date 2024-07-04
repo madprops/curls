@@ -391,7 +391,7 @@ Container.do_highlight = (args = {}) => {
     let selected = Curlist.get_selected_curls()
 
     for (let item of Items.list) {
-        if (!item) {
+        if (!item || !item.element) {
             continue
         }
 
