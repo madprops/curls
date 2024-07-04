@@ -24,12 +24,12 @@ App.change_sort = (value) => {
 
     App.sort_mode = value
     App.save(`sort`, value)
-    App.update_items()
+    Container.update()
 }
 
 App.sort_if_order = () => {
     if (App.sort_mode == `order`) {
-        App.update_items()
+        Container.update()
     }
 }
 

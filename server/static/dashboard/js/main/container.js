@@ -1,16 +1,29 @@
-App.setup_container = () => {
+/*
+
+This is the main container widget with the vertical items
+
+*/
+
+const Container = {
+    check_scroll_debouncer_delay: 100,
+    wrap_enabled: true,
+    highlight_enabled: true,
+    update_debouncer_delay: 100,
+}
+
+Container.setup = () => {
     let outer = DOM.el(`#container_outer`)
     let container = DOM.el(`#container`)
 
     DOM.ev(container, `click`, (e) => {
         if (e.target.closest(`.item_updated`)) {
-            App.change_date_mode()
+            Container.change_date_mode()
             return
         }
 
         if (e.target.closest(`.item_icon`)) {
             let curl = e.target.closest(`.item`).dataset.curl
-            App.show_item_menu({curl: curl, e: e, from: `container`})
+            Items.show_menu({curl: curl, e: e, from: `container`})
             return
         }
     })
@@ -29,47 +42,58 @@ App.setup_container = () => {
         if (e.target.closest(`.item_icon`)) {
             e.preventDefault()
             let curl = e.target.closest(`.item`).dataset.curl
-            App.show_item_menu({curl: curl, e: e, from: `container`})
+            Items.show_menu({curl: curl, e: e, from: `container`})
         }
     })
 
-    App.check_scroll_debouncer = App.create_debouncer(
-        App.do_check_scroll, App.check_scroll_debouncer_delay)
+    Container.check_scroll_debouncer = App.create_debouncer(
+        Container.do_check_scroll, Container.check_scroll_debouncer_delay)
 
     DOM.ev(outer, `scroll`, (e) => {
-        App.check_scroll()
+        Container.check_scroll()
     })
 
     let observer = new MutationObserver((list, observer) => {
-        App.check_scroll()
+        Container.check_scroll()
     })
 
     observer.observe(container, { childList: true })
-    App.container_drag_events()
+    Container.drag_events()
+
+    Container.wrap_enabled = Container.load_wrap_enabled()
+    Container.highlight_enabled = Container.load_highlight_enabled()
+
+    Container.update_debouncer = App.create_debouncer((args) => {
+        Container.do_update(args)
+    }, Container.update_debouncer_delay)
+
+    Container.highlight_debouncer = App.create_debouncer((args) => {
+        Container.do_highlight_items(args)
+    }, Container.highlight_debouncer_delay)
 }
 
-App.clear_container = () => {
+Container.clear = () => {
     let container = DOM.el(`#container`)
     container.innerHTML = ``
 }
 
-App.empty_container = () => {
-    App.set_container_info(App.empty_info)
+Container.empty = () => {
+    Container.set_info(App.empty_info)
 }
 
-App.check_empty = () => {
-    let els = App.get_container_items()
+Container.check_empty = () => {
+    let els = Container.get_items()
 
     if (!els) {
-        App.empty_container()
+        Container.empty()
     }
 }
 
-App.container_loading = () => {
-    App.set_container_info(`Loading...`)
+Container.loading = () => {
+    Container.set_info(`Loading...`)
 }
 
-App.set_container_info = (info) => {
+Container.set_info = (info) => {
     let container = DOM.el(`#container`)
     let item = DOM.create(`div`, `info_item`)
     item.innerHTML = info
@@ -78,26 +102,26 @@ App.set_container_info = (info) => {
     App.deselect()
 }
 
-App.get_container_items = () => {
+Container.get_items = () => {
     return DOM.els(`#container .item`)
 }
 
-App.scroll_container_top = () => {
+Container.scroll_top = () => {
     let container = DOM.el(`#container_outer`)
     container.scrollTop = 0
 }
 
-App.scroll_container_bottom = () => {
+Container.scroll_bottom = () => {
     let container = DOM.el(`#container_outer`)
     container.scrollTop = container.scrollHeight
 }
 
-App.check_scroll = () => {
-    App.check_scroll_debouncer.call()
+Container.check_scroll = () => {
+    Container.check_scroll_debouncer.call()
 }
 
-App.do_check_scroll = () => {
-    App.check_scroll_debouncer.cancel()
+Container.do_check_scroll = () => {
+    Container.check_scroll_debouncer.cancel()
     let outer = DOM.el(`#container_outer`)
     let top = DOM.el(`#scroller_top`)
     let bottom = DOM.el(`#scroller_bottom`)
@@ -121,7 +145,7 @@ App.do_check_scroll = () => {
     }
 }
 
-App.container_drag_events = () => {
+Container.drag_events = () => {
     let container = DOM.el(`#container`)
 
     DOM.ev(container, `dragstart`, (e) => {
@@ -146,7 +170,7 @@ App.container_drag_events = () => {
     })
 
     DOM.ev(container, `dragenter`, (e) => {
-        let items = App.get_container_items()
+        let items = Container.get_items()
         let item = e.target.closest(`.item`)
         let index = items.indexOf(item)
 
@@ -166,12 +190,12 @@ App.container_drag_events = () => {
     })
 
     DOM.ev(container, `dragend`, (e) => {
-        App.order_based_on_container()
+        Container.order_based_on_container()
     })
 }
 
-App.order_based_on_container = () => {
-    let items = App.get_container_items()
+Container.order_based_on_container = () => {
+    let items = Container.get_items()
     let curls = items.map(item => item.dataset.curl)
 
     if (!curls || !curls.length) {
@@ -180,4 +204,199 @@ App.order_based_on_container = () => {
 
     Curls.save(curls)
     Curlist.update()
+}
+
+Container.save_wrap_enabled = () => {
+    App.save(`wrap_enabled`, App.wrap_enabled)
+}
+
+Container.load_wrap_enabled = () => {
+    return App.load_boolean(`wrap_enabled`)
+}
+
+Container.save_highlight_enabled = () => {
+    App.save(`highlight_enabled`, App.highlight_enabled)
+}
+
+Container.load_highlight_enabled = () => {
+    return App.load_boolean(`highlight_enabled`)
+}
+
+Container.add = (items, curls) => {
+    let normal = Items.list.filter(item => !item.missing)
+    Items.list = [...items]
+
+    for (let item of normal) {
+        if (Items.list.find(x => x.curl === item.curl)) {
+            continue
+        }
+
+        Items.list.push(item)
+    }
+
+    let missing = Items.find_missing()
+    Items.list.push(...missing)
+    Items.add_dates()
+    Container.update({select: curls})
+}
+
+Container.insert = (items) => {
+    Items.list = items
+    Items.list.map(x => x.missing = false)
+    let missing = Items.find_missing()
+    Items.list.push(...missing)
+    Items.add_dates()
+    Container.update()
+}
+
+Container.update = (args) => {
+    App.update_debouncer.call(args)
+}
+
+Container.do_update = (args = {}) => {
+    App.update_debouncer.cancel()
+
+    let def_args = {
+        items: Items.list,
+        check_filter: true,
+        highlight: true,
+        select: [],
+    }
+
+    App.def_args(def_args, args)
+    App.info(`Updating Items`)
+    Container.clear()
+    App.sort_items(args.items)
+
+    for (let item of args.items) {
+        Container.create_element(item)
+    }
+
+    App.deselect()
+    Container.check_empty()
+
+    if (args.check_filter) {
+        App.check_filter()
+    }
+
+    if (args.highlight) {
+        App.highlight_items()
+    }
+
+    if (args.select.length) {
+        Curlist.select_items(args.select)
+    }
+}
+
+Container.create_element = (item) => {
+    let container = DOM.el(`#container`)
+    let el = DOM.create(`div`, `item`)
+    let item_icon = DOM.create(`div`, `item_icon`)
+    item_icon.draggable = true
+
+    let lines = [
+        `Click to show menu`,
+        `Middle Click to remove`,
+    ]
+
+    item_icon.title = lines.join(`\n`)
+
+    let canvas = DOM.create(`canvas`, `item_icon_canvas`)
+    jdenticon.update(canvas, item.curl)
+    item_icon.append(canvas)
+
+    let item_curl = DOM.create(`div`, `item_curl`)
+    let item_status = DOM.create(`div`, `item_status`)
+
+    if (!App.wrap_enabled) {
+        item_status.classList.add(`nowrap`)
+    }
+
+    let item_updated = DOM.create(`div`, `item_updated glow`)
+
+    item_curl.textContent = item.curl
+    item_curl.title = item.curl
+    let status = item.status || `Not updated yet`
+    item_status.innerHTML = App.sanitize(status)
+    item_status.title = status
+    App.urlize(item_status)
+
+    item_updated.textContent = item.updated_text
+
+    let lines_2 = [
+        item.updated_text,
+        `Click to toggle between 12 and 24 hours`,
+    ]
+
+    item_updated.title = lines_2.join(`\n`)
+
+    el.append(item_icon)
+    el.append(item_curl)
+    el.append(item_status)
+    el.append(item_updated)
+
+    el.dataset.curl = item.curl
+
+    container.append(el)
+    container.append(el)
+
+    item.element = el
+}
+
+Container.get_date_mode = () => {
+    return App.load_string(`date_mode`, `12`)
+}
+
+Container.change_date_mode = () => {
+    let selected = window.getSelection().toString()
+
+    if (selected) {
+        return
+    }
+
+    let date_mode = App.get_date_mode()
+    date_mode = date_mode === `12` ? `24` : `12`
+    App.save(`date_mode`, date_mode)
+    Items.add_dates()
+    Container.update()
+}
+
+Container.dehighlight = () => {
+    for (let item of Items.list) {
+        item.element.classList.remove(`highlight`)
+    }
+}
+
+Container.highlight_items = (args) => {
+    Container.highlight_debouncer.call(args)
+}
+
+Container.do_highlight_items = (args = {}) => {
+    Container.highlight_debouncer.cancel()
+
+    let def_args = {
+        behavior: `smooth`,
+    }
+
+    App.def_args(def_args, args)
+
+    if (!App.highlight_enabled) {
+        return
+    }
+
+    let selected = Curlist.get_selected_curls()
+
+    for (let item of Items.list) {
+        if (selected.includes(item.curl)) {
+            item.element.classList.add(`highlight`)
+        }
+        else {
+            item.element.classList.remove(`highlight`)
+        }
+    }
+
+    if (args.curl) {
+        let item = Items.get(args.curl)
+        App.scroll_element({item: item.element, behavior: args.behavior})
+    }
 }

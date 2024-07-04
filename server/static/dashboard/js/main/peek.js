@@ -51,7 +51,7 @@ Peek.do_show = (args = {}) => {
     }
 
     let peek = DOM.el(`#peek`)
-    let item = App.get_item(args.curl)
+    let item = Items.get(args.curl)
     let icon = DOM.create(`div`, `peek_icon`)
     let canvas = DOM.create(`canvas`, `peek_icon_canvas`)
     jdenticon.update(canvas, item.curl)
@@ -64,7 +64,7 @@ Peek.do_show = (args = {}) => {
     updated.textContent = item.updated_text
 
     DOM.ev(icon, `click`, (e) => {
-        App.show_item_menu({curl: args.curl, e: e, from: `peek`})
+        Items.show_menu({curl: args.curl, e: e, from: `peek`})
     })
 
     icon.title = `Click to show menu`

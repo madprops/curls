@@ -29,8 +29,8 @@ More.setup = () => {
 }
 
 More.change_highlight = (what) => {
-    App.highlight_enabled = what
-    App.save_highlight_enabled()
+    Container.highlight_enabled = what
+    Container.save_highlight_enabled()
 }
 
 More.change_peek = (what) => {
@@ -39,11 +39,11 @@ More.change_peek = (what) => {
 }
 
 More.change_wrap = (what, actions = true) => {
-    App.wrap_enabled = what
-    App.save_wrap_enabled()
+    Container.wrap_enabled = what
+    Container.save_wrap_enabled()
 
     if (actions) {
-        App.update_items()
+        Container.update()
     }
 }
 
@@ -59,7 +59,7 @@ More.change_controls = (what, actions = true) => {
 More.show_menu = (e) => {
     let items = []
 
-    if (App.highlight_enabled) {
+    if (Container.highlight_enabled) {
         items.push({
             text: `Disable Highlight`,
             action: () => {
@@ -97,7 +97,7 @@ More.show_menu = (e) => {
         })
     }
 
-    if (App.wrap_enabled) {
+    if (Container.wrap_enabled) {
         items.push({
             text: `Disable Wrap`,
             action: () => {
@@ -140,9 +140,9 @@ More.show_menu = (e) => {
 
 More.reset = () => {
     let vars = [
-        App.highlight_enabled,
+        Container.highlight_enabled,
         Peek.enabled,
-        App.wrap_enabled,
+        Container.wrap_enabled,
         App.controls_enabled,
     ]
 
@@ -161,5 +161,5 @@ More.do_reset = () => {
     More.change_wrap(true, false)
     More.change_controls(true, false)
     App.check_controls()
-    App.update_items()
+    Container.update()
 }

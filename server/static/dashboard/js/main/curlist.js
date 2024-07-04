@@ -42,7 +42,7 @@ Curlist.setup = () => {
         let curl = Curlist.extract_curl(item)
 
         if (item) {
-            App.show_item_menu({curl: curl, e: e})
+            Items.show_menu({curl: curl, e: e})
         }
         else {
             Curlist.show_menu(e)
@@ -654,7 +654,7 @@ Curlist.deselect = () => {
         item.classList.remove(`selected`)
     }
 
-    App.dehighlight_items()
+    Container.dehighlight()
 }
 
 Curlist.get_elements = () => {

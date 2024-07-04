@@ -1,164 +1,20 @@
-App.setup_items = () => {
-    App.wrap_enabled = App.load_wrap_enabled()
-    App.highlight_enabled = App.load_highlight_enabled()
+/*
 
-    App.update_items_debouncer = App.create_debouncer((args) => {
-        App.do_update_items(args)
-    }, App.update_items_debouncer_delay)
+This is a general manager for items
 
-    App.highlight_items_debouncer = App.create_debouncer((args) => {
-        App.do_highlight_items(args)
-    }, App.highlight_items_debouncer_delay)
+*/
+
+const Items = {
+    items: [],
 }
 
-App.save_wrap_enabled = () => {
-    App.save(`wrap_enabled`, App.wrap_enabled)
+Items.get = (curl) => {
+    return Items.list.find(item => item.curl === curl)
 }
 
-App.load_wrap_enabled = () => {
-    return App.load_boolean(`wrap_enabled`)
-}
-
-App.save_highlight_enabled = () => {
-    App.save(`highlight_enabled`, App.highlight_enabled)
-}
-
-App.load_highlight_enabled = () => {
-    return App.load_boolean(`highlight_enabled`)
-}
-
-App.get_date_mode = () => {
-    return App.load_string(`date_mode`, `12`)
-}
-
-App.add_items = (items, curls) => {
-    let normal = App.items.filter(item => !item.missing)
-    App.items = [...items]
-
-    for (let item of normal) {
-        if (App.items.find(x => x.curl === item.curl)) {
-            continue
-        }
-
-        App.items.push(item)
-    }
-
-    let missing = App.get_missing()
-    App.items.push(...missing)
-    App.add_dates_to_items()
-    App.update_items({select: curls})
-}
-
-App.insert_items = (items) => {
-    App.items = items
-    App.items.map(x => x.missing = false)
-    let missing = App.get_missing()
-    App.items.push(...missing)
-    App.add_dates_to_items()
-    App.update_items()
-}
-
-App.update_items = (args) => {
-    App.update_items_debouncer.call(args)
-}
-
-App.do_update_items = (args = {}) => {
-    App.update_items_debouncer.cancel()
-
-    let def_args = {
-        items: App.items,
-        check_filter: true,
-        highlight: true,
-        select: [],
-    }
-
-    App.def_args(def_args, args)
-    App.info(`Updating Items`)
-    App.clear_container()
-    App.sort_items(args.items)
-
-    for (let item of args.items) {
-        App.create_element(item)
-    }
-
-    App.deselect()
-    App.check_empty()
-
-    if (args.check_filter) {
-        App.check_filter()
-    }
-
-    if (args.highlight) {
-        App.highlight_items()
-    }
-
-    if (args.select.length) {
-        Curlist.select_items(args.select)
-    }
-}
-
-App.create_element = (item) => {
-    let container = DOM.el(`#container`)
-    let el = DOM.create(`div`, `item`)
-    let item_icon = DOM.create(`div`, `item_icon`)
-    item_icon.draggable = true
-
-    let lines = [
-        `Click to show menu`,
-        `Middle Click to remove`,
-    ]
-
-    item_icon.title = lines.join(`\n`)
-
-    let canvas = DOM.create(`canvas`, `item_icon_canvas`)
-    jdenticon.update(canvas, item.curl)
-    item_icon.append(canvas)
-
-    let item_curl = DOM.create(`div`, `item_curl`)
-    let item_status = DOM.create(`div`, `item_status`)
-
-    if (!App.wrap_enabled) {
-        item_status.classList.add(`nowrap`)
-    }
-
-    let item_updated = DOM.create(`div`, `item_updated glow`)
-
-    item_curl.textContent = item.curl
-    item_curl.title = item.curl
-    let status = item.status || `Not updated yet`
-    item_status.innerHTML = App.sanitize(status)
-    item_status.title = status
-    App.urlize(item_status)
-
-    item_updated.textContent = item.updated_text
-
-    let lines_2 = [
-        item.updated_text,
-        `Click to toggle between 12 and 24 hours`,
-    ]
-
-    item_updated.title = lines_2.join(`\n`)
-
-    el.append(item_icon)
-    el.append(item_curl)
-    el.append(item_status)
-    el.append(item_updated)
-
-    el.dataset.curl = item.curl
-
-    container.append(el)
-    container.append(el)
-
-    item.element = el
-}
-
-App.get_item = (curl) => {
-    return App.items.find(item => item.curl === curl)
-}
-
-App.get_missing = () => {
+Items.find_missing = () => {
     let used = Curls.get()
-    let curls = used.filter(curl => !App.items.find(item => item.curl === curl))
+    let curls = used.filter(curl => !Items.list.find(item => item.curl === curl))
     let missing = []
 
     for (let curl of curls) {
@@ -168,36 +24,22 @@ App.get_missing = () => {
     return missing
 }
 
-App.get_missing_items = () => {
-    return App.items.filter(item => item.missing)
+App.get_missing = () => {
+    return Items.list.filter(item => item.missing)
 }
 
-App.change_date_mode = () => {
-    let selected = window.getSelection().toString()
-
-    if (selected) {
-        return
-    }
-
-    let date_mode = App.get_date_mode()
-    date_mode = date_mode === `12` ? `24` : `12`
-    App.save(`date_mode`, date_mode)
-    App.add_dates_to_items()
-    App.update_items()
-}
-
-App.get_owned_items = () => {
+Items.get_owned = () => {
     let picker_items = App.get_picker_items()
 
-    return App.items.filter(item => picker_items.find(
+    return Items.list.filter(item => picker_items.find(
         picker => picker.curl === item.curl))
 }
 
-App.get_items_by_date = (what) => {
+Items.get_by_date = (what) => {
     let cleaned = []
     let now = App.now()
 
-    for (let item of App.items) {
+    for (let item of Items.list) {
         let date = new Date(item.updated + `Z`)
         let diff = now - date
 
@@ -209,26 +51,26 @@ App.get_items_by_date = (what) => {
     return cleaned
 }
 
-App.get_today_items = () => {
-    return App.get_items_by_date(App.DAY)
+Items.get_today = () => {
+    return Items.get_by_date(App.DAY)
 }
 
-App.get_week_items = () => {
-    return App.get_items_by_date(App.WEEK)
+Items.get_week = () => {
+    return Items.get_by_date(App.WEEK)
 }
 
-App.get_month_items = () => {
-    return App.get_items_by_date(App.MONTH)
+Items.get_month = () => {
+    return Items.get_by_date(App.MONTH)
 }
 
-App.reset_items = () => {
-    App.items = []
+Items.reset = () => {
+    Items.items = []
 }
 
-App.add_dates_to_items = () => {
-    for (let item of App.items) {
+Items.add_dates = () => {
+    for (let item of Items.list) {
         let date = new Date(item.updated + `Z`)
-        let date_mode = App.get_date_mode()
+        let date_mode = Container.get_date_mode()
         let s_date
 
         if (date_mode === `12`) {
@@ -242,7 +84,7 @@ App.add_dates_to_items = () => {
     }
 }
 
-App.copy_items = (curl) => {
+Items.copy = (curl) => {
     function blink (icon) {
         if (!icon) {
             return
@@ -264,7 +106,7 @@ App.copy_items = (curl) => {
     let msgs = []
 
     for (let curl of curls) {
-        let item = App.get_item(curl)
+        let item = Items.get(curl)
         msgs.push(`${item.curl}\n${item.status}\n${item.updated_text}`)
 
         if (Peek.open && Peek.curl === curl) {
@@ -278,7 +120,7 @@ App.copy_items = (curl) => {
     App.copy_to_clipboard(msg)
 }
 
-App.show_item_menu = (args = {}) => {
+Items.show_menu = (args = {}) => {
     let def_args = {
         from: `curlist`,
     }
@@ -305,7 +147,7 @@ App.show_item_menu = (args = {}) => {
             {
                 text: `Copy`,
                 action: () => {
-                    App.copy_items(args.curl)
+                    Items.copy(args.curl)
                 }
             },
             {
@@ -336,7 +178,7 @@ App.show_item_menu = (args = {}) => {
             {
                 text: `Copy`,
                 action: () => {
-                    App.copy_items(args.curl)
+                    Items.copy(args.curl)
                 }
             },
             {
@@ -387,44 +229,4 @@ App.show_item_menu = (args = {}) => {
             Curlist.focus()
         }
     })
-}
-
-App.highlight_items = (args) => {
-    App.highlight_items_debouncer.call(args)
-}
-
-App.do_highlight_items = (args = {}) => {
-    App.highlight_items_debouncer.cancel()
-
-    let def_args = {
-        behavior: `smooth`,
-    }
-
-    App.def_args(def_args, args)
-
-    if (!App.highlight_enabled) {
-        return
-    }
-
-    let selected = Curlist.get_selected_curls()
-
-    for (let item of App.items) {
-        if (selected.includes(item.curl)) {
-            item.element.classList.add(`highlight`)
-        }
-        else {
-            item.element.classList.remove(`highlight`)
-        }
-    }
-
-    if (args.curl) {
-        let item = App.get_item(args.curl)
-        App.scroll_element({item: item.element, behavior: args.behavior})
-    }
-}
-
-App.dehighlight_items = () => {
-    for (let item of App.items) {
-        item.element.classList.remove(`highlight`)
-    }
 }

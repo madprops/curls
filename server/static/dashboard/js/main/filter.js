@@ -68,7 +68,7 @@ App.filter = () => {
 
 App.do_filter = () => {
     App.filter_debouncer.cancel()
-    let els = App.get_container_items()
+    let els = Container.get_items()
 
     if (!els.length) {
         return
@@ -80,19 +80,19 @@ App.do_filter = () => {
     let scope = `all`
 
     if (App.filter_mode === `owned`) {
-        special = App.get_owned_items()
+        special = Items.get_owned()
         is_special = true
     }
     else if (App.filter_mode === `today`) {
-        special = App.get_today_items()
+        special = Items.get_today()
         is_special = true
     }
     else if (App.filter_mode === `week`) {
-        special = App.get_week_items()
+        special = Items.get_week()
         is_special = true
     }
     else if (App.filter_mode === `month`) {
-        special = App.get_month_items()
+        special = Items.get_month()
         is_special = true
     }
     else if (App.filter_mode === `curl`) {
@@ -131,7 +131,7 @@ App.do_filter = () => {
     }
 
     for (let el of els) {
-        let item = App.get_item(el.dataset.curl)
+        let item = Items.get(el.dataset.curl)
         let curl = item.curl.toLowerCase()
         let status = item.status.toLowerCase()
         let updated = item.updated_text.toLowerCase()

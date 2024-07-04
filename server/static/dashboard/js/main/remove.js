@@ -40,7 +40,7 @@ App.remove_empty = () => {
     let removed = []
 
     for (let curl of curls) {
-        let item = App.get_item(curl)
+        let item = Items.get(curl)
 
         if (!item) {
             continue
@@ -68,7 +68,7 @@ App.remove_old = () => {
     let removed = []
 
     for (let curl of curls) {
-        let item = App.get_item(curl)
+        let item = Items.get(curl)
 
         if (!item) {
             continue
@@ -123,18 +123,18 @@ App.remove_item = (curl) => {
 
 App.remove_items = (removed) => {
     for (let curl of removed) {
-        let item = App.get_item(curl)
+        let item = Items.get(curl)
         let el = item.element
 
         if (el) {
             el.remove()
         }
 
-        let index = App.items.indexOf(item)
-        App.items.splice(index, 1)
+        let index = Items.list.indexOf(item)
+        Items.list.splice(index, 1)
     }
 
-    App.check_empty()
+    Container.check_empty()
 }
 
 App.save_cleaned = (cleaned, removed) => {
@@ -195,7 +195,7 @@ App.remove_all_curls = () => {
     App.confirm({title: `Remove All Curls`, ok: () => {
         Curls.clear()
         Curlist.update()
-        App.empty_container()
+        Container.empty()
         Peek.hide()
     }, message: `Remove all curls in the current color`})
 }
@@ -223,13 +223,13 @@ App.remove_curls = (curls) => {
 App.remove_curl_item = (curl) => {
     let cleaned = []
 
-    for (let item of App.items) {
+    for (let item of Items.list) {
         if (item.curl !== curl) {
             cleaned.push(item)
         }
     }
 
-    App.items = cleaned
+    Items.list = cleaned
 }
 
 App.clear_all_curls = () => {
@@ -239,6 +239,6 @@ App.clear_all_curls = () => {
         }
 
         Curlist.update()
-        App.empty_container()
+        Container.empty()
     }, message: `Remove all curls in all colors`})
 }

@@ -92,7 +92,7 @@ App.update_curls = async (args) => {
     }
 
     if (!args.curls.length) {
-        App.empty_container()
+        Container.empty()
         return
     }
 
@@ -111,8 +111,8 @@ App.update_curls = async (args) => {
     App.updating = true
     App.info(`Update: Request ${App.network} (${args.curls.length})`)
 
-    if (!App.items.length) {
-        App.container_loading()
+    if (!Items.list.length) {
+        Container.loading()
     }
 
     try {
@@ -134,10 +134,10 @@ App.update_curls = async (args) => {
         let items = await response.json()
 
         if (add) {
-            App.add_items(items, args.curls)
+            Container.add(items, args.curls)
         }
         else {
-            App.insert_items(items)
+            Container.insert(items)
         }
     }
     catch (e) {

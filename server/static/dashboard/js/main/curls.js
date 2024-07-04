@@ -1,3 +1,9 @@
+/*
+
+This is a general manager for curls
+
+*/
+
 const Curls = {
     max_curls: 100,
     max_length: 20,

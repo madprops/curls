@@ -4,8 +4,8 @@ App.setup = () => {
     App.setup_buttons()
     App.setup_color()
     Curlist.setup()
-    App.setup_container()
-    App.setup_items()
+    Container.setup()
+    App.setup()
     App.setup_updater()
     App.setup_sort()
     App.setup_change()
@@ -41,14 +41,14 @@ App.setup_buttons = () => {
     let top = DOM.el(`#scroller_top`)
 
     DOM.ev(top, `click`, () => {
-        App.scroll_container_top()
+        Container.scroll_top()
         App.do_check_scroll()
     })
 
     let bottom = DOM.el(`#scroller_bottom`)
 
     DOM.ev(bottom, `click`, () => {
-        App.scroll_container_bottom()
+        Container.scroll_bottom()
         App.do_check_scroll()
     })
 
