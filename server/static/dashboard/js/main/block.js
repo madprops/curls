@@ -10,7 +10,7 @@ Block.setup = () => {
                 item.charge -= parseInt(dec)
             }
         }
-    }, 1000)
+    }, 2000)
 }
 
 Block.register = (name, limit) => {
