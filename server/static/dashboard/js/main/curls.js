@@ -117,7 +117,7 @@ Curls.to_bottom = (curls) => {
 Curls.after_move = (new_curls, curls, leader) => {
     Curls.save(new_curls)
     Curlist.update()
-    App.sort_if_order()
+    Sort.sort_if_order()
     Curlist.deselect()
 
     for (let curl of curls) {

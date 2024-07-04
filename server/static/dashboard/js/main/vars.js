@@ -22,7 +22,6 @@ App.console_logs = true
 App.controls_enabled = true
 App.date_mode = `12`
 App.default_color = `green`
-App.default_sort = `newest`
 App.default_font = `sans-serif`
 App.default_border = `solid`
 App.separator = `__separator__`
@@ -58,27 +57,6 @@ App.intro = [
     `Each color has its own set of curls.`,
     `You are limited to 100 curls per color.`,
 ].join(`\n`)
-
-App.sort_mode = App.default_sort
-
-App.sort_modes = [
-    {value: `order`, name: `Order`, info: `Use the same order as the curlist`},
-    {value: App.separator},
-    {value: `newest`, name: `Newest`, info: `Most recently changed at the top`},
-    {value: `oldest`, name: `Oldest`, info: `Oldest ones at the top`},
-    {value: App.separator},
-    {value: `curl_asc`, name: `Curl Asc`, info: `Sort curls alphabetically in ascending order`},
-    {value: `curl_desc`, name: `Curl Desc`, info: `Sort curls alphabetically in descending order`},
-    {value: App.separator},
-    {value: `status_asc`, name: `Status Asc`, info: `Sort status alphabetically in ascending order`},
-    {value: `status_desc`, name: `Status Desc`, info: `Sort status alphabetically in descending order`},
-    {value: App.separator},
-    {value: `curl_short`, name: `Curl Short`, info: `Sort by the length of the curl in ascending order`},
-    {value: `curl_long`, name: `Curl Long`, info: `Sort by the length of the curl in descending order`},
-    {value: App.separator},
-    {value: `status_short`, name: `Status Short`, info: `Sort by the length of the status in ascending order`},
-    {value: `status_long`, name: `Status Long`, info: `Sort by the length of the status in descending order`},
-]
 
 App.color_mode = App.default_color
 

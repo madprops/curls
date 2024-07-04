@@ -14,7 +14,7 @@ Change.setup = () => {
     let submit = DOM.el(`#change_submit`)
 
     DOM.ev(submit, `click`, () => {
-        Change.trigger()
+        Change.change()
     })
 
     Change.debouncer = App.create_debouncer((force, feedback) => {
@@ -22,7 +22,7 @@ Change.setup = () => {
     }, Change.debouncer_delay)
 }
 
-Change.trigger = () => {
+Change.change = () => {
     Change.debouncer.call()
 }
 

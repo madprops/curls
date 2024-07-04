@@ -31,7 +31,7 @@ Filter.setup = () => {
             Filter.clear()
         }
 
-        Filter.trigger()
+        Filter.filter()
     })
 
     Filter.debouncer = App.create_debouncer(Filter.do_filter, Filter.debouncer_delay)
@@ -87,7 +87,7 @@ Filter.clear = () => {
     Filter.unfilter()
 }
 
-Filter.trigger = () => {
+Filter.filter = () => {
     Filter.debouncer.call()
 }
 

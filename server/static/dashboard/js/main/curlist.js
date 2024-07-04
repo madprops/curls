@@ -384,7 +384,7 @@ Curlist.do_sort = (how) => {
 
     Curls.save(curls)
     Curlist.update()
-    App.sort_if_order()
+    Sort.sort_if_order()
 }
 
 Curlist.export = () => {
@@ -881,7 +881,7 @@ Curlist.move_down = () => {
 Curlist.save_after_move = () => {
     let curls = Curlist.get_curls()
     Curls.save(curls)
-    App.sort_if_order()
+    Sort.sort_if_order()
 }
 
 Curlist.select_items = (curls) => {

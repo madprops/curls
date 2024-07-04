@@ -29,7 +29,7 @@ Items.get_missing = () => {
 }
 
 Items.get_owned = () => {
-    let picker_items = App.get_picker_items()
+    let picker_items = Picker.get_items()
 
     return Items.list.filter(item => picker_items.find(
         picker => picker.curl === item.curl))

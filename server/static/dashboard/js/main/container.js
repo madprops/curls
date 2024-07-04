@@ -267,7 +267,7 @@ Container.do_update = (args = {}) => {
     App.def_args(def_args, args)
     App.info(`Updating Items`)
     Container.clear()
-    App.sort_items(args.items)
+    Sort.sort(args.items)
 
     for (let item of args.items) {
         Container.create_element(item)

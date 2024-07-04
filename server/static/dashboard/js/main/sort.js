@@ -1,40 +1,70 @@
+/*
+
+This sorts the container
+
+*/
+
+const Sort = {
+    default_mode: `newest`,
+    ls_name: `sort`,
+}
+
+Sort.modes = [
+    {value: `order`, name: `Order`, info: `Use the same order as the curlist`},
+    {value: App.separator},
+    {value: `newest`, name: `Newest`, info: `Most recently changed at the top`},
+    {value: `oldest`, name: `Oldest`, info: `Oldest ones at the top`},
+    {value: App.separator},
+    {value: `curl_asc`, name: `Curl Asc`, info: `Sort curls alphabetically in ascending order`},
+    {value: `curl_desc`, name: `Curl Desc`, info: `Sort curls alphabetically in descending order`},
+    {value: App.separator},
+    {value: `status_asc`, name: `Status Asc`, info: `Sort status alphabetically in ascending order`},
+    {value: `status_desc`, name: `Status Desc`, info: `Sort status alphabetically in descending order`},
+    {value: App.separator},
+    {value: `curl_short`, name: `Curl Short`, info: `Sort by the length of the curl in ascending order`},
+    {value: `curl_long`, name: `Curl Long`, info: `Sort by the length of the curl in descending order`},
+    {value: App.separator},
+    {value: `status_short`, name: `Status Short`, info: `Sort by the length of the status in ascending order`},
+    {value: `status_long`, name: `Status Long`, info: `Sort by the length of the status in descending order`},
+]
+
 App.setup_sort = () => {
     let sort = DOM.el(`#sort`)
-    App.sort_mode = App.load_sort()
+    Sort.mode = Sort.load_sort()
 
     Combo.register({
         title: `Sort Modes`,
-        items: App.sort_modes,
-        value: App.sort_mode,
+        items: Sort.modes,
+        value: Sort.mode,
         element: sort,
-        default: App.default_sort,
+        default: Sort.default_mode,
         action: (value) => {
-            App.change_sort(value)
+            Sort.change(value)
         },
         get: () => {
-            return App.sort_mode
+            return Sort.mode
         },
     })
 }
 
-App.change_sort = (value) => {
-    if (App.sort_mode === value) {
+Sort.change = (value) => {
+    if (Sort.mode === value) {
         return
     }
 
-    App.sort_mode = value
-    App.save(`sort`, value)
+    Sort.mode = value
+    App.save(Sort.ls_name, value)
     Container.update()
 }
 
-App.sort_if_order = () => {
-    if (App.sort_mode == `order`) {
+Sort.sort_if_order = () => {
+    if (Sort.mode == `order`) {
         Container.update()
     }
 }
 
-App.sort_items = (items) => {
-    let mode = App.sort_mode
+Sort.sort = (items) => {
+    let mode = Sort.mode
 
     if (mode === `order`) {
         let curls = Curls.get()
@@ -123,6 +153,6 @@ App.sort_items = (items) => {
     }
 }
 
-App.load_sort = () => {
-    return App.load_modes(`sort`, App.sort_modes, App.default_sort)
+Sort.load_sort = () => {
+    return App.load_modes(Sort.ls_name, Sort.modes, Sort.default_mode)
 }

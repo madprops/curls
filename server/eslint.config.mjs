@@ -33,6 +33,7 @@ export default [
         Change: "writable",
         Picker: "writable",
         Filter: "writable",
+        Sort: "writable",
         NiceGesture: "writable",
         NeedContext: "writable",
         Menubutton: "writable",

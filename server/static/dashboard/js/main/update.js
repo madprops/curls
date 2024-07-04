@@ -11,6 +11,7 @@ const Update = {
     debouncer_delay: 250,
     updating: false,
     clear_delay: 800,
+    ls_name: `update`,
 }
 
 Update.modes = [
@@ -51,7 +52,7 @@ Update.setup = () => {
 }
 
 Update.load_update = () => {
-    return App.load_modes(`update`, Update.modes, Update.default_mode)
+    return App.load_modes(Update.ls_name, Update.modes, Update.default_mode)
 }
 
 Update.check = () => {
@@ -197,6 +198,6 @@ Update.change = (mode) => {
     }
 
     Update.mode = mode
-    App.save(`update`, mode)
+    App.save(Update.ls_name, mode)
     Update.check()
 }
