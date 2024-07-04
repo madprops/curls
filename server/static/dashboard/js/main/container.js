@@ -405,6 +405,9 @@ Container.do_highlight = (args = {}) => {
 
     if (args.curl) {
         let item = Items.get(args.curl)
-        App.scroll_element({item: item.element, behavior: args.behavior})
+
+        if (item && item.element) {
+            App.scroll_element({item: item.element, behavior: args.behavior})
+        }
     }
 }
