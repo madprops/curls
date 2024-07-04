@@ -850,3 +850,21 @@ App.save_after_move = () => {
     App.save_curls(curls)
     App.sort_if_order()
 }
+
+App.select_curlist_items = (curls) => {
+    let items = App.curlist_get_visible()
+
+    for (let curl of curls) {
+        let item = App.get_curlist_item(curl)
+        let index = items.indexOf(item)
+        let peek = false
+
+        if ((index === 0) || (index === items.length - 1)) {
+            peek = true
+        }
+
+        if (item) {
+            App.do_select_curlist_item({item: item, peek: peek})
+        }
+    }
+}

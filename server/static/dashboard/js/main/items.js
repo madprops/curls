@@ -33,7 +33,7 @@ App.get_date_mode = () => {
     return localStorage.getItem(`date_mode`) || `12`
 }
 
-App.add_items = (items) => {
+App.add_items = (items, curls) => {
     let normal = App.items.filter(item => !item.missing)
     App.items = [...items]
 
@@ -48,7 +48,7 @@ App.add_items = (items) => {
     let missing = App.get_missing()
     App.items.push(...missing)
     App.add_dates_to_items()
-    App.update_items()
+    App.update_items({select: curls})
 }
 
 App.insert_items = (items) => {
@@ -69,6 +69,7 @@ App.do_update_items = (args = {}) => {
         items: App.items,
         check_filter: true,
         highlight: true,
+        select: [],
     }
 
     App.def_args(def_args, args)
@@ -88,6 +89,10 @@ App.do_update_items = (args = {}) => {
 
     if (args.highlight) {
         App.highlight_items()
+    }
+
+    if (args.select.length) {
+        App.select_curlist_items(args.select)
     }
 }
 

@@ -139,7 +139,7 @@ App.update_curls = async (args) => {
         let items = await response.json()
 
         if (add) {
-            App.add_items(items)
+            App.add_items(items, args.curls)
         }
         else {
             App.insert_items(items)
