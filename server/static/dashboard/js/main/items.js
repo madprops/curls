@@ -157,7 +157,7 @@ App.get_item = (curl) => {
 }
 
 App.get_missing = () => {
-    let used = App.get_curls()
+    let used = Curls.get()
     let curls = used.filter(curl => !App.items.find(item => item.curl === curl))
     let missing = []
 
@@ -320,13 +320,13 @@ App.show_item_menu = (args = {}) => {
             {
                 text: `To Top`,
                 action: () => {
-                    App.curls_to_top(curls)
+                    Curls.to_top(curls)
                 }
             },
             {
                 text: `To Bottom`,
                 action: () => {
-                    App.curls_to_bottom(curls)
+                    Curls.to_bottom(curls)
                 }
             },
         ]
@@ -342,13 +342,13 @@ App.show_item_menu = (args = {}) => {
             {
                 text: `Edit`,
                 action: () => {
-                    App.edit_curl(args.curl)
+                    Curls.edit(args.curl)
                 }
             },
             {
                 text: `Remove`,
                 action: () => {
-                    App.remove_curls([args.curl])
+                    Curls.remove([args.curl])
                 }
             },
             {
@@ -357,13 +357,13 @@ App.show_item_menu = (args = {}) => {
             {
                 text: `To Top`,
                 action: () => {
-                    App.curls_to_top([args.curl])
+                    Curls.to_top([args.curl])
                 }
             },
             {
                 text: `To Bottom`,
                 action: () => {
-                    App.curls_to_bottom([args.curl])
+                    Curls.to_bottom([args.curl])
                 }
             },
         ]

@@ -88,7 +88,7 @@ App.update_curls = async (args) => {
         add = true
     }
     else {
-        args.curls = App.get_curls()
+        args.curls = Curls.get()
     }
 
     if (!args.curls.length) {

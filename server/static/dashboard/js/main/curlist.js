@@ -55,7 +55,7 @@ Curlist.setup = () => {
         let item = Curlist.extract_item(e.target)
 
         if (!item) {
-            App.add_curls(`bottom`)
+            Curls.add(`bottom`)
         }
     })
 
@@ -131,7 +131,7 @@ Curlist.setup = () => {
         let curl = Curlist.extract_curl(item)
 
         if (item) {
-            App.edit_curl(curl)
+            Curls.edit(curl)
         }
     })
 
@@ -188,7 +188,7 @@ Curlist.update = (curls) => {
     curlist.innerHTML = ``
 
     if (!curls) {
-        curls = App.get_curls()
+        curls = Curls.get()
     }
 
     for (let curl of curls) {
@@ -220,18 +220,18 @@ Curlist.update = (curls) => {
 
 Curlist.update_top = () => {
     let curlist_top = DOM.el(`#curlist_top`)
-    let curls = App.get_curls()
+    let curls = Curls.get()
     curlist_top.textContent = `Curls (${curls.length})`
 }
 
 Curlist.copy = () => {
-    let curls = App.get_curls()
+    let curls = Curls.get()
     let text = curls.join(` `)
     App.copy_to_clipboard(text)
 }
 
 Curlist.show_menu = (e) => {
-    let curls = App.get_curls()
+    let curls = Curls.get()
     let items
 
     let data = [
@@ -263,13 +263,13 @@ Curlist.show_menu = (e) => {
             {
                 text: `Add (Top)`,
                 action: () => {
-                    App.add_curls(`top`)
+                    Curls.add(`top`)
                 }
             },
             {
                 text: `Add (Bottom)`,
                 action: () => {
-                    App.add_curls(`bottom`)
+                    Curls.add(`bottom`)
                 }
             },
             {
@@ -299,7 +299,7 @@ Curlist.show_menu = (e) => {
             {
                 text: `Replace`,
                 action: () => {
-                    App.replace_curls()
+                    Curls.replace()
                 }
             },
             {
@@ -316,7 +316,7 @@ Curlist.show_menu = (e) => {
             {
                 text: `Add`,
                 action: () => {
-                    App.add_curls(`top`)
+                    Curls.add(`top`)
                 }
             },
             ...data,
@@ -373,7 +373,7 @@ Curlist.sort = (how) => {
 }
 
 Curlist.do_sort = (how) => {
-    let curls = App.get_curls()
+    let curls = Curls.get()
 
     if (how === `asc`) {
         curls.sort()
@@ -382,7 +382,7 @@ Curlist.do_sort = (how) => {
         curls.sort().reverse()
     }
 
-    App.save_curls(curls)
+    Curls.save(curls)
     Curlist.update()
     App.sort_if_order()
 }
@@ -391,7 +391,7 @@ Curlist.export = () => {
     let curlists = {}
 
     for (let color in App.colors) {
-        let curlist = App.get_curls(color)
+        let curlist = Curls.get(color)
 
         if (!curlist.length) {
             continue
@@ -430,7 +430,7 @@ Curlist.import_submit = (data) => {
                 continue
             }
 
-            App.save_curls(curlist, color)
+            Curls.save(curlist, color)
             modified = true
         }
 
@@ -880,7 +880,7 @@ Curlist.move_down = () => {
 
 Curlist.save_after_move = () => {
     let curls = Curlist.get_curls()
-    App.save_curls(curls)
+    Curls.save(curls)
     App.sort_if_order()
 }
 

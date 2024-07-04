@@ -178,6 +178,6 @@ App.order_based_on_container = () => {
         return
     }
 
-    App.save_curls(curls)
+    Curls.save(curls)
     Curlist.update()
 }

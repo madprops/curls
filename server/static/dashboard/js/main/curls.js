@@ -1,10 +1,15 @@
-App.add_curls = (where) => {
+const Curls = {
+    max_curls: 100,
+    max_length: 20,
+}
+
+Curls.add = (where) => {
     App.prompt({title: `Add Curls`, callback: (value) => {
-        App.add_curls_submit(where, value)
+        Curls.add_submit(where, value)
     }, message: `Enter one or more curls`})
 }
 
-App.add_curls_submit = (where, curls) => {
+Curls.add_submit = (where, curls) => {
     if (!curls) {
         return
     }
@@ -22,7 +27,7 @@ App.add_curls_submit = (where, curls) => {
     let added = []
 
     for (let curl of units) {
-        if (App.do_add_curl({where: where, curl: curl, update: false})) {
+        if (Curls.do_add({where: where, curl: curl, update: false})) {
             added.push(curl)
         }
     }
@@ -33,7 +38,7 @@ App.add_curls_submit = (where, curls) => {
     }
 }
 
-App.do_add_curl = (args = {}) => {
+Curls.do_add = (args = {}) => {
     let def_args = {
         where: `top`,
         curl: ``,
@@ -42,13 +47,13 @@ App.do_add_curl = (args = {}) => {
 
     App.def_args(def_args, args)
 
-    if (!App.check_curl(args.curl)) {
+    if (!.check(args.curl)) {
         return false
     }
 
-    let curls = App.get_curls()
+    let curls = Curls.get()
 
-    if (curls.length >= App.max_curls) {
+    if (curls.length >= Curls.max_curls) {
         return false
     }
 
@@ -61,7 +66,7 @@ App.do_add_curl = (args = {}) => {
         curls.push(args.curl)
     }
 
-    App.save_curls(curls)
+    Curls.save(curls)
 
     if (args.update) {
         Curlist.update()
@@ -70,41 +75,41 @@ App.do_add_curl = (args = {}) => {
     return true
 }
 
-App.add_owned_curl = (curl) => {
-    let curls = App.get_curls()
+Curls.add_owned = (curl) => {
+    let curls = Curls.get()
 
     if (!curls.includes(curl)) {
-        App.do_add_curl({curl: curl})
+        Curls.do_add({curl: curl})
     }
 }
 
-App.curls_to_top = (curls) => {
+Curls.to_top = (curls) => {
     let cleaned = [...curls]
 
-    for (let curl of App.get_curls()) {
+    for (let curl of Curls.get()) {
         if (!cleaned.includes(curl)) {
             cleaned.push(curl)
         }
     }
 
-    App.after_curls_move(cleaned, curls, curls[0])
+    Curls.after_move(cleaned, curls, curls[0])
 }
 
-App.curls_to_bottom = (curls) => {
+Curls.to_bottom = (curls) => {
     let cleaned = []
 
-    for (let curl of App.get_curls()) {
+    for (let curl of Curls.get()) {
         if (!curls.includes(curl)) {
             cleaned.push(curl)
         }
     }
 
     cleaned.push(...curls)
-    App.after_curls_move(cleaned, curls, App.last(curls))
+    Curls.after_move(cleaned, curls, App.last(curls))
 }
 
-App.after_curls_move = (new_curls, curls, leader) => {
-    App.save_curls(new_curls)
+Curls.after_move = (new_curls, curls, leader) => {
+    Curls.save(new_curls)
     Curlist.update()
     App.sort_if_order()
     Curlist.deselect()
@@ -120,31 +125,31 @@ App.after_curls_move = (new_curls, curls, leader) => {
     Curlist.focus_item(leader)
 }
 
-App.save_curls = (curls, color = App.color_mode) => {
-    let name = App.get_curls_name(color)
+Curls.save = (curls, color = App.color_mode) => {
+    let name = Curls.get_name(color)
     App.save(name, JSON.stringify(curls))
 }
 
-App.get_curls = (color = App.color_mode) => {
-    let name = App.get_curls_name(color)
+Curls.get = (color = App.color_mode) => {
+    let name = Curls.get_name(color)
     let saved = App.load_array(name)
 
     try {
         let curls = JSON.parse(saved)
-        return App.clean_curls(curls)
+        return Curls.clean(curls)
     }
     catch (err) {
         return []
     }
 }
 
-App.replace_curls = () => {
+Curls.replace = () => {
     App.prompt({title: `Replace Curls`, callback: (value) => {
-        App.replace_curls_submit(value)
+        Curls.replace_submit(value)
     }, message: `Replace the entire list with this`})
 }
 
-App.replace_curls_submit = (curls) => {
+Curls.replace_submit = (curls) => {
     if (!curls) {
         return
     }
@@ -156,11 +161,11 @@ App.replace_curls_submit = (curls) => {
     }
 
     units = units.reverse()
-    App.clear_curls()
+    Curls.clear()
     let added = false
 
     for (let curl of units) {
-        if (App.do_add_curl({curl: curl, update: false})) {
+        if (Curls.do_add({curl: curl, update: false})) {
             added = true
         }
     }
@@ -171,27 +176,27 @@ App.replace_curls_submit = (curls) => {
     }
 }
 
-App.clear_curls = (color = App.color_mode) => {
-    let name = App.get_curls_name(color)
+Curls.clear = (color = App.color_mode) => {
+    let name = Curls.get_name(color)
     App.save(name, ``)
 }
 
-App.edit_curl = (curl) => {
+Curls.edit = (curl) => {
     App.prompt({title: `Edit Curl`, callback: (value) => {
-        App.edit_curl_submit(curl, value)
+        Curls.edit_submit(curl, value)
     }, value: curl, message: `Change the name of this curl`})
 }
 
-App.edit_curl_submit = (curl, new_curl) => {
+Curls.edit_submit = (curl, new_curl) => {
     if (!new_curl) {
         return
     }
 
-    App.do_edit_curl(curl, new_curl)
+    Curls.do_edit(curl, new_curl)
 }
 
-App.do_edit_curl = (curl, new_curl) => {
-    if (!App.check_curl(new_curl)) {
+Curls.do_edit = (curl, new_curl) => {
+    if (!.check(new_curl)) {
         return
     }
 
@@ -199,7 +204,7 @@ App.do_edit_curl = (curl, new_curl) => {
         return
     }
 
-    let curls = App.get_curls()
+    let curls = Curls.get()
     let index = curls.indexOf(curl)
 
     if (index === -1) {
@@ -207,18 +212,18 @@ App.do_edit_curl = (curl, new_curl) => {
     }
 
     curls[index] = new_curl
-    App.save_curls(curls)
+    Curls.save(curls)
     Curlist.update()
     App.remove_curl_item(curl)
     App.update({ curls: [new_curl] })
 }
 
-App.check_curl = (curl) => {
+.check = (curl) => {
     if (!curl) {
         return false
     }
 
-    if (curl.length > App.curl_max_length) {
+    if (curl.length > Curls.max_length) {
         return false
     }
 
@@ -229,27 +234,17 @@ App.check_curl = (curl) => {
     return true
 }
 
-App.focus_curl = (curl) => {
-    let item = App.get_item(curl)
-
-    if (!item || !item.element) {
-        return
-    }
-
-    App.scroll_element({item: item.element})
-}
-
-App.clean_curls = (curls) => {
+Curls.clean = (curls) => {
     let cleaned = []
 
     for (let curl of curls) {
-        if (!App.check_curl(curl)) {
+        if (!.check(curl)) {
             continue
         }
 
         cleaned.push(curl)
 
-        if (cleaned.length >= App.max_curls) {
+        if (cleaned.length >= Curls.max_curls) {
             break
         }
     }
@@ -257,6 +252,6 @@ App.clean_curls = (curls) => {
     return cleaned
 }
 
-App.get_curls_name = (color) => {
+Curls.get_name = (color) => {
     return `curls_${color}`
 }

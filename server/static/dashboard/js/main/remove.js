@@ -14,7 +14,7 @@ App.remove_a_curl_submit = (curl) => {
 
 App.remove_not_found = () => {
     let missing = App.get_missing_items().map(x => x.curl)
-    let curls = App.get_curls()
+    let curls = Curls.get()
     let cleaned = []
     let removed = []
 
@@ -35,7 +35,7 @@ App.remove_not_found = () => {
 }
 
 App.remove_empty = () => {
-    let curls = App.get_curls()
+    let curls = Curls.get()
     let cleaned = []
     let removed = []
 
@@ -62,7 +62,7 @@ App.remove_empty = () => {
 }
 
 App.remove_old = () => {
-    let curls = App.get_curls()
+    let curls = Curls.get()
     let now = App.now()
     let cleaned = []
     let removed = []
@@ -96,7 +96,7 @@ App.remove_old = () => {
 }
 
 App.do_remove_curl = (curl, remove_item = true) => {
-    let curls = App.get_curls()
+    let curls = Curls.get()
     let cleaned = []
 
     for (let curl_ of curls) {
@@ -105,7 +105,7 @@ App.do_remove_curl = (curl, remove_item = true) => {
         }
     }
 
-    App.save_curls(cleaned)
+    Curls.save(cleaned)
     Curlist.update()
 
     if (remove_item) {
@@ -142,7 +142,7 @@ App.save_cleaned = (cleaned, removed) => {
     let curls = removed.join(`, `)
 
     App.confirm({title: `Remove ${removed.length} ${s}`, ok: () => {
-        App.save_curls(cleaned)
+        Curls.save(cleaned)
         Curlist.update()
         App.remove_items(removed)
         Peek.hide()
@@ -193,7 +193,7 @@ App.remove_selected_curls = () => {
 
 App.remove_all_curls = () => {
     App.confirm({title: `Remove All Curls`, ok: () => {
-        App.clear_curls()
+        Curls.clear()
         Curlist.update()
         App.empty_container()
         Peek.hide()
@@ -204,7 +204,7 @@ App.remove_curls = (curls) => {
     let cleaned = []
     let removed = []
 
-    for (let curl of App.get_curls()) {
+    for (let curl of Curls.get()) {
         if (!curls.includes(curl)) {
             cleaned.push(curl)
         }
@@ -235,7 +235,7 @@ App.remove_curl_item = (curl) => {
 App.clear_all_curls = () => {
     App.confirm({title: `Clear Curls`, ok: () => {
         for (let color in App.colors) {
-            App.clear_curls(color)
+            Curls.clear(color)
         }
 
         Curlist.update()

@@ -8,8 +8,6 @@ App.WEEK = App.DAY * 7
 App.MONTH = App.DAY * 30
 App.YEAR = App.DAY * 365
 
-App.max_curls = 100
-App.curl_max_length = 20
 App.key_length = 22
 App.status_max_length = 500
 App.max_picker_items = 1000
