@@ -539,7 +539,7 @@ App.select_curlist_range = (item) => {
     let index = items.indexOf(item)
     let prev_index = items.indexOf(App.prev_curlist_range_item)
     let first_index = items.indexOf(selected[0])
-    let last_index = items.indexOf(selected[selected.length - 1])
+    let last_index = items.indexOf(selected.slice(-1)[0])
     let direction
 
     if (selected.length === 1) {
@@ -642,13 +642,12 @@ App.select_curlist_vertical = (direction, shift) => {
     let selected = App.get_selected_items()
     let prev_index = items.indexOf(App.prev_curlist_range_item)
     let first_index = items.indexOf(selected[0])
-    let last_index = items.indexOf(selected[selected.length - 1])
 
     if (!selected.length) {
         let item
 
         if (direction === `up`) {
-            item = items[items.length - 1]
+            item = items.slice(-1)[0]
         }
         else if (direction === `down`) {
             item = items[0]
@@ -705,7 +704,7 @@ App.select_curlist_vertical = (direction, shift) => {
             let item
 
             if (selected.length > 1) {
-                item = selected[selected.length - 1]
+                item = selected.slice(-1)[0]
             }
             else {
                 let index = first_index + 1
@@ -829,7 +828,7 @@ App.curlist_move_up = () => {
 App.curlist_move_down = () => {
     let items = App.get_curlist_elements()
     let selected = App.get_selected_items()
-    let last_index = items.indexOf(selected[selected.length - 1])
+    let last_index = items.indexOf(selected.slice(-1)[0])
 
     if (last_index === items.length - 1) {
         return
@@ -841,7 +840,7 @@ App.curlist_move_down = () => {
 
     let next = items[last_index + 1]
     next.after(...selected)
-    App.scroll_element({item: selected[selected.length - 1]})
+    App.scroll_element({item: selected.slice(-1)[0]})
     App.save_after_move()
 }
 
