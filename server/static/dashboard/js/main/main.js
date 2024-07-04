@@ -41,14 +41,14 @@ App.setup_buttons = () => {
 
     DOM.ev(top, `click`, () => {
         Container.scroll_top()
-        App.do_check_scroll()
+        Container.do_check_scroll()
     })
 
     let bottom = DOM.el(`#scroller_bottom`)
 
     DOM.ev(bottom, `click`, () => {
         Container.scroll_bottom()
-        App.do_check_scroll()
+        Container.do_check_scroll()
     })
 
     let version = DOM.el(`#version`)
@@ -85,7 +85,7 @@ App.start_mouse = () => {
 
 App.setup_resize = () => {
     window.addEventListener(`resize`, (event) => {
-        App.check_scroll()
+        Container.check_scroll()
     })
 }
 

@@ -251,11 +251,11 @@ Container.insert = (items) => {
 }
 
 Container.update = (args) => {
-    App.update_debouncer.call(args)
+    Container.update_debouncer.call(args)
 }
 
 Container.do_update = (args = {}) => {
-    App.update_debouncer.cancel()
+    Container.update_debouncer.cancel()
 
     let def_args = {
         items: Items.list,
