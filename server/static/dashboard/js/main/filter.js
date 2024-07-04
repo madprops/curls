@@ -46,6 +46,7 @@ App.change_filter = (value) => {
     }
 
     App.filter_mode = value
+    App.focus_filter()
     App.do_filter()
     localStorage.setItem(`filter`, value)
 }
@@ -266,4 +267,8 @@ App.check_filter = () => {
     if (filter.value) {
         App.do_filter()
     }
+}
+
+App.focus_filter = () => {
+    DOM.el(`#filter`).focus()
 }
