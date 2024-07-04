@@ -118,27 +118,15 @@ App.setup_curlist = () => {
     })
 
     DOM.ev(container, `mousedown`, function() {
-        App.curlist_mouse_down = true
-        App.curlist_mouse_selected = false
+        App.curlist_mousedown()
     })
 
     DOM.ev(container, `mouseup`, function() {
-        App.curlist_mouse_down = false
-        App.curlist_mouse_selected = false
+        App.curlist_mouseup()
     })
 
     DOM.ev(container, `mouseover`, function(e) {
-        if (e.target.closest(`.curlist_item`)) {
-            if (App.curlist_mouse_down) {
-                if (!App.curlist_mouse_selected) {
-                    App.deselect_curlist()
-                }
-
-                let item = App.extract_curlist_item(e.target)
-                App.do_select_curlist_item({item: item, highlight: false})
-                App.curlist_mouse_selected = true
-            }
-        }
+        App.curlist_mouseover(e)
     })
 
     let filter = DOM.el(`#curlist_filter`)
@@ -887,4 +875,32 @@ App.select_curlist_items = (curls) => {
             App.do_select_curlist_item({item: item, peek: peek})
         }
     }
+}
+
+App.curlist_mousedown = () => {
+    App.curlist_mouse_down = true
+    App.curlist_mouse_selected = false
+}
+
+App.curlist_mouseup = () => {
+    App.curlist_mouse_down = false
+    App.curlist_mouse_selected = false
+}
+
+App.curlist_mouseover = (e) => {
+    if (!e.target.closest(`.curlist_item`)) {
+        return
+    }
+
+    if (!App.curlist_mouse_down) {
+        return
+    }
+
+    if (!App.curlist_mouse_selected) {
+        App.deselect_curlist()
+    }
+
+    let item = App.extract_curlist_item(e.target)
+    App.do_select_curlist_item({item: item, highlight: false})
+    App.curlist_mouse_selected = true
 }
