@@ -13,24 +13,41 @@ App.setup_filter = () => {
     filter.value = ``
 
     let button = DOM.el(`#filter_button`)
+    App.filter_mode = App.load_filter()
 
-    let lines = [
-        `Click to show the filter menu`,
-        `Middle Click to clear`,
-    ]
-
-    button.title = lines.join(`\n`)
-
-    DOM.evs(button, [`click`, `contextmenu`], (e) => {
-        App.show_filter_menu(e)
-        e.preventDefault()
+    Combo.register({
+        items: App.filter_modes,
+        value: App.filter_mode,
+        element: button,
+        default: App.default_filter,
+        action: (value) => {
+            App.change_filter(value)
+        },
+        get: () => {
+            return App.filter_mode
+        },
     })
+}
 
-    DOM.ev(button, `auxclick`, (e) => {
-        if (e.button === 1) {
-            App.clear_filter()
-        }
-    })
+App.load_filter = () => {
+    let saved = localStorage.getItem(`filter`) || App.default_filter
+    let values = App.clean_modes(App.filter_modes).map(x => x.value)
+
+    if (!values.includes(saved)) {
+        saved = App.default_filter
+    }
+
+    return saved
+}
+
+App.change_filter = (value) => {
+    if (App.filter_mode === value) {
+        return
+    }
+
+    App.filter_mode = value
+    App.do_filter()
+    localStorage.setItem(`filter`, value)
 }
 
 App.unfilter_all = () => {
@@ -66,37 +83,33 @@ App.do_filter = () => {
     let special = []
     let scope = `all`
 
-    if (value.startsWith(`[owned]`)) {
+    if (App.filter_mode === `owned`) {
         special = App.get_owned_items()
         is_special = true
     }
-    else if (value.startsWith(`[today]`)) {
+    else if (App.filter_mode === `today`) {
         special = App.get_today_items()
         is_special = true
     }
-    else if (value.startsWith(`[week]`)) {
+    else if (App.filter_mode === `week`) {
         special = App.get_week_items()
         is_special = true
     }
-    else if (value.startsWith(`[month]`)) {
+    else if (App.filter_mode === `month`) {
         special = App.get_month_items()
         is_special = true
     }
-    else if (value.startsWith(`[curl]`)) {
+    else if (App.filter_mode === `curl`) {
         scope = `curl`
         is_special = true
     }
-    else if (value.startsWith(`[status]`)) {
+    else if (App.filter_mode === `status`) {
         scope = `status`
         is_special = true
     }
-    else if (value.startsWith(`[date]`)) {
+    else if (App.filter_mode === `date`) {
         scope = `date`
         is_special = true
-    }
-
-    if (is_special) {
-        value = value.split(` `).slice(1).join(` `).trim()
     }
 
     if (!value && !is_special) {
@@ -173,47 +186,6 @@ App.do_filter = () => {
             }
         }
     }
-}
-
-App.filter_owned = () => {
-    App.set_filter(`[owned]`)
-    App.do_filter()
-}
-
-App.filter_today = () => {
-    App.set_filter(`[today]`)
-    App.do_filter()
-}
-
-App.filter_week = () => {
-    App.set_filter(`[week]`)
-    App.do_filter()
-}
-
-App.filter_month = () => {
-    App.set_filter(`[month]`)
-    App.do_filter()
-}
-
-App.filter_curl = () => {
-    App.set_filter(`[curl]`)
-    App.do_filter()
-}
-
-App.filter_status = () => {
-    App.set_filter(`[status]`)
-    App.do_filter()
-}
-
-App.filter_date = () => {
-    App.set_filter(`[date]`)
-    App.do_filter()
-}
-
-App.set_filter = (value) => {
-    let el = DOM.el(`#filter`)
-    el.value = value + ` `
-    el.focus()
 }
 
 App.show_filter_menu = (e) => {

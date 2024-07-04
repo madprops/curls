@@ -48,6 +48,7 @@ App.default_sort = `newest`
 App.default_updater = `minutes_5`
 App.default_font = `sans-serif`
 App.default_border = `solid`
+App.default_filter = `all`
 App.separator = `__separator__`
 App.network = `🛜`
 
@@ -146,4 +147,20 @@ App.border_modes = [
     {value: `bigger`, name: `Bigger`, info: `Normal border but twice as thick`},
     {value: App.separator},
     {value: `none`, name: `None`, info: `No border`},
+]
+
+App.filter_mode = App.default_filter
+
+App.filter_modes = [
+    {value: `all`, name: `All`, info: `Show all curls`},
+    {value: App.separator},
+    {value: `owned`, name: `Owned`, info: `Show the curls that you control`},
+    {value: App.separator},
+    {value: `today`, name: `Today`, info: `Show the curls that changed today`},
+    {value: `week`, name: `Week`, info: `Show the curls that changed this week`},
+    {value: `month`, name: `Month`, info: `Show the curls that changed this month`},
+    {value: App.separator},
+    {value: `curl`, name: `Curl`, info: `Filter by curl`},
+    {value: `status`, name: `Status`, info: `Filter by status`},
+    {value: `date`, name: `Date`, info: `Filter by date`},
 ]
