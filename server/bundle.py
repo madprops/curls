@@ -54,6 +54,7 @@ def bundle_dashboard() -> None:
             "picker",
             "filter",
             "sort",
+            "colors",
             "main",
         ],
         ["load"],

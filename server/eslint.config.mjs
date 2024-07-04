@@ -18,8 +18,10 @@ export default [
     languageOptions: {
       globals: {
         App: "writable",
+
         DOM: "writable",
         Msg: "writable",
+
         Combo: "writable",
         Block: "writable",
         Peek: "writable",
@@ -34,6 +36,8 @@ export default [
         Picker: "writable",
         Filter: "writable",
         Sort: "writable",
+        Colors: "writable",
+
         NiceGesture: "writable",
         NeedContext: "writable",
         Menubutton: "writable",

@@ -2,7 +2,7 @@ App.setup = () => {
     NeedContext.init()
     Block.setup()
     App.setup_buttons()
-    App.setup_color()
+    Colors.setup()
     Curlist.setup()
     Container.setup()
     Update.setup()
@@ -59,7 +59,7 @@ App.setup_buttons = () => {
 }
 
 App.update_title = () => {
-    let color = App.capitalize(App.color_mode)
+    let color = App.capitalize(Colors.mode)
     document.title = `Curls - ${color}`
 }
 

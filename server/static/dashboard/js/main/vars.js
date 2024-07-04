@@ -21,7 +21,6 @@ App.block_items = {}
 App.console_logs = true
 App.controls_enabled = true
 App.date_mode = `12`
-App.default_color = `green`
 App.default_font = `sans-serif`
 App.default_border = `solid`
 App.separator = `__separator__`
@@ -57,17 +56,6 @@ App.intro = [
     `Each color has its own set of curls.`,
     `You are limited to 100 curls per color.`,
 ].join(`\n`)
-
-App.color_mode = App.default_color
-
-App.color_modes = [
-    {value: `red`, name: `Red`, info: `Go to Red`},
-    {value: `green`, name: `Green`, info: `Go to Green`},
-    {value: `blue`, name: `Blue`, info: `Go to Blue`},
-    {value: `yellow`, name: `Yellow`, info: `Go to Yellow`},
-    {value: `purple`, name: `Purple`, info: `Go to Purple`},
-    {value: `white`, name: `White`, info: `Go to White`},
-]
 
 App.font_mode = App.default_font
 

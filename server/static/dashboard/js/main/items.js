@@ -139,15 +139,20 @@ Items.show_menu = (args = {}) => {
     }
 
     let items = []
+    let curls = Curlist.get_selected_curls()
 
     if (selected.length > 1) {
-        let curls = Curlist.get_selected_curls()
-
         items = [
             {
                 text: `Copy`,
                 action: () => {
                     Items.copy(args.curl)
+                }
+            },
+            {
+                text: `Move`,
+                action: () => {
+                    Colors.move(curls, args.e)
                 }
             },
             {
@@ -185,6 +190,12 @@ Items.show_menu = (args = {}) => {
                 text: `Edit`,
                 action: () => {
                     Curls.edit(args.curl)
+                }
+            },
+            {
+                text: `Move`,
+                action: () => {
+                    Colors.move(curls, args.e)
                 }
             },
             {

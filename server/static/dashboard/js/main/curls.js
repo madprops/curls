@@ -49,6 +49,7 @@ Curls.do_add = (args = {}) => {
         where: `top`,
         curl: ``,
         update: true,
+        color: Colors.mode,
     }
 
     App.def_args(def_args, args)
@@ -57,7 +58,7 @@ Curls.do_add = (args = {}) => {
         return false
     }
 
-    let curls = Curls.get()
+    let curls = Curls.get(args.color)
 
     if (curls.length >= Curls.max_curls) {
         return false
@@ -131,12 +132,12 @@ Curls.after_move = (new_curls, curls, leader) => {
     Curlist.focus_item(leader)
 }
 
-Curls.save = (curls, color = App.color_mode) => {
+Curls.save = (curls, color = Colors.mode) => {
     let name = Curls.get_name(color)
     App.save(name, JSON.stringify(curls))
 }
 
-Curls.get = (color = App.color_mode) => {
+Curls.get = (color = Colors.mode) => {
     let name = Curls.get_name(color)
     let saved = App.load_array(name)
 
@@ -182,7 +183,7 @@ Curls.replace_submit = (curls) => {
     }
 }
 
-Curls.clear = (color = App.color_mode) => {
+Curls.clear = (color = Colors.mode) => {
     let name = Curls.get_name(color)
     App.save(name, ``)
 }
