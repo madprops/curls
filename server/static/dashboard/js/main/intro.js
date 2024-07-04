@@ -12,7 +12,7 @@ App.save_intro_shown = () => {
 }
 
 App.load_intro = () => {
-    return App.load_boolean(`intro_shown`)
+    return App.load_boolean(`intro_shown`, false)
 }
 
 App.show_intro = () => {

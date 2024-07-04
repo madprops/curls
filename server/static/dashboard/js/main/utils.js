@@ -173,8 +173,9 @@ App.load_modes = (name, modes, def_value) => {
     return saved
 }
 
-App.load_boolean = (name) => {
-    let saved = localStorage.getItem(name) || `true`
+App.load_boolean = (name, positive = true) => {
+    let value = positive ? `true` : `false`
+    let saved = localStorage.getItem(name) || value
     return saved === `true`
 }
 
