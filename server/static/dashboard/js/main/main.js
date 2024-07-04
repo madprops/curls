@@ -10,7 +10,7 @@ App.setup = () => {
     Change.setup()
     Picker.setup()
     App.setup_status()
-    App.setup_filter()
+    Filter.setup()
     Peek.setup()
     App.start_mouse()
     More.setup()

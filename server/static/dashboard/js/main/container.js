@@ -277,7 +277,7 @@ Container.do_update = (args = {}) => {
     Container.check_empty()
 
     if (args.check_filter) {
-        App.check_filter()
+        Filter.check()
     }
 
     if (args.highlight) {

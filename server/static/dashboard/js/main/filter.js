@@ -1,51 +1,76 @@
-App.setup_filter = () => {
+/*
+
+This is the filter for the container
+
+*/
+
+const Filter = {
+    debouncer_delay: 250,
+    default_mode: `all`,
+}
+
+Filter.modes = [
+    {value: `all`, name: `All`, info: `Show all curls`},
+    {value: App.separator},
+    {value: `today`, name: `Today`, info: `Show the curls that changed today`},
+    {value: `week`, name: `Week`, info: `Show the curls that changed this week`},
+    {value: `month`, name: `Month`, info: `Show the curls that changed this month`},
+    {value: App.separator},
+    {value: `curl`, name: `Curl`, info: `Filter by curl`},
+    {value: `status`, name: `Status`, info: `Filter by status`},
+    {value: `date`, name: `Date`, info: `Filter by date`},
+    {value: App.separator},
+    {value: `owned`, name: `Owned`, info: `Show the curls that you control`},
+]
+
+Filter.setup = () => {
     let filter = DOM.el(`#filter`)
 
     DOM.ev(filter, `keydown`, (e) => {
         if (e.key === `Escape`) {
-            App.clear_filter()
+            Filter.clear()
         }
 
-        App.filter()
+        Filter.trigger()
     })
 
-    App.filter_debouncer = App.create_debouncer(App.do_filter, App.filter_debouncer_delay)
+    Filter.debouncer = App.create_debouncer(Filter.do_filter, Filter.debouncer_delay)
     filter.value = ``
 
     let button = DOM.el(`#filter_button`)
-    App.filter_mode = App.load_filter()
+    Filter.mode = Filter.load_filter()
 
     Combo.register({
         title: `Filter Modes`,
-        items: App.filter_modes,
-        value: App.filter_mode,
+        items: Filter.modes,
+        value: Filter.filer_mode,
         element: button,
-        default: App.default_filter,
+        default: Filter.default_mode,
         action: (value) => {
-            App.change_filter(value)
+            Filter.change(value)
         },
         get: () => {
-            return App.filter_mode
+            return Filter.mode
         },
     })
 }
 
-App.load_filter = () => {
-    return App.load_modes(`filter`, App.filter_modes, App.default_filter)
+Filter.load_filter = () => {
+    return App.load_modes(`filter`, Filter.modes, Filter.default_mode)
 }
 
-App.change_filter = (value) => {
-    if (App.filter_mode === value) {
+Filter.change = (value) => {
+    if (Filter.mode === value) {
         return
     }
 
-    App.filter_mode = value
-    App.focus_filter()
-    App.do_filter()
+    Filter.mode = value
+    Filter.focus()
+    Filter.do_filter()
     App.save(`filter`, value)
 }
 
-App.unfilter_all = () => {
+Filter.unfilter = () => {
     let els = DOM.els(`#container .item`)
 
     if (!els.length) {
@@ -57,17 +82,17 @@ App.unfilter_all = () => {
     }
 }
 
-App.clear_filter = () => {
+Filter.clear = () => {
     DOM.el(`#filter`).value = ``
-    App.unfilter_all()
+    Filter.unfilter()
 }
 
-App.filter = () => {
-    App.filter_debouncer.call()
+Filter.trigger = () => {
+    Filter.debouncer.call()
 }
 
-App.do_filter = () => {
-    App.filter_debouncer.cancel()
+Filter.do_filter = () => {
+    Filter.debouncer.cancel()
     let els = Container.get_items()
 
     if (!els.length) {
@@ -79,42 +104,42 @@ App.do_filter = () => {
     let special = []
     let scope = `all`
 
-    if (App.filter_mode === `owned`) {
+    if (Filter.mode === `owned`) {
         special = Items.get_owned()
         is_special = true
     }
-    else if (App.filter_mode === `today`) {
+    else if (Filter.mode === `today`) {
         special = Items.get_today()
         is_special = true
     }
-    else if (App.filter_mode === `week`) {
+    else if (Filter.mode === `week`) {
         special = Items.get_week()
         is_special = true
     }
-    else if (App.filter_mode === `month`) {
+    else if (Filter.mode === `month`) {
         special = Items.get_month()
         is_special = true
     }
-    else if (App.filter_mode === `curl`) {
+    else if (Filter.mode === `curl`) {
         scope = `curl`
         is_special = true
     }
-    else if (App.filter_mode === `status`) {
+    else if (Filter.mode === `status`) {
         scope = `status`
         is_special = true
     }
-    else if (App.filter_mode === `date`) {
+    else if (Filter.mode === `date`) {
         scope = `date`
         is_special = true
     }
 
     if (!value && !is_special) {
-        App.unfilter_all()
+        Filter.unfilter()
         return
     }
 
     if ((scope !== `all`) && !value) {
-        App.unfilter_all()
+        Filter.unfilter()
         return
     }
 
@@ -184,14 +209,14 @@ App.do_filter = () => {
     }
 }
 
-App.check_filter = () => {
+Filter.check = () => {
     let filter = DOM.el(`#filter`)
 
-    if (filter.value || (App.filter_mode !== App.default_filter)) {
-        App.do_filter()
+    if (filter.value || (Filter.mode !== Filter.default_mode)) {
+        Filter.do_filter()
     }
 }
 
-App.focus_filter = () => {
+Filter.focus = () => {
     DOM.el(`#filter`).focus()
 }
