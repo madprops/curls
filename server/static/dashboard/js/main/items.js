@@ -201,7 +201,7 @@ Items.show_menu = (args = {}) => {
             {
                 text: `Remove`,
                 action: () => {
-                    Curls.remove([args.curl])
+                    App.remove_curls([args.curl])
                 }
             },
             {
