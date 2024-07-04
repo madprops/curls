@@ -69,7 +69,7 @@ Container.setup = () => {
     }, Container.update_debouncer_delay)
 
     Container.highlight_debouncer = App.create_debouncer((args) => {
-        Container.do_highlight_items(args)
+        Container.do_highlight(args)
     }, Container.highlight_debouncer_delay)
 }
 
@@ -216,7 +216,7 @@ Container.load_wrap_enabled = () => {
 }
 
 Container.save_highlight_enabled = () => {
-    App.save(`highlight_enabled`, App.highlight_enabled)
+    App.save(`highlight_enabled`, Container.highlight_enabled)
 }
 
 Container.load_highlight_enabled = () => {
@@ -281,7 +281,7 @@ Container.do_update = (args = {}) => {
     }
 
     if (args.highlight) {
-        App.highlight_items()
+        Container.highlight()
     }
 
     if (args.select.length) {
@@ -368,11 +368,11 @@ Container.dehighlight = () => {
     }
 }
 
-Container.highlight_items = (args) => {
+Container.highlight = (args) => {
     Container.highlight_debouncer.call(args)
 }
 
-Container.do_highlight_items = (args = {}) => {
+Container.do_highlight = (args = {}) => {
     Container.highlight_debouncer.cancel()
 
     let def_args = {
@@ -381,7 +381,7 @@ Container.do_highlight_items = (args = {}) => {
 
     App.def_args(def_args, args)
 
-    if (!App.highlight_enabled) {
+    if (!Container.highlight_enabled) {
         return
     }
 
