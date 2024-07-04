@@ -97,8 +97,8 @@ Curlist.setup = () => {
         }
     })
 
-    DOM.ev(container, `mousedown`, function() {
-        Curlist.mousedown()
+    DOM.ev(container, `mousedown`, function(e) {
+        Curlist.mousedown(e)
     })
 
     DOM.ev(container, `mouseup`, function() {
@@ -904,7 +904,13 @@ Curlist.select_items = (curls) => {
     }
 }
 
-Curlist.mousedown = () => {
+Curlist.mousedown = (e) => {
+    let item = Curlist.extract_item(e.target)
+
+    if (item) {
+        return
+    }
+
     Curlist.mouse_down = true
     Curlist.mouse_selected = false
 }
