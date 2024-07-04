@@ -193,7 +193,7 @@ App.do_filter = () => {
 App.check_filter = () => {
     let filter = DOM.el(`#filter`)
 
-    if (filter.value) {
+    if (filter.value || (App.filter_mode !== App.default_filter)) {
         App.do_filter()
     }
 }
