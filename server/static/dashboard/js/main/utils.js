@@ -157,3 +157,7 @@ App.scroll_element = (args = {}) => {
     args.item.scrollIntoView({ behavior: args.behavior, block: args.block })
     window.scrollTo(0, window.scrollY)
 }
+
+App.last = (list) => {
+    return list.slice(-1)[0]
+}

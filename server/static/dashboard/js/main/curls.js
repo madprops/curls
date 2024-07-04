@@ -100,7 +100,7 @@ App.curls_to_bottom = (curls) => {
     }
 
     cleaned.push(...curls)
-    App.after_curls_move(cleaned, curls, curls.slice(-1)[0])
+    App.after_curls_move(cleaned, curls, App.last(curls))
 }
 
 App.after_curls_move = (new_curls, curls, leader) => {
