@@ -8,6 +8,8 @@ const Change = {
     debouncer_delay: 250,
     changing: false,
     clear_delay: 800,
+    status_max_length: 500,
+    key_length: 22,
 }
 
 Change.setup = () => {
@@ -49,13 +51,13 @@ Change.do_change = () => {
         return
     }
 
-    if (key.length > App.key_length) {
+    if (key.length > Change.key_length) {
         App.error(App.key_too_long)
         App.alert({title: `Error`, message: App.key_too_long})
         return
     }
 
-    if (status.length > App.status_max_length) {
+    if (status.length > Change.status_max_length) {
         App.error(App.status_too_long)
         App.alert({title: `Error`, message: App.status_too_long})
         return
@@ -69,7 +71,7 @@ Change.do_change = () => {
     params.append(`status`, status)
 
     Change.show_changing()
-    App.save_status(status)
+    Status.save(status)
     Change.changing = true
     App.info(`Change: Request ${App.network}`)
 

@@ -1,5 +1,18 @@
-App.setup_status = () => {
+/*
+
+This stores status items
+
+*/
+
+const Status = {
+    max_list: 100,
+    menu_max_length: 110,
+    ls_name: `status_list`,
+}
+
+Status.setup = () => {
     let status = DOM.el(`#change_status`)
+    let button = DOM.el(`#status_button`)
 
     DOM.ev(status, `keydown`, (e) => {
         if (e.key === `ArrowUp`) {
@@ -18,18 +31,22 @@ App.setup_status = () => {
 
     DOM.ev(status, `keyup`, (e) => {
         if (e.key === `ArrowUp`) {
-            App.show_status_menu()
+            Status.show_menu()
         }
         else if (e.key === `ArrowDown`) {
-            App.show_status_menu()
+            Status.show_menu()
         }
     })
 
     status.value = ``
+
+    DOM.ev(button, `click`, () => {
+        Status.show_menu()
+    })
 }
 
-App.get_status_list = () => {
-    let list = App.load_array(`status_list`)
+Status.get_list = () => {
+    let list = App.load_array(Status.ls_name)
 
     try {
         return JSON.parse(list)
@@ -39,34 +56,35 @@ App.get_status_list = () => {
     }
 }
 
-App.save_status = (status) => {
+Status.save = (status) => {
     let cleaned = []
 
-    for (let item of App.get_status_list()) {
+    for (let item of Status.get_list()) {
         if (item !== status) {
             cleaned.push(item)
         }
     }
 
-    let list = [status, ...cleaned].slice(0, App.max_status_list)
-    App.save(`status_list`, JSON.stringify(list))
+    let list = [status, ...cleaned].slice(0, Status.max_list)
+    App.save(Status.ls_name, JSON.stringify(list))
 }
 
-App.show_status_menu = () => {
-    let status_list = App.get_status_list()
+Status.show_menu = () => {
+    let status_list = Status.get_list()
 
     if (!status_list.length) {
+        App.alert({title: `Empty List`, message: `Status items appear here after you use them`})
         return
     }
 
     let items = status_list.map(status => {
         return {
-            text: status.substring(0, App.status_menu_max_length),
+            text: status.substring(0, Status.menu_max_length),
             action: () => {
-                App.set_status(status)
+                Status.set(status)
             },
             alt_action: () => {
-                App.remove_status(status)
+                Status.remove(status)
             },
         }
     })
@@ -75,26 +93,26 @@ App.show_status_menu = () => {
     NeedContext.show({items: items, element: el})
 }
 
-App.set_status = (status) => {
+Status.set = (status) => {
     let el = DOM.el(`#change_status`)
     el.value = status
-    App.focus_status()
+    Status.focus()
 }
 
-App.focus_status = () => {
+Status.focus = () => {
     DOM.el(`#change_status`).focus()
 }
 
-App.remove_status = (status) => {
+Status.remove = (status) => {
     App.confirm({title: `Remove Status`, ok: () => {
-        App.do_remove_status(status)
+        Status.do_remove(status)
     }, message: status.substring(0, 44)})
 }
 
-App.do_remove_status = (status) => {
+Status.do_remove = (status) => {
     let cleaned = []
 
-    for (let status_ of App.get_status_list()) {
+    for (let status_ of Status.get_list()) {
         if (status_ === status) {
             continue
         }
@@ -102,5 +120,5 @@ App.do_remove_status = (status) => {
         cleaned.push(status_)
     }
 
-    App.save(`status_list`, JSON.stringify(cleaned))
+    App.save(Status.ls_name, JSON.stringify(cleaned))
 }

@@ -9,7 +9,7 @@ App.setup = () => {
     App.setup_sort()
     Change.setup()
     Picker.setup()
-    App.setup_status()
+    Status.setup()
     Filter.setup()
     Peek.setup()
     App.start_mouse()

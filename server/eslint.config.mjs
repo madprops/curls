@@ -39,6 +39,7 @@ export default [
         Colors: "writable",
         Border: "writable",
         Font: "writable",
+        Status: "writable",
 
         NiceGesture: "writable",
         NeedContext: "writable",

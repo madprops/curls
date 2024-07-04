@@ -10,12 +10,6 @@ App.YEAR = App.DAY * 365
 
 App.old_delay = App.YEAR * 1
 
-App.key_length = 22
-App.status_max_length = 500
-App.max_status_list = 100
-App.status_menu_max_length = 110
-
-
 App.block_items = {}
 App.console_logs = true
 App.controls_enabled = true
