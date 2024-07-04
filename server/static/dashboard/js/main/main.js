@@ -14,7 +14,7 @@ App.setup = () => {
     App.setup_filter()
     Peek.setup()
     App.start_mouse()
-    App.setup_more()
+    More.setup()
     App.setup_font()
     App.setup_border()
     App.setup_controls()

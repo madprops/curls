@@ -1,13 +1,22 @@
-App.setup_more = () => {
+/*
+
+This is a button that sits on the footer
+It is used to toggle some options
+
+*/
+
+const More = {}
+
+More.setup = () => {
     let button = DOM.el(`#footer_more`)
 
     DOM.ev(button, `click`, (e) => {
-        App.show_more_menu(e)
+        More.show_menu(e)
     })
 
     DOM.ev(button, `auxclick`, (e) => {
         if (e.button == 1) {
-            App.reset_more_options(e)
+            More.reset(e)
         }
     })
 
@@ -19,17 +28,17 @@ App.setup_more = () => {
     button.title = lines.join(`\n`)
 }
 
-App.more_change_highlight = (what) => {
+More.change_highlight = (what) => {
     App.highlight_enabled = what
     App.save_highlight_enabled()
 }
 
-App.more_change_peek = (what) => {
+More.change_peek = (what) => {
     Peek.enabled = what
     Peek.save_enabled()
 }
 
-App.more_change_wrap = (what, actions = true) => {
+More.change_wrap = (what, actions = true) => {
     App.wrap_enabled = what
     App.save_wrap_enabled()
 
@@ -38,7 +47,7 @@ App.more_change_wrap = (what, actions = true) => {
     }
 }
 
-App.more_change_controls = (what, actions = true) => {
+More.change_controls = (what, actions = true) => {
     App.controls_enabled = what
     App.save_controls_enabled()
 
@@ -47,14 +56,14 @@ App.more_change_controls = (what, actions = true) => {
     }
 }
 
-App.show_more_menu = (e) => {
+More.show_menu = (e) => {
     let items = []
 
     if (App.highlight_enabled) {
         items.push({
             text: `Disable Highlight`,
             action: () => {
-                App.more_change_highlight(false)
+                More.change_highlight(false)
             },
             info: `Disable the highlight effect on the container when selecting items in the curlist`,
         })
@@ -63,7 +72,7 @@ App.show_more_menu = (e) => {
         items.push({
             text: `Enable Highlight`,
             action: () => {
-                App.more_change_highlight(true)
+                More.change_highlight(true)
             },
             info: `Enable the highlight effect on the container when selecting items in the curlist`,
         })
@@ -73,7 +82,7 @@ App.show_more_menu = (e) => {
         items.push({
             text: `Disable Peek`,
             action: () => {
-                App.more_change_peek(false)
+                More.change_peek(false)
             },
             info: `Disable peek when selecting items in the curlist`,
         })
@@ -82,7 +91,7 @@ App.show_more_menu = (e) => {
         items.push({
             text: `Enable Peek`,
             action: () => {
-                App.more_change_peek(true)
+                More.change_peek(true)
             },
             info: `Enable peek when selecting items in the curlist`,
         })
@@ -92,7 +101,7 @@ App.show_more_menu = (e) => {
         items.push({
             text: `Disable Wrap`,
             action: () => {
-                App.more_change_wrap(false)
+                More.change_wrap(false)
             },
             info: `Disable text wrapping in the container`,
         })
@@ -101,7 +110,7 @@ App.show_more_menu = (e) => {
         items.push({
             text: `Enable Wrap`,
             action: () => {
-                App.more_change_wrap(true)
+                More.change_wrap(true)
             },
             info: `Enable text wrapping in the container`,
         })
@@ -111,7 +120,7 @@ App.show_more_menu = (e) => {
         items.push({
             text: `Disable Controls`,
             action: () => {
-                App.more_change_controls(false)
+                More.change_controls(false)
             },
             info: `Disable the controls`,
         })
@@ -120,7 +129,7 @@ App.show_more_menu = (e) => {
         items.push({
             text: `Enable Controls`,
             action: () => {
-                App.more_change_controls(true)
+                More.change_controls(true)
             },
             info: `Enable the controls`,
         })
@@ -129,7 +138,7 @@ App.show_more_menu = (e) => {
     NeedContext.show({items: items, e: e})
 }
 
-App.reset_more_options = () => {
+More.reset = () => {
     let vars = [
         App.highlight_enabled,
         Peek.enabled,
@@ -142,15 +151,15 @@ App.reset_more_options = () => {
     }
 
     App.confirm({title: `Reset Options`, ok: () => {
-        App.do_reset_more_options()
+        More.do_reset()
     }, message: `Reset all options to default`})
 }
 
-App.do_reset_more_options = () => {
-    App.more_change_highlight(true)
-    App.more_change_peek(true)
-    App.more_change_wrap(true, false)
-    App.more_change_controls(true, false)
+More.do_reset = () => {
+    More.change_highlight(true)
+    More.change_peek(true)
+    More.change_wrap(true, false)
+    More.change_controls(true, false)
     App.check_controls()
     App.update_items()
 }

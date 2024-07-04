@@ -25,6 +25,7 @@ export default [
         Peek: "writable",
         Curlist: "writable",
         Addlist: "writable",
+        More: "writable",
         NiceGesture: "writable",
         NeedContext: "writable",
         Menubutton: "writable",

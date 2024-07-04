@@ -42,6 +42,7 @@ def bundle_dashboard() -> None:
         "combo",
         "block",
         "curlist",
+        "more",
         "vars",
         "main",
     ], ["load"])
