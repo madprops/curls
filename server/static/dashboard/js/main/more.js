@@ -25,8 +25,8 @@ App.more_change_highlight = (what) => {
 }
 
 App.more_change_peek = (what) => {
-    App.peek_enabled = what
-    App.save_peek_enabled()
+    Peek.enabled = what
+    Peek.save_enabled()
 }
 
 App.more_change_wrap = (what, actions = true) => {
@@ -69,7 +69,7 @@ App.show_more_menu = (e) => {
         })
     }
 
-    if (App.peek_enabled) {
+    if (Peek.enabled) {
         items.push({
             text: `Disable Peek`,
             action: () => {
@@ -132,7 +132,7 @@ App.show_more_menu = (e) => {
 App.reset_more_options = () => {
     let vars = [
         App.highlight_enabled,
-        App.peek_enabled,
+        Peek.enabled,
         App.wrap_enabled,
         App.controls_enabled,
     ]

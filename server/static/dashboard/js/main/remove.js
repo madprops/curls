@@ -112,8 +112,8 @@ App.do_remove_curl = (curl, remove_item = true) => {
         App.remove_item(curl)
     }
 
-    if (App.peek_curl === curl) {
-        App.hide_peek()
+    if (Peek.curl === curl) {
+        Peek.hide()
     }
 }
 
@@ -145,7 +145,7 @@ App.save_cleaned = (cleaned, removed) => {
         App.save_curls(cleaned)
         Curlist.update()
         App.remove_items(removed)
-        App.hide_peek()
+        Peek.hide()
     }, message: curls})
 }
 
@@ -196,7 +196,7 @@ App.remove_all_curls = () => {
         App.clear_curls()
         Curlist.update()
         App.empty_container()
-        App.hide_peek()
+        Peek.hide()
     }, message: `Remove all curls in the current color`})
 }
 

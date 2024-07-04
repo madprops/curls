@@ -91,7 +91,7 @@ Curlist.setup = () => {
             }
         }
         else if (e.key === `Escape`) {
-            App.hide_peek()
+            Peek.hide()
             Curlist.deselect()
         }
     })
@@ -158,7 +158,7 @@ Curlist.setup = () => {
     DOM.ev(filter, `keydown`, (e) => {
         if (e.key === `Escape`) {
             Curlist.clear_filter()
-            App.hide_peek()
+            Peek.hide()
         }
         else if (e.key === `ArrowUp`) {
             Curlist.select_vertical(`up`, e.shiftKey)
@@ -540,7 +540,7 @@ Curlist.do_select_item = (args = {}) => {
 
     if (args.peek) {
         let curl = Curlist.extract_curl(args.item)
-        App.show_peek({curl: curl})
+        Peek.show({curl: curl})
     }
 
     if (args.highlight) {
@@ -627,7 +627,7 @@ Curlist.select_toggle = (item) => {
     item.classList.toggle(`selected`)
     Curlist.prev_range_item = item
     App.highlight_items({curl: curl})
-    App.show_peek({curl: curl})
+    Peek.show({curl: curl})
 }
 
 Curlist.get_selected_curls = () => {

@@ -12,7 +12,7 @@ App.setup = () => {
     App.setup_picker()
     App.setup_status()
     App.setup_filter()
-    App.setup_peek()
+    Peek.setup()
     App.start_mouse()
     App.setup_more()
     App.setup_font()
@@ -78,7 +78,7 @@ App.start_mouse = () => {
             Curlist.deselect()
 
             if (!e.target.closest(`#peek`)) {
-                App.hide_peek()
+                Peek.hide()
             }
         }
     })

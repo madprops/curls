@@ -1,25 +1,40 @@
-App.setup_peek = () => {
-    App.peek_enabled = App.load_peek_enabled()
+/*
 
-    App.peek_debouncer = App.create_debouncer((args) => {
-        App.do_show_peek(args)
-    }, App.peek_debouncer_delay)
+This is a popup that appears at the top right corner
+This display a curl in full, and can be closed
+It's closed automatically on focus changes
+
+*/
+
+const Peek = {
+    enabled: true,
+    open: false,
+    curl: ``,
+    debouncer_delay: 50,
 }
 
-App.save_peek_enabled = () => {
-    App.save(`peek_enabled`, App.peek_enabled)
+Peek.setup = () => {
+    Peek.enabled = Peek.load_enabled()
+
+    Peek.debouncer = App.create_debouncer((args) => {
+        Peek.do_show(args)
+    }, Peek.debouncer_delay)
 }
 
-App.load_peek_enabled = () => {
+Peek.save_enabled = () => {
+    App.save(`peek_enabled`, Peek.enabled)
+}
+
+Peek.load_enabled = () => {
     return App.load_boolean(`peek_enabled`)
 }
 
-App.show_peek = (args) => {
-    App.peek_debouncer.call(args)
+Peek.show = (args) => {
+    Peek.debouncer.call(args)
 }
 
-App.do_show_peek = (args = {}) => {
-    App.peek_debouncer.cancel()
+Peek.do_show = (args = {}) => {
+    Peek.debouncer.cancel()
 
     let def_args = {
         force: false,
@@ -27,11 +42,11 @@ App.do_show_peek = (args = {}) => {
 
     App.def_args(def_args, args)
 
-    if (!App.peek_enabled && !args.force) {
+    if (!Peek.enabled && !args.force) {
         return
     }
 
-    if (App.peek_open && (App.peek_curl === args.curl)) {
+    if (Peek.open && (Peek.curl === args.curl)) {
         return
     }
 
@@ -58,7 +73,7 @@ App.do_show_peek = (args = {}) => {
     close.textContent = `Close`
 
     DOM.ev(close, `click`, () => {
-        App.hide_peek()
+        Peek.hide()
     })
 
     peek.innerHTML = ``
@@ -69,16 +84,16 @@ App.do_show_peek = (args = {}) => {
     peek.append(updated)
 
     peek.classList.add(`active`)
-    App.peek_open = true
-    App.peek_curl = args.curl
+    Peek.open = true
+    Peek.curl = args.curl
 }
 
-App.hide_peek = () => {
-    if (!App.peek_open) {
+Peek.hide = () => {
+    if (!Peek.open) {
         return
     }
 
     DOM.el(`#peek`).classList.remove(`active`)
-    App.peek_open = false
-    App.peek_curl = ``
+    Peek.open = false
+    Peek.curl = ``
 }
