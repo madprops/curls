@@ -1,18 +1,28 @@
-App.setup_controls = () => {
-    App.controls_enabled = App.load_controls_enabled()
-    App.check_controls()
+/*
+
+This shows or hides the controls
+
+*/
+
+const Controls = {
+    enabled: true,
 }
 
-App.save_controls_enabled = () => {
-    App.save(`controls_enabled`, App.controls_enabled)
+Controls.setup = () => {
+    Controls.enabled = Controls.load_enabled()
+    Controls.check_enabled()
 }
 
-App.load_controls_enabled = () => {
+Controls.save_enabled = () => {
+    App.save(`controls_enabled`, Controls.enabled)
+}
+
+Controls.load_enabled = () => {
     return App.load_boolean(`controls_enabled`)
 }
 
-App.check_controls = () => {
-    if (App.controls_enabled) {
+Controls.check_enabled = () => {
+    if (Controls.enabled) {
         DOM.show(`#controls`)
         Curlist.check_enabled()
     }

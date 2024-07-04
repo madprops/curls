@@ -12,7 +12,6 @@ App.old_delay = App.YEAR * 1
 
 App.block_items = {}
 App.console_logs = true
-App.controls_enabled = true
 App.date_mode = `12`
 App.separator = `__separator__`
 App.network = `🛜`

@@ -16,7 +16,7 @@ App.setup = () => {
     More.setup()
     Font.setup()
     Border.setup()
-    App.setup_controls()
+    Controls.setup()
     App.setup_resize()
     App.setup_windows()
     App.update_autocomplete()

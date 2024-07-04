@@ -12,6 +12,7 @@ const Curlist = {
     mouse_down: false,
     mouse_selected: false,
     filter_debouncer_delay: 250,
+    ls_name: `curlist_enabled`,
 }
 
 Curlist.setup = () => {
@@ -331,7 +332,7 @@ Curlist.show_menu = (e) => {
 }
 
 Curlist.load_enabled = () => {
-    return App.load_boolean(`curlist_enabled`)
+    return App.load_boolean(Curlist.ls_name)
 }
 
 Curlist.check_enabled = () => {
@@ -361,7 +362,7 @@ Curlist.toggle = () => {
         Curlist.show()
     }
 
-    App.save(`curlist_enabled`, Curlist.enabled)
+    App.save(Curlist.ls_name, Curlist.enabled)
 }
 
 Curlist.sort = (how) => {

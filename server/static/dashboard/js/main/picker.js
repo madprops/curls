@@ -6,6 +6,7 @@ The picker stores owned curls
 
 const Picker = {
     max_items: 1000,
+    ls_name: `picker`,
 }
 
 Picker.setup = () => {
@@ -25,7 +26,7 @@ Picker.setup = () => {
 }
 
 Picker.get_items = () => {
-    let saved = App.load_array(`picker`)
+    let saved = App.load_array(Picker.ls_name)
     return JSON.parse(saved)
 }
 
@@ -46,7 +47,7 @@ Picker.add = () => {
         }
     }
 
-    App.save(`picker`, JSON.stringify(cleaned))
+    App.save(Picker.ls_name, JSON.stringify(cleaned))
 }
 
 Picker.show = (e) => {
@@ -124,7 +125,7 @@ Picker.import_submit = (data) => {
 
     try {
         let items = JSON.parse(data)
-        App.save(`picker`, JSON.stringify(items))
+        App.save(Picker.ls_name, JSON.stringify(items))
     }
     catch (err) {
         App.error(err)
@@ -134,7 +135,7 @@ Picker.import_submit = (data) => {
 
 Picker.clear = () => {
     App.confirm({title: `Clear Picker`, ok: () => {
-        App.save(`picker`, `[]`)
+        App.save(Picker.ls_name, `[]`)
     }, message: `Remove all items from the picker`})
 }
 
@@ -155,5 +156,5 @@ Picker.do_remove_item = (curl) => {
         cleaned.push(item)
     }
 
-    App.save(`picker`, JSON.stringify(cleaned))
+    App.save(Picker.ls_name, JSON.stringify(cleaned))
 }

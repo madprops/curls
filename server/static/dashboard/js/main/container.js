@@ -10,6 +10,9 @@ const Container = {
     highlight_enabled: true,
     update_debouncer_delay: 100,
     highlight_debouncer_delay: 50,
+    ls_name_wrap: `wrap_enabled`,
+    ls_name_highlight: `highlight_enabled`,
+    ls_name_date_mode: `date_mode`,
 }
 
 Container.setup = () => {
@@ -208,19 +211,19 @@ Container.order_based_on_container = () => {
 }
 
 Container.save_wrap_enabled = () => {
-    App.save(`wrap_enabled`, Container.wrap_enabled)
+    App.save(Container.ls_name_wrap, Container.wrap_enabled)
 }
 
 Container.load_wrap_enabled = () => {
-    return App.load_boolean(`wrap_enabled`)
+    return App.load_boolean(Container.ls_name_wrap)
 }
 
 Container.save_highlight_enabled = () => {
-    App.save(`highlight_enabled`, Container.highlight_enabled)
+    App.save(Container.ls_name_highlight, Container.highlight_enabled)
 }
 
 Container.load_highlight_enabled = () => {
-    return App.load_boolean(`highlight_enabled`)
+    return App.load_boolean(Container.ls_name_highlight)
 }
 
 Container.add = (items, curls) => {
@@ -345,7 +348,7 @@ Container.create_element = (item) => {
 }
 
 Container.get_date_mode = () => {
-    return App.load_string(`date_mode`, `12`)
+    return App.load_string(Container.ls_name_date_mode, `12`)
 }
 
 Container.change_date_mode = () => {
@@ -357,7 +360,7 @@ Container.change_date_mode = () => {
 
     let date_mode = App.get_date_mode()
     date_mode = date_mode === `12` ? `24` : `12`
-    App.save(`date_mode`, date_mode)
+    App.save(Container.ls_name_date_mode, date_mode)
     Items.add_dates()
     Container.update()
 }

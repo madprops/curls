@@ -48,11 +48,11 @@ More.change_wrap = (what, actions = true) => {
 }
 
 More.change_controls = (what, actions = true) => {
-    App.controls_enabled = what
-    App.save_controls_enabled()
+    Controls.enabled = what
+    Controls.save_enabled()
 
     if (actions) {
-        App.check_controls()
+        Controls.check_enabled()
     }
 }
 
@@ -116,7 +116,7 @@ More.show_menu = (e) => {
         })
     }
 
-    if (App.controls_enabled) {
+    if (Controls.enabled) {
         items.push({
             text: `Disable Controls`,
             action: () => {
@@ -143,7 +143,7 @@ More.reset = () => {
         Container.highlight_enabled,
         Peek.enabled,
         Container.wrap_enabled,
-        App.controls_enabled,
+        Controls.enabled,
     ]
 
     if (vars.every((x) => x)) {
@@ -160,6 +160,6 @@ More.do_reset = () => {
     More.change_peek(true)
     More.change_wrap(true, false)
     More.change_controls(true, false)
-    App.check_controls()
+    Controls.check_enabled()
     Container.update()
 }

@@ -40,6 +40,7 @@ export default [
         Border: "writable",
         Font: "writable",
         Status: "writable",
+        Controls: "writable",
 
         NiceGesture: "writable",
         NeedContext: "writable",

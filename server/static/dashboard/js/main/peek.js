@@ -11,6 +11,7 @@ const Peek = {
     open: false,
     curl: ``,
     debouncer_delay: 50,
+    ls_name: `peek_enabled`,
 }
 
 Peek.setup = () => {
@@ -22,11 +23,11 @@ Peek.setup = () => {
 }
 
 Peek.save_enabled = () => {
-    App.save(`peek_enabled`, Peek.enabled)
+    App.save(Peek.ls_name, Peek.enabled)
 }
 
 Peek.load_enabled = () => {
-    return App.load_boolean(`peek_enabled`)
+    return App.load_boolean(Peek.ls_name)
 }
 
 Peek.show = (args) => {

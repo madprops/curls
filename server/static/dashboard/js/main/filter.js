@@ -7,6 +7,7 @@ This is the filter for the container
 const Filter = {
     debouncer_delay: 250,
     default_mode: `all`,
+    ls_name: `filter`,
 }
 
 Filter.modes = [
@@ -56,7 +57,7 @@ Filter.setup = () => {
 }
 
 Filter.load_filter = () => {
-    return App.load_modes(`filter`, Filter.modes, Filter.default_mode)
+    return App.load_modes(Filter.ls_name, Filter.modes, Filter.default_mode)
 }
 
 Filter.change = (value) => {
@@ -67,7 +68,7 @@ Filter.change = (value) => {
     Filter.mode = value
     Filter.focus()
     Filter.do_filter()
-    App.save(`filter`, value)
+    App.save(Filter.ls_name, value)
 }
 
 Filter.unfilter = () => {
