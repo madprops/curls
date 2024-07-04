@@ -624,7 +624,7 @@ App.deselect_curlist = () => {
         item.classList.remove(`selected`)
     }
 
-    App.unhighlight_items()
+    App.dehighlight_items()
 }
 
 App.get_curlist_elements = () => {

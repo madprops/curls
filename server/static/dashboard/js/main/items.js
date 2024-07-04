@@ -412,7 +412,7 @@ App.do_highlight_items = (args = {}) => {
     }
 }
 
-App.unhighlight_items = () => {
+App.dehighlight_items = () => {
     for (let item of App.items) {
         item.element.classList.remove(`highlight`)
     }
