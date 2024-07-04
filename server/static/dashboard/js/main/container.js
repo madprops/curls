@@ -208,7 +208,7 @@ Container.order_based_on_container = () => {
 }
 
 Container.save_wrap_enabled = () => {
-    App.save(`wrap_enabled`, App.wrap_enabled)
+    App.save(`wrap_enabled`, Container.wrap_enabled)
 }
 
 Container.load_wrap_enabled = () => {
@@ -309,7 +309,7 @@ Container.create_element = (item) => {
     let item_curl = DOM.create(`div`, `item_curl`)
     let item_status = DOM.create(`div`, `item_status`)
 
-    if (!App.wrap_enabled) {
+    if (!Container.wrap_enabled) {
         item_status.classList.add(`nowrap`)
     }
 
