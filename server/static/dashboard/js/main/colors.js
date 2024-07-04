@@ -39,7 +39,7 @@ App.change_color = (value) => {
     App.save(`color`, value)
     App.apply_color()
     App.reset_items()
-    App.update_curlist()
+    Curlist.update()
     App.container_loading()
     App.hide_peek()
     App.update()

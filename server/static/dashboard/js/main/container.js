@@ -179,5 +179,5 @@ App.order_based_on_container = () => {
     }
 
     App.save_curls(curls)
-    App.update_curlist()
+    Curlist.update()
 }

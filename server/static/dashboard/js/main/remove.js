@@ -106,7 +106,7 @@ App.do_remove_curl = (curl, remove_item = true) => {
     }
 
     App.save_curls(cleaned)
-    App.update_curlist()
+    Curlist.update()
 
     if (remove_item) {
         App.remove_item(curl)
@@ -143,7 +143,7 @@ App.save_cleaned = (cleaned, removed) => {
 
     App.confirm({title: `Remove ${removed.length} ${s}`, ok: () => {
         App.save_curls(cleaned)
-        App.update_curlist()
+        Curlist.update()
         App.remove_items(removed)
         App.hide_peek()
     }, message: curls})
@@ -187,14 +187,14 @@ App.show_remove_menu = (e) => {
 }
 
 App.remove_selected_curls = () => {
-    let curls = App.get_selected_curls()
+    let curls = Curlist.get_selected_curls()
     App.remove_curls(curls)
 }
 
 App.remove_all_curls = () => {
     App.confirm({title: `Remove All Curls`, ok: () => {
         App.clear_curls()
-        App.update_curlist()
+        Curlist.update()
         App.empty_container()
         App.hide_peek()
     }, message: `Remove all curls in the current color`})
@@ -238,7 +238,7 @@ App.clear_all_curls = () => {
             App.clear_curls(color)
         }
 
-        App.update_curlist()
+        Curlist.update()
         App.empty_container()
     }, message: `Remove all curls in all colors`})
 }

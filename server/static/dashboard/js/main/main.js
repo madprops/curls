@@ -1,9 +1,9 @@
 App.setup = () => {
     NeedContext.init()
     Block.setup()
+    Curlist.setup()
     App.setup_buttons()
     App.setup_color()
-    App.setup_curlist()
     App.setup_container()
     App.setup_items()
     App.setup_updater()
@@ -29,7 +29,7 @@ App.setup_buttons = () => {
     let toggle_curlist = DOM.el(`#toggle_curlist`)
 
     DOM.ev(toggle_curlist, `click`, () => {
-        App.toggle_curlist()
+        Curlist.toggle()
     })
 
     let claim = DOM.el(`#claim`)
@@ -75,7 +75,7 @@ App.start_mouse = () => {
                 return
             }
 
-            App.deselect_curlist()
+            Curlist.deselect()
 
             if (!e.target.closest(`#peek`)) {
                 App.hide_peek()

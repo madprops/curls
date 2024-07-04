@@ -93,7 +93,7 @@ App.do_update_items = (args = {}) => {
     }
 
     if (args.select.length) {
-        App.select_curlist_items(args.select)
+        Curlist.select_items(args.select)
     }
 }
 
@@ -255,7 +255,7 @@ App.copy_items = (curl) => {
         }, 1000)
     }
 
-    let curls = App.get_selected_curls()
+    let curls = Curlist.get_selected_curls()
 
     if (!curls.includes(curl)) {
         curls = [curl]
@@ -287,11 +287,11 @@ App.show_item_menu = (args = {}) => {
     let selected = []
 
     if (args.from === `curlist`) {
-        selected = App.get_selected_items()
-        let item = App.extract_curlist_item(args.e.target)
+        selected = Curlist.get_selected_items()
+        let item = Curlist.extract_item(args.e.target)
 
         if (!selected.length || !selected.includes(item)) {
-            App.select_curlist_item(item)
+            Curlist.select_item(item)
             selected = []
         }
     }
@@ -299,7 +299,7 @@ App.show_item_menu = (args = {}) => {
     let items = []
 
     if (selected.length > 1) {
-        let curls = App.get_selected_curls()
+        let curls = Curlist.get_selected_curls()
 
         items = [
             {
@@ -384,7 +384,7 @@ App.show_item_menu = (args = {}) => {
 
     NeedContext.show({
         items: items, e: args.e, after_hide: () => {
-            App.focus_curlist()
+            Curlist.focus()
         }
     })
 }
@@ -406,7 +406,7 @@ App.do_highlight_items = (args = {}) => {
         return
     }
 
-    let selected = App.get_selected_curls()
+    let selected = Curlist.get_selected_curls()
 
     for (let item of App.items) {
         if (selected.includes(item.curl)) {

@@ -28,7 +28,7 @@ App.add_curls_submit = (where, curls) => {
     }
 
     if (added.length) {
-        App.update_curlist()
+        Curlist.update()
         App.update({ curls: added })
     }
 }
@@ -64,7 +64,7 @@ App.do_add_curl = (args = {}) => {
     App.save_curls(curls)
 
     if (args.update) {
-        App.update_curlist()
+        Curlist.update()
     }
 
     return true
@@ -105,19 +105,19 @@ App.curls_to_bottom = (curls) => {
 
 App.after_curls_move = (new_curls, curls, leader) => {
     App.save_curls(new_curls)
-    App.update_curlist()
+    Curlist.update()
     App.sort_if_order()
-    App.deselect_curlist()
+    Curlist.deselect()
 
     for (let curl of curls) {
-        let el = App.get_curlist_item(curl)
+        let el = Curlist.get_item(curl)
 
         if (el) {
-            App.do_select_curlist_item({item: el, block: `none`})
+            Curlist.do_select_item({item: el, block: `none`})
         }
     }
 
-    App.focus_curlist_item(leader)
+    Curlist.focus_item(leader)
 }
 
 App.save_curls = (curls, color = App.color_mode) => {
@@ -166,7 +166,7 @@ App.replace_curls_submit = (curls) => {
     }
 
     if (added) {
-        App.update_curlist()
+        Curlist.update()
         App.update()
     }
 }
@@ -208,7 +208,7 @@ App.do_edit_curl = (curl, new_curl) => {
 
     curls[index] = new_curl
     App.save_curls(curls)
-    App.update_curlist()
+    Curlist.update()
     App.remove_curl_item(curl)
     App.update({ curls: [new_curl] })
 }
@@ -255,4 +255,8 @@ App.clean_curls = (curls) => {
     }
 
     return cleaned
+}
+
+App.get_curls_name = (color) => {
+    return `curls_${color}`
 }
