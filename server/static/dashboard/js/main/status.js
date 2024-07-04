@@ -40,8 +40,8 @@ Status.setup = () => {
 
     status.value = ``
 
-    DOM.ev(button, `click`, () => {
-        Status.show_menu()
+    DOM.ev(button, `click`, (e) => {
+        Status.show_menu(e)
     })
 }
 
@@ -69,7 +69,7 @@ Status.save = (status) => {
     App.save(Status.ls_name, JSON.stringify(list))
 }
 
-Status.show_menu = () => {
+Status.show_menu = (e) => {
     let status_list = Status.get_list()
 
     if (!status_list.length) {
@@ -90,7 +90,7 @@ Status.show_menu = () => {
     })
 
     let el = DOM.el(`#change_status`)
-    NeedContext.show({items: items, element: el})
+    NeedContext.show({items: items, element: el, e: e})
 }
 
 Status.set = (status) => {
