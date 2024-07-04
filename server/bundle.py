@@ -51,6 +51,7 @@ def bundle_dashboard() -> None:
             "container",
             "update",
             "change",
+            "picker",
             "main",
         ],
         ["load"],

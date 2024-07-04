@@ -1,11 +1,21 @@
-App.setup_picker = () => {
+/*
+
+The picker stores owned curls
+
+*/
+
+const Picker = {
+    max_items: 1000,
+}
+
+Picker.setup = () => {
     let picker = DOM.el(`#picker`)
 
     DOM.ev(picker, `click`, (e) => {
-        App.show_picker(e)
+        Picker.show(e)
     })
 
-    let items = App.get_picker_items()
+    let items = Picker.get_items()
 
     if (items.length) {
         let first = items[0]
@@ -14,24 +24,24 @@ App.setup_picker = () => {
     }
 }
 
-App.get_picker_items = () => {
+Picker.get_items = () => {
     let saved = App.load_array(`picker`)
     return JSON.parse(saved)
 }
 
-App.add_to_picker = () => {
+Picker.add = () => {
     let curl = DOM.el(`#change_curl`).value.toLowerCase()
     let key = DOM.el(`#change_key`).value
     let cleaned = [{curl, key}]
 
-    for (let item of App.get_picker_items()) {
+    for (let item of Picker.get_items()) {
         if (item.curl === curl) {
             continue
         }
 
         cleaned.push(item)
 
-        if (cleaned.length >= App.max_picker_items) {
+        if (cleaned.length >= Picker.max_items) {
             break
         }
     }
@@ -39,15 +49,15 @@ App.add_to_picker = () => {
     App.save(`picker`, JSON.stringify(cleaned))
 }
 
-App.show_picker = (e) => {
+Picker.show = (e) => {
     let items = []
-    let picker_items = App.get_picker_items()
+    let picker_items = Picker.get_items()
 
     if (!picker_items.length) {
         items.push({
             text: `Import`,
             action: () => {
-                App.import_pickers()
+                Picker.import()
             },
         })
     }
@@ -58,10 +68,10 @@ App.show_picker = (e) => {
                 action: () => {
                     DOM.el(`#change_curl`).value = item.curl
                     DOM.el(`#change_key`).value = item.key
-                    App.add_to_picker()
+                    Picker.add()
                 },
                 alt_action: () => {
-                    App.remove_picker_item(item.curl)
+                    Picker.remove_item(item.curl)
                 },
             })
         }
@@ -75,21 +85,21 @@ App.show_picker = (e) => {
         items.push({
             text: `Export`,
             action: () => {
-                App.export_pickers()
+                Picker.export()
             },
         })
 
         items.push({
             text: `Import`,
             action: () => {
-                App.import_pickers()
+                Picker.import()
             },
         })
 
         items.push({
             text: `Clear`,
             action: () => {
-                App.clear_picker()
+                Picker.clear()
             },
         })
     }
@@ -97,17 +107,17 @@ App.show_picker = (e) => {
     NeedContext.show({items: items, e: e})
 }
 
-App.export_pickers = () => {
-    App.alert_export(App.get_picker_items())
+Picker.export = () => {
+    App.alert_export(Picker.get_items())
 }
 
-App.import_pickers = () => {
+Picker.import = () => {
     App.prompt({title: `Paste Data`, callback: (value) => {
-        App.import_pickers_submit(value)
+        Picker.import_submit(value)
     }, message: `You get this data in Export`})
 }
 
-App.import_pickers_submit = (data) => {
+Picker.import_submit = (data) => {
     if (!data) {
         return
     }
@@ -122,22 +132,22 @@ App.import_pickers_submit = (data) => {
     }
 }
 
-App.clear_picker = () => {
+Picker.clear = () => {
     App.confirm({title: `Clear Picker`, ok: () => {
         App.save(`picker`, `[]`)
     }, message: `Remove all items from the picker`})
 }
 
-App.remove_picker_item = (curl) => {
+Picker.remove_item = (curl) => {
     App.confirm({title: `Remove Picker Item`, ok: () => {
-        App.do_remove_picker_item(curl)
+        Picker.do_remove_item(curl)
     }, message: curl})
 }
 
-App.do_remove_picker_item = (curl) => {
+Picker.do_remove_item = (curl) => {
     let cleaned = []
 
-    for (let item of App.get_picker_items()) {
+    for (let item of Picker.get_items()) {
         if (item.curl === curl) {
             continue
         }

@@ -1,6 +1,6 @@
 /*
 
-This is a general manager for items
+This manages the item list
 
 */
 

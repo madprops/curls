@@ -1,6 +1,6 @@
 /*
 
-This is a general manager for curls
+These are curl operations
 
 */
 

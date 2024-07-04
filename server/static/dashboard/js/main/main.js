@@ -8,7 +8,7 @@ App.setup = () => {
     Update.setup()
     App.setup_sort()
     Change.setup()
-    App.setup_picker()
+    Picker.setup()
     App.setup_status()
     App.setup_filter()
     Peek.setup()

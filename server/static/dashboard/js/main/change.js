@@ -1,6 +1,6 @@
 /*
 
-This is a general manager for changing the status of a curl
+This changes the status of a curl
 
 */
 
@@ -89,7 +89,7 @@ Change.do_change = () => {
                 Change.clear_status()
                 Update.now({feedback: false})
                 Curls.add_owned(curl)
-                App.add_to_picker()
+                Picker.add()
             }
             else {
                 App.alert({message: ans})
