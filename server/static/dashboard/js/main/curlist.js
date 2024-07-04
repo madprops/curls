@@ -901,6 +901,6 @@ App.curlist_mouseover = (e) => {
     }
 
     let item = App.extract_curlist_item(e.target)
-    App.do_select_curlist_item({item: item, highlight: false})
+    App.do_select_curlist_item({item: item})
     App.curlist_mouse_selected = true
 }

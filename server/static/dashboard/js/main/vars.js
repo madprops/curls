@@ -25,7 +25,7 @@ App.change_debouncer_delay = 250
 App.check_scroll_debouncer_delay = 100
 App.update_items_debouncer_delay = 100
 App.peek_debouncer_delay = 100
-App.highlight_items_debouncer_delay = 25
+App.highlight_items_debouncer_delay = 100
 App.clear_delay = 800
 
 App.items = []
