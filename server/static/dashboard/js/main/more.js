@@ -150,7 +150,7 @@ More.reset = () => {
         return
     }
 
-    App.confirm({title: `Reset Options`, ok: () => {
+    Windows.confirm({title: `Reset Options`, ok: () => {
         More.do_reset()
     }, message: `Reset all options to default`})
 }

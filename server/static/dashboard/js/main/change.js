@@ -47,19 +47,19 @@ Change.do_change = () => {
 
     if (curl.length > Curls.max_length) {
         App.error(App.curl_too_long)
-        App.alert({title: `Error`, message: App.curl_too_long})
+        Windows.alert({title: `Error`, message: App.curl_too_long})
         return
     }
 
     if (key.length > Change.key_length) {
         App.error(App.key_too_long)
-        App.alert({title: `Error`, message: App.key_too_long})
+        Windows.alert({title: `Error`, message: App.key_too_long})
         return
     }
 
     if (status.length > Change.status_max_length) {
         App.error(App.status_too_long)
-        App.alert({title: `Error`, message: App.status_too_long})
+        Windows.alert({title: `Error`, message: App.status_too_long})
         return
     }
 
@@ -94,7 +94,7 @@ Change.do_change = () => {
                 Picker.add()
             }
             else {
-                App.alert({message: ans})
+                Windows.alert({message: ans})
             }
         })
         .catch(e => {

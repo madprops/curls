@@ -1,5 +1,5 @@
 App.remove_a_curl = () => {
-    App.prompt({title: `Remove Curl`, callback: (value) => {
+    Windows.prompt({title: `Remove Curl`, callback: (value) => {
         App.remove_a_curl_submit(value)
     }, message: `Enter the curl to remove`})
 }
@@ -141,7 +141,7 @@ App.save_cleaned = (cleaned, removed) => {
     let s = App.plural(removed.length, `Curl`, `Curls`)
     let curls = removed.join(`, `)
 
-    App.confirm({title: `Remove ${removed.length} ${s}`, ok: () => {
+    Windows.confirm({title: `Remove ${removed.length} ${s}`, ok: () => {
         Curls.save(cleaned)
         Curlist.update()
         App.remove_items(removed)
@@ -192,7 +192,7 @@ App.remove_selected_curls = () => {
 }
 
 App.remove_all_curls = () => {
-    App.confirm({title: `Remove All Curls`, ok: () => {
+    Windows.confirm({title: `Remove All Curls`, ok: () => {
         Curls.clear()
         Curlist.update()
         Container.empty()
@@ -233,7 +233,7 @@ App.remove_curl_item = (curl) => {
 }
 
 App.clear_all_curls = () => {
-    App.confirm({title: `Clear Curls`, ok: () => {
+    Windows.confirm({title: `Clear Curls`, ok: () => {
         for (let color in App.colors) {
             Curls.clear(color)
         }

@@ -73,7 +73,7 @@ Status.show_menu = () => {
     let status_list = Status.get_list()
 
     if (!status_list.length) {
-        App.alert({title: `Empty List`, message: `Status items appear here after you use them`})
+        Windows.alert({title: `Empty List`, message: `Status items appear here after you use them`})
         return
     }
 
@@ -104,7 +104,7 @@ Status.focus = () => {
 }
 
 Status.remove = (status) => {
-    App.confirm({title: `Remove Status`, ok: () => {
+    Windows.confirm({title: `Remove Status`, ok: () => {
         Status.do_remove(status)
     }, message: status.substring(0, 44)})
 }

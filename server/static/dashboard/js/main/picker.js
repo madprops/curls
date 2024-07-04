@@ -109,11 +109,11 @@ Picker.show = (e) => {
 }
 
 Picker.export = () => {
-    App.alert_export(Picker.get_items())
+    Windows.alert_export(Picker.get_items())
 }
 
 Picker.import = () => {
-    App.prompt({title: `Paste Data`, callback: (value) => {
+    Windows.prompt({title: `Paste Data`, callback: (value) => {
         Picker.import_submit(value)
     }, message: `You get this data in Export`})
 }
@@ -129,18 +129,18 @@ Picker.import_submit = (data) => {
     }
     catch (err) {
         App.error(err)
-        App.alert({title: `Error`, message: err})
+        Windows.alert({title: `Error`, message: err})
     }
 }
 
 Picker.clear = () => {
-    App.confirm({title: `Clear Picker`, ok: () => {
+    Windows.confirm({title: `Clear Picker`, ok: () => {
         App.save(Picker.ls_name, `[]`)
     }, message: `Remove all items from the picker`})
 }
 
 Picker.remove_item = (curl) => {
-    App.confirm({title: `Remove Picker Item`, ok: () => {
+    Windows.confirm({title: `Remove Picker Item`, ok: () => {
         Picker.do_remove_item(curl)
     }, message: curl})
 }

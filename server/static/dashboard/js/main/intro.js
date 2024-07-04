@@ -16,5 +16,5 @@ App.load_intro = () => {
 }
 
 App.show_intro = () => {
-    App.alert({title: `Curls ${App.version}`, message: App.intro})
+    Windows.alert({title: `Curls ${App.version}`, message: App.intro})
 }

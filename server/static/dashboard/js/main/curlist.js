@@ -368,7 +368,7 @@ Curlist.toggle = () => {
 Curlist.sort = (how) => {
     let w = how === `asc` ? `Ascending` : `Descending`
 
-    App.confirm({title: `Sort Curls`, ok: () => {
+    Windows.confirm({title: `Sort Curls`, ok: () => {
         Curlist.do_sort(how)
     }, message: `${w} Order`})
 }
@@ -402,15 +402,15 @@ Curlist.export = () => {
     }
 
     if (!Object.keys(curlists).length) {
-        App.alert({message: `No curls to export`})
+        Windows.alert({message: `No curls to export`})
         return
     }
 
-    App.alert_export(curlists)
+    Windows.alert_export(curlists)
 }
 
 Curlist.import = () => {
-    App.prompt({title: `Paste Data`, callback: (value) => {
+    Windows.prompt({title: `Paste Data`, callback: (value) => {
         Curlist.import_submit(value)
     }, message: `You get this data in Export`})
 }
@@ -436,7 +436,7 @@ Curlist.import_submit = (data) => {
         }
 
         if (!modified) {
-            App.alert({message: `No curls to import`})
+            Windows.alert({message: `No curls to import`})
             return
         }
 
@@ -445,7 +445,7 @@ Curlist.import_submit = (data) => {
     }
     catch (err) {
         App.error(err)
-        App.alert({title: `Error`, message: err})
+        Windows.alert({title: `Error`, message: err})
     }
 }
 

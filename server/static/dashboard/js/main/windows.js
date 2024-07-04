@@ -1,4 +1,14 @@
-App.create_window = (color) => {
+/*
+
+This creates and shows modal windows
+
+*/
+
+const Windows = {
+    max_items: 1000,
+}
+
+Windows.create = (color) => {
     let common = {
         enable_titlebar: true,
         center_titlebar: true,
@@ -10,62 +20,62 @@ App.create_window = (color) => {
     }))
 }
 
-App.setup_windows = () => {
+Windows.setup = () => {
     let alert_template = DOM.el(`#alert_template`)
     let alert_html = alert_template.innerHTML
-    App.alert_window = App.create_window(`green`)
-    App.alert_window.set(alert_html)
-    App.prompt_window = App.create_window(`blue`)
+    Windows.alert_window = Windows.create(`green`)
+    Windows.alert_window.set(alert_html)
+    Windows.prompt_window = Windows.create(`blue`)
     let copy = DOM.el(`#alert_copy`)
 
     DOM.ev(copy, `click`, () => {
-        App.alert_copy()
+        Windows.alert_copy()
     })
 
     let alert_ok = DOM.el(`#alert_ok`)
 
     DOM.ev(alert_ok, `click`, (e) => {
-        App.alert_window.close()
+        Windows.alert_window.close()
     })
 
     let prompt_template = DOM.el(`#prompt_template`)
     let prompt_html = prompt_template.innerHTML
-    App.prompt_window.set(prompt_html)
-    App.prompt_window.set_title(`Prompt`)
+    Windows.prompt_window.set(prompt_html)
+    Windows.prompt_window.set_title(`Prompt`)
     let submit = DOM.el(`#prompt_submit`)
     let input = DOM.el(`#prompt_input`)
 
     DOM.ev(submit, `click`, () => {
-        App.prompt_submit()
+        Windows.prompt_submit()
     })
 
     DOM.ev(input, `keydown`, (e) => {
         if (e.key === `Enter`) {
-            App.prompt_submit()
+            Windows.prompt_submit()
         }
     })
 
-    App.confirm_window = App.create_window(`red`)
+    Windows.confirm_window = Windows.create(`red`)
     let confirm_template = DOM.el(`#confirm_template`)
     let confirm_html = confirm_template.innerHTML
-    App.confirm_window.set(confirm_html)
+    Windows.confirm_window.set(confirm_html)
 
     let ok = DOM.el(`#confirm_ok`)
 
     DOM.ev(ok, `click`, () => {
-        App.confirm_ok()
-        App.confirm_window.close()
+        Windows.confirm_ok()
+        Windows.confirm_window.close()
     })
 
     DOM.ev(ok, `keydown`, (e) => {
         if (e.key === `Enter`) {
-            App.confirm_ok()
-            App.confirm_window.close()
+            Windows.confirm_ok()
+            Windows.confirm_window.close()
         }
     })
 }
 
-App.alert = (args = {}) => {
+Windows.alert = (args = {}) => {
     let def_args = {
         title: `Information`,
         message: ``,
@@ -74,7 +84,7 @@ App.alert = (args = {}) => {
     }
 
     App.def_args(def_args, args)
-    App.alert_window.set_title(args.title)
+    Windows.alert_window.set_title(args.title)
     let msg = DOM.el(`#alert_message`)
 
     if (args.message) {
@@ -103,24 +113,24 @@ App.alert = (args = {}) => {
         DOM.hide(ok)
     }
 
-    App.alert_window.show()
+    Windows.alert_window.show()
 }
 
-App.alert_copy = () => {
+Windows.alert_copy = () => {
     let text = DOM.el(`#alert_message`)
     App.copy_to_clipboard(text.textContent)
-    App.alert_window.close()
+    Windows.alert_window.close()
 }
 
-App.confirm = (args = {}) => {
+Windows.confirm = (args = {}) => {
     let def_args = {
         message: ``,
     }
 
     App.def_args(def_args, args)
-    App.confirm_ok = args.ok
-    App.confirm_window.set_title(args.title)
-    App.confirm_window.show()
+    Windows.confirm_ok = args.ok
+    Windows.confirm_window.set_title(args.title)
+    Windows.confirm_window.show()
     DOM.el(`#confirm_ok`).focus()
     let msg = DOM.el(`#confirm_message`)
 
@@ -133,23 +143,23 @@ App.confirm = (args = {}) => {
     }
 }
 
-App.prompt_submit = () => {
+Windows.prompt_submit = () => {
     let value = DOM.el(`#prompt_input`).value.trim()
-    App.prompt_callback(value)
-    App.prompt_window.close()
+    Windows.prompt_callback(value)
+    Windows.prompt_window.close()
 }
 
-App.prompt = (args = {}) => {
+Windows.prompt = (args = {}) => {
     let def_args = {
         value: ``,
         message: ``,
     }
 
     App.def_args(def_args, args)
-    App.prompt_callback = args.callback
+    Windows.prompt_callback = args.callback
     let input = DOM.el(`#prompt_input`)
     input.value = args.value
-    App.prompt_window.set_title(args.title)
+    Windows.prompt_window.set_title(args.title)
     let msg = DOM.el(`#prompt_message`)
 
     if (args.message) {
@@ -160,11 +170,11 @@ App.prompt = (args = {}) => {
         DOM.hide(msg)
     }
 
-    App.prompt_window.show()
+    Windows.prompt_window.show()
     input.focus()
 }
 
-App.alert_export = (data) => {
+Windows.alert_export = (data) => {
     let data_str = App.sanitize(JSON.stringify(data))
-    App.alert({title: `Copy the data below`, message: data_str, copy: true, ok: false})
+    Windows.alert({title: `Copy the data below`, message: data_str, copy: true, ok: false})
 }

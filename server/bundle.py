@@ -59,6 +59,7 @@ def bundle_dashboard() -> None:
             "border",
             "status",
             "controls",
+            "windows",
             "main",
         ],
         ["load"],

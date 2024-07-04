@@ -10,7 +10,7 @@ const Curls = {
 }
 
 Curls.add = (where) => {
-    App.prompt({title: `Add Curls`, callback: (value) => {
+    Windows.prompt({title: `Add Curls`, callback: (value) => {
         Curls.add_submit(where, value)
     }, message: `Enter one or more curls`})
 }
@@ -151,7 +151,7 @@ Curls.get = (color = Colors.mode) => {
 }
 
 Curls.replace = () => {
-    App.prompt({title: `Replace Curls`, callback: (value) => {
+    Windows.prompt({title: `Replace Curls`, callback: (value) => {
         Curls.replace_submit(value)
     }, message: `Replace the entire list with this`})
 }
@@ -189,7 +189,7 @@ Curls.clear = (color = Colors.mode) => {
 }
 
 Curls.edit = (curl) => {
-    App.prompt({title: `Edit Curl`, callback: (value) => {
+    Windows.prompt({title: `Edit Curl`, callback: (value) => {
         Curls.edit_submit(curl, value)
     }, value: curl, message: `Change the name of this curl`})
 }
