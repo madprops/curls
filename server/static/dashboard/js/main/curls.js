@@ -127,7 +127,7 @@ App.save_curls = (curls, color = App.color_mode) => {
 
 App.get_curls = (color = App.color_mode) => {
     let name = App.get_curls_name(color)
-    let saved = localStorage.getItem(name) || `[]`
+    let saved = App.load_array(name)
 
     try {
         let curls = JSON.parse(saved)

@@ -94,5 +94,5 @@ App.do_move_to_color = (color, e) => {
 }
 
 App.get_color_curlist = (color) => {
-    return localStorage.getItem(`curlist_${color}`) || ``
+    return App.load_string(`curlist_${color}`)
 }

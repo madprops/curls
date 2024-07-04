@@ -12,8 +12,7 @@ App.save_intro_shown = () => {
 }
 
 App.load_intro = () => {
-    let saved = localStorage.getItem(`intro_shown`) || `false`
-    return saved === `true`
+    return App.load_boolean(`intro_shown`)
 }
 
 App.show_intro = () => {

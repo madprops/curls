@@ -177,3 +177,11 @@ App.load_boolean = (name) => {
     let saved = localStorage.getItem(name) || `true`
     return saved === `true`
 }
+
+App.load_array = (name) => {
+    return localStorage.getItem(name) || `[]`
+}
+
+App.load_string = (name, def_value = ``) => {
+    return localStorage.getItem(name) || def_value
+}

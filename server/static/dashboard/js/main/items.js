@@ -28,7 +28,7 @@ App.load_highlight_enabled = () => {
 }
 
 App.get_date_mode = () => {
-    return localStorage.getItem(`date_mode`) || `12`
+    return App.load_string(`date_mode`, `12`)
 }
 
 App.add_items = (items, curls) => {

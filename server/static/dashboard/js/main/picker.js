@@ -15,7 +15,7 @@ App.setup_picker = () => {
 }
 
 App.get_picker_items = () => {
-    let saved = localStorage.getItem(`picker`) || `[]`
+    let saved = App.load_array(`picker`)
     return JSON.parse(saved)
 }
 
