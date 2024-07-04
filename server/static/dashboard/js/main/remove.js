@@ -63,7 +63,7 @@ App.remove_empty = () => {
 
 App.remove_old = () => {
     let curls = App.get_curls()
-    let now = Date.now()
+    let now = App.now()
     let cleaned = []
     let removed = []
 
