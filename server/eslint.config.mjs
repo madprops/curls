@@ -29,6 +29,8 @@ export default [
         Curls: "writable",
         Items: "writable",
         Container: "writable",
+        Update: "writable",
+        Change: "writable",
         NiceGesture: "writable",
         NeedContext: "writable",
         Menubutton: "writable",

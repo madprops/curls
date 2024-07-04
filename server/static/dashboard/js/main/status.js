@@ -9,7 +9,7 @@ App.setup_status = () => {
             e.preventDefault()
         }
         else if (e.key === `Enter`) {
-            App.change()
+            Change.trigger()
         }
         else if (e.key === `Escape`) {
             status.value = ``

@@ -7,7 +7,7 @@ App.setup = () => {
     Container.setup()
     Update.setup()
     App.setup_sort()
-    App.setup_change()
+    Change.setup()
     App.setup_picker()
     App.setup_status()
     App.setup_filter()

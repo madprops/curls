@@ -16,13 +16,11 @@ App.status_menu_max_length = 110
 
 App.old_delay = App.YEAR * 1
 App.filter_debouncer_delay = 250
-App.change_debouncer_delay = 250
 
 App.colors_alpha = {}
 App.colors_alpha_2 = {}
 App.block_items = {}
 App.console_logs = true
-App.changing = false
 App.controls_enabled = true
 App.date_mode = `12`
 App.default_color = `green`

@@ -49,6 +49,8 @@ def bundle_dashboard() -> None:
             "curls",
             "items",
             "container",
+            "update",
+            "change",
             "main",
         ],
         ["load"],

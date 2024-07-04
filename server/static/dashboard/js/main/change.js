@@ -1,24 +1,36 @@
-App.setup_change = () => {
+/*
+
+This is a general manager for changing the status of a curl
+
+*/
+
+const Change = {
+    debouncer_delay: 250,
+    changing: false,
+    clear_delay: 800,
+}
+
+Change.setup = () => {
     let submit = DOM.el(`#change_submit`)
 
     DOM.ev(submit, `click`, () => {
-        App.change()
+        Change.trigger()
     })
 
-    App.change_debouncer = App.create_debouncer((force, feedback) => {
-        App.do_change(force, feedback)
-    }, App.change_debouncer_delay)
+    Change.debouncer = App.create_debouncer((force, feedback) => {
+        Change.do_change(force, feedback)
+    }, Change.debouncer_delay)
 }
 
-App.change = () => {
-    App.change_debouncer.call()
+Change.trigger = () => {
+    Change.debouncer.call()
 }
 
-App.do_change = () => {
-    App.change_debouncer.cancel()
+Change.do_change = () => {
+    Change.debouncer.cancel()
     App.info(`Change: Trigger`)
 
-    if (App.changing) {
+    if (Change.changing) {
         App.error(`Slow down`)
         return
     }
@@ -56,9 +68,9 @@ App.do_change = () => {
     params.append(`key`, key)
     params.append(`status`, status)
 
-    App.show_changing()
+    Change.show_changing()
     App.save_status(status)
-    App.changing = true
+    Change.changing = true
     App.info(`Change: Request ${App.network}`)
 
     fetch(url, {
@@ -71,10 +83,10 @@ App.do_change = () => {
         .then(response => response.text())
         .then(ans => {
             App.info(`Response: ${ans}`)
-            App.clear_changing()
+            Change.clear_changing()
 
             if (ans === `ok`) {
-                App.clear_status()
+                Change.clear_status()
                 Update.now({feedback: false})
                 Curls.add_owned(curl)
                 App.add_to_picker()
@@ -85,25 +97,25 @@ App.do_change = () => {
         })
         .catch(e => {
             App.error(`Failed to change`)
-            App.clear_changing()
+            Change.clear_changing()
         })
 }
 
-App.clear_status = () => {
+Change.clear_status = () => {
     DOM.el(`#change_status`).value = ``
 }
 
-App.show_changing = () => {
+Change.show_changing = () => {
     let button = DOM.el(`#change_submit`)
-    clearTimeout(App.clear_changing_timeout)
+    clearTimeout(Change.clear_changing_timeout)
     button.classList.add(`active`)
 }
 
-App.clear_changing = () => {
-    App.changing = false
+Change.clear_changing = () => {
+    Change.changing = false
 
-    App.clear_changing_timeout = setTimeout(() => {
+    Change.clear_changing_timeout = setTimeout(() => {
         let button = DOM.el(`#change_submit`)
         button.classList.remove(`active`)
-    }, App.clear_delay)
+    }, Change.clear_delay)
 }
