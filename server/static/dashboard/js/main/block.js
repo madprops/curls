@@ -4,7 +4,7 @@ App.setup_block = () => {
             let item = App.block_items[name]
 
             if (item.charge > 0) {
-                let dec = Math.max(1, Math.round(item.limit * 0.1))
+                let dec = Math.max(1, Math.round(item.charge * 0.1))
                 item.charge -= parseInt(dec)
             }
         }
