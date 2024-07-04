@@ -3,6 +3,7 @@ App.setup_sort = () => {
     App.sort_mode = App.load_sort()
 
     Combo.register({
+        title: `Sort Modes`,
         items: App.sort_modes,
         value: App.sort_mode,
         element: sort,

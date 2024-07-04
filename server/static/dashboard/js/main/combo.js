@@ -19,6 +19,7 @@ Combo.register = (args = {}) => {
     })
 
     let lines = [
+        args.title,
         `Click to pick option`,
         `Wheel to cycle option`,
         `Middle Click to reset`,

@@ -3,6 +3,7 @@ App.setup_updater = () => {
     App.updater_mode = App.load_updater()
 
     Combo.register({
+        title: `Update Modes`,
         items: App.updater_modes,
         value: App.updater_mode,
         element: updater,

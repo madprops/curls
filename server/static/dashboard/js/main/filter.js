@@ -16,6 +16,7 @@ App.setup_filter = () => {
     App.filter_mode = App.load_filter()
 
     Combo.register({
+        title: `Filter Modes`,
         items: App.filter_modes,
         value: App.filter_mode,
         element: button,

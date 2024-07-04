@@ -3,6 +3,7 @@ App.setup_border = () => {
     App.border_mode = App.load_border()
 
     Combo.register({
+        title: `Border Modes`,
         items: App.border_modes,
         value: App.border_mode,
         element: border,

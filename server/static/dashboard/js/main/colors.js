@@ -3,6 +3,7 @@ App.setup_color = () => {
     App.color_mode = App.load_color()
 
     Combo.register({
+        title: `Color Modes`,
         items: App.color_modes,
         value: App.color_mode,
         element: color,

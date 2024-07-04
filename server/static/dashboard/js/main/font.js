@@ -3,6 +3,7 @@ App.setup_font = () => {
     App.font_mode = App.load_font()
 
     Combo.register({
+        title: `Font Modes`,
         items: App.font_modes,
         value: App.font_mode,
         element: font,
