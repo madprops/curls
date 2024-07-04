@@ -31,7 +31,7 @@ Combo.register = (args = {}) => {
     Combo.update_text(args)
     let limit = args.items.length * 1.5
     Block.register(`combo_${args.id}`, limit)
-    Combo.id++
+    Combo.id += 1
 }
 
 Combo.get_item = (args) => {
@@ -92,10 +92,10 @@ Combo.cycle = (args, direction) => {
     let index = values.indexOf(value)
 
     if (direction === `up`) {
-        index--
+        index -= 1
     }
     else if (direction === `down`) {
-        index++
+        index += 1
     }
 
     if (index < 0) {
