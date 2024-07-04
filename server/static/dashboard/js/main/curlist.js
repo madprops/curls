@@ -106,7 +106,6 @@ Curlist.setup = () => {
             let selected = Curlist.get_selected_items()
 
             if (e.shiftKey && selected.length) {
-                console.log(1)
                 Curlist.select_range(item)
             }
             else if (e.ctrlKey && selected.length) {

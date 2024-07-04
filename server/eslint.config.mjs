@@ -22,6 +22,7 @@ export default [
         Msg: "writable",
         Combo: "writable",
         Block: "writable",
+        Curlist: "writable",
         Addlist: "writable",
         NiceGesture: "writable",
         NeedContext: "writable",
