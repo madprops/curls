@@ -15,6 +15,7 @@ App.change = () => {
 }
 
 App.do_change = () => {
+    App.change_debouncer.cancel()
     App.info(`Change: Trigger`)
 
     if (App.changing) {

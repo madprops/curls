@@ -738,10 +738,6 @@ App.focus_curlist = () => {
     DOM.el(`#curlist`).focus()
 }
 
-App.filter_curlist = () => {
-    App.curlist_filter_debouncer.call()
-}
-
 App.curlist_get_visible = () => {
     let els = App.get_curlist_elements()
     return els.filter(x => !x.classList.contains(`hidden`))
@@ -751,7 +747,12 @@ App.get_curlist_filter_value = () => {
     return DOM.el(`#curlist_filter`).value.toLowerCase().trim()
 }
 
+App.filter_curlist = () => {
+    App.curlist_filter_debouncer.call()
+}
+
 App.do_filter_curlist = () => {
+    App.curlist_filter_debouncer.cancel()
     let els = App.get_curlist_elements()
     let value = App.get_curlist_filter_value()
 

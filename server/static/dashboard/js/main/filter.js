@@ -67,6 +67,7 @@ App.filter = () => {
 }
 
 App.do_filter = () => {
+    App.filter_debouncer.cancel()
     let els = App.get_container_items()
 
     if (!els.length) {
