@@ -302,8 +302,7 @@ App.show_curlist_menu = (e) => {
 }
 
 App.load_curlist_enabled = () => {
-    let saved = localStorage.getItem(`curlist_enabled`) || `true`
-    return saved === `true`
+    App.load_boolean(`curlist_enabled`)
 }
 
 App.check_curlist_enabled = () => {

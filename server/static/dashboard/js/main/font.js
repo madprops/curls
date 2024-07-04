@@ -30,12 +30,5 @@ App.apply_font = () => {
 }
 
 App.load_font = () => {
-    let saved = localStorage.getItem(`font`) || App.default_font
-    let values = App.clean_modes(App.font_modes).map(x => x.value)
-
-    if (!values.includes(saved)) {
-        saved = App.default_font
-    }
-
-    return saved
+    App.load_modes(`font`, App.font_modes, App.default_font)
 }

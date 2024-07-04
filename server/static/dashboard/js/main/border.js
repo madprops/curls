@@ -42,12 +42,5 @@ App.apply_border = () => {
 }
 
 App.load_border = () => {
-    let saved = localStorage.getItem(`border`) || App.default_border
-    let values = App.clean_modes(App.border_modes).map(x => x.value)
-
-    if (!values.includes(saved)) {
-        saved = App.default_border
-    }
-
-    return saved
+    App.load_modes(`border`, App.border_modes, App.default_border)
 }

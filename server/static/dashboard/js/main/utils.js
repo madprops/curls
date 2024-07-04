@@ -161,3 +161,21 @@ App.scroll_element = (args = {}) => {
 App.last = (list) => {
     return list.slice(-1)[0]
 }
+
+App.load_modes = (name, modes, def_value) => {
+    App.load_filter = () => {
+        let saved = localStorage.getItem(name) || def_value
+        let values = App.clean_modes(modes).map(x => x.value)
+
+        if (!values.includes(saved)) {
+            saved = def_value
+        }
+
+        return saved
+    }
+}
+
+App.load_boolean = (name) => {
+    let saved = localStorage.getItem(name) || `true`
+    return saved === `true`
+}

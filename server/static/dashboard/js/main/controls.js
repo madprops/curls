@@ -8,8 +8,7 @@ App.save_controls_enabled = () => {
 }
 
 App.load_controls_enabled = () => {
-    let saved = localStorage.getItem(`controls_enabled`) || `true`
-    return saved === `true`
+    App.load_boolean(`controls_enabled`)
 }
 
 App.check_controls = () => {

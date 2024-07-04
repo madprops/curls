@@ -31,14 +31,7 @@ App.setup_filter = () => {
 }
 
 App.load_filter = () => {
-    let saved = localStorage.getItem(`filter`) || App.default_filter
-    let values = App.clean_modes(App.filter_modes).map(x => x.value)
-
-    if (!values.includes(saved)) {
-        saved = App.default_filter
-    }
-
-    return saved
+    App.load_modes(`filter`, App.filter_modes, App.default_filter)
 }
 
 App.change_filter = (value) => {

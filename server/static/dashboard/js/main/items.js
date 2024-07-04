@@ -16,8 +16,7 @@ App.save_wrap_enabled = () => {
 }
 
 App.load_wrap_enabled = () => {
-    let saved = localStorage.getItem(`wrap_enabled`) || `true`
-    return saved === `true`
+    App.load_boolean(`wrap_enabled`)
 }
 
 App.save_highlight_enabled = () => {
@@ -25,8 +24,7 @@ App.save_highlight_enabled = () => {
 }
 
 App.load_highlight_enabled = () => {
-    let saved = localStorage.getItem(`highlight_enabled`) || `true`
-    return saved === `true`
+    App.load_boolean(`highlight_enabled`)
 }
 
 App.get_date_mode = () => {

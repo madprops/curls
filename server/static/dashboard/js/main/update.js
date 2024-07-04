@@ -24,14 +24,7 @@ App.setup_updater = () => {
 }
 
 App.load_updater = () => {
-    let saved = localStorage.getItem(`updater`) || App.default_updater
-    let values = App.clean_modes(App.updater_modes).map(x => x.value)
-
-    if (!values.includes(saved)) {
-        saved = App.default_updater
-    }
-
-    return saved
+    App.load_modes(`updater`, App.updater_modes, App.default_updater)
 }
 
 App.check_updater = () => {

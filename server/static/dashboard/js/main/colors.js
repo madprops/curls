@@ -46,14 +46,7 @@ App.change_color = (value) => {
 }
 
 App.load_color = () => {
-    let saved = localStorage.getItem(`color`) || App.default_color
-    let values = App.clean_modes(App.color_modes).map(x => x.value)
-
-    if (!values.includes(saved)) {
-        saved = App.default_color
-    }
-
-    return saved
+    App.load_modes(`color`, App.color_modes, App.default_color)
 }
 
 App.apply_color = () => {
