@@ -135,7 +135,7 @@ App.setup_curlist = () => {
                 }
 
                 let item = App.extract_curlist_item(e.target)
-                App.do_select_curlist_item({item: item, peek: false, highlight: false})
+                App.do_select_curlist_item({item: item, highlight: false})
                 App.curlist_mouse_selected = true
             }
         }
@@ -519,6 +519,7 @@ App.do_select_curlist_item = (args = {}) => {
         block: `nearest`,
         peek: true,
         highlight: true,
+        highlight_behavior: `smooth`,
     }
 
     App.def_args(def_args, args)
@@ -535,7 +536,7 @@ App.do_select_curlist_item = (args = {}) => {
 
     if (args.highlight) {
         let curl = App.extract_curlist_curl(args.item)
-        App.highlight_items({curl: curl})
+        App.highlight_items({curl: curl, behavior: args.highlight_behavior})
     }
 }
 

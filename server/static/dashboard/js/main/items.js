@@ -392,6 +392,12 @@ App.highlight_items = (args) => {
 }
 
 App.do_highlight_items = (args = {}) => {
+    let def_args = {
+        behavior: `smooth`,
+    }
+
+    App.def_args(def_args, args)
+
     if (!App.highlight_enabled) {
         return
     }
@@ -409,7 +415,7 @@ App.do_highlight_items = (args = {}) => {
 
     if (args.curl) {
         let item = App.get_item(args.curl)
-        App.scroll_element({item: item.element, behavior: `smooth`})
+        App.scroll_element({item: item.element, behavior: args.behavior})
     }
 }
 
