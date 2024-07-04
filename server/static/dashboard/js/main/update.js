@@ -80,11 +80,11 @@ Update.restart = () => {
 
 Update.start_timeout = () => {
     Update.timeout = setTimeout(() => {
-        Update.now()
+        Update.update()
     }, Update.delay)
 }
 
-Update.now = (args) => {
+Update.update = (args) => {
     Update.debouncer.call(args)
 }
 
@@ -95,6 +95,7 @@ Update.do_update = (args = {}) => {
     let def_args = {
         feedback: true,
         curls: [],
+        update_curlist: false,
     }
 
     App.def_args(def_args, args)
@@ -174,6 +175,10 @@ Update.fetch = async (args) => {
     }
 
     Update.clear()
+
+    if (args.update_curlist) {
+        Curlist.update()
+    }
 }
 
 Update.show_updating = () => {
@@ -193,7 +198,7 @@ Update.clear = () => {
 
 Update.change = (mode) => {
     if (mode === `now`) {
-        Update.now()
+        Update.update()
         return
     }
 

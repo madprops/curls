@@ -64,7 +64,7 @@ Colors.change = (value) => {
     Curlist.update()
     Container.loading()
     Peek.hide()
-    Update.now()
+    Update.update()
 }
 
 Colors.load_color = () => {

@@ -89,7 +89,7 @@ Change.do_change = () => {
 
             if (ans === `ok`) {
                 Change.clear_status()
-                Update.now({feedback: false})
+                Update.update({feedback: false})
                 Curls.add_owned(curl)
                 Picker.add()
             }

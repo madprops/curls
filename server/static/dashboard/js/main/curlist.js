@@ -441,7 +441,7 @@ Curlist.import_submit = (data) => {
         }
 
         Curlist.update()
-        Update.now()
+        Update.update()
     }
     catch (err) {
         App.error(err)

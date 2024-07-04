@@ -24,7 +24,7 @@ App.setup = () => {
     App.setup_buttons()
     App.setup_intro()
 
-    Update.now()
+    Update.update()
 }
 
 App.setup_buttons = () => {
