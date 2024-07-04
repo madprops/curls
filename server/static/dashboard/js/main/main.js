@@ -1,5 +1,6 @@
 App.setup = () => {
     NeedContext.init()
+
     Block.setup()
     Colors.setup()
     Curlist.setup()
@@ -16,11 +17,13 @@ App.setup = () => {
     Border.setup()
     Controls.setup()
     Windows.setup()
+
     App.start_mouse()
     App.setup_resize()
     App.update_autocomplete()
     App.setup_buttons()
     App.setup_intro()
+
     Update.now()
 }
 
