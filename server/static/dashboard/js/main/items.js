@@ -267,7 +267,7 @@ App.copy_items = (curl) => {
         let item = App.get_item(curl)
         msgs.push(`${item.curl}\n${item.status}\n${item.updated_text}`)
 
-        if (App.peek_open && Peek.curl === curl) {
+        if (Peek.open && Peek.curl === curl) {
             blink(DOM.el(`#peek .peek_icon`))
         }
 
