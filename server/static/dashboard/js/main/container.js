@@ -8,7 +8,6 @@ const Container = {
     check_scroll_debouncer_delay: 100,
     wrap_enabled: true,
     highlight_enabled: true,
-    update_debouncer_delay: 100,
     highlight_debouncer_delay: 50,
     ls_name_wrap: `wrap_enabled`,
     ls_name_highlight: `highlight_enabled`,
@@ -66,10 +65,6 @@ Container.setup = () => {
 
     Container.wrap_enabled = Container.load_wrap_enabled()
     Container.highlight_enabled = Container.load_highlight_enabled()
-
-    Container.update_debouncer = App.create_debouncer((args) => {
-        Container.do_update(args)
-    }, Container.update_debouncer_delay)
 
     Container.highlight_debouncer = App.create_debouncer((args) => {
         Container.do_highlight(args)
@@ -253,13 +248,7 @@ Container.insert = (items) => {
     Container.update()
 }
 
-Container.update = (args) => {
-    Container.update_debouncer.call(args)
-}
-
-Container.do_update = (args = {}) => {
-    Container.update_debouncer.cancel()
-
+Container.update = (args = {}) => {
     let def_args = {
         items: Items.list,
         check_filter: true,
@@ -391,10 +380,6 @@ Container.do_highlight = (args = {}) => {
     let selected = Curlist.get_selected_curls()
 
     for (let item of Items.list) {
-        if (!item || !item.element) {
-            continue
-        }
-
         if (selected.includes(item.curl)) {
             item.element.classList.add(`highlight`)
         }
@@ -405,9 +390,6 @@ Container.do_highlight = (args = {}) => {
 
     if (args.curl) {
         let item = Items.get(args.curl)
-
-        if (item && item.element) {
-            App.scroll_element({item: item.element, behavior: args.behavior})
-        }
+        App.scroll_element({item: item.element, behavior: args.behavior})
     }
 }

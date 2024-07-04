@@ -53,11 +53,6 @@ Peek.do_show = (args = {}) => {
 
     let peek = DOM.el(`#peek`)
     let item = Items.get(args.curl)
-
-    if (!item) {
-        return
-    }
-
     let icon = DOM.create(`div`, `peek_icon`)
     let canvas = DOM.create(`canvas`, `peek_icon_canvas`)
     jdenticon.update(canvas, item.curl)
