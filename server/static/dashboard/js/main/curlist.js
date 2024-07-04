@@ -121,6 +121,30 @@ App.setup_curlist = () => {
         }
     })
 
+    DOM.ev(container, `mousedown`, function() {
+        App.curlist_mouse_down = true
+        App.curlist_mouse_selected = false
+    })
+
+    DOM.ev(container, `mouseup`, function() {
+        App.curlist_mouse_down = false
+        App.curlist_mouse_selected = false
+    })
+
+    DOM.ev(container, `mouseover`, function(e) {
+        if (e.target.closest(`.curlist_item`)) {
+            if (App.curlist_mouse_down) {
+                if (!App.curlist_mouse_selected) {
+                    App.deselect_curlist()
+                }
+
+                let item = App.extract_curlist_item(e.target)
+                App.do_select_curlist_item({item: item, peek: false, highlight: false})
+                App.curlist_mouse_selected = true
+            }
+        }
+    })
+
     let filter = DOM.el(`#curlist_filter`)
 
     DOM.ev(filter, `keydown`, (e) => {
