@@ -40,7 +40,7 @@ Curls.add_submit = (where, curls) => {
 
     if (added.length) {
         Curlist.update()
-        App.update({ curls: added })
+        Update.now({ curls: added })
     }
 }
 
@@ -178,7 +178,7 @@ Curls.replace_submit = (curls) => {
 
     if (added) {
         Curlist.update()
-        App.update()
+        Update.now()
     }
 }
 
@@ -221,7 +221,7 @@ Curls.do_edit = (curl, new_curl) => {
     Curls.save(curls)
     Curlist.update()
     App.remove_curl_item(curl)
-    App.update({ curls: [new_curl] })
+    Update.now({ curls: [new_curl] })
 }
 
 Curlist.check = (curl) => {

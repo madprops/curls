@@ -15,24 +15,18 @@ App.max_status_list = 100
 App.status_menu_max_length = 110
 
 App.old_delay = App.YEAR * 1
-App.update_delay = App.MINUTE * 5
 App.filter_debouncer_delay = 250
-App.update_debouncer_delay = 250
 App.change_debouncer_delay = 250
-App.clear_delay = 800
 
 App.colors_alpha = {}
 App.colors_alpha_2 = {}
 App.block_items = {}
 App.console_logs = true
-App.updates_enabled = false
 App.changing = false
-App.updating = false
 App.controls_enabled = true
 App.date_mode = `12`
 App.default_color = `green`
 App.default_sort = `newest`
-App.default_updater = `minutes_5`
 App.default_font = `sans-serif`
 App.default_border = `solid`
 App.default_filter = `all`
@@ -69,20 +63,6 @@ App.intro = [
     `Each color has its own set of curls.`,
     `You are limited to 100 curls per color.`,
 ].join(`\n`)
-
-App.updater_mode = App.default_updater
-
-App.updater_modes = [
-    {value: `now`, name: `Update`, skip: true, info: `Update now`},
-    {value: App.separator},
-    {value: `minutes_1`, name: `1 Minute`, info: `Update automatically every minute`},
-    {value: `minutes_5`, name: `5 Minutes`, info: `Update automatically every 5 minutes`},
-    {value: `minutes_10`, name: `10 Minutes`, info: `Update automatically every 10 minutes`},
-    {value: `minutes_30`, name: `30 Minutes`, info: `Update automatically every 30 minutes`},
-    {value: `minutes_60`, name: `60 Minutes`, info: `Update automatically every hour`},
-    {value: App.separator},
-    {value: `disabled`, name: `Disabled`},
-]
 
 App.sort_mode = App.default_sort
 

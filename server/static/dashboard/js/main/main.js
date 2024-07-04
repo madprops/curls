@@ -5,7 +5,7 @@ App.setup = () => {
     App.setup_color()
     Curlist.setup()
     Container.setup()
-    App.setup_updater()
+    Update.setup()
     App.setup_sort()
     App.setup_change()
     App.setup_picker()
@@ -21,7 +21,7 @@ App.setup = () => {
     App.setup_windows()
     App.update_autocomplete()
     App.setup_intro()
-    App.update()
+    Update.now()
 }
 
 App.setup_buttons = () => {

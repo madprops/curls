@@ -42,7 +42,7 @@ App.change_color = (value) => {
     Curlist.update()
     Container.loading()
     Peek.hide()
-    App.update()
+    Update.now()
 }
 
 App.load_color = () => {

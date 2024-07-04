@@ -1,68 +1,95 @@
-App.setup_updater = () => {
+/*
+
+Update manager
+
+*/
+
+const Update = {
+    default_mode: `minutes_5`,
+    enabled: false,
+    delay: App.MINUTE * 5,
+    debouncer_delay: 250,
+    updating: false,
+    clear_delay: 800,
+}
+
+Update.modes = [
+    {value: `now`, name: `Update`, skip: true, info: `Update now`},
+    {value: App.separator},
+    {value: `minutes_1`, name: `1 Minute`, info: `Update automatically every minute`},
+    {value: `minutes_5`, name: `5 Minutes`, info: `Update automatically every 5 minutes`},
+    {value: `minutes_10`, name: `10 Minutes`, info: `Update automatically every 10 minutes`},
+    {value: `minutes_30`, name: `30 Minutes`, info: `Update automatically every 30 minutes`},
+    {value: `minutes_60`, name: `60 Minutes`, info: `Update automatically every hour`},
+    {value: App.separator},
+    {value: `disabled`, name: `Disabled`},
+]
+
+Update.setup = () => {
     let updater = DOM.el(`#updater`)
-    App.updater_mode = App.load_updater()
+    Update.mode = Update.load_update()
 
     Combo.register({
         title: `Update Modes`,
-        items: App.updater_modes,
-        value: App.updater_mode,
+        items: Update.modes,
+        value: Update.mode,
         element: updater,
-        default: App.default_updater,
+        default: Update.default_mode,
         action: (value) => {
-            App.change_updater(value)
+            Update.change(value)
         },
         get: () => {
-            return App.updater_mode
+            return Update.mode
         },
     })
 
-    App.update_debouncer = App.create_debouncer((args) => {
-        App.do_update(args)
-    }, App.update_debouncer_delay)
+    Update.debouncer = App.create_debouncer((args) => {
+        Update.do_update(args)
+    }, Update.debouncer_delay)
 
-    App.check_updater()
+    Update.check()
 }
 
-App.load_updater = () => {
-    return App.load_modes(`updater`, App.updater_modes, App.default_updater)
+Update.load_update = () => {
+    return App.load_modes(`update`, Update.modes, Update.default_mode)
 }
 
-App.check_updater = () => {
-    let mode = App.updater_mode
+Update.check = () => {
+    let mode = Update.mode
 
     if (mode.startsWith(`minutes_`)) {
         let minutes = parseInt(mode.split(`_`)[1])
-        App.update_delay = App.MINUTE * minutes
-        App.updates_enabled = true
+        Update.delay = App.MINUTE * minutes
+        Update.enabled = true
     }
     else {
-        App.updates_enabled = false
+        Update.enabled = false
     }
 
-    App.restart_update()
+    Update.restart()
 }
 
-App.restart_update = () => {
-    clearTimeout(App.update_timeout)
+Update.restart = () => {
+    clearTimeout(Update.timeout)
 
-    if (App.updates_enabled) {
-        App.start_update_timeout()
+    if (Update.enabled) {
+        Update.start_timeout()
     }
 }
 
-App.start_update_timeout = () => {
-    App.update_timeout = setTimeout(() => {
-        App.update()
-    }, App.update_delay)
+Update.start_timeout = () => {
+    Update.timeout = setTimeout(() => {
+        Update.now()
+    }, Update.delay)
 }
 
-App.update = (args) => {
-    App.update_debouncer.call(args)
+Update.now = (args) => {
+    Update.debouncer.call(args)
 }
 
-App.do_update = (args = {}) => {
-    App.update_debouncer.cancel()
-    clearTimeout(App.update_timeout)
+Update.do_update = (args = {}) => {
+    Update.debouncer.cancel()
+    clearTimeout(App.timeout)
 
     let def_args = {
         feedback: true,
@@ -70,14 +97,14 @@ App.do_update = (args = {}) => {
     }
 
     App.def_args(def_args, args)
-    App.update_curls(args)
-    App.restart_update()
+    Update.fetch(args)
+    Update.restart()
 }
 
-App.update_curls = async (args) => {
+Update.fetch = async (args) => {
     App.info(`Update: Trigger`)
 
-    if (App.updating) {
+    if (Update.updating) {
         App.error(`Slow down`)
         return
     }
@@ -104,11 +131,11 @@ App.update_curls = async (args) => {
     }
 
     if (args.feedback) {
-        App.show_updating()
+        Update.show_updating()
     }
 
     let response = ``
-    App.updating = true
+    Update.updating = true
     App.info(`Update: Request ${App.network} (${args.curls.length})`)
 
     if (!Items.list.length) {
@@ -126,7 +153,7 @@ App.update_curls = async (args) => {
     }
     catch (e) {
         App.error(`Failed to update`)
-        App.clear_updating()
+        App.clear()
         return
     }
 
@@ -145,35 +172,31 @@ App.update_curls = async (args) => {
         App.error(e)
     }
 
-    App.clear_updating()
+    Update.clear()
 }
 
-App.show_updating = () => {
+Update.show_updating = () => {
     let button = DOM.el(`#updater`)
-    clearTimeout(App.clear_updating_timeout)
+    clearTimeout(Update.clear_timeout)
     button.classList.add(`active`)
 }
 
-App.clear_updating = () => {
-    App.updating = false
+Update.clear = () => {
+    Update.updating = false
 
-    App.clear_updating_timeout = setTimeout(() => {
+    Update.clear_timeout = setTimeout(() => {
         let button = DOM.el(`#updater`)
         button.classList.remove(`active`)
-    }, App.clear_delay)
+    }, Update.clear_delay)
 }
 
-App.change_updater = (mode) => {
+Update.change = (mode) => {
     if (mode === `now`) {
-        App.update()
+        Update.now()
         return
     }
 
-    App.updater_mode = mode
-    App.save(`updater`, mode)
-    App.check_updater()
-}
-
-App.disable_updates = () => {
-    App.change_updater(`disabled`)
+    Update.mode = mode
+    App.save(`update`, mode)
+    Update.check()
 }

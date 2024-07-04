@@ -75,7 +75,7 @@ App.do_change = () => {
 
             if (ans === `ok`) {
                 App.clear_status()
-                App.update({feedback: false})
+                Update.now({feedback: false})
                 Curls.add_owned(curl)
                 App.add_to_picker()
             }

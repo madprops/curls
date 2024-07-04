@@ -41,6 +41,7 @@ def bundle_dashboard() -> None:
     bundle_dashboard_js(
         "main",
         [
+            "vars",
             "combo",
             "block",
             "curlist",
@@ -48,7 +49,6 @@ def bundle_dashboard() -> None:
             "curls",
             "items",
             "container",
-            "vars",
             "main",
         ],
         ["load"],
