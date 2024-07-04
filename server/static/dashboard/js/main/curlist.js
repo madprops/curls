@@ -88,10 +88,12 @@ App.setup_curlist = () => {
         let item = App.extract_curlist_item(e.target)
 
         if (item) {
-            if (e.shiftKey) {
+            let selected = App.get_selected_items()
+
+            if (e.shiftKey && selected.length) {
                 App.select_curlist_range(item)
             }
-            else if (e.ctrlKey) {
+            else if (e.ctrlKey && selected.length) {
                 App.select_curlist_toggle(item)
             }
             else {
