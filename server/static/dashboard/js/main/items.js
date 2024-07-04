@@ -5,7 +5,7 @@ This is a general manager for items
 */
 
 const Items = {
-    items: [],
+    list: [],
 }
 
 Items.get = (curl) => {
@@ -24,7 +24,7 @@ Items.find_missing = () => {
     return missing
 }
 
-App.get_missing = () => {
+Items.get_missing = () => {
     return Items.list.filter(item => item.missing)
 }
 
@@ -64,7 +64,7 @@ Items.get_month = () => {
 }
 
 Items.reset = () => {
-    Items.items = []
+    Items.list = []
 }
 
 Items.add_dates = () => {

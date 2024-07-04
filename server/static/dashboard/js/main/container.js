@@ -9,6 +9,7 @@ const Container = {
     wrap_enabled: true,
     highlight_enabled: true,
     update_debouncer_delay: 100,
+    highlight_debouncer_delay: 50,
 }
 
 Container.setup = () => {

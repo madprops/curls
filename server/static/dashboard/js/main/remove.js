@@ -13,7 +13,7 @@ App.remove_a_curl_submit = (curl) => {
 }
 
 App.remove_not_found = () => {
-    let missing = App.get_missing_items().map(x => x.curl)
+    let missing = Items.get_missing().map(x => x.curl)
     let curls = Curls.get()
     let cleaned = []
     let removed = []

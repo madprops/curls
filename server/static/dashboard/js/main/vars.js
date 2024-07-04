@@ -19,7 +19,6 @@ App.update_delay = App.MINUTE * 5
 App.filter_debouncer_delay = 250
 App.update_debouncer_delay = 250
 App.change_debouncer_delay = 250
-App.highlight_items_debouncer_delay = 50
 App.clear_delay = 800
 
 App.colors_alpha = {}

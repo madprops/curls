@@ -5,7 +5,6 @@ App.setup = () => {
     App.setup_color()
     Curlist.setup()
     Container.setup()
-    App.setup()
     App.setup_updater()
     App.setup_sort()
     App.setup_change()
