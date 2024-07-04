@@ -24,7 +24,7 @@ App.setup_updater = () => {
 }
 
 App.load_updater = () => {
-    App.load_modes(`updater`, App.updater_modes, App.default_updater)
+    return App.load_modes(`updater`, App.updater_modes, App.default_updater)
 }
 
 App.check_updater = () => {

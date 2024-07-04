@@ -30,5 +30,5 @@ App.apply_font = () => {
 }
 
 App.load_font = () => {
-    App.load_modes(`font`, App.font_modes, App.default_font)
+    return App.load_modes(`font`, App.font_modes, App.default_font)
 }

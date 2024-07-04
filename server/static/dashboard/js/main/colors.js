@@ -46,7 +46,7 @@ App.change_color = (value) => {
 }
 
 App.load_color = () => {
-    App.load_modes(`color`, App.color_modes, App.default_color)
+    return App.load_modes(`color`, App.color_modes, App.default_color)
 }
 
 App.apply_color = () => {

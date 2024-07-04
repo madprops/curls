@@ -11,7 +11,7 @@ App.save_peek_enabled = () => {
 }
 
 App.load_peek_enabled = () => {
-    App.load_boolean(`peek_enabled`)
+    return App.load_boolean(`peek_enabled`)
 }
 
 App.show_peek = (args) => {

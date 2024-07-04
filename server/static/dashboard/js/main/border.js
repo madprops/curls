@@ -42,5 +42,5 @@ App.apply_border = () => {
 }
 
 App.load_border = () => {
-    App.load_modes(`border`, App.border_modes, App.default_border)
+    return App.load_modes(`border`, App.border_modes, App.default_border)
 }

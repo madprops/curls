@@ -124,5 +124,5 @@ App.sort_items = (items) => {
 }
 
 App.load_sort = () => {
-    App.load_modes(`sort`, App.sort_modes, App.default_sort)
+    return App.load_modes(`sort`, App.sort_modes, App.default_sort)
 }

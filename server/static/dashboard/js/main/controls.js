@@ -8,7 +8,7 @@ App.save_controls_enabled = () => {
 }
 
 App.load_controls_enabled = () => {
-    App.load_boolean(`controls_enabled`)
+    return App.load_boolean(`controls_enabled`)
 }
 
 App.check_controls = () => {

@@ -302,7 +302,7 @@ App.show_curlist_menu = (e) => {
 }
 
 App.load_curlist_enabled = () => {
-    App.load_boolean(`curlist_enabled`)
+    return App.load_boolean(`curlist_enabled`)
 }
 
 App.check_curlist_enabled = () => {

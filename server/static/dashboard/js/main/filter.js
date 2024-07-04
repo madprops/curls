@@ -31,7 +31,7 @@ App.setup_filter = () => {
 }
 
 App.load_filter = () => {
-    App.load_modes(`filter`, App.filter_modes, App.default_filter)
+    return App.load_modes(`filter`, App.filter_modes, App.default_filter)
 }
 
 App.change_filter = (value) => {

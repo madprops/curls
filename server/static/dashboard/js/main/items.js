@@ -16,7 +16,7 @@ App.save_wrap_enabled = () => {
 }
 
 App.load_wrap_enabled = () => {
-    App.load_boolean(`wrap_enabled`)
+    return App.load_boolean(`wrap_enabled`)
 }
 
 App.save_highlight_enabled = () => {
@@ -24,7 +24,7 @@ App.save_highlight_enabled = () => {
 }
 
 App.load_highlight_enabled = () => {
-    App.load_boolean(`highlight_enabled`)
+    return App.load_boolean(`highlight_enabled`)
 }
 
 App.get_date_mode = () => {
