@@ -22,7 +22,7 @@ App.setup_border = () => {
 
 App.change_border = (value) => {
     App.border_mode = value
-    localStorage.setItem(`border`, value)
+    App.save(`border`, value)
 }
 
 App.apply_border = () => {

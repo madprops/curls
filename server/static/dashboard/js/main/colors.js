@@ -36,7 +36,7 @@ App.change_color = (value) => {
     }
 
     App.color_mode = value
-    localStorage.setItem(`color`, value)
+    App.save(`color`, value)
     App.apply_color()
     App.reset_items()
     App.update_curlist()
@@ -90,7 +90,7 @@ App.do_move_to_color = (color, e) => {
     App.do_remove_curl(curl)
     let curlist = App.get_color_curlist(color)
     curlist += `\n${curl}`
-    localStorage.setItem(`curlist_${color}`, curlist)
+    App.save(`curlist_${color}`, curlist)
 }
 
 App.get_color_curlist = (color) => {

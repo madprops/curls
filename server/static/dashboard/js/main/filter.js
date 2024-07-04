@@ -42,7 +42,7 @@ App.change_filter = (value) => {
     App.filter_mode = value
     App.focus_filter()
     App.do_filter()
-    localStorage.setItem(`filter`, value)
+    App.save(`filter`, value)
 }
 
 App.unfilter_all = () => {

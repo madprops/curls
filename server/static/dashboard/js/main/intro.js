@@ -8,7 +8,7 @@ App.setup_intro = () => {
 }
 
 App.save_intro_shown = () => {
-    localStorage.setItem(`intro_shown`, true)
+    App.save(`intro_shown`, true)
 }
 
 App.load_intro = () => {

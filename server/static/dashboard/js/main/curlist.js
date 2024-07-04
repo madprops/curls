@@ -332,7 +332,7 @@ App.toggle_curlist = () => {
         App.show_curlist()
     }
 
-    localStorage.setItem(`curlist_enabled`, App.curlist_enabled)
+    App.save(`curlist_enabled`, App.curlist_enabled)
 }
 
 App.sort_curlist = (how) => {

@@ -7,7 +7,7 @@ App.setup_peek = () => {
 }
 
 App.save_peek_enabled = () => {
-    localStorage.setItem(`peek_enabled`, App.peek_enabled)
+    App.save(`peek_enabled`, App.peek_enabled)
 }
 
 App.load_peek_enabled = () => {

@@ -36,7 +36,7 @@ App.add_to_picker = () => {
         }
     }
 
-    localStorage.setItem(`picker`, JSON.stringify(cleaned))
+    App.save(`picker`, JSON.stringify(cleaned))
 }
 
 App.show_picker = (e) => {
@@ -114,7 +114,7 @@ App.import_pickers_submit = (data) => {
 
     try {
         let items = JSON.parse(data)
-        localStorage.setItem(`picker`, JSON.stringify(items))
+        App.save(`picker`, JSON.stringify(items))
     }
     catch (err) {
         App.error(err)
@@ -124,7 +124,7 @@ App.import_pickers_submit = (data) => {
 
 App.clear_picker = () => {
     App.confirm({title: `Clear Picker`, ok: () => {
-        localStorage.setItem(`picker`, `[]`)
+        App.save(`picker`, `[]`)
     }, message: `Remove all items from the picker`})
 }
 
@@ -145,5 +145,5 @@ App.do_remove_picker_item = (curl) => {
         cleaned.push(item)
     }
 
-    localStorage.setItem(`picker`, JSON.stringify(cleaned))
+    App.save(`picker`, JSON.stringify(cleaned))
 }

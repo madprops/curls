@@ -4,7 +4,7 @@ App.setup_controls = () => {
 }
 
 App.save_controls_enabled = () => {
-    localStorage.setItem(`controls_enabled`, App.controls_enabled)
+    App.save(`controls_enabled`, App.controls_enabled)
 }
 
 App.load_controls_enabled = () => {

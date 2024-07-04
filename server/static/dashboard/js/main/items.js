@@ -12,7 +12,7 @@ App.setup_items = () => {
 }
 
 App.save_wrap_enabled = () => {
-    localStorage.setItem(`wrap_enabled`, App.wrap_enabled)
+    App.save(`wrap_enabled`, App.wrap_enabled)
 }
 
 App.load_wrap_enabled = () => {
@@ -20,7 +20,7 @@ App.load_wrap_enabled = () => {
 }
 
 App.save_highlight_enabled = () => {
-    localStorage.setItem(`highlight_enabled`, App.highlight_enabled)
+    App.save(`highlight_enabled`, App.highlight_enabled)
 }
 
 App.load_highlight_enabled = () => {
@@ -178,7 +178,7 @@ App.change_date_mode = () => {
 
     let date_mode = App.get_date_mode()
     date_mode = date_mode === `12` ? `24` : `12`
-    localStorage.setItem(`date_mode`, date_mode)
+    App.save(`date_mode`, date_mode)
     App.add_dates_to_items()
     App.update_items()
 }

@@ -22,7 +22,7 @@ App.setup_font = () => {
 
 App.change_font = (value) => {
     App.font_mode = value
-    localStorage.setItem(`font`, value)
+    App.save(`font`, value)
 }
 
 App.apply_font = () => {

@@ -23,7 +23,7 @@ App.change_sort = (value) => {
     }
 
     App.sort_mode = value
-    localStorage.setItem(`sort`, value)
+    App.save(`sort`, value)
     App.update_items()
 }
 

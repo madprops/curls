@@ -49,7 +49,7 @@ App.save_status = (status) => {
     }
 
     let list = [status, ...cleaned].slice(0, App.max_status_list)
-    localStorage.setItem(`status_list`, JSON.stringify(list))
+    App.save(`status_list`, JSON.stringify(list))
 }
 
 App.show_status_menu = () => {
@@ -102,5 +102,5 @@ App.do_remove_status = (status) => {
         cleaned.push(status_)
     }
 
-    localStorage.setItem(`status_list`, JSON.stringify(cleaned))
+    App.save(`status_list`, JSON.stringify(cleaned))
 }

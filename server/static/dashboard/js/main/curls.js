@@ -122,7 +122,7 @@ App.after_curls_move = (new_curls, curls, leader) => {
 
 App.save_curls = (curls, color = App.color_mode) => {
     let name = App.get_curls_name(color)
-    localStorage.setItem(name, JSON.stringify(curls))
+    App.save(name, JSON.stringify(curls))
 }
 
 App.get_curls = (color = App.color_mode) => {
@@ -173,7 +173,7 @@ App.replace_curls_submit = (curls) => {
 
 App.clear_curls = (color = App.color_mode) => {
     let name = App.get_curls_name(color)
-    localStorage.setItem(name, ``)
+    App.save(name, ``)
 }
 
 App.edit_curl = (curl) => {

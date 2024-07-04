@@ -185,3 +185,7 @@ App.load_array = (name) => {
 App.load_string = (name, def_value = ``) => {
     return localStorage.getItem(name) || def_value
 }
+
+App.save = (name, value) => {
+    localStorage.setItem(name, value)
+}
