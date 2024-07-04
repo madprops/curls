@@ -19,10 +19,10 @@ invalid_status = "Error: Invalid status"
 
 
 def claim_proc(request: Any) -> str:
-    c_hash = request.form.get("captcha-hash")
-    c_text = request.form.get("captcha-text")
+    c_hash = request.form.get("captcha-hash", "")
+    c_text = request.form.get("captcha-text", "")
+    curl = clean_curl(request.form.get("curl", ""))
 
-    curl = request.form["curl"].strip()
     check_catpcha = True
 
     if config.captcha_cheat and (c_text == config.captcha_cheat):
@@ -31,8 +31,6 @@ def claim_proc(request: Any) -> str:
     if check_catpcha:
         if not app.simple_captcha.verify(c_text, c_hash):
             return "Error: Failed captcha"
-
-    curl = curl.strip().lower()
 
     if not check_curl(curl):
         return invalid_curl
@@ -55,9 +53,9 @@ def claim_proc(request: Any) -> str:
 
 
 def change_proc(request: Any) -> str:
-    curl = request.form.get("curl").strip()
-    key = request.form.get("key").strip()
-    status = request.form.get("status").strip()
+    curl = clean_curl(request.form.get("curl", ""))
+    key = clean_key(request.form.get("key", ""))
+    status = clean_status(request.form.get("status", ""))
 
     if (not curl) or (not key) or (not status):
         return "Error: Empty fields"
@@ -129,7 +127,7 @@ def check_key(curl: str, key: str) -> bool:
     if len(key) > config.key_length:
         return False
 
-    curl = curl.strip().lower()
+    curl = clean_curl(curl)
     dbase = db.get_db()
     cursor = dbase.cursor()
     db_string = "SELECT key FROM curls WHERE curl = ?"
@@ -139,7 +137,7 @@ def check_key(curl: str, key: str) -> bool:
 
 
 def update_status(curl: str, status: str) -> None:
-    curl = curl.strip().lower()
+    curl = clean_curl(curl)
     dbase = db.get_db()
     cursor = dbase.cursor()
     db_string = "UPDATE curls SET status = ?, updated = ? WHERE curl = ?"
@@ -148,7 +146,7 @@ def update_status(curl: str, status: str) -> None:
 
 
 def curl_exists(curl: str) -> bool:
-    curl = curl.strip().lower()
+    curl = clean_curl(curl)
     dbase = db.get_db()
     cursor = dbase.cursor()
     db_string = "SELECT curl FROM curls WHERE curl = ?"
@@ -158,7 +156,7 @@ def curl_exists(curl: str) -> bool:
 
 
 def get_status(curl: str) -> str:
-    curl = curl.strip().lower()
+    curl = clean_curl(curl)
     dbase = db.get_db()
     cursor = dbase.cursor()
     db_string = "SELECT status FROM curls WHERE curl = ?"
@@ -240,3 +238,15 @@ def check_status(status: str) -> bool:
 
 def date_now() -> datetime.datetime:
     return datetime.datetime.now(datetime.timezone.utc)
+
+
+def clean_curl(curl: str) -> str:
+    return curl.strip().lower()
+
+
+def clean_key(key: str) -> str:
+    return key.strip()
+
+
+def clean_status(status: str) -> str:
+    return status.strip()
