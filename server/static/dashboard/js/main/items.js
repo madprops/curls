@@ -71,6 +71,7 @@ App.do_update_items = (args = {}) => {
     }
 
     App.def_args(def_args, args)
+    App.info(`Updating Items`)
     App.clear_container()
     App.sort_items(args.items)
 
