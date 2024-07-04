@@ -106,6 +106,7 @@ Curlist.setup = () => {
             let selected = Curlist.get_selected_items()
 
             if (e.shiftKey && selected.length) {
+                console.log(1)
                 Curlist.select_range(item)
             }
             else if (e.ctrlKey && selected.length) {
@@ -587,16 +588,16 @@ Curlist.select_range = (item) => {
     }
 
     if (direction === `up`) {
-        Curlist.select_range(item, index, last_index)
+        Curlist.do_select_range(item, index, last_index)
     }
     else {
-        Curlist.select_range(item, first_index, index)
+        Curlist.do_select_range(item, first_index, index)
     }
 
     Curlist.prev_range_item = item
 }
 
-Curlist.select_range = (item, start, end) => {
+Curlist.do_select_range = (item, start, end) => {
     let items = Curlist.get_visible()
 
     for (let i = 0; i < items.length; i++) {
