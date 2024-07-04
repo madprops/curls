@@ -1,4 +1,4 @@
-Block = {
+const Block = {
     interval_delay: 2000,
     date_delay: 500,
     relief: 0.1,
