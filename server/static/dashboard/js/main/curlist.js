@@ -1,5 +1,6 @@
 App.setup_curlist = () => {
     let container = DOM.el(`#curlist_container`)
+    let curlist = DOM.el(`#curlist`)
     let curlist_top = DOM.el(`#curlist_top`)
 
     let lines = [
@@ -20,22 +21,6 @@ App.setup_curlist = () => {
     App.curlist_enabled = App.load_curlist_enabled()
     App.check_curlist_enabled()
 
-    DOM.ev(container, `click`, (e) => {
-        let item = App.extract_curlist_item(e.target)
-
-        if (item) {
-            if (e.shiftKey) {
-                App.select_curlist_range(item)
-            }
-            else if (e.ctrlKey) {
-                App.select_curlist_toggle(item)
-            }
-            else {
-                App.select_curlist_item(item)
-            }
-        }
-    })
-
     DOM.ev(container, `contextmenu`, (e) => {
         let item = App.extract_curlist_item(e.target)
         let curl = App.extract_curlist_curl(item)
@@ -48,36 +33,6 @@ App.setup_curlist = () => {
         }
 
         e.preventDefault()
-    })
-
-    DOM.ev(container, `dblclick`, (e) => {
-        let item = App.extract_curlist_item(e.target)
-        let curl = App.extract_curlist_curl(item)
-
-        if (item) {
-            App.edit_curl(curl)
-        }
-        else {
-            App.add_curls(`bottom`)
-        }
-    })
-
-    DOM.ev(container, `auxclick`, (e) => {
-        let item = App.extract_curlist_item(e.target)
-        let curl = App.extract_curlist_curl(item)
-        let selected = App.get_selected_items()
-
-        if (e.button === 1) {
-            if (item) {
-                if (selected.length && selected.includes(item)) {
-                    App.remove_selected_curls()
-                }
-                else {
-                    App.select_curlist_item(item)
-                    App.remove_curls([curl])
-                }
-            }
-        }
     })
 
     DOM.ev(container, `keydown`, (e) => {
@@ -127,6 +82,52 @@ App.setup_curlist = () => {
 
     DOM.ev(container, `mouseover`, function(e) {
         App.curlist_mouseover(e)
+    })
+
+    DOM.ev(curlist, `click`, (e) => {
+        let item = App.extract_curlist_item(e.target)
+
+        if (item) {
+            if (e.shiftKey) {
+                App.select_curlist_range(item)
+            }
+            else if (e.ctrlKey) {
+                App.select_curlist_toggle(item)
+            }
+            else {
+                App.select_curlist_item(item)
+            }
+        }
+    })
+
+    DOM.ev(curlist, `dblclick`, (e) => {
+        let item = App.extract_curlist_item(e.target)
+        let curl = App.extract_curlist_curl(item)
+
+        if (item) {
+            App.edit_curl(curl)
+        }
+        else {
+            App.add_curls(`bottom`)
+        }
+    })
+
+    DOM.ev(curlist, `auxclick`, (e) => {
+        let item = App.extract_curlist_item(e.target)
+        let curl = App.extract_curlist_curl(item)
+        let selected = App.get_selected_items()
+
+        if (e.button === 1) {
+            if (item) {
+                if (selected.length && selected.includes(item)) {
+                    App.remove_selected_curls()
+                }
+                else {
+                    App.select_curlist_item(item)
+                    App.remove_curls([curl])
+                }
+            }
+        }
     })
 
     let filter = DOM.el(`#curlist_filter`)
@@ -498,10 +499,7 @@ App.select_curlist_item = (item) => {
         App.do_deselect_curlist_item(it)
     }
 
-    App.do_select_curlist_item({item: item, peek: false, highlight: false})
-    let curl = App.extract_curlist_curl(item)
-    App.do_show_peek({curl: curl})
-    App.do_highlight_items({curl: curl})
+    App.do_select_curlist_item({item: item})
     App.prev_curlist_range_item = item
 }
 
