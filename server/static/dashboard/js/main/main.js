@@ -1,9 +1,9 @@
 App.setup = () => {
     NeedContext.init()
     Block.setup()
-    Curlist.setup()
     App.setup_buttons()
     App.setup_color()
+    Curlist.setup()
     App.setup_container()
     App.setup_items()
     App.setup_updater()
