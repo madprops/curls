@@ -159,6 +159,10 @@ Update.fetch = async (args) => {
         return
     }
 
+    if (args.update_curlist) {
+        Curlist.update()
+    }
+
     try {
         let items = await response.json()
 
@@ -175,10 +179,6 @@ Update.fetch = async (args) => {
     }
 
     Update.clear()
-
-    if (args.update_curlist) {
-        Curlist.update()
-    }
 }
 
 Update.show_updating = () => {
