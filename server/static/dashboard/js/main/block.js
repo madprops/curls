@@ -1,4 +1,6 @@
-App.setup_block = () => {
+Block = {}
+
+Block.setup = () => {
     setInterval(() => {
         for (let name in App.block_items) {
             let item = App.block_items[name]
@@ -11,14 +13,14 @@ App.setup_block = () => {
     }, 1000)
 }
 
-App.register_block = (name, limit) => {
+Block.register = (name, limit) => {
     App.block_items[name] = {
         charge: 0,
         limit: limit,
     }
 }
 
-App.block_charge = (name) => {
+Block.charge = (name) => {
     let item = App.block_items[name]
 
     if (item.charge >= item.limit) {

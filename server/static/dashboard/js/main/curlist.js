@@ -157,7 +157,7 @@ App.setup_curlist = () => {
 
     filter.value = ``
 
-    App.register_block(`curlist_vertical`, 100)
+    Block.register(`curlist_vertical`, 100)
     App.curlist_drag_events()
     App.update_curlist()
 }
@@ -650,7 +650,7 @@ App.get_curlist_item = (curl) => {
 }
 
 App.select_curlist_vertical = (direction, shift) => {
-    if (App.block_charge(`curlist_vertical`)) {
+    if (Block.charge(`curlist_vertical`)) {
         return
     }
 

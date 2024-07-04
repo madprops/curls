@@ -21,6 +21,7 @@ export default [
         DOM: "writable",
         Msg: "writable",
         Combo: "writable",
+        Block: "writable",
         Addlist: "writable",
         NiceGesture: "writable",
         NeedContext: "writable",

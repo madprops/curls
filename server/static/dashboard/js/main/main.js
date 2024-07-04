@@ -1,5 +1,6 @@
 App.setup = () => {
     NeedContext.init()
+    Block.setup()
     App.setup_buttons()
     App.setup_color()
     App.setup_curlist()
@@ -21,7 +22,6 @@ App.setup = () => {
     App.setup_windows()
     App.update_autocomplete()
     App.setup_intro()
-    App.setup_block()
     App.update()
 }
 

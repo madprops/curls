@@ -1,4 +1,5 @@
 const Combo = {}
+Combo.id = 0
 
 Combo.register = (args = {}) => {
     DOM.evs(args.element, [`click`, `contextmenu`], (e) => {
@@ -25,9 +26,12 @@ Combo.register = (args = {}) => {
         `Middle Click to reset`,
     ]
 
+    args.id = Combo.id
     args.element.title = lines.join(`\n`)
-
     Combo.update_text(args)
+    let limit = args.items.length * 1.5
+    Block.register(`combo_${args.id}`, limit)
+    Combo.id++
 }
 
 Combo.get_item = (args) => {
@@ -79,6 +83,10 @@ Combo.get_values = (args) => {
 }
 
 Combo.cycle = (args, direction) => {
+    if (Block.charge(`combo_${args.id}`)) {
+        return
+    }
+
     let value = args.get()
     let values = Combo.get_values(args)
     let index = values.indexOf(value)
