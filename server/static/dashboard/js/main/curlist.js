@@ -1,8 +1,8 @@
 const Curlist = {
+    enabled: true,
     mouse_down: false,
     mouse_selected: false,
     filter_debouncer_delay: 250,
-    enabled: true,
 }
 
 Curlist.setup = () => {
@@ -159,8 +159,8 @@ Curlist.setup = () => {
         }
     })
 
-    App.curlist_filter_debouncer = App.create_debouncer(
-        Curlist.do_filter, App.filter_debouncer_delay)
+    Curlist.filter_debouncer = App.create_debouncer(
+        Curlist.do_filter, Curlist.filter_debouncer_delay)
 
     filter.value = ``
 
@@ -440,7 +440,7 @@ Curlist.drag_events = () => {
     DOM.ev(container, `dragstart`, (e) => {
         let item = Curlist.extract_item(e.target)
         let curl = Curlist.extract_curl(item)
-        App.drag_y_curlist = e.clientY
+        Curlist.drag_y = e.clientY
 
         e.dataTransfer.setData(`text`, curl)
         e.dataTransfer.setDragImage(new Image(), 0, 0)
@@ -448,11 +448,11 @@ Curlist.drag_events = () => {
         let selected = Curlist.get_selected_items()
 
         if (selected.length && selected.includes(item)) {
-            App.drag_items_curlist = selected
+            Curlist.drag_items = selected
         }
         else {
             Curlist.select_item(item)
-            App.drag_items_curlist = [item]
+            Curlist.drag_items = [item]
         }
     })
 
@@ -465,14 +465,14 @@ Curlist.drag_events = () => {
             return
         }
 
-        let direction = (e.clientY > App.drag_y_curlist) ? `down` : `up`
-        App.drag_y_curlist = e.clientY
+        let direction = (e.clientY > Curlist.drag_y) ? `down` : `up`
+        Curlist.drag_y = e.clientY
 
         if (direction === `up`) {
-            item.before(...App.drag_items_curlist)
+            item.before(...Curlist.drag_items)
         }
         else if (direction === `down`) {
-            item.after(...App.drag_items_curlist)
+            item.after(...Curlist.drag_items)
         }
     })
 
@@ -506,7 +506,7 @@ Curlist.select_item = (item) => {
     }
 
     Curlist.do_select_item({item: item})
-    App.prev_curlist_range_item = item
+    Curlist.prev_range_item = item
 }
 
 Curlist.do_select_item = (args = {}) => {
@@ -546,13 +546,13 @@ Curlist.select_range = (item) => {
         return
     }
 
-    if (item === App.prev_curlist_range_item) {
+    if (item === Curlist.prev_range_item) {
         return
     }
 
     let items = Curlist.get_visible()
     let index = items.indexOf(item)
-    let prev_index = items.indexOf(App.prev_curlist_range_item)
+    let prev_index = items.indexOf(Curlist.prev_range_item)
     let first_index = items.indexOf(selected[0])
     let last_index = items.indexOf(App.last(selected))
     let direction
@@ -566,7 +566,7 @@ Curlist.select_range = (item) => {
         }
     }
     else {
-        if (App.prev_curlist_range_item === selected[0]) {
+        if (Curlist.prev_range_item === selected[0]) {
             direction = `up`
         }
         else {
@@ -588,7 +588,7 @@ Curlist.select_range = (item) => {
         Curlist.select_range(item, first_index, index)
     }
 
-    App.prev_curlist_range_item = item
+    Curlist.prev_range_item = item
 }
 
 Curlist.select_range = (item, start, end) => {
@@ -611,7 +611,7 @@ Curlist.select_range = (item, start, end) => {
 Curlist.select_toggle = (item) => {
     let curl = Curlist.extract_curl(item)
     item.classList.toggle(`selected`)
-    App.prev_curlist_range_item = item
+    Curlist.prev_range_item = item
     App.highlight_items({curl: curl})
     App.show_peek({curl: curl})
 }
@@ -659,7 +659,7 @@ Curlist.select_vertical = (direction, shift) => {
 
     let items = Curlist.get_visible()
     let selected = Curlist.get_selected_items()
-    let prev_index = items.indexOf(App.prev_curlist_range_item)
+    let prev_index = items.indexOf(Curlist.prev_range_item)
     let first_index = items.indexOf(selected[0])
 
     if (!selected.length) {
@@ -758,11 +758,11 @@ Curlist.get_filter_value = () => {
 }
 
 Curlist.filter = () => {
-    App.curlist_filter_debouncer.call()
+    Curlist.filter_debouncer.call()
 }
 
 Curlist.do_filter = () => {
-    App.curlist_filter_debouncer.cancel()
+    Curlist.filter_debouncer.cancel()
     let els = Curlist.get_elements()
     let value = Curlist.get_filter_value()
 
@@ -904,15 +904,15 @@ Curlist.mouseover = (e) => {
         return
     }
 
-    if (!App.mouse_down) {
+    if (!Curlist.mouse_down) {
         return
     }
 
-    if (!App.mouse_selected) {
+    if (!Curlist.mouse_selected) {
         Curlist.deselect()
     }
 
     let item = Curlist.extract_item(e.target)
     Curlist.do_select_item({item: item})
-    App.mouse_selected = true
+    Curlist.mouse_selected = true
 }
