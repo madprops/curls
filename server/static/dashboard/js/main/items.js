@@ -63,6 +63,8 @@ App.update_items = (args) => {
 }
 
 App.do_update_items = (args = {}) => {
+    App.update_items_debouncer.cancel()
+
     let def_args = {
         items: App.items,
         check_filter: true,
@@ -392,6 +394,8 @@ App.highlight_items = (args) => {
 }
 
 App.do_highlight_items = (args = {}) => {
+    App.highlight_items_debouncer.cancel()
+
     let def_args = {
         behavior: `smooth`,
     }

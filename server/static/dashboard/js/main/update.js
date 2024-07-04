@@ -61,6 +61,7 @@ App.update = (args) => {
 }
 
 App.do_update = (args = {}) => {
+    App.update_debouncer.cancel()
     clearTimeout(App.update_timeout)
 
     let def_args = {

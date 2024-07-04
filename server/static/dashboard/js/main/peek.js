@@ -19,6 +19,8 @@ App.show_peek = (args) => {
 }
 
 App.do_show_peek = (args = {}) => {
+    App.peek_debouncer.cancel()
+
     let def_args = {
         force: false,
     }

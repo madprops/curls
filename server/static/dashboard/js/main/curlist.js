@@ -498,7 +498,10 @@ App.select_curlist_item = (item) => {
         App.do_deselect_curlist_item(it)
     }
 
-    App.do_select_curlist_item({item: item})
+    App.do_select_curlist_item({item: item, peek: false, highlight: false})
+    let curl = App.extract_curlist_curl(item)
+    App.do_show_peek({curl: curl})
+    App.do_highlight_items({curl: curl})
     App.prev_curlist_range_item = item
 }
 
