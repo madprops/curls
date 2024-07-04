@@ -154,8 +154,6 @@ App.filter_mode = App.default_filter
 App.filter_modes = [
     {value: `all`, name: `All`, info: `Show all curls`},
     {value: App.separator},
-    {value: `owned`, name: `Owned`, info: `Show the curls that you control`},
-    {value: App.separator},
     {value: `today`, name: `Today`, info: `Show the curls that changed today`},
     {value: `week`, name: `Week`, info: `Show the curls that changed this week`},
     {value: `month`, name: `Month`, info: `Show the curls that changed this month`},
@@ -163,4 +161,6 @@ App.filter_modes = [
     {value: `curl`, name: `Curl`, info: `Filter by curl`},
     {value: `status`, name: `Status`, info: `Filter by status`},
     {value: `date`, name: `Date`, info: `Filter by date`},
+    {value: App.separator},
+    {value: `owned`, name: `Owned`, info: `Show the curls that you control`},
 ]
