@@ -8,21 +8,18 @@ App.WEEK = App.DAY * 7
 App.MONTH = App.DAY * 30
 App.YEAR = App.DAY * 365
 
+App.old_delay = App.YEAR * 1
+
 App.key_length = 22
 App.status_max_length = 500
 App.max_status_list = 100
 App.status_menu_max_length = 110
 
-App.old_delay = App.YEAR * 1
 
-App.colors_alpha = {}
-App.colors_alpha_2 = {}
 App.block_items = {}
 App.console_logs = true
 App.controls_enabled = true
 App.date_mode = `12`
-App.default_font = `sans-serif`
-App.default_border = `solid`
 App.separator = `__separator__`
 App.network = `🛜`
 
@@ -56,23 +53,3 @@ App.intro = [
     `Each color has its own set of curls.`,
     `You are limited to 100 curls per color.`,
 ].join(`\n`)
-
-App.font_mode = App.default_font
-
-App.font_modes = [
-    {value: `sans-serif`, name: `Sans`, info: `Use Sans-Serif as the font`},
-    {value: `serif`, name: `Serif`, info: `Use Serif as the font`},
-    {value: `monospace`, name: `Mono`, info: `Use Monospace as the font`},
-    {value: `cursive`, name: `Cursive`, info: `Use Cursive as the font`},
-]
-
-App.border_mode = App.default_border
-
-App.border_modes = [
-    {value: `solid`, name: `Solid`, info: `Normal solid border`},
-    {value: `dotted`, name: `Dotted`, info: `Dotted border`},
-    {value: `dashed`, name: `Dashed`, info: `Dashed border`},
-    {value: `bigger`, name: `Bigger`, info: `Normal border but twice as thick`},
-    {value: App.separator},
-    {value: `none`, name: `None`, info: `No border`},
-]

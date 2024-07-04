@@ -1,34 +1,52 @@
-App.setup_font = () => {
+/*
+
+The font of the interface
+
+*/
+
+const Font = {
+    default_mode: `sans-serif`,
+    ls_name: `font`,
+}
+
+Font.modes = [
+    {value: `sans-serif`, name: `Sans`, info: `Use Sans-Serif as the font`},
+    {value: `serif`, name: `Serif`, info: `Use Serif as the font`},
+    {value: `monospace`, name: `Mono`, info: `Use Monospace as the font`},
+    {value: `cursive`, name: `Cursive`, info: `Use Cursive as the font`},
+]
+
+Font.setup = () => {
     let font = DOM.el(`#font`)
-    App.font_mode = App.load_font()
+    Font.mode = Font.load_font()
 
     Combo.register({
         title: `Font Modes`,
-        items: App.font_modes,
-        value: App.font_mode,
+        items: Font.modes,
+        value: Font.mode,
         element: font,
-        default: App.default_font,
+        default: Font.default_mode,
         action: (value) => {
-            App.change_font(value)
-            App.apply_font()
+            Font.change(value)
+            Font.apply()
         },
         get: () => {
-            return App.font_mode
+            return Font.mode
         },
     })
 
-    App.apply_font()
+    Font.apply()
 }
 
-App.change_font = (value) => {
-    App.font_mode = value
-    App.save(`font`, value)
+Font.change = (value) => {
+    Font.mode = value
+    App.save(Font.ls_name, value)
 }
 
-App.apply_font = () => {
-    document.documentElement.style.setProperty(`--font`, App.font_mode)
+Font.apply = () => {
+    document.documentElement.style.setProperty(`--font`, Font.mode)
 }
 
-App.load_font = () => {
-    return App.load_modes(`font`, App.font_modes, App.default_font)
+Font.load_font = () => {
+    return App.load_modes(Font.ls_name, Font.modes, Font.default_mode)
 }

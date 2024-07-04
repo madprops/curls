@@ -7,6 +7,8 @@ Color functions
 const Colors = {
     default_mode: `green`,
     ls_name: `color`,
+    alpha: {},
+    alpha_2: {},
 }
 
 Colors.modes = [
@@ -37,8 +39,8 @@ Colors.setup = () => {
 
     })
 
-    Colors.make_alpha(App.colors_alpha, `0.18`)
-    Colors.make_alpha(App.colors_alpha_2, `0.5`)
+    Colors.make_alpha(Colors.alpha, `0.18`)
+    Colors.make_alpha(Colors.alpha_2, `0.5`)
     Colors.apply()
 }
 
@@ -71,8 +73,8 @@ Colors.load_color = () => {
 
 Colors.apply = () => {
     let normal = App.colors[Colors.mode]
-    let alpha = App.colors_alpha[Colors.mode]
-    let alpha_2 = App.colors_alpha_2[Colors.mode]
+    let alpha = Colors.alpha[Colors.mode]
+    let alpha_2 = Colors.alpha_2[Colors.mode]
     document.documentElement.style.setProperty(`--color`, normal)
     document.documentElement.style.setProperty(`--color_alpha`, alpha)
     document.documentElement.style.setProperty(`--color_alpha_2`, alpha_2)

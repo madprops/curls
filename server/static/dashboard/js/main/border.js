@@ -1,46 +1,66 @@
-App.setup_border = () => {
+/*
+
+The border between the items of the container
+
+*/
+
+const Border = {
+    default_mode: `solid`,
+    ls_name: `border`,
+}
+
+Border.modes = [
+    {value: `solid`, name: `Solid`, info: `Normal solid border`},
+    {value: `dotted`, name: `Dotted`, info: `Dotted border`},
+    {value: `dashed`, name: `Dashed`, info: `Dashed border`},
+    {value: `bigger`, name: `Bigger`, info: `Normal border but twice as thick`},
+    {value: App.separator},
+    {value: `none`, name: `None`, info: `No border`},
+]
+
+Border.setup = () => {
     let border = DOM.el(`#border`)
-    App.border_mode = App.load_border()
+    Border.mode = App.load_border()
 
     Combo.register({
         title: `Border Modes`,
-        items: App.border_modes,
-        value: App.border_mode,
+        items: Border.modes,
+        value: Border.mode,
         element: border,
         default: App.default_border,
         action: (value) => {
-            App.change_border(value)
-            App.apply_border()
+            Border.change(value)
+            Border.apply()
         },
         get: () => {
-            return App.border_mode
+            return Border.mode
         },
     })
 
-    App.apply_border()
+    Border.apply()
 }
 
-App.change_border = (value) => {
-    App.border_mode = value
-    App.save(`border`, value)
+Border.change = (value) => {
+    Border.mode = value
+    App.save(Border.ls_name, value)
 }
 
-App.apply_border = () => {
+Border.apply = () => {
     let border
 
-    if (App.border_mode === `none`) {
+    if (Border.mode === `none`) {
         border = `none`
     }
-    else if (App.border_mode === `bigger`) {
+    else if (Border.mode === `bigger`) {
         border = `2px solid var(--color)`
     }
     else {
-        border = `1px ${App.border_mode} var(--color)`
+        border = `1px ${Border.mode} var(--color)`
     }
 
     document.documentElement.style.setProperty(`--border`, border)
 }
 
 App.load_border = () => {
-    return App.load_modes(`border`, App.border_modes, App.default_border)
+    return App.load_modes(Border.ls_name, Border.modes, App.default_border)
 }

@@ -37,6 +37,8 @@ export default [
         Filter: "writable",
         Sort: "writable",
         Colors: "writable",
+        Border: "writable",
+        Font: "writable",
 
         NiceGesture: "writable",
         NeedContext: "writable",
