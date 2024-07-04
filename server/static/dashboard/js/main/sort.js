@@ -37,7 +37,7 @@ App.sort_items = (items) => {
     let mode = App.sort_mode
 
     if (mode === `order`) {
-        let curls = App.get_curls()
+        let curls = Curls.get()
 
         items.sort((a, b) => {
             return curls.indexOf(a.curl) - curls.indexOf(b.curl)
