@@ -465,6 +465,12 @@ App.curlist_drag_events = () => {
     DOM.ev(container, `dragend`, (e) => {
         App.save_after_move()
     })
+
+    let filter = DOM.el(`#curlist_filter`)
+
+    DOM.ev(filter, `drop`, (e) => {
+        e.preventDefault()
+    })
 }
 
 App.get_curlist_curls = () => {
