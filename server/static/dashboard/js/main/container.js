@@ -358,7 +358,7 @@ Container.change_date_mode = () => {
         return
     }
 
-    let date_mode = App.get_date_mode()
+    let date_mode = Container.get_date_mode()
     date_mode = date_mode === `12` ? `24` : `12`
     App.save(Container.ls_name_date_mode, date_mode)
     Items.add_dates()
