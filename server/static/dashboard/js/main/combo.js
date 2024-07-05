@@ -7,115 +7,119 @@ It's similar to a select widget
 
 */
 
-const Combo = {
-    id: 0,
-}
+class ComboClass {
+    constructor () {
+        this.id = 0
+    }
 
-Combo.register = (args = {}) => {
-    DOM.evs(args.element, [`click`, `contextmenu`], (e) => {
-        Combo.show_menu(args, e)
-        e.preventDefault()
-    })
+    register (args = {}) {
+        DOM.evs(args.element, [`click`, `contextmenu`], (e) => {
+            this.show_menu(args, e)
+            e.preventDefault()
+        })
 
-    DOM.ev(args.element, `auxclick`, (e) => {
-        if (e.button === 1) {
-            Combo.reset(args)
+        DOM.ev(args.element, `auxclick`, (e) => {
+            if (e.button === 1) {
+                this.reset(args)
+            }
+        })
+
+        DOM.ev(args.element, `wheel`, (e) => {
+            let direction = Utils.wheel_direction(e)
+            this.cycle(args, direction)
+            e.preventDefault()
+        })
+
+        let lines = [
+            args.title,
+            `Click to pick option`,
+            `Wheel to cycle option`,
+            `Middle Click to reset`,
+        ]
+
+        args.id = this.id
+        args.element.title = lines.join(`\n`)
+        this.update_text(args)
+        let limit = args.items.length * 1.5
+        Block.register(`combo_${args.id}`, limit)
+        this.id += 1
+    }
+
+    get_item (args) {
+        return args.items.find(x => x.value === args.get())
+    }
+
+    update_text (args) {
+        let item = this.get_item(args)
+        args.element.textContent = item.name
+    }
+
+    show_menu (args, e) {
+        let items = []
+        let current = args.get()
+
+        for (let item of args.items) {
+            if (item.value === App.separator) {
+                items.push({ separator: true })
+            }
+            else {
+                items.push({
+                    text: item.name,
+                    action: () => {
+                        this.action(args, item.value)
+                    },
+                    selected: item.value === current,
+                    info: item.info,
+                    icon: item.icon,
+                })
+            }
         }
-    })
 
-    DOM.ev(args.element, `wheel`, (e) => {
-        let direction = Utils.wheel_direction(e)
-        Combo.cycle(args, direction)
-        e.preventDefault()
-    })
+        NeedContext.show({ items: items, e: e })
+    }
 
-    let lines = [
-        args.title,
-        `Click to pick option`,
-        `Wheel to cycle option`,
-        `Middle Click to reset`,
-    ]
+    action (args, value) {
+        args.action(value)
+        this.update_text(args)
+    }
 
-    args.id = Combo.id
-    args.element.title = lines.join(`\n`)
-    Combo.update_text(args)
-    let limit = args.items.length * 1.5
-    Block.register(`combo_${args.id}`, limit)
-    Combo.id += 1
-}
+    reset (args) {
+        this.action(args, args.default)
+    }
 
-Combo.get_item = (args) => {
-    return args.items.find(x => x.value === args.get())
-}
+    get_values (args) {
+        return args.items
+            .filter(x => x.value !== App.separator)
+            .filter(x => !x.skip)
+            .map(x => x.value)
+    }
 
-Combo.update_text = (args) => {
-    let item = Combo.get_item(args)
-    args.element.textContent = item.name
-}
-
-Combo.show_menu = (args, e) => {
-    let items = []
-    let current = args.get()
-
-    for (let item of args.items) {
-        if (item.value === App.separator) {
-            items.push({ separator: true })
+    cycle (args, direction) {
+        if (Block.charge(`combo_${args.id}`)) {
+            return
         }
-        else {
-            items.push({
-                text: item.name,
-                action: () => {
-                    Combo.action(args, item.value)
-                },
-                selected: item.value === current,
-                info: item.info,
-                icon: item.icon,
-            })
+
+        let value = args.get()
+        let values = this.get_values(args)
+        let index = values.indexOf(value)
+
+        if (direction === `up`) {
+            index -= 1
         }
-    }
+        else if (direction === `down`) {
+            index += 1
+        }
 
-    NeedContext.show({ items: items, e: e })
+        if (index < 0) {
+            index = values.length - 1
+        }
+        else if (index >= values.length) {
+            index = 0
+        }
+
+        let new_value = values[index]
+        this.action(args, new_value)
+    }
 }
 
-Combo.action = (args, value) => {
-    args.action(value)
-    Combo.update_text(args)
-}
-
-Combo.reset = (args) => {
-    Combo.action(args, args.default)
-}
-
-Combo.get_values = (args) => {
-    return args.items
-        .filter(x => x.value !== App.separator)
-        .filter(x => !x.skip)
-        .map(x => x.value)
-}
-
-Combo.cycle = (args, direction) => {
-    if (Block.charge(`combo_${args.id}`)) {
-        return
-    }
-
-    let value = args.get()
-    let values = Combo.get_values(args)
-    let index = values.indexOf(value)
-
-    if (direction === `up`) {
-        index -= 1
-    }
-    else if (direction === `down`) {
-        index += 1
-    }
-
-    if (index < 0) {
-        index = values.length - 1
-    }
-    else if (index >= values.length) {
-        index = 0
-    }
-
-    let new_value = values[index]
-    Combo.action(args, new_value)
-}
+const Combo = new ComboClass()

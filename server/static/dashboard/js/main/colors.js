@@ -4,136 +4,140 @@ Color functions
 
 */
 
-const Colors = {
-    default_mode: `green`,
-    ls_name: `color`,
-    alpha: {},
-    alpha_2: {},
-}
+class ColorsClass {
+    constructor () {
+        this.default_mode = `green`
+        this.ls_name = `color`
+        this.alpha = {}
+        this.alpha_2 = {}
 
-Colors.modes = [
-    {value: `red`, name: `Red`, info: `Go to Red`, icon: `🔴`},
-    {value: `green`, name: `Green`, info: `Go to Green`, icon: `🟢`},
-    {value: `blue`, name: `Blue`, info: `Go to Blue`, icon: `🔵`},
-    {value: `yellow`, name: `Yellow`, info: `Go to Yellow`, icon: `🟡`},
-    {value: `purple`, name: `Purple`, info: `Go to Purple`, icon: `🟣`},
-    {value: `white`, name: `White`, info: `Go to White`, icon: `⚪`},
-]
-
-Colors.setup = () => {
-    let color = DOM.el(`#color`)
-    Colors.mode = Colors.load_color()
-
-    Combo.register({
-        title: `Color Modes`,
-        items: Colors.modes,
-        value: Colors.mode,
-        element: color,
-        default: Colors.default_mode,
-        action: (value) => {
-            Colors.change(value)
-        },
-        get: () => {
-            return Colors.mode
-        },
-
-    })
-
-    Colors.make_alpha(Colors.alpha, `0.18`)
-    Colors.make_alpha(Colors.alpha_2, `0.5`)
-    Colors.apply()
-}
-
-Colors.make_alpha = (obj, a) => {
-    for (let color in App.colors) {
-        let numbers = App.colors[color].match(/\d+/g)
-        let rgba = `rgba(${numbers[0]}, ${numbers[1]}, ${numbers[2]}, ${a})`
-        obj[color] = rgba
-    }
-}
-
-Colors.change = (value) => {
-    if (Colors.mode === value) {
-        return
+        this.modes = [
+            {value: `red`, name: `Red`, info: `Go to Red`, icon: `🔴`},
+            {value: `green`, name: `Green`, info: `Go to Green`, icon: `🟢`},
+            {value: `blue`, name: `Blue`, info: `Go to Blue`, icon: `🔵`},
+            {value: `yellow`, name: `Yellow`, info: `Go to Yellow`, icon: `🟡`},
+            {value: `purple`, name: `Purple`, info: `Go to Purple`, icon: `🟣`},
+            {value: `white`, name: `White`, info: `Go to White`, icon: `⚪`},
+        ]
     }
 
-    Colors.mode = value
-    Utils.save(Colors.ls_name, value)
-    Colors.apply()
-    Items.reset()
-    Curlist.update()
-    Container.loading()
-    Peek.hide()
-    Update.update()
-}
+    setup () {
+        let color = DOM.el(`#color`)
+        this.mode = this.load_color()
 
-Colors.load_color = () => {
-    return Utils.load_modes(Colors.ls_name, Colors.modes, Colors.default_mode)
-}
+        Combo.register({
+            title: `Color Modes`,
+            items: this.modes,
+            value: this.mode,
+            element: color,
+            default: this.default_mode,
+            action: (value) => {
+                this.change(value)
+            },
+            get: () => {
+                return this.mode
+            },
 
-Colors.apply = () => {
-    let normal = App.colors[Colors.mode]
-    let alpha = Colors.alpha[Colors.mode]
-    let alpha_2 = Colors.alpha_2[Colors.mode]
-    document.documentElement.style.setProperty(`--color`, normal)
-    document.documentElement.style.setProperty(`--color_alpha`, alpha)
-    document.documentElement.style.setProperty(`--color_alpha_2`, alpha_2)
-    App.update_title()
-}
+        })
 
-Colors.move = (curls, e) => {
-    let items = []
+        this.make_alpha(this.alpha, `0.18`)
+        this.make_alpha(this.alpha_2, `0.5`)
+        this.apply()
+    }
 
-    function add (mode) {
-        if (Colors.mode === mode.value) {
+    make_alpha (obj, a) {
+        for (let color in App.colors) {
+            let numbers = App.colors[color].match(/\d+/g)
+            let rgba = `rgba(${numbers[0]}, ${numbers[1]}, ${numbers[2]}, ${a})`
+            obj[color] = rgba
+        }
+    }
+
+    change (value) {
+        if (this.mode === value) {
             return
         }
 
-        items.push({
-            text: mode.name,
-            action: () => {
-                Colors.do_move(mode.value, curls)
-            },
-            icon: mode.icon,
-        })
+        this.mode = value
+        Utils.save(this.ls_name, value)
+        this.apply()
+        Items.reset()
+        Curlist.update()
+        Container.loading()
+        Peek.hide()
+        Update.update()
     }
 
-    for (let key in Colors.modes) {
-        add(Colors.modes[key])
+    load_color () {
+        return Utils.load_modes(this.ls_name, this.modes, this.default_mode)
     }
 
-    NeedContext.show({items: items, e: e})
+    apply () {
+        let normal = App.colors[this.mode]
+        let alpha = this.alpha[this.mode]
+        let alpha_2 = this.alpha_2[this.mode]
+        document.documentElement.style.setProperty(`--color`, normal)
+        document.documentElement.style.setProperty(`--color_alpha`, alpha)
+        document.documentElement.style.setProperty(`--color_alpha_2`, alpha_2)
+        App.update_title()
+    }
+
+    move (curls, e) {
+        let items = []
+
+        function add (mode) {
+            if (this.mode === mode.value) {
+                return
+            }
+
+            items.push({
+                text: mode.name,
+                action: () => {
+                    this.do_move(mode.value, curls)
+                },
+                icon: mode.icon,
+            })
+        }
+
+        for (let key in this.modes) {
+            add(this.modes[key])
+        }
+
+        NeedContext.show({items: items, e: e})
+    }
+
+    do_move (color, curls) {
+        let current_curls = Curls.get()
+        let cleaned = []
+
+        for (let curl of current_curls) {
+            if (!curls.includes(curl)) {
+                cleaned.push(curl)
+            }
+        }
+
+        let cleaned_items = []
+
+        for (let item of Items.list) {
+            if (!curls.includes(item.curl)) {
+                cleaned_items.push(item)
+            }
+        }
+
+        Items.list = cleaned_items
+        Curls.save(cleaned)
+        let new_curls = Curls.get(color)
+
+        for (let curl of curls) {
+            if (!new_curls.includes(curl)) {
+                new_curls.unshift(curl)
+            }
+        }
+
+        Curls.save(new_curls, color)
+        Container.update()
+        Curlist.update()
+    }
 }
 
-Colors.do_move = (color, curls) => {
-    let current_curls = Curls.get()
-    let cleaned = []
-
-    for (let curl of current_curls) {
-        if (!curls.includes(curl)) {
-            cleaned.push(curl)
-        }
-    }
-
-    let cleaned_items = []
-
-    for (let item of Items.list) {
-        if (!curls.includes(item.curl)) {
-            cleaned_items.push(item)
-        }
-    }
-
-    Items.list = cleaned_items
-    Curls.save(cleaned)
-    let new_curls = Curls.get(color)
-
-    for (let curl of curls) {
-        if (!new_curls.includes(curl)) {
-            new_curls.unshift(curl)
-        }
-    }
-
-    Curls.save(new_curls, color)
-    Container.update()
-    Curlist.update()
-}
+const Colors = new ColorsClass()
