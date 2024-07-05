@@ -92,7 +92,7 @@ class Container {
     static check_empty() {
         let els = this.get_items()
 
-        if (!els) {
+        if (!els || !els.length) {
             this.empty()
         }
     }
