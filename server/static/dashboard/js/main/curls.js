@@ -4,473 +4,477 @@ These are curl operations
 
 */
 
-const Curls = {
-    max_curls: 100,
-    max_length: 20,
-}
-
-Curls.add = (where) => {
-    Windows.prompt({title: `Add Curls`, callback: (value) => {
-        Curls.add_submit(where, value)
-    }, message: `Enter one or more curls`})
-}
-
-Curls.add_submit = (where, curls) => {
-    if (!curls) {
-        return
+class CurlsClass {
+    constructor () {
+        this.max_curls = 100
+        this.max_length = 20
     }
 
-    let units = Utils.smart_list(curls)
-
-    if (!units.length) {
-        return
+    add (where) {
+        Windows.prompt({title: `Add Curls`, callback: (value) => {
+            this.add_submit(where, value)
+        }, message: `Enter one or more curls`})
     }
 
-    if (where === `top`) {
+    add_submit (where, curls) {
+        if (!curls) {
+            return
+        }
+
+        let units = Utils.smart_list(curls)
+
+        if (!units.length) {
+            return
+        }
+
+        if (where === `top`) {
+            units = units.reverse()
+        }
+
+        let added = []
+
+        for (let curl of units) {
+            if (this.do_add({where: where, curl: curl, update: false})) {
+                added.push(curl)
+            }
+        }
+
+        if (added.length) {
+            Update.update({ curls: added, update_curlist: true })
+        }
+    }
+
+    do_add (args = {}) {
+        let def_args = {
+            where: `top`,
+            curl: ``,
+            update: true,
+            color: Colors.mode,
+        }
+
+        Utils.def_args(def_args, args)
+
+        if (!this.check(args.curl)) {
+            return false
+        }
+
+        let curls = this.get(args.color)
+
+        if (curls.length >= this.max_curls) {
+            return false
+        }
+
+        curls = curls.filter(x => x !== args.curl)
+
+        if (args.where === `top`) {
+            curls.unshift(args.curl)
+        }
+        else if (args.where === `bottom`) {
+            curls.push(args.curl)
+        }
+
+        this.save(curls)
+
+        if (args.update) {
+            Curlist.update()
+        }
+
+        return true
+    }
+
+    add_owned (curl) {
+        let curls = this.get()
+
+        if (!curls.includes(curl)) {
+            this.do_add({curl: curl})
+        }
+    }
+
+    to_top (curls) {
+        let cleaned = [...curls]
+
+        for (let curl of this.get()) {
+            if (!cleaned.includes(curl)) {
+                cleaned.push(curl)
+            }
+        }
+
+        this.after_move(cleaned, curls, curls[0])
+    }
+
+    to_bottom (curls) {
+        let cleaned = []
+
+        for (let curl of this.get()) {
+            if (!curls.includes(curl)) {
+                cleaned.push(curl)
+            }
+        }
+
+        cleaned.push(...curls)
+        this.after_move(cleaned, curls, Utils.last(curls))
+    }
+
+    after_move (new_curls, curls, leader) {
+        this.save(new_curls)
+        Curlist.update()
+        Sort.sort_if_order()
+        Curlist.deselect()
+
+        for (let curl of curls) {
+            let el = Curlist.get_item(curl)
+
+            if (el) {
+                Curlist.do_select_item({item: el, block: `none`})
+            }
+        }
+
+        Curlist.focus_item(leader)
+    }
+
+    save (curls, color = Colors.mode) {
+        let name = this.get_name(color)
+        Utils.save(name, JSON.stringify(curls))
+    }
+
+    get (color = Colors.mode) {
+        let name = this.get_name(color)
+        let saved = Utils.load_array(name)
+
+        try {
+            let curls = JSON.parse(saved)
+            return this.clean(curls)
+        }
+        catch (err) {
+            return []
+        }
+    }
+
+    replace () {
+        Windows.prompt({title: `Replace Curls`, callback: (value) => {
+            this.replace_submit(value)
+        }, message: `Replace the entire list with this`})
+    }
+
+    replace_submit (curls) {
+        if (!curls) {
+            return
+        }
+
+        let units = curls.split(` `).filter(x => x)
+
+        if (!units.length) {
+            return
+        }
+
         units = units.reverse()
-    }
+        this.clear()
+        let added = false
 
-    let added = []
+        for (let curl of units) {
+            if (this.do_add({curl: curl, update: false})) {
+                added = true
+            }
+        }
 
-    for (let curl of units) {
-        if (Curls.do_add({where: where, curl: curl, update: false})) {
-            added.push(curl)
+        if (added) {
+            Curlist.update()
+            Update.update()
         }
     }
 
-    if (added.length) {
-        Update.update({ curls: added, update_curlist: true })
-    }
-}
-
-Curls.do_add = (args = {}) => {
-    let def_args = {
-        where: `top`,
-        curl: ``,
-        update: true,
-        color: Colors.mode,
+    clear (color = Colors.mode) {
+        let name = this.get_name(color)
+        Utils.save(name, ``)
     }
 
-    Utils.def_args(def_args, args)
-
-    if (!Curlist.check(args.curl)) {
-        return false
+    edit (curl) {
+        Windows.prompt({title: `Edit Curl`, callback: (value) => {
+            this.edit_submit(curl, value)
+        }, value: curl, message: `Change the name of this curl`})
     }
 
-    let curls = Curls.get(args.color)
+    edit_submit (curl, new_curl) {
+        if (!new_curl) {
+            return
+        }
 
-    if (curls.length >= Curls.max_curls) {
-        return false
+        this.do_edit(curl, new_curl)
     }
 
-    curls = curls.filter(x => x !== args.curl)
+    do_edit (curl, new_curl) {
+        if (!this.check(new_curl)) {
+            return
+        }
 
-    if (args.where === `top`) {
-        curls.unshift(args.curl)
-    }
-    else if (args.where === `bottom`) {
-        curls.push(args.curl)
-    }
+        if (curl === new_curl) {
+            return
+        }
 
-    Curls.save(curls)
+        let curls = this.get()
+        let index = curls.indexOf(curl)
 
-    if (args.update) {
+        if (index === -1) {
+            return
+        }
+
+        curls[index] = new_curl
+        this.save(curls)
         Curlist.update()
+        Items.remove_curl(curl)
+        Update.update({ curls: [new_curl] })
     }
 
-    return true
-}
+    check = (curl) => {
+        if (!curl) {
+            return false
+        }
 
-Curls.add_owned = (curl) => {
-    let curls = Curls.get()
+        if (curl.length > this.max_length) {
+            return false
+        }
 
-    if (!curls.includes(curl)) {
-        Curls.do_add({curl: curl})
+        if (!/^[a-zA-Z0-9]+$/.test(curl)) {
+            return false
+        }
+
+        return true
     }
-}
 
-Curls.to_top = (curls) => {
-    let cleaned = [...curls]
+    clean (curls) {
+        let cleaned = []
 
-    for (let curl of Curls.get()) {
-        if (!cleaned.includes(curl)) {
+        for (let curl of curls) {
+            if (!this.check(curl)) {
+                continue
+            }
+
             cleaned.push(curl)
+
+            if (cleaned.length >= this.max_curls) {
+                break
+            }
         }
+
+        return cleaned
     }
 
-    Curls.after_move(cleaned, curls, curls[0])
-}
+    get_name (color) {
+        return `curls_${color}`
+    }
 
-Curls.to_bottom = (curls) => {
-    let cleaned = []
+    clear_all () {
+        Windows.confirm({title: `Clear Curls`, ok: () => {
+            for (let color in App.colors) {
+                this.clear(color)
+            }
 
-    for (let curl of Curls.get()) {
-        if (!curls.includes(curl)) {
-            cleaned.push(curl)
+            Curlist.update()
+            Container.empty()
+        }, message: `Remove all curls in all colors`})
+    }
+
+    remove (curls) {
+        let cleaned = []
+        let removed = []
+
+        for (let curl of this.get()) {
+            if (!curls.includes(curl)) {
+                cleaned.push(curl)
+            }
+            else {
+                removed.push(curl)
+            }
         }
-    }
 
-    cleaned.push(...curls)
-    Curls.after_move(cleaned, curls, Utils.last(curls))
-}
-
-Curls.after_move = (new_curls, curls, leader) => {
-    Curls.save(new_curls)
-    Curlist.update()
-    Sort.sort_if_order()
-    Curlist.deselect()
-
-    for (let curl of curls) {
-        let el = Curlist.get_item(curl)
-
-        if (el) {
-            Curlist.do_select_item({item: el, block: `none`})
+        if (!removed.length) {
+            return
         }
+
+        this.save_cleaned(cleaned, removed)
     }
 
-    Curlist.focus_item(leader)
-}
-
-Curls.save = (curls, color = Colors.mode) => {
-    let name = Curls.get_name(color)
-    Utils.save(name, JSON.stringify(curls))
-}
-
-Curls.get = (color = Colors.mode) => {
-    let name = Curls.get_name(color)
-    let saved = Utils.load_array(name)
-
-    try {
-        let curls = JSON.parse(saved)
-        return Curls.clean(curls)
-    }
-    catch (err) {
-        return []
-    }
-}
-
-Curls.replace = () => {
-    Windows.prompt({title: `Replace Curls`, callback: (value) => {
-        Curls.replace_submit(value)
-    }, message: `Replace the entire list with this`})
-}
-
-Curls.replace_submit = (curls) => {
-    if (!curls) {
-        return
+    remove_selected () {
+        let curls = Curlist.get_selected_curls()
+        this.remove(curls)
     }
 
-    let units = curls.split(` `).filter(x => x)
-
-    if (!units.length) {
-        return
+    remove_all () {
+        Windows.confirm({title: `Remove All Curls`, ok: () => {
+            this.clear()
+            Curlist.update()
+            Container.empty()
+            Peek.hide()
+        }, message: `Remove all curls in the current color`})
     }
 
-    units = units.reverse()
-    Curls.clear()
-    let added = false
+    show_remove_menu (e) {
+        let items = [
+            {
+                text: `Remove One`,
+                action: () => {
+                    this.remove_one()
+                }
+            },
+            {
+                text: `Remove Not Found`,
+                action: () => {
+                    this.remove_not_found()
+                }
+            },
+            {
+                text: `Remove Empty`,
+                action: () => {
+                    this.remove_empty()
+                }
+            },
+            {
+                text: `Remove Old`,
+                action: () => {
+                    this.remove_old()
+                }
+            },
+            {
+                text: `Remove All`,
+                action: () => {
+                    this.remove_all()
+                }
+            },
+        ]
 
-    for (let curl of units) {
-        if (Curls.do_add({curl: curl, update: false})) {
-            added = true
+        NeedContext.show({items: items, e: e})
+    }
+
+    remove_one () {
+        Windows.prompt({title: `Remove Curl`, callback: (value) => {
+            this.remove_one_submit(value)
+        }, message: `Enter the curl to remove`})
+    }
+
+    remove_one_submit (curl) {
+        if (!curl) {
+            return
         }
+
+        this.do_remove(curl)
     }
 
-    if (added) {
+    do_remove (curl, remove_item = true) {
+        let curls = this.get()
+        let cleaned = []
+
+        for (let curl_ of curls) {
+            if (curl !== curl_) {
+                cleaned.push(curl_)
+            }
+        }
+
+        this.save(cleaned)
         Curlist.update()
-        Update.update()
-    }
-}
 
-Curls.clear = (color = Colors.mode) => {
-    let name = Curls.get_name(color)
-    Utils.save(name, ``)
-}
-
-Curls.edit = (curl) => {
-    Windows.prompt({title: `Edit Curl`, callback: (value) => {
-        Curls.edit_submit(curl, value)
-    }, value: curl, message: `Change the name of this curl`})
-}
-
-Curls.edit_submit = (curl, new_curl) => {
-    if (!new_curl) {
-        return
-    }
-
-    Curls.do_edit(curl, new_curl)
-}
-
-Curls.do_edit = (curl, new_curl) => {
-    if (!Curlist.check(new_curl)) {
-        return
-    }
-
-    if (curl === new_curl) {
-        return
-    }
-
-    let curls = Curls.get()
-    let index = curls.indexOf(curl)
-
-    if (index === -1) {
-        return
-    }
-
-    curls[index] = new_curl
-    Curls.save(curls)
-    Curlist.update()
-    Items.remove_curl(curl)
-    Update.update({ curls: [new_curl] })
-}
-
-Curlist.check = (curl) => {
-    if (!curl) {
-        return false
-    }
-
-    if (curl.length > Curls.max_length) {
-        return false
-    }
-
-    if (!/^[a-zA-Z0-9]+$/.test(curl)) {
-        return false
-    }
-
-    return true
-}
-
-Curls.clean = (curls) => {
-    let cleaned = []
-
-    for (let curl of curls) {
-        if (!Curlist.check(curl)) {
-            continue
+        if (remove_item) {
+            Items.remove([curl])
         }
 
-        cleaned.push(curl)
-
-        if (cleaned.length >= Curls.max_curls) {
-            break
+        if (Peek.curl === curl) {
+            Peek.hide()
         }
     }
 
-    return cleaned
-}
+    remove_not_found () {
+        let missing = Items.get_missing().map(x => x.curl)
+        let curls = this.get()
+        let cleaned = []
+        let removed = []
 
-Curls.get_name = (color) => {
-    return `curls_${color}`
-}
-
-Curls.clear_all = () => {
-    Windows.confirm({title: `Clear Curls`, ok: () => {
-        for (let color in App.colors) {
-            Curls.clear(color)
-        }
-
-        Curlist.update()
-        Container.empty()
-    }, message: `Remove all curls in all colors`})
-}
-
-Curls.remove = (curls) => {
-    let cleaned = []
-    let removed = []
-
-    for (let curl of Curls.get()) {
-        if (!curls.includes(curl)) {
-            cleaned.push(curl)
-        }
-        else {
-            removed.push(curl)
-        }
-    }
-
-    if (!removed.length) {
-        return
-    }
-
-    Curls.save_cleaned(cleaned, removed)
-}
-
-Curls.remove_selected = () => {
-    let curls = Curlist.get_selected_curls()
-    Curls.remove(curls)
-}
-
-Curls.remove_all = () => {
-    Windows.confirm({title: `Remove All Curls`, ok: () => {
-        Curls.clear()
-        Curlist.update()
-        Container.empty()
-        Peek.hide()
-    }, message: `Remove all curls in the current color`})
-}
-
-Curls.show_remove_menu = (e) => {
-    let items = [
-        {
-            text: `Remove One`,
-            action: () => {
-                Curls.remove_one()
+        for (let curl of curls) {
+            if (!missing.includes(curl)) {
+                cleaned.push(curl)
             }
-        },
-        {
-            text: `Remove Not Found`,
-            action: () => {
-                Curls.remove_not_found()
+            else {
+                removed.push(curl)
             }
-        },
-        {
-            text: `Remove Empty`,
-            action: () => {
-                Curls.remove_empty()
+        }
+
+        if (!removed.length) {
+            return
+        }
+
+        this.save_cleaned(cleaned, removed)
+    }
+
+    remove_empty () {
+        let curls = this.get()
+        let cleaned = []
+        let removed = []
+
+        for (let curl of curls) {
+            let item = Items.get(curl)
+
+            if (!item) {
+                continue
             }
-        },
-        {
-            text: `Remove Old`,
-            action: () => {
-                Curls.remove_old()
-            }
-        },
-        {
-            text: `Remove All`,
-            action: () => {
-                Curls.remove_all()
-            }
-        },
-    ]
 
-    NeedContext.show({items: items, e: e})
-}
-
-Curls.remove_one = () => {
-    Windows.prompt({title: `Remove Curl`, callback: (value) => {
-        Curls.remove_one_submit(value)
-    }, message: `Enter the curl to remove`})
-}
-
-Curls.remove_one_submit = (curl) => {
-    if (!curl) {
-        return
-    }
-
-    Curls.do_remove(curl)
-}
-
-Curls.do_remove = (curl, remove_item = true) => {
-    let curls = Curls.get()
-    let cleaned = []
-
-    for (let curl_ of curls) {
-        if (curl !== curl_) {
-            cleaned.push(curl_)
-        }
-    }
-
-    Curls.save(cleaned)
-    Curlist.update()
-
-    if (remove_item) {
-        Items.remove([curl])
-    }
-
-    if (Peek.curl === curl) {
-        Peek.hide()
-    }
-}
-
-Curls.remove_not_found = () => {
-    let missing = Items.get_missing().map(x => x.curl)
-    let curls = Curls.get()
-    let cleaned = []
-    let removed = []
-
-    for (let curl of curls) {
-        if (!missing.includes(curl)) {
-            cleaned.push(curl)
-        }
-        else {
-            removed.push(curl)
-        }
-    }
-
-    if (!removed.length) {
-        return
-    }
-
-    Curls.save_cleaned(cleaned, removed)
-}
-
-Curls.remove_empty = () => {
-    let curls = Curls.get()
-    let cleaned = []
-    let removed = []
-
-    for (let curl of curls) {
-        let item = Items.get(curl)
-
-        if (!item) {
-            continue
-        }
-
-        if (!item.status) {
-            removed.push(curl)
-            continue
-        }
-
-        cleaned.push(curl)
-    }
-
-    if (!removed.length) {
-        return
-    }
-
-    Curls.save_cleaned(cleaned, removed)
-}
-
-Curls.remove_old = () => {
-    let curls = Curls.get()
-    let now = Utils.now()
-    let cleaned = []
-    let removed = []
-
-    for (let curl of curls) {
-        let item = Items.get(curl)
-
-        if (!item) {
-            continue
-        }
-
-        let date = item.updated
-
-        if (date) {
-            let datetime = new Date(date + `Z`).getTime()
-
-            if ((now - datetime) > (App.old_delay)) {
+            if (!item.status) {
                 removed.push(curl)
                 continue
             }
+
+            cleaned.push(curl)
         }
 
-        cleaned.push(curl)
+        if (!removed.length) {
+            return
+        }
+
+        this.save_cleaned(cleaned, removed)
     }
 
-    if (!removed.length) {
-        return
+    remove_old () {
+        let curls = this.get()
+        let now = Utils.now()
+        let cleaned = []
+        let removed = []
+
+        for (let curl of curls) {
+            let item = Items.get(curl)
+
+            if (!item) {
+                continue
+            }
+
+            let date = item.updated
+
+            if (date) {
+                let datetime = new Date(date + `Z`).getTime()
+
+                if ((now - datetime) > (App.old_delay)) {
+                    removed.push(curl)
+                    continue
+                }
+            }
+
+            cleaned.push(curl)
+        }
+
+        if (!removed.length) {
+            return
+        }
+
+        this.save_cleaned(cleaned, removed)
     }
 
-    Curls.save_cleaned(cleaned, removed)
+    save_cleaned (cleaned, removed) {
+        let s = Utils.plural(removed.length, `Curl`, `Curls`)
+        let curls = removed.join(`, `)
+
+        Windows.confirm({title: `Remove ${removed.length} ${s}`, ok: () => {
+            this.save(cleaned)
+            Curlist.update()
+            Items.remove(removed)
+            Peek.hide()
+        }, message: curls})
+    }
 }
 
-Curls.save_cleaned = (cleaned, removed) => {
-    let s = Utils.plural(removed.length, `Curl`, `Curls`)
-    let curls = removed.join(`, `)
-
-    Windows.confirm({title: `Remove ${removed.length} ${s}`, ok: () => {
-        Curls.save(cleaned)
-        Curlist.update()
-        Items.remove(removed)
-        Peek.hide()
-    }, message: curls})
-}
+const Curls = new CurlsClass()
