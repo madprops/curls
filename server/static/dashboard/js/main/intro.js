@@ -8,6 +8,16 @@ class Intro {
     static ls_name = `intro_shown`
 
     static setup() {
+        this.intro = [
+            `Curls are pointers to text that you control.`,
+            `You can claim your own curl and receive a key.`,
+            `With this key you can change the status of the curl.`,
+            `The key can't be recovered and should be saved securely.`,
+            `In this Dashboard you can monitor the curls you want.`,
+            `Each color has its own set of curls.`,
+            `You are limited to 100 curls per color.`,
+        ].join(`\n`)
+
         let shown = this.load_intro()
 
         if (!shown) {
@@ -25,6 +35,6 @@ class Intro {
     }
 
     static show() {
-        Windows.alert({title: `Curls ${App.version}`, message: App.intro})
+        Windows.alert({title: `Curls ${App.version}`, message: this.intro})
     }
 }

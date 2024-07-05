@@ -392,7 +392,7 @@ class Curlist {
     static export() {
         let curlists = {}
 
-        for (let color in App.colors) {
+        for (let color in Colors.colors) {
             let curlist = Curls.get(color)
 
             if (!curlist.length) {

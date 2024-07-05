@@ -7,6 +7,7 @@ These are curl operations
 class Curls {
     static max_curls = 100
     static max_length = 20
+    static old_delay = App.YEAR * 1
 
     static add(where) {
         Windows.prompt({title: `Add Curls`, callback: (value) => {
@@ -263,7 +264,7 @@ class Curls {
 
     static clear_all() {
         Windows.confirm({title: `Clear Curls`, ok: () => {
-            for (let color in App.colors) {
+            for (let color in Colors.colors) {
                 this.clear(color)
             }
 
@@ -446,7 +447,7 @@ class Curls {
             if (date) {
                 let datetime = new Date(date + `Z`).getTime()
 
-                if ((now - datetime) > (App.old_delay)) {
+                if ((now - datetime) > (this.old_delay)) {
                     removed.push(curl)
                     continue
                 }

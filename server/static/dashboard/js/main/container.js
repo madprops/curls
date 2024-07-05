@@ -15,6 +15,14 @@ class Container {
     static default_date_mode = `12`
 
     static setup() {
+        this.empty_info = [
+            `Add some curls to the list on the left.`,
+            `These will be monitored for status changes.`,
+            `Above you can change the status of your own curls.`,
+            `Each color has their own set of curls.`,
+            `Click <a href="/claim" target="_blank">here</a> to claim your own curl.`,
+        ].join(`<br>`)
+
         let outer = DOM.el(`#container_outer`)
         let container = DOM.el(`#container`)
 
@@ -78,7 +86,7 @@ class Container {
     }
 
     static empty() {
-        this.set_info(App.empty_info)
+        this.set_info(this.empty_info)
     }
 
     static check_empty() {

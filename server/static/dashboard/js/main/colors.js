@@ -19,6 +19,15 @@ class Colors {
         {value: `white`, name: `White`, info: `Go to White`, icon: `⚪`},
     ]
 
+    static colors = {
+        red: `rgb(255, 89, 89)`,
+        green: `rgb(87, 255, 87)`,
+        blue: `rgb(118, 120, 255)`,
+        yellow: `rgb(255, 219, 78)`,
+        purple: `rgb(193, 56, 255)`,
+        white: `rgb(255, 255, 255)`,
+    }
+
     static setup() {
         let color = DOM.el(`#color`)
         this.mode = this.load_color()
@@ -44,8 +53,8 @@ class Colors {
     }
 
     static make_alpha(obj, a) {
-        for (let color in App.colors) {
-            let numbers = App.colors[color].match(/\d+/g)
+        for (let color in this.colors) {
+            let numbers = this.colors[color].match(/\d+/g)
             let rgba = `rgba(${numbers[0]}, ${numbers[1]}, ${numbers[2]}, ${a})`
             obj[color] = rgba
         }
@@ -71,7 +80,7 @@ class Colors {
     }
 
     static apply() {
-        let normal = App.colors[this.mode]
+        let normal = this.colors[this.mode]
         let alpha = this.alpha[this.mode]
         let alpha_2 = this.alpha_2[this.mode]
         document.documentElement.style.setProperty(`--color`, normal)
