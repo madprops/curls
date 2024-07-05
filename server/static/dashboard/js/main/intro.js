@@ -9,7 +9,7 @@ const Intro = {
 }
 
 Intro.setup = () => {
-    let shown = Intro.load()
+    let shown = Intro.load_intro()
 
     if (!shown) {
         Intro.show()
@@ -21,7 +21,7 @@ Intro.save = () => {
     Utils.save(Intro.ls_name, true)
 }
 
-Intro.load = () => {
+Intro.load_intro = () => {
     return Utils.load_boolean(Intro.ls_name, false)
 }
 
