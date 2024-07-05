@@ -549,8 +549,8 @@ Curlist.do_select_item = (args = {}) => {
         Container.highlight({curl: curl, behavior: args.highlight_behavior})
     }
 
-    args.item.dataset.selected_id = Curlist.selected_id
     Curlist.selected_id += 1
+    args.item.dataset.selected_id = Curlist.selected_id
 }
 
 Curlist.do_deselect_item = (item) => {
@@ -617,6 +617,7 @@ Curlist.select_range = (item) => {
 
 Curlist.do_select_range = (item, start, end, direction) => {
     let items = Curlist.get_visible()
+    let select = []
 
     for (let i = 0; i < items.length; i++) {
         if (i < start) {
@@ -635,8 +636,16 @@ Curlist.do_select_range = (item, start, end, direction) => {
             continue
         }
 
-        let peek = items[i] === item
-        Curlist.do_select_item({item: items[i], peek: peek, highlight: false})
+        select.push(items[i])
+    }
+
+    if (direction === `up`) {
+        select.reverse()
+    }
+
+    for (let item_ of select) {
+        let peek = item_ === item
+        Curlist.do_select_item({item: item_, peek: peek, highlight: false})
     }
 
     let curl = Curlist.extract_curl(item)
