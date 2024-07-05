@@ -12,6 +12,7 @@ const Container = {
     ls_name_wrap: `wrap_enabled`,
     ls_name_highlight: `highlight_enabled`,
     ls_name_date_mode: `date_mode`,
+    default_date_mode: `12`,
 }
 
 Container.setup = () => {
@@ -337,7 +338,7 @@ Container.create_element = (item) => {
 }
 
 Container.get_date_mode = () => {
-    return Utils.load_string(Container.ls_name_date_mode, `12`)
+    return Utils.load_string(Container.ls_name_date_mode, Container.default_date_mode)
 }
 
 Container.change_date_mode = () => {

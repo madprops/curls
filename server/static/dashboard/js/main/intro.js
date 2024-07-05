@@ -1,20 +1,30 @@
-App.setup_intro = () => {
-    let shown = App.load_intro()
+/*
+
+This shows an intro on the first visit
+
+*/
+
+const Intro = {
+    ls_name: `intro_shown`,
+}
+
+Intro.setup = () => {
+    let shown = Intro.load()
 
     if (!shown) {
-        App.show_intro()
-        App.save_intro_shown()
+        Intro.show()
+        Intro.save()
     }
 }
 
-App.save_intro_shown = () => {
-    Utils.save(`intro_shown`, true)
+Intro.save = () => {
+    Utils.save(Intro.ls_name, true)
 }
 
-App.load_intro = () => {
-    return Utils.load_boolean(`intro_shown`, false)
+Intro.load = () => {
+    return Utils.load_boolean(Intro.ls_name, false)
 }
 
-App.show_intro = () => {
+Intro.show = () => {
     Windows.alert({title: `Curls ${App.version}`, message: App.intro})
 }

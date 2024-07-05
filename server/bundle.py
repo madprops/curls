@@ -61,6 +61,7 @@ def bundle_dashboard() -> None:
             "controls",
             "utils",
             "windows",
+            "intro",
             "main",
         ],
         ["load"],

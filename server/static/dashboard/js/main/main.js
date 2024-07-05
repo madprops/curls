@@ -17,12 +17,12 @@ App.setup = () => {
     Border.setup()
     Controls.setup()
     Windows.setup()
+    Intro.setup()
 
     App.start_mouse()
     App.setup_resize()
     App.update_autocomplete()
     App.setup_buttons()
-    App.setup_intro()
 
     Update.update()
 }
