@@ -69,7 +69,7 @@ def change_proc(request: Any) -> str:
     if not check_key(curl, key):
         return invalid_key
 
-    update_status(curl, status)
+    change_status(curl, status)
     return "ok"
 
 
@@ -121,9 +121,6 @@ def make_key(curl: str) -> str:
 
 
 def check_key(curl: str, key: str) -> bool:
-    curl = clean_curl(curl)
-    key = clean_key(key)
-
     if not key:
         return False
 
@@ -138,9 +135,12 @@ def check_key(curl: str, key: str) -> bool:
     return bool(result) and (result[0] == key)
 
 
-def update_status(curl: str, status: str) -> None:
-    curl = clean_curl(curl)
-    status = clean_status(status)
+def change_status(curl: str, status: str) -> None:
+    current = get_status(curl, False)
+
+    if current and (current == status):
+        return
+
     dbase = db.get_db()
     cursor = dbase.cursor()
     db_string = "UPDATE curls SET status = ?, updated = ? WHERE curl = ?"
@@ -149,7 +149,6 @@ def update_status(curl: str, status: str) -> None:
 
 
 def curl_exists(curl: str) -> bool:
-    curl = clean_curl(curl)
     dbase = db.get_db()
     cursor = dbase.cursor()
     db_string = "SELECT curl FROM curls WHERE curl = ?"
@@ -158,14 +157,20 @@ def curl_exists(curl: str) -> bool:
     return bool(result)
 
 
-def get_status(curl: str) -> str:
-    curl = clean_curl(curl)
+def get_status(curl: str, fill: bool = True) -> str:
     dbase = db.get_db()
     cursor = dbase.cursor()
     db_string = "SELECT status FROM curls WHERE curl = ?"
     cursor.execute(db_string, (curl,))
     result = cursor.fetchone()
-    return fill_status(result)
+
+    if fill:
+        return fill_status(result)
+
+    if result:
+        return result[0]
+
+    return ""
 
 
 def get_curl_list(curls: list[str]) -> list[dict[str, Any]]:
