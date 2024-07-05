@@ -597,21 +597,32 @@ Curlist.select_range = (item) => {
     }
 
     if (direction === `up`) {
-        Curlist.do_select_range(item, index, last_index)
+        Curlist.do_select_range(item, index, prev_index, direction)
     }
     else {
-        Curlist.do_select_range(item, first_index, index)
+        Curlist.do_select_range(item, prev_index, index, direction)
     }
 
     Curlist.prev_range_item = item
 }
 
-Curlist.do_select_range = (item, start, end) => {
+Curlist.do_select_range = (item, start, end, direction) => {
     let items = Curlist.get_visible()
 
     for (let i = 0; i < items.length; i++) {
-        if ((i < start) || (i > end)) {
-            Curlist.do_deselect_item(items[i])
+        if (i < start) {
+            if (direction === `up`) {
+                Curlist.do_deselect_item(items[i])
+            }
+
+            continue
+        }
+
+        if (i > end) {
+            if (direction === `down`) {
+                Curlist.do_deselect_item(items[i])
+            }
+
             continue
         }
 
