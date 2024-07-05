@@ -58,7 +58,7 @@ Colors.change = (value) => {
     }
 
     Colors.mode = value
-    App.save(Colors.ls_name, value)
+    Utils.save(Colors.ls_name, value)
     Colors.apply()
     Items.reset()
     Curlist.update()
@@ -68,7 +68,7 @@ Colors.change = (value) => {
 }
 
 Colors.load_color = () => {
-    return App.load_modes(Colors.ls_name, Colors.modes, Colors.default_mode)
+    return Utils.load_modes(Colors.ls_name, Colors.modes, Colors.default_mode)
 }
 
 Colors.apply = () => {

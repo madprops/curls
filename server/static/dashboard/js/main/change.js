@@ -19,7 +19,7 @@ Change.setup = () => {
         Change.change()
     })
 
-    Change.debouncer = App.create_debouncer((force, feedback) => {
+    Change.debouncer = Utils.create_debouncer((force, feedback) => {
         Change.do_change(force, feedback)
     }, Change.debouncer_delay)
 }
@@ -30,10 +30,10 @@ Change.change = () => {
 
 Change.do_change = () => {
     Change.debouncer.cancel()
-    App.info(`Change: Trigger`)
+    Utils.info(`Change: Trigger`)
 
     if (Change.changing) {
-        App.error(`Slow down`)
+        Utils.error(`Slow down`)
         return
     }
 
@@ -46,19 +46,19 @@ Change.do_change = () => {
     }
 
     if (curl.length > Curls.max_length) {
-        App.error(App.curl_too_long)
+        Utils.error(App.curl_too_long)
         Windows.alert({title: `Error`, message: App.curl_too_long})
         return
     }
 
     if (key.length > Change.key_length) {
-        App.error(App.key_too_long)
+        Utils.error(App.key_too_long)
         Windows.alert({title: `Error`, message: App.key_too_long})
         return
     }
 
     if (status.length > Change.status_max_length) {
-        App.error(App.status_too_long)
+        Utils.error(App.status_too_long)
         Windows.alert({title: `Error`, message: App.status_too_long})
         return
     }
@@ -73,7 +73,7 @@ Change.do_change = () => {
     Change.show_changing()
     Status.save(status)
     Change.changing = true
-    App.info(`Change: Request ${App.network}`)
+    Utils.info(`Change: Request ${App.network}`)
 
     fetch(url, {
         method: `POST`,
@@ -84,7 +84,7 @@ Change.do_change = () => {
     })
         .then(response => response.text())
         .then(ans => {
-            App.info(`Response: ${ans}`)
+            Utils.info(`Response: ${ans}`)
             Change.clear_changing()
 
             if (ans === `ok`) {
@@ -98,7 +98,7 @@ Change.do_change = () => {
             }
         })
         .catch(e => {
-            App.error(`Failed to change`)
+            Utils.error(`Failed to change`)
             Change.clear_changing()
         })
 }

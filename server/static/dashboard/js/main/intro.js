@@ -8,11 +8,11 @@ App.setup_intro = () => {
 }
 
 App.save_intro_shown = () => {
-    App.save(`intro_shown`, true)
+    Utils.save(`intro_shown`, true)
 }
 
 App.load_intro = () => {
-    return App.load_boolean(`intro_shown`, false)
+    return Utils.load_boolean(`intro_shown`, false)
 }
 
 App.show_intro = () => {

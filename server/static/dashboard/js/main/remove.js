@@ -63,7 +63,7 @@ App.remove_empty = () => {
 
 App.remove_old = () => {
     let curls = Curls.get()
-    let now = App.now()
+    let now = Utils.now()
     let cleaned = []
     let removed = []
 
@@ -138,7 +138,7 @@ App.remove_items = (removed) => {
 }
 
 App.save_cleaned = (cleaned, removed) => {
-    let s = App.plural(removed.length, `Curl`, `Curls`)
+    let s = Utils.plural(removed.length, `Curl`, `Curls`)
     let curls = removed.join(`, `)
 
     Windows.confirm({title: `Remove ${removed.length} ${s}`, ok: () => {

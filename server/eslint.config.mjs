@@ -42,6 +42,7 @@ export default [
         Status: "writable",
         Controls: "writable",
         Windows: "writable",
+        Utils: "writable",
 
         NiceGesture: "writable",
         NeedContext: "writable",

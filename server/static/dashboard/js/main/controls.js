@@ -14,11 +14,11 @@ Controls.setup = () => {
 }
 
 Controls.save_enabled = () => {
-    App.save(`controls_enabled`, Controls.enabled)
+    Utils.save(`controls_enabled`, Controls.enabled)
 }
 
 Controls.load_enabled = () => {
-    return App.load_boolean(`controls_enabled`)
+    return Utils.load_boolean(`controls_enabled`)
 }
 
 Controls.check_enabled = () => {

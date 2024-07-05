@@ -174,7 +174,7 @@ Curlist.setup = () => {
         }
     })
 
-    Curlist.filter_debouncer = App.create_debouncer(
+    Curlist.filter_debouncer = Utils.create_debouncer(
         Curlist.do_filter, Curlist.filter_debouncer_delay)
 
     filter.value = ``
@@ -228,7 +228,7 @@ Curlist.update_top = () => {
 Curlist.copy = () => {
     let curls = Curls.get()
     let text = curls.join(` `)
-    App.copy_to_clipboard(text)
+    Utils.copy_to_clipboard(text)
 }
 
 Curlist.show_menu = (e) => {
@@ -332,7 +332,7 @@ Curlist.show_menu = (e) => {
 }
 
 Curlist.load_enabled = () => {
-    return App.load_boolean(Curlist.ls_name)
+    return Utils.load_boolean(Curlist.ls_name)
 }
 
 Curlist.check_enabled = () => {
@@ -362,7 +362,7 @@ Curlist.toggle = () => {
         Curlist.show()
     }
 
-    App.save(Curlist.ls_name, Curlist.enabled)
+    Utils.save(Curlist.ls_name, Curlist.enabled)
 }
 
 Curlist.sort = (how) => {
@@ -444,7 +444,7 @@ Curlist.import_submit = (data) => {
         Update.update()
     }
     catch (err) {
-        App.error(err)
+        Utils.error(err)
         Windows.alert({title: `Error`, message: err})
     }
 }
@@ -532,11 +532,11 @@ Curlist.do_select_item = (args = {}) => {
         highlight_behavior: `smooth`,
     }
 
-    App.def_args(def_args, args)
+    Utils.def_args(def_args, args)
     args.item.classList.add(`selected`)
 
     if (args.block !== `none`) {
-        App.scroll_element({item: args.item, block: args.block})
+        Utils.scroll_element({item: args.item, block: args.block})
     }
 
     if (args.peek) {
@@ -569,7 +569,7 @@ Curlist.select_range = (item) => {
     let index = items.indexOf(item)
     let prev_index = items.indexOf(Curlist.prev_range_item)
     let first_index = items.indexOf(selected[0])
-    let last_index = items.indexOf(App.last(selected))
+    let last_index = items.indexOf(Utils.last(selected))
     let direction
 
     if (selected.length === 1) {
@@ -681,7 +681,7 @@ Curlist.select_vertical = (direction, shift) => {
         let item
 
         if (direction === `up`) {
-            item = App.last(items)
+            item = Utils.last(items)
         }
         else if (direction === `down`) {
             item = items[0]
@@ -738,7 +738,7 @@ Curlist.select_vertical = (direction, shift) => {
             let item
 
             if (selected.length > 1) {
-                item = App.last(selected)
+                item = Utils.last(selected)
             }
             else {
                 let index = first_index + 1
@@ -856,14 +856,14 @@ Curlist.move_up = () => {
 
     let prev = items[first_index - 1]
     prev.before(...selected)
-    App.scroll_element({item: selected[0]})
+    Utils.scroll_element({item: selected[0]})
     Curlist.save_after_move()
 }
 
 Curlist.move_down = () => {
     let items = Curlist.get_elements()
     let selected = Curlist.get_selected_items()
-    let last_index = items.indexOf(App.last(selected))
+    let last_index = items.indexOf(Utils.last(selected))
 
     if (last_index === items.length - 1) {
         return
@@ -875,7 +875,7 @@ Curlist.move_down = () => {
 
     let next = items[last_index + 1]
     next.after(...selected)
-    App.scroll_element({item: App.last(selected)})
+    Utils.scroll_element({item: Utils.last(selected)})
     Curlist.save_after_move()
 }
 

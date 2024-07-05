@@ -1,8 +1,18 @@
-App.deselect = () => {
+/*
+
+These are some utility functions
+
+*/
+
+const Utils = {
+    console_logs: true,
+}
+
+Utils.deselect = () => {
     window.getSelection().removeAllRanges()
 }
 
-App.plural = (n, singular, plural) => {
+Utils.plural = (n, singular, plural) => {
     if (n === 1) {
         return singular
     }
@@ -11,43 +21,39 @@ App.plural = (n, singular, plural) => {
     }
 }
 
-App.info = (msg) => {
-    if (App.console_logs) {
+Utils.info = (msg) => {
+    if (Utils.console_logs) {
         // eslint-disable-next-line no-console
         console.info(`💡 ${msg}`)
     }
 }
 
-App.error = (msg) => {
-    if (App.console_logs) {
+Utils.error = (msg) => {
+    if (Utils.console_logs) {
         // eslint-disable-next-line no-console
         console.info(`❌ ${msg}`)
     }
 }
 
-App.sanitize = (s) => {
+Utils.sanitize = (s) => {
     return s.replace(/</g, `&lt;`).replace(/>/g, `&gt;`)
 }
 
-App.urlize = (el) => {
+Utils.urlize = (el) => {
     let html = el.innerHTML
     let urlRegex = /(https?:\/\/[^\s]+)/g
     let replacedText = html.replace(urlRegex, `<a href="$1" target="_blank">$1</a>`)
     el.innerHTML = replacedText
 }
 
-App.get_url = (curl) => {
-    return `/${curl}`
-}
-
-App.create_debouncer = (func, delay) => {
+Utils.create_debouncer = (func, delay) => {
     if (typeof func !== `function`) {
-        App.error(`Invalid debouncer function`)
+        Utils.error(`Invalid debouncer function`)
         return
     }
 
     if (!delay) {
-        App.error(`Invalid debouncer delay`)
+        Utils.error(`Invalid debouncer delay`)
         return
     }
 
@@ -82,21 +88,7 @@ App.create_debouncer = (func, delay) => {
     return obj
 }
 
-App.switch_state = (current, list, reverse = false) => {
-    let index = list.indexOf(current);
-
-    if (index === -1) {
-        throw new Error(`Invalid state: ${current}`);
-    }
-
-    if (reverse) {
-        return list[(index - 1 + list.length) % list.length];
-    } else {
-        return list[(index + 1) % list.length] || list[1];
-    }
-}
-
-App.wheel_direction = (e) => {
+Utils.wheel_direction = (e) => {
     if (e.deltaY > 0) {
         return `down`
     }
@@ -105,41 +97,27 @@ App.wheel_direction = (e) => {
     }
 }
 
-App.capitalize = (s) => {
+Utils.capitalize = (s) => {
     return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
-App.now = () => {
+Utils.now = () => {
     return Date.now()
 }
 
-App.same_list = (a, b) => {
-    if (a.length !== b.length) {
-        return false
-    }
-
-    for (let i = 0; i < a.length; i++) {
-        if (a[i] !== b[i]) {
-            return false
-        }
-    }
-
-    return true
-}
-
-App.copy_to_clipboard = (text) => {
+Utils.copy_to_clipboard = (text) => {
     navigator.clipboard.writeText(text)
 }
 
-App.smart_list = (string) => {
+Utils.smart_list = (string) => {
     return string.split(/[\s,;]+/).filter(Boolean)
 }
 
-App.clean_modes = (modes) => {
+Utils.clean_modes = (modes) => {
     return modes.filter(x => x.value !== App.separator)
 }
 
-App.def_args = (def, args) => {
+Utils.def_args = (def, args) => {
     for (let key in def) {
         if ((args[key] === undefined) && (def[key] !== undefined)) {
             args[key] = def[key]
@@ -147,7 +125,7 @@ App.def_args = (def, args) => {
     }
 }
 
-App.scroll_element = (args = {}) => {
+Utils.scroll_element = (args = {}) => {
     let def_args = {
         behavior: `instant`,
         block: `center`,
@@ -157,18 +135,18 @@ App.scroll_element = (args = {}) => {
         return
     }
 
-    App.def_args(def_args, args)
+    Utils.def_args(def_args, args)
     args.item.scrollIntoView({ behavior: args.behavior, block: args.block })
     window.scrollTo(0, window.scrollY)
 }
 
-App.last = (list) => {
+Utils.last = (list) => {
     return list.slice(-1)[0]
 }
 
-App.load_modes = (name, modes, def_value) => {
+Utils.load_modes = (name, modes, def_value) => {
     let saved = localStorage.getItem(name) || def_value
-    let values = App.clean_modes(modes).map(x => x.value)
+    let values = Utils.clean_modes(modes).map(x => x.value)
 
     if (!values.includes(saved)) {
         saved = def_value
@@ -177,20 +155,20 @@ App.load_modes = (name, modes, def_value) => {
     return saved
 }
 
-App.load_boolean = (name, positive = true) => {
+Utils.load_boolean = (name, positive = true) => {
     let value = positive ? `true` : `false`
     let saved = localStorage.getItem(name) || value
     return saved === `true`
 }
 
-App.load_array = (name) => {
+Utils.load_array = (name) => {
     return localStorage.getItem(name) || `[]`
 }
 
-App.load_string = (name, def_value = ``) => {
+Utils.load_string = (name, def_value = ``) => {
     return localStorage.getItem(name) || def_value
 }
 
-App.save = (name, value) => {
+Utils.save = (name, value) => {
     localStorage.setItem(name, value)
 }

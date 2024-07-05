@@ -83,7 +83,7 @@ Windows.alert = (args = {}) => {
         ok: true,
     }
 
-    App.def_args(def_args, args)
+    Utils.def_args(def_args, args)
     Windows.alert_window.set_title(args.title)
     let msg = DOM.el(`#alert_message`)
 
@@ -118,7 +118,7 @@ Windows.alert = (args = {}) => {
 
 Windows.alert_copy = () => {
     let text = DOM.el(`#alert_message`)
-    App.copy_to_clipboard(text.textContent)
+    Utils.copy_to_clipboard(text.textContent)
     Windows.alert_window.close()
 }
 
@@ -127,7 +127,7 @@ Windows.confirm = (args = {}) => {
         message: ``,
     }
 
-    App.def_args(def_args, args)
+    Utils.def_args(def_args, args)
     Windows.confirm_ok = args.ok
     Windows.confirm_window.set_title(args.title)
     Windows.confirm_window.show()
@@ -155,7 +155,7 @@ Windows.prompt = (args = {}) => {
         message: ``,
     }
 
-    App.def_args(def_args, args)
+    Utils.def_args(def_args, args)
     Windows.prompt_callback = args.callback
     let input = DOM.el(`#prompt_input`)
     input.value = args.value
@@ -175,6 +175,6 @@ Windows.prompt = (args = {}) => {
 }
 
 Windows.alert_export = (data) => {
-    let data_str = App.sanitize(JSON.stringify(data))
+    let data_str = Utils.sanitize(JSON.stringify(data))
     Windows.alert({title: `Copy the data below`, message: data_str, copy: true, ok: false})
 }

@@ -24,7 +24,7 @@ Combo.register = (args = {}) => {
     })
 
     DOM.ev(args.element, `wheel`, (e) => {
-        let direction = App.wheel_direction(e)
+        let direction = Utils.wheel_direction(e)
         Combo.cycle(args, direction)
         e.preventDefault()
     })

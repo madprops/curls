@@ -44,7 +44,7 @@ Update.setup = () => {
         },
     })
 
-    Update.debouncer = App.create_debouncer((args) => {
+    Update.debouncer = Utils.create_debouncer((args) => {
         Update.do_update(args)
     }, Update.debouncer_delay)
 
@@ -52,7 +52,7 @@ Update.setup = () => {
 }
 
 Update.load_update = () => {
-    return App.load_modes(Update.ls_name, Update.modes, Update.default_mode)
+    return Utils.load_modes(Update.ls_name, Update.modes, Update.default_mode)
 }
 
 Update.check = () => {
@@ -98,16 +98,16 @@ Update.do_update = (args = {}) => {
         update_curlist: false,
     }
 
-    App.def_args(def_args, args)
+    Utils.def_args(def_args, args)
     Update.fetch(args)
     Update.restart()
 }
 
 Update.fetch = async (args) => {
-    App.info(`Update: Trigger`)
+    Utils.info(`Update: Trigger`)
 
     if (Update.updating) {
-        App.error(`Slow down`)
+        Utils.error(`Slow down`)
         return
     }
 
@@ -138,7 +138,7 @@ Update.fetch = async (args) => {
 
     let response = ``
     Update.updating = true
-    App.info(`Update: Request ${App.network} (${args.curls.length})`)
+    Utils.info(`Update: Request ${App.network} (${args.curls.length})`)
 
     if (!Items.list.length) {
         Container.loading()
@@ -154,7 +154,7 @@ Update.fetch = async (args) => {
         })
     }
     catch (e) {
-        App.error(`Failed to update`)
+        Utils.error(`Failed to update`)
         App.clear()
         return
     }
@@ -174,8 +174,8 @@ Update.fetch = async (args) => {
         }
     }
     catch (e) {
-        App.error(`Failed to parse response`)
-        App.error(e)
+        Utils.error(`Failed to parse response`)
+        Utils.error(e)
     }
 
     Update.clear()
@@ -203,6 +203,6 @@ Update.change = (mode) => {
     }
 
     Update.mode = mode
-    App.save(Update.ls_name, mode)
+    Utils.save(Update.ls_name, mode)
     Update.check()
 }

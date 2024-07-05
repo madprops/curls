@@ -40,7 +40,7 @@ Font.setup = () => {
 
 Font.change = (value) => {
     Font.mode = value
-    App.save(Font.ls_name, value)
+    Utils.save(Font.ls_name, value)
 }
 
 Font.apply = () => {
@@ -48,5 +48,5 @@ Font.apply = () => {
 }
 
 Font.load_font = () => {
-    return App.load_modes(Font.ls_name, Font.modes, Font.default_mode)
+    return Utils.load_modes(Font.ls_name, Font.modes, Font.default_mode)
 }

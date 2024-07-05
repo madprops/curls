@@ -9,10 +9,6 @@ App.MONTH = App.DAY * 30
 App.YEAR = App.DAY * 365
 
 App.old_delay = App.YEAR * 1
-
-App.block_items = {}
-App.console_logs = true
-App.date_mode = `12`
 App.separator = `__separator__`
 App.network = `🛜`
 

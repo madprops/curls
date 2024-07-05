@@ -46,7 +46,7 @@ Status.setup = () => {
 }
 
 Status.get_list = () => {
-    let list = App.load_array(Status.ls_name)
+    let list = Utils.load_array(Status.ls_name)
 
     try {
         return JSON.parse(list)
@@ -66,7 +66,7 @@ Status.save = (status) => {
     }
 
     let list = [status, ...cleaned].slice(0, Status.max_list)
-    App.save(Status.ls_name, JSON.stringify(list))
+    Utils.save(Status.ls_name, JSON.stringify(list))
 }
 
 Status.show_menu = (e) => {
@@ -120,5 +120,5 @@ Status.do_remove = (status) => {
         cleaned.push(status_)
     }
 
-    App.save(Status.ls_name, JSON.stringify(cleaned))
+    Utils.save(Status.ls_name, JSON.stringify(cleaned))
 }

@@ -17,17 +17,17 @@ const Peek = {
 Peek.setup = () => {
     Peek.enabled = Peek.load_enabled()
 
-    Peek.debouncer = App.create_debouncer((args) => {
+    Peek.debouncer = Utils.create_debouncer((args) => {
         Peek.do_show(args)
     }, Peek.debouncer_delay)
 }
 
 Peek.save_enabled = () => {
-    App.save(Peek.ls_name, Peek.enabled)
+    Utils.save(Peek.ls_name, Peek.enabled)
 }
 
 Peek.load_enabled = () => {
-    return App.load_boolean(Peek.ls_name)
+    return Utils.load_boolean(Peek.ls_name)
 }
 
 Peek.show = (args) => {
@@ -41,7 +41,7 @@ Peek.do_show = (args = {}) => {
         force: false,
     }
 
-    App.def_args(def_args, args)
+    Utils.def_args(def_args, args)
 
     if (!Peek.enabled && !args.force) {
         return
@@ -65,7 +65,7 @@ Peek.do_show = (args = {}) => {
     let curl_ = DOM.create(`div`, `peek_curl`)
     curl_.textContent = item.curl
     let status = DOM.create(`div`, `peek_status`)
-    status.innerHTML = App.sanitize(item.status)
+    status.innerHTML = Utils.sanitize(item.status)
     let updated = DOM.create(`div`, `peek_updated`)
     updated.textContent = item.updated_text
 

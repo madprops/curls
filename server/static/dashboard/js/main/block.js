@@ -8,6 +8,7 @@ Charges are decreased over time
 */
 
 const Block = {
+    items: {},
     interval_delay: 2000,
     date_delay: 500,
     relief: 0.1,
@@ -15,10 +16,10 @@ const Block = {
 
 Block.setup = () => {
     setInterval(() => {
-        for (let name in App.block_items) {
-            let item = App.block_items[name]
+        for (let name in Block.items) {
+            let item = Block.items[name]
 
-            if ((App.now() - item.date) < Block.date_delay) {
+            if ((Utils.now() - item.date) < Block.date_delay) {
                 continue
             }
 
@@ -31,7 +32,7 @@ Block.setup = () => {
 }
 
 Block.register = (name, limit) => {
-    App.block_items[name] = {
+    Block.items[name] = {
         charge: 0,
         limit: limit,
         date: 0,
@@ -39,8 +40,8 @@ Block.register = (name, limit) => {
 }
 
 Block.charge = (name) => {
-    let item = App.block_items[name]
-    item.date = App.now()
+    let item = Block.items[name]
+    item.date = Utils.now()
 
     if (item.charge >= item.limit) {
         return true

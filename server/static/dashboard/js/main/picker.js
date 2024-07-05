@@ -26,7 +26,7 @@ Picker.setup = () => {
 }
 
 Picker.get_items = () => {
-    let saved = App.load_array(Picker.ls_name)
+    let saved = Utils.load_array(Picker.ls_name)
     return JSON.parse(saved)
 }
 
@@ -47,7 +47,7 @@ Picker.add = () => {
         }
     }
 
-    App.save(Picker.ls_name, JSON.stringify(cleaned))
+    Utils.save(Picker.ls_name, JSON.stringify(cleaned))
 }
 
 Picker.show = (e) => {
@@ -125,17 +125,17 @@ Picker.import_submit = (data) => {
 
     try {
         let items = JSON.parse(data)
-        App.save(Picker.ls_name, JSON.stringify(items))
+        Utils.save(Picker.ls_name, JSON.stringify(items))
     }
     catch (err) {
-        App.error(err)
+        Utils.error(err)
         Windows.alert({title: `Error`, message: err})
     }
 }
 
 Picker.clear = () => {
     Windows.confirm({title: `Clear Picker`, ok: () => {
-        App.save(Picker.ls_name, `[]`)
+        Utils.save(Picker.ls_name, `[]`)
     }, message: `Remove all items from the picker`})
 }
 
@@ -156,5 +156,5 @@ Picker.do_remove_item = (curl) => {
         cleaned.push(item)
     }
 
-    App.save(Picker.ls_name, JSON.stringify(cleaned))
+    Utils.save(Picker.ls_name, JSON.stringify(cleaned))
 }

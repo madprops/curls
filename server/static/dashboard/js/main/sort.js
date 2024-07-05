@@ -53,7 +53,7 @@ Sort.change = (value) => {
     }
 
     Sort.mode = value
-    App.save(Sort.ls_name, value)
+    Utils.save(Sort.ls_name, value)
     Container.update()
 }
 
@@ -154,5 +154,5 @@ Sort.sort = (items) => {
 }
 
 Sort.load_sort = () => {
-    return App.load_modes(Sort.ls_name, Sort.modes, Sort.default_mode)
+    return Utils.load_modes(Sort.ls_name, Sort.modes, Sort.default_mode)
 }

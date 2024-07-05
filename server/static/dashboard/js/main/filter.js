@@ -35,7 +35,7 @@ Filter.setup = () => {
         Filter.filter()
     })
 
-    Filter.debouncer = App.create_debouncer(Filter.do_filter, Filter.debouncer_delay)
+    Filter.debouncer = Utils.create_debouncer(Filter.do_filter, Filter.debouncer_delay)
     filter.value = ``
 
     let button = DOM.el(`#filter_button`)
@@ -57,7 +57,7 @@ Filter.setup = () => {
 }
 
 Filter.load_filter = () => {
-    return App.load_modes(Filter.ls_name, Filter.modes, Filter.default_mode)
+    return Utils.load_modes(Filter.ls_name, Filter.modes, Filter.default_mode)
 }
 
 Filter.change = (value) => {
@@ -68,7 +68,7 @@ Filter.change = (value) => {
     Filter.mode = value
     Filter.focus()
     Filter.do_filter()
-    App.save(Filter.ls_name, value)
+    Utils.save(Filter.ls_name, value)
 }
 
 Filter.unfilter = () => {

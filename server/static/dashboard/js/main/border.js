@@ -42,7 +42,7 @@ Border.setup = () => {
 
 Border.change = (value) => {
     Border.mode = value
-    App.save(Border.ls_name, value)
+    Utils.save(Border.ls_name, value)
 }
 
 Border.apply = () => {
@@ -62,5 +62,5 @@ Border.apply = () => {
 }
 
 App.load_border = () => {
-    return App.load_modes(Border.ls_name, Border.modes, Border.default_mode)
+    return Utils.load_modes(Border.ls_name, Border.modes, Border.default_mode)
 }

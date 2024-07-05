@@ -20,7 +20,7 @@ Curls.add_submit = (where, curls) => {
         return
     }
 
-    let units = App.smart_list(curls)
+    let units = Utils.smart_list(curls)
 
     if (!units.length) {
         return
@@ -51,7 +51,7 @@ Curls.do_add = (args = {}) => {
         color: Colors.mode,
     }
 
-    App.def_args(def_args, args)
+    Utils.def_args(def_args, args)
 
     if (!Curlist.check(args.curl)) {
         return false
@@ -111,7 +111,7 @@ Curls.to_bottom = (curls) => {
     }
 
     cleaned.push(...curls)
-    Curls.after_move(cleaned, curls, App.last(curls))
+    Curls.after_move(cleaned, curls, Utils.last(curls))
 }
 
 Curls.after_move = (new_curls, curls, leader) => {
@@ -133,12 +133,12 @@ Curls.after_move = (new_curls, curls, leader) => {
 
 Curls.save = (curls, color = Colors.mode) => {
     let name = Curls.get_name(color)
-    App.save(name, JSON.stringify(curls))
+    Utils.save(name, JSON.stringify(curls))
 }
 
 Curls.get = (color = Colors.mode) => {
     let name = Curls.get_name(color)
-    let saved = App.load_array(name)
+    let saved = Utils.load_array(name)
 
     try {
         let curls = JSON.parse(saved)
@@ -184,7 +184,7 @@ Curls.replace_submit = (curls) => {
 
 Curls.clear = (color = Colors.mode) => {
     let name = Curls.get_name(color)
-    App.save(name, ``)
+    Utils.save(name, ``)
 }
 
 Curls.edit = (curl) => {

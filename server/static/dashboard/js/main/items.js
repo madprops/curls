@@ -37,7 +37,7 @@ Items.get_owned = () => {
 
 Items.get_by_date = (what) => {
     let cleaned = []
-    let now = App.now()
+    let now = Utils.now()
 
     for (let item of Items.list) {
         let date = new Date(item.updated + `Z`)
@@ -117,7 +117,7 @@ Items.copy = (curl) => {
     }
 
     let msg = msgs.join(`\n\n`)
-    App.copy_to_clipboard(msg)
+    Utils.copy_to_clipboard(msg)
 }
 
 Items.show_menu = (args = {}) => {
@@ -125,7 +125,7 @@ Items.show_menu = (args = {}) => {
         from: `curlist`,
     }
 
-    App.def_args(def_args, args)
+    Utils.def_args(def_args, args)
     let selected = []
 
     if (args.from === `curlist`) {

@@ -49,7 +49,7 @@ Container.setup = () => {
         }
     })
 
-    Container.check_scroll_debouncer = App.create_debouncer(
+    Container.check_scroll_debouncer = Utils.create_debouncer(
         Container.do_check_scroll, Container.check_scroll_debouncer_delay)
 
     DOM.ev(outer, `scroll`, (e) => {
@@ -66,7 +66,7 @@ Container.setup = () => {
     Container.wrap_enabled = Container.load_wrap_enabled()
     Container.highlight_enabled = Container.load_highlight_enabled()
 
-    Container.highlight_debouncer = App.create_debouncer((args) => {
+    Container.highlight_debouncer = Utils.create_debouncer((args) => {
         Container.do_highlight(args)
     }, Container.highlight_debouncer_delay)
 }
@@ -98,7 +98,7 @@ Container.set_info = (info) => {
     item.innerHTML = info
     container.innerHTML = ``
     container.append(item)
-    App.deselect()
+    Utils.deselect()
 }
 
 Container.get_items = () => {
@@ -206,19 +206,19 @@ Container.order_based_on_container = () => {
 }
 
 Container.save_wrap_enabled = () => {
-    App.save(Container.ls_name_wrap, Container.wrap_enabled)
+    Utils.save(Container.ls_name_wrap, Container.wrap_enabled)
 }
 
 Container.load_wrap_enabled = () => {
-    return App.load_boolean(Container.ls_name_wrap)
+    return Utils.load_boolean(Container.ls_name_wrap)
 }
 
 Container.save_highlight_enabled = () => {
-    App.save(Container.ls_name_highlight, Container.highlight_enabled)
+    Utils.save(Container.ls_name_highlight, Container.highlight_enabled)
 }
 
 Container.load_highlight_enabled = () => {
-    return App.load_boolean(Container.ls_name_highlight)
+    return Utils.load_boolean(Container.ls_name_highlight)
 }
 
 Container.add = (items, curls) => {
@@ -256,8 +256,8 @@ Container.update = (args = {}) => {
         select: [],
     }
 
-    App.def_args(def_args, args)
-    App.info(`Updating Items`)
+    Utils.def_args(def_args, args)
+    Utils.info(`Updating Items`)
     Container.clear()
     Sort.sort(args.items)
 
@@ -265,7 +265,7 @@ Container.update = (args = {}) => {
         Container.create_element(item)
     }
 
-    App.deselect()
+    Utils.deselect()
     Container.check_empty()
 
     if (args.check_filter) {
@@ -310,9 +310,9 @@ Container.create_element = (item) => {
     item_curl.textContent = item.curl
     item_curl.title = item.curl
     let status = item.status || `Not updated yet`
-    item_status.innerHTML = App.sanitize(status)
+    item_status.innerHTML = Utils.sanitize(status)
     item_status.title = status
-    App.urlize(item_status)
+    Utils.urlize(item_status)
 
     item_updated.textContent = item.updated_text
 
@@ -337,7 +337,7 @@ Container.create_element = (item) => {
 }
 
 Container.get_date_mode = () => {
-    return App.load_string(Container.ls_name_date_mode, `12`)
+    return Utils.load_string(Container.ls_name_date_mode, `12`)
 }
 
 Container.change_date_mode = () => {
@@ -349,7 +349,7 @@ Container.change_date_mode = () => {
 
     let date_mode = Container.get_date_mode()
     date_mode = date_mode === `12` ? `24` : `12`
-    App.save(Container.ls_name_date_mode, date_mode)
+    Utils.save(Container.ls_name_date_mode, date_mode)
     Items.add_dates()
     Container.update()
 }
@@ -371,7 +371,7 @@ Container.do_highlight = (args = {}) => {
         behavior: `smooth`,
     }
 
-    App.def_args(def_args, args)
+    Utils.def_args(def_args, args)
 
     if (!Container.highlight_enabled) {
         return
@@ -396,7 +396,7 @@ Container.do_highlight = (args = {}) => {
         let item = Items.get(args.curl)
 
         if (item && item.element) {
-            App.scroll_element({item: item.element, behavior: args.behavior})
+            Utils.scroll_element({item: item.element, behavior: args.behavior})
         }
     }
 }
