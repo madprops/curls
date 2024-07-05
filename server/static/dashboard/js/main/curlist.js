@@ -63,7 +63,7 @@ Curlist.setup = () => {
 
     DOM.ev(container, `keydown`, (e) => {
         if (e.key === `Delete`) {
-            App.remove_selected_curls()
+            Curls.remove_selected()
             e.preventDefault()
         }
         else if (e.key === `ArrowUp`) {
@@ -145,11 +145,11 @@ Curlist.setup = () => {
         if (e.button === 1) {
             if (item) {
                 if (selected.length && selected.includes(item)) {
-                    App.remove_selected_curls()
+                    Curls.remove_selected()
                 }
                 else {
                     Curlist.select_item(item)
-                    App.remove_curls([curl])
+                    Curls.remove([curl])
                 }
             }
         }
@@ -255,7 +255,7 @@ Curlist.show_menu = (e) => {
         {
             text: `Clear`,
             action: () => {
-                App.clear_all_curls()
+                Curls.clear_all()
             }
         },
     ]
@@ -307,7 +307,7 @@ Curlist.show_menu = (e) => {
             {
                 text: `Remove`,
                 action: (e) => {
-                    App.show_remove_menu(e)
+                    Curls.show_remove_menu(e)
                 }
             },
             ...data,

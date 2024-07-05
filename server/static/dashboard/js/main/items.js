@@ -158,7 +158,7 @@ Items.show_menu = (args = {}) => {
             {
                 text: `Remove`,
                 action: () => {
-                    App.remove_selected_curls()
+                    Curls.remove_selected()
                 }
             },
             {
@@ -201,7 +201,7 @@ Items.show_menu = (args = {}) => {
             {
                 text: `Remove`,
                 action: () => {
-                    App.remove_curls([args.curl])
+                    Curls.remove([args.curl])
                 }
             },
             {
@@ -240,4 +240,32 @@ Items.show_menu = (args = {}) => {
             Curlist.focus()
         }
     })
+}
+
+Items.remove_curl = (curl) => {
+    let cleaned = []
+
+    for (let item of Items.list) {
+        if (item.curl !== curl) {
+            cleaned.push(item)
+        }
+    }
+
+    Items.list = cleaned
+}
+
+Items.remove = (removed) => {
+    for (let curl of removed) {
+        let item = Items.get(curl)
+        let el = item.element
+
+        if (el) {
+            el.remove()
+        }
+
+        let index = Items.list.indexOf(item)
+        Items.list.splice(index, 1)
+    }
+
+    Container.check_empty()
 }
