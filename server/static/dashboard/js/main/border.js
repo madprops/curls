@@ -4,63 +4,67 @@ The border between the items of the container
 
 */
 
-const Border = {
-    default_mode: `solid`,
-    ls_name: `border`,
-}
+class BorderClass {
+    constructor () {
+        this.default_mode = `solid`
+        this.ls_name = `border`
 
-Border.modes = [
-    {value: `solid`, name: `Solid`, info: `Normal solid border`},
-    {value: `dotted`, name: `Dotted`, info: `Dotted border`},
-    {value: `dashed`, name: `Dashed`, info: `Dashed border`},
-    {value: `bigger`, name: `Bigger`, info: `Normal border but twice as thick`},
-    {value: App.separator},
-    {value: `none`, name: `None`, info: `No border`},
-]
-
-Border.setup = () => {
-    let border = DOM.el(`#border`)
-    Border.mode = App.load_border()
-
-    Combo.register({
-        title: `Border Modes`,
-        items: Border.modes,
-        value: Border.mode,
-        element: border,
-        default: Border.default_mode,
-        action: (value) => {
-            Border.change(value)
-            Border.apply()
-        },
-        get: () => {
-            return Border.mode
-        },
-    })
-
-    Border.apply()
-}
-
-Border.change = (value) => {
-    Border.mode = value
-    Utils.save(Border.ls_name, value)
-}
-
-Border.apply = () => {
-    let border
-
-    if (Border.mode === `none`) {
-        border = `none`
-    }
-    else if (Border.mode === `bigger`) {
-        border = `2px solid var(--color)`
-    }
-    else {
-        border = `1px ${Border.mode} var(--color)`
+        this.modes = [
+            {value: `solid`, name: `Solid`, info: `Normal solid border`},
+            {value: `dotted`, name: `Dotted`, info: `Dotted border`},
+            {value: `dashed`, name: `Dashed`, info: `Dashed border`},
+            {value: `bigger`, name: `Bigger`, info: `Normal border but twice as thick`},
+            {value: App.separator},
+            {value: `none`, name: `None`, info: `No border`},
+        ]
     }
 
-    document.documentElement.style.setProperty(`--border`, border)
+    setup () {
+        let border = DOM.el(`#border`)
+        this.mode = this.load_border()
+
+        Combo.register({
+            title: `Border Modes`,
+            items: this.modes,
+            value: this.mode,
+            element: border,
+            default: this.default_mode,
+            action: (value) => {
+                this.change(value)
+                this.apply()
+            },
+            get: () => {
+                return this.mode
+            },
+        })
+
+        this.apply()
+    }
+
+    change (value) {
+        this.mode = value
+        Utils.save(this.ls_name, value)
+    }
+
+    apply () {
+        let border
+
+        if (this.mode === `none`) {
+            border = `none`
+        }
+        else if (this.mode === `bigger`) {
+            border = `2px solid var(--color)`
+        }
+        else {
+            border = `1px ${this.mode} var(--color)`
+        }
+
+        document.documentElement.style.setProperty(`--border`, border)
+    }
+
+    load_border () {
+        return Utils.load_modes(this.ls_name, this.modes, this.default_mode)
+    }
 }
 
-App.load_border = () => {
-    return Utils.load_modes(Border.ls_name, Border.modes, Border.default_mode)
-}
+const Border = new BorderClass()

@@ -7,46 +7,50 @@ Charges are decreased over time
 
 */
 
-const Block = {
-    items: {},
-    interval_delay: 2000,
-    date_delay: 500,
-    relief: 0.1,
-}
+class BlockClass {
+    constructor () {
+        this.items = {}
+        this.interval_delay = 2000
+        this.date_delay = 500
+        this.relief = 0.1
+    }
 
-Block.setup = () => {
-    setInterval(() => {
-        for (let name in Block.items) {
-            let item = Block.items[name]
+    setup () {
+        setInterval(() => {
+            for (let name in this.items) {
+                let item = this.items[name]
 
-            if ((Utils.now() - item.date) < Block.date_delay) {
-                continue
+                if ((Utils.now() - item.date) < this.date_delay) {
+                    continue
+                }
+
+                if (item.charge > 0) {
+                    let dec = Math.max(1, Math.round(item.charge * this.relief))
+                    item.charge -= parseInt(dec)
+                }
             }
+        }, this.interval_delay)
+    }
 
-            if (item.charge > 0) {
-                let dec = Math.max(1, Math.round(item.charge * Block.relief))
-                item.charge -= parseInt(dec)
-            }
+    register (name, limit) {
+        this.items[name] = {
+            charge: 0,
+            limit: limit,
+            date: 0,
         }
-    }, Block.interval_delay)
-}
+    }
 
-Block.register = (name, limit) => {
-    Block.items[name] = {
-        charge: 0,
-        limit: limit,
-        date: 0,
+    charge (name) {
+        let item = this.items[name]
+        item.date = Utils.now()
+
+        if (item.charge >= item.limit) {
+            return true
+        }
+
+        item.charge += 1
+        return false
     }
 }
 
-Block.charge = (name) => {
-    let item = Block.items[name]
-    item.date = Utils.now()
-
-    if (item.charge >= item.limit) {
-        return true
-    }
-
-    item.charge += 1
-    return false
-}
+const Block = new BlockClass()
