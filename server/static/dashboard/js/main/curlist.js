@@ -521,7 +521,6 @@ Curlist.select_item = (item) => {
     }
 
     Curlist.do_select_item({item: item})
-    Curlist.prev_range_item = item
 }
 
 Curlist.do_select_item = (args = {}) => {
@@ -548,10 +547,13 @@ Curlist.do_select_item = (args = {}) => {
         let curl = Curlist.extract_curl(args.item)
         Container.highlight({curl: curl, behavior: args.highlight_behavior})
     }
+
+    args.item.dataset.selected = Utils.now()
 }
 
 Curlist.do_deselect_item = (item) => {
     item.classList.remove(`selected`)
+    item.dataset.selected = 0
 }
 
 Curlist.select_range = (item) => {
@@ -561,13 +563,20 @@ Curlist.select_range = (item) => {
         return
     }
 
-    if (item === Curlist.prev_range_item) {
+    let prev_item = Curlist.get_prev_item()
+
+    if (item === prev_item) {
         return
     }
 
     let items = Curlist.get_visible()
+
+    if (!items.length) {
+        return
+    }
+
     let index = items.indexOf(item)
-    let prev_index = items.indexOf(Curlist.prev_range_item)
+    let prev_index = items.indexOf(prev_item)
     let first_index = items.indexOf(selected[0])
     let last_index = items.indexOf(Utils.last(selected))
     let direction
@@ -581,7 +590,7 @@ Curlist.select_range = (item) => {
         }
     }
     else {
-        if (Curlist.prev_range_item === selected[0]) {
+        if (prev_item === selected[0]) {
             direction = `up`
         }
         else {
@@ -602,8 +611,6 @@ Curlist.select_range = (item) => {
     else {
         Curlist.do_select_range(item, prev_index, index, direction)
     }
-
-    Curlist.prev_range_item = item
 }
 
 Curlist.do_select_range = (item, start, end, direction) => {
@@ -635,11 +642,12 @@ Curlist.do_select_range = (item, start, end, direction) => {
 }
 
 Curlist.select_toggle = (item) => {
-    let curl = Curlist.extract_curl(item)
-    item.classList.toggle(`selected`)
-    Curlist.prev_range_item = item
-    Container.highlight({curl: curl})
-    Peek.show({curl: curl})
+    if (item.classList.contains(`selected`)) {
+        Curlist.do_deselect_item(item)
+    }
+    else {
+        Curlist.do_select_item({item: item})
+    }
 }
 
 Curlist.get_selected_curls = () => {
@@ -684,8 +692,14 @@ Curlist.select_vertical = (direction, shift) => {
     }
 
     let items = Curlist.get_visible()
+
+    if (!items.length) {
+        return
+    }
+
     let selected = Curlist.get_selected_items()
-    let prev_index = items.indexOf(Curlist.prev_range_item)
+    let prev_item = Curlist.get_prev_item()
+    let prev_index = items.indexOf(prev_item)
     let first_index = items.indexOf(selected[0])
 
     if (!selected.length) {
@@ -947,4 +961,22 @@ Curlist.mouseover = (e) => {
     let item = Curlist.extract_item(e.target)
     Curlist.do_select_item({item: item})
     Curlist.mouse_selected = true
+}
+
+Curlist.get_prev_item = () => {
+    let items = Curlist.get_visible()
+    let prev_item = null
+
+    for (let item of items) {
+        if (!prev_item) {
+            prev_item = item
+            continue
+        }
+
+        if (parseInt(item.dataset.selected) > parseInt(prev_item.dataset.selected)) {
+            prev_item = item
+        }
+    }
+
+    return prev_item
 }
