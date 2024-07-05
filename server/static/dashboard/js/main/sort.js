@@ -4,32 +4,30 @@ This sorts the container
 
 */
 
-class SortClass {
-    constructor() {
-        this.default_mode = `newest`
-        this.ls_name = `sort`
+class Sort {
+    static default_mode = `newest`
+    static ls_name = `sort`
 
-        this.modes = [
-            {value: `order`, name: `Order`, info: `Use the same order as the curlist`},
-            {value: App.separator},
-            {value: `newest`, name: `Newest`, info: `Most recently changed at the top`},
-            {value: `oldest`, name: `Oldest`, info: `Oldest ones at the top`},
-            {value: App.separator},
-            {value: `curl_asc`, name: `Curl Asc`, info: `Sort curls alphabetically in ascending order`},
-            {value: `curl_desc`, name: `Curl Desc`, info: `Sort curls alphabetically in descending order`},
-            {value: App.separator},
-            {value: `status_asc`, name: `Status Asc`, info: `Sort status alphabetically in ascending order`},
-            {value: `status_desc`, name: `Status Desc`, info: `Sort status alphabetically in descending order`},
-            {value: App.separator},
-            {value: `curl_short`, name: `Curl Short`, info: `Sort by the length of the curl in ascending order`},
-            {value: `curl_long`, name: `Curl Long`, info: `Sort by the length of the curl in descending order`},
-            {value: App.separator},
-            {value: `status_short`, name: `Status Short`, info: `Sort by the length of the status in ascending order`},
-            {value: `status_long`, name: `Status Long`, info: `Sort by the length of the status in descending order`},
-        ]
-    }
+    static modes = [
+        {value: `order`, name: `Order`, info: `Use the same order as the curlist`},
+        {value: App.separator},
+        {value: `newest`, name: `Newest`, info: `Most recently changed at the top`},
+        {value: `oldest`, name: `Oldest`, info: `Oldest ones at the top`},
+        {value: App.separator},
+        {value: `curl_asc`, name: `Curl Asc`, info: `Sort curls alphabetically in ascending order`},
+        {value: `curl_desc`, name: `Curl Desc`, info: `Sort curls alphabetically in descending order`},
+        {value: App.separator},
+        {value: `status_asc`, name: `Status Asc`, info: `Sort status alphabetically in ascending order`},
+        {value: `status_desc`, name: `Status Desc`, info: `Sort status alphabetically in descending order`},
+        {value: App.separator},
+        {value: `curl_short`, name: `Curl Short`, info: `Sort by the length of the curl in ascending order`},
+        {value: `curl_long`, name: `Curl Long`, info: `Sort by the length of the curl in descending order`},
+        {value: App.separator},
+        {value: `status_short`, name: `Status Short`, info: `Sort by the length of the status in ascending order`},
+        {value: `status_long`, name: `Status Long`, info: `Sort by the length of the status in descending order`},
+    ]
 
-    setup() {
+    static setup() {
         let sort = DOM.el(`#sort`)
         this.mode = this.load_sort()
 
@@ -48,7 +46,7 @@ class SortClass {
         })
     }
 
-    change(value) {
+    static change(value) {
         if (this.mode === value) {
             return
         }
@@ -58,13 +56,13 @@ class SortClass {
         Container.update()
     }
 
-    sort_if_order() {
+    static sort_if_order() {
         if (this.mode == `order`) {
             Container.update()
         }
     }
 
-    sort(items) {
+    static sort(items) {
         let mode = this.mode
 
         if (mode === `order`) {
@@ -154,9 +152,7 @@ class SortClass {
         }
     }
 
-    load_sort() {
+    static load_sort() {
         return Utils.load_modes(this.ls_name, this.modes, this.default_mode)
     }
 }
-
-const Sort = new SortClass()

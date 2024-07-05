@@ -4,19 +4,17 @@ This is the main container widget with the vertical items
 
 */
 
-class ContainerClass {
-    constructor() {
-        this.check_scroll_debouncer_delay = 100
-        this.wrap_enabled = true
-        this.highlight_enabled = true
-        this.highlight_debouncer_delay = 50
-        this.ls_name_wrap = `wrap_enabled`
-        this.ls_name_highlight = `highlight_enabled`
-        this.ls_name_date_mode = `date_mode`
-        this.default_date_mode = `12`
-    }
+class Container {
+    static check_scroll_debouncer_delay = 100
+    static wrap_enabled = true
+    static highlight_enabled = true
+    static highlight_debouncer_delay = 50
+    static ls_name_wrap = `wrap_enabled`
+    static ls_name_highlight = `highlight_enabled`
+    static ls_name_date_mode = `date_mode`
+    static default_date_mode = `12`
 
-    setup() {
+    static setup() {
         let outer = DOM.el(`#container_outer`)
         let container = DOM.el(`#container`)
 
@@ -74,16 +72,16 @@ class ContainerClass {
         }, this.highlight_debouncer_delay)
     }
 
-    clear() {
+    static clear() {
         let container = DOM.el(`#container`)
         container.innerHTML = ``
     }
 
-    empty() {
+    static empty() {
         this.set_info(App.empty_info)
     }
 
-    check_empty() {
+    static check_empty() {
         let els = this.get_items()
 
         if (!els) {
@@ -91,11 +89,11 @@ class ContainerClass {
         }
     }
 
-    loading() {
+    static loading() {
         this.set_info(`Loading...`)
     }
 
-    set_info(info) {
+    static set_info(info) {
         let container = DOM.el(`#container`)
         let item = DOM.create(`div`, `info_item`)
         item.innerHTML = info
@@ -104,25 +102,25 @@ class ContainerClass {
         Utils.deselect()
     }
 
-    get_items() {
+    static get_items() {
         return DOM.els(`#container .item`)
     }
 
-    scroll_top() {
+    static scroll_top() {
         let container = DOM.el(`#container_outer`)
         container.scrollTop = 0
     }
 
-    scroll_bottom() {
+    static scroll_bottom() {
         let container = DOM.el(`#container_outer`)
         container.scrollTop = container.scrollHeight
     }
 
-    check_scroll() {
+    static check_scroll() {
         this.check_scroll_debouncer.call()
     }
 
-    do_check_scroll() {
+    static do_check_scroll() {
         this.check_scroll_debouncer.cancel()
         let outer = DOM.el(`#container_outer`)
         let top = DOM.el(`#scroller_top`)
@@ -147,7 +145,7 @@ class ContainerClass {
         }
     }
 
-    drag_events() {
+    static drag_events() {
         let container = DOM.el(`#container`)
 
         DOM.ev(container, `dragstart`, (e) => {
@@ -196,7 +194,7 @@ class ContainerClass {
         })
     }
 
-    order_based_on_container() {
+    static order_based_on_container() {
         let items = this.get_items()
         let curls = items.map(item => item.dataset.curl)
 
@@ -208,23 +206,23 @@ class ContainerClass {
         Curlist.update()
     }
 
-    save_wrap_enabled() {
+    static save_wrap_enabled() {
         Utils.save(this.ls_name_wrap, this.wrap_enabled)
     }
 
-    load_wrap_enabled() {
+    static load_wrap_enabled() {
         return Utils.load_boolean(this.ls_name_wrap)
     }
 
-    save_highlight_enabled() {
+    static save_highlight_enabled() {
         Utils.save(this.ls_name_highlight, this.highlight_enabled)
     }
 
-    load_highlight_enabled() {
+    static load_highlight_enabled() {
         return Utils.load_boolean(this.ls_name_highlight)
     }
 
-    add(items, curls) {
+    static add(items, curls) {
         let normal = Items.list.filter(item => !item.missing)
         Items.list = [...items]
 
@@ -242,7 +240,7 @@ class ContainerClass {
         this.update({select: curls})
     }
 
-    insert(items) {
+    static insert(items) {
         Items.list = items
         Items.list.map(x => x.missing = false)
         let missing = Items.find_missing()
@@ -251,7 +249,7 @@ class ContainerClass {
         this.update()
     }
 
-    update(args = {}) {
+    static update(args = {}) {
         let def_args = {
             items: Items.list,
             check_filter: true,
@@ -284,7 +282,7 @@ class ContainerClass {
         }
     }
 
-    create_element(item) {
+    static create_element(item) {
         let container = DOM.el(`#container`)
         let el = DOM.create(`div`, `item`)
         let item_icon = DOM.create(`div`, `item_icon`)
@@ -339,11 +337,11 @@ class ContainerClass {
         item.element = el
     }
 
-    get_date_mode() {
+    static get_date_mode() {
         return Utils.load_string(this.ls_name_date_mode, this.default_date_mode)
     }
 
-    change_date_mode() {
+    static change_date_mode() {
         let selected = window.getSelection().toString()
 
         if (selected) {
@@ -357,17 +355,17 @@ class ContainerClass {
         this.update()
     }
 
-    dehighlight() {
+    static dehighlight() {
         for (let item of Items.list) {
             item.element.classList.remove(`highlight`)
         }
     }
 
-    highlight(args) {
+    static highlight(args) {
         this.highlight_debouncer.call(args)
     }
 
-    do_highlight(args = {}) {
+    static do_highlight(args = {}) {
         this.highlight_debouncer.cancel()
 
         let def_args = {
@@ -404,5 +402,3 @@ class ContainerClass {
         }
     }
 }
-
-const Container = new ContainerClass()

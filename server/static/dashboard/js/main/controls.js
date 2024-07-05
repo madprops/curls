@@ -4,26 +4,24 @@ This shows or hides the controls
 
 */
 
-class ControlsClass {
-    constructor() {
-        this.enabled = true
-        this.ls_name = `controls_enabled`
-    }
+class Controls {
+    static enabled = true
+    static ls_name = `controls_enabled`
 
-    setup() {
+    static setup() {
         this.enabled = this.load_enabled()
         this.check_enabled()
     }
 
-    save_enabled() {
+    static save_enabled() {
         Utils.save(this.ls_name, this.enabled)
     }
 
-    load_enabled() {
+    static load_enabled() {
         return Utils.load_boolean(this.ls_name)
     }
 
-    check_enabled() {
+    static check_enabled() {
         if (this.enabled) {
             DOM.show(`#controls`)
             Curlist.check_enabled()
@@ -34,5 +32,3 @@ class ControlsClass {
         }
     }
 }
-
-const Controls = new ControlsClass()

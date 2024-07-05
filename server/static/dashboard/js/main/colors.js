@@ -4,24 +4,22 @@ Color functions
 
 */
 
-class ColorsClass {
-    constructor() {
-        this.default_mode = `green`
-        this.ls_name = `color`
-        this.alpha = {}
-        this.alpha_2 = {}
+class Colors {
+    static default_mode = `green`
+    static ls_name = `color`
+    static alpha = {}
+    static alpha_2 = {}
 
-        this.modes = [
-            {value: `red`, name: `Red`, info: `Go to Red`, icon: `🔴`},
-            {value: `green`, name: `Green`, info: `Go to Green`, icon: `🟢`},
-            {value: `blue`, name: `Blue`, info: `Go to Blue`, icon: `🔵`},
-            {value: `yellow`, name: `Yellow`, info: `Go to Yellow`, icon: `🟡`},
-            {value: `purple`, name: `Purple`, info: `Go to Purple`, icon: `🟣`},
-            {value: `white`, name: `White`, info: `Go to White`, icon: `⚪`},
-        ]
-    }
+    static modes = [
+        {value: `red`, name: `Red`, info: `Go to Red`, icon: `🔴`},
+        {value: `green`, name: `Green`, info: `Go to Green`, icon: `🟢`},
+        {value: `blue`, name: `Blue`, info: `Go to Blue`, icon: `🔵`},
+        {value: `yellow`, name: `Yellow`, info: `Go to Yellow`, icon: `🟡`},
+        {value: `purple`, name: `Purple`, info: `Go to Purple`, icon: `🟣`},
+        {value: `white`, name: `White`, info: `Go to White`, icon: `⚪`},
+    ]
 
-    setup() {
+    static setup() {
         let color = DOM.el(`#color`)
         this.mode = this.load_color()
 
@@ -45,7 +43,7 @@ class ColorsClass {
         this.apply()
     }
 
-    make_alpha(obj, a) {
+    static make_alpha(obj, a) {
         for (let color in App.colors) {
             let numbers = App.colors[color].match(/\d+/g)
             let rgba = `rgba(${numbers[0]}, ${numbers[1]}, ${numbers[2]}, ${a})`
@@ -53,7 +51,7 @@ class ColorsClass {
         }
     }
 
-    change(value) {
+    static change(value) {
         if (this.mode === value) {
             return
         }
@@ -68,11 +66,11 @@ class ColorsClass {
         Update.update()
     }
 
-    load_color() {
+    static load_color() {
         return Utils.load_modes(this.ls_name, this.modes, this.default_mode)
     }
 
-    apply() {
+    static apply() {
         let normal = App.colors[this.mode]
         let alpha = this.alpha[this.mode]
         let alpha_2 = this.alpha_2[this.mode]
@@ -82,7 +80,7 @@ class ColorsClass {
         App.update_title()
     }
 
-    move(curls, e) {
+    static move(curls, e) {
         let items = []
 
         let add = (mode) => {
@@ -106,7 +104,7 @@ class ColorsClass {
         NeedContext.show({items: items, e: e})
     }
 
-    do_move(color, curls) {
+    static do_move(color, curls) {
         let current_curls = Curls.get()
         let cleaned = []
 
@@ -139,5 +137,3 @@ class ColorsClass {
         Curlist.update()
     }
 }
-
-const Colors = new ColorsClass()

@@ -4,16 +4,14 @@ This manages the item list
 
 */
 
-class ItemsClass {
-    constructor() {
-        this.list = []
-    }
+class Items {
+    static list = []
 
-    get(curl) {
+    static get(curl) {
         return this.list.find(item => item.curl === curl)
     }
 
-    find_missing() {
+    static find_missing() {
         let used = Curls.get()
         let curls = used.filter(curl => !this.list.find(item => item.curl === curl))
         let missing = []
@@ -25,18 +23,18 @@ class ItemsClass {
         return missing
     }
 
-    get_missing() {
+    static get_missing() {
         return this.list.filter(item => item.missing)
     }
 
-    get_owned() {
+    static get_owned() {
         let picker_items = Picker.get_items()
 
         return this.list.filter(item => picker_items.find(
             picker => picker.curl === item.curl))
     }
 
-    get_by_date(what) {
+    static get_by_date(what) {
         let cleaned = []
         let now = Utils.now()
 
@@ -52,23 +50,23 @@ class ItemsClass {
         return cleaned
     }
 
-    get_today() {
+    static get_today() {
         return this.get_by_date(App.DAY)
     }
 
-    get_week() {
+    static get_week() {
         return this.get_by_date(App.WEEK)
     }
 
-    get_month() {
+    static get_month() {
         return this.get_by_date(App.MONTH)
     }
 
-    reset() {
+    static reset() {
         this.list = []
     }
 
-    add_dates() {
+    static add_dates() {
         for (let item of this.list) {
             let date = new Date(item.updated + `Z`)
             let date_mode = Container.get_date_mode()
@@ -85,7 +83,7 @@ class ItemsClass {
         }
     }
 
-    copy(curl) {
+    static copy(curl) {
         let blink = (icon) => {
             if (!icon) {
                 return
@@ -121,7 +119,7 @@ class ItemsClass {
         Utils.copy_to_clipboard(msg)
     }
 
-    show_menu(args = {}) {
+    static show_menu(args = {}) {
         let def_args = {
             from: `curlist`,
         }
@@ -243,7 +241,7 @@ class ItemsClass {
         })
     }
 
-    remove_curl(curl) {
+    static remove_curl(curl) {
         let cleaned = []
 
         for (let item of this.list) {
@@ -255,7 +253,7 @@ class ItemsClass {
         this.list = cleaned
     }
 
-    remove(removed) {
+    static remove(removed) {
         for (let curl of removed) {
             let item = this.get(curl)
             let el = item.element
@@ -271,5 +269,3 @@ class ItemsClass {
         Container.check_empty()
     }
 }
-
-const Items = new ItemsClass()

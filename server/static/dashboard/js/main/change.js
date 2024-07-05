@@ -4,16 +4,14 @@ This changes the status of a curl
 
 */
 
-class ChangeClass {
-    constructor() {
-        this.debouncer_delay = 250
-        this.changing = false
-        this.clear_delay = 800
-        this.status_max_length = 500
-        this.key_length = 22
-    }
+class Change {
+    static debouncer_delay = 250
+    static changing = false
+    static clear_delay = 800
+    static status_max_length = 500
+    static key_length = 22
 
-    setup() {
+    static setup() {
         let submit = DOM.el(`#change_submit`)
 
         DOM.ev(submit, `click`, () => {
@@ -25,11 +23,11 @@ class ChangeClass {
         }, this.debouncer_delay)
     }
 
-    change() {
+    static change() {
         this.debouncer.call()
     }
 
-    do_change() {
+    static do_change() {
         this.debouncer.cancel()
         Utils.info(`Change: Trigger`)
 
@@ -104,17 +102,17 @@ class ChangeClass {
             })
     }
 
-    clear_status() {
+    static clear_status() {
         DOM.el(`#change_status`).value = ``
     }
 
-    show_changing() {
+    static show_changing() {
         let button = DOM.el(`#change_submit`)
         clearTimeout(this.clear_changing_timeout)
         button.classList.add(`active`)
     }
 
-    clear_changing() {
+    static clear_changing() {
         this.changing = false
 
         this.clear_changing_timeout = setTimeout(() => {
@@ -123,5 +121,3 @@ class ChangeClass {
         }, this.clear_delay)
     }
 }
-
-const Change = new ChangeClass()

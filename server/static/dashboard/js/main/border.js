@@ -4,22 +4,20 @@ The border between the items of the container
 
 */
 
-class BorderClass {
-    constructor() {
-        this.default_mode = `solid`
-        this.ls_name = `border`
+class Border {
+    static default_mode = `solid`
+    static ls_name = `border`
 
-        this.modes = [
-            {value: `solid`, name: `Solid`, info: `Normal solid border`},
-            {value: `dotted`, name: `Dotted`, info: `Dotted border`},
-            {value: `dashed`, name: `Dashed`, info: `Dashed border`},
-            {value: `bigger`, name: `Bigger`, info: `Normal border but twice as thick`},
-            {value: App.separator},
-            {value: `none`, name: `None`, info: `No border`},
-        ]
-    }
+    static modes = [
+        {value: `solid`, name: `Solid`, info: `Normal solid border`},
+        {value: `dotted`, name: `Dotted`, info: `Dotted border`},
+        {value: `dashed`, name: `Dashed`, info: `Dashed border`},
+        {value: `bigger`, name: `Bigger`, info: `Normal border but twice as thick`},
+        {value: App.separator},
+        {value: `none`, name: `None`, info: `No border`},
+    ]
 
-    setup() {
+    static setup() {
         let border = DOM.el(`#border`)
         this.mode = this.load_border()
 
@@ -41,12 +39,12 @@ class BorderClass {
         this.apply()
     }
 
-    change(value) {
+    static change(value) {
         this.mode = value
         Utils.save(this.ls_name, value)
     }
 
-    apply() {
+    static apply() {
         let border
 
         if (this.mode === `none`) {
@@ -62,9 +60,7 @@ class BorderClass {
         document.documentElement.style.setProperty(`--border`, border)
     }
 
-    load_border() {
+    static load_border() {
         return Utils.load_modes(this.ls_name, this.modes, this.default_mode)
     }
 }
-
-const Border = new BorderClass()

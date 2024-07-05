@@ -4,13 +4,11 @@ The picker stores owned curls
 
 */
 
-class PickerClass {
-    constructor() {
-        this.max_items = 1000
-        this.ls_name = `picker`
-    }
+class Picker {
+    static max_items = 1000
+    static ls_name = `picker`
 
-    setup() {
+    static setup() {
         let picker = DOM.el(`#picker`)
 
         DOM.ev(picker, `click`, (e) => {
@@ -26,12 +24,12 @@ class PickerClass {
         }
     }
 
-    get_items() {
+    static get_items() {
         let saved = Utils.load_array(this.ls_name)
         return JSON.parse(saved)
     }
 
-    add() {
+    static add() {
         let curl = DOM.el(`#change_curl`).value.toLowerCase()
         let key = DOM.el(`#change_key`).value
         let cleaned = [{curl, key}]
@@ -51,7 +49,7 @@ class PickerClass {
         Utils.save(this.ls_name, JSON.stringify(cleaned))
     }
 
-    show(e) {
+    static show(e) {
         let items = []
         let picker_items = this.get_items()
 
@@ -109,17 +107,17 @@ class PickerClass {
         NeedContext.show({items: items, e: e})
     }
 
-    export() {
+    static export() {
         Windows.alert_export(this.get_items())
     }
 
-    import() {
+    static import() {
         Windows.prompt({title: `Paste Data`, callback: (value) => {
             this.import_submit(value)
         }, message: `You get this data in Export`})
     }
 
-    import_submit(data) {
+    static import_submit(data) {
         if (!data) {
             return
         }
@@ -134,19 +132,19 @@ class PickerClass {
         }
     }
 
-    clear() {
+    static clear() {
         Windows.confirm({title: `Clear Picker`, ok: () => {
             Utils.save(this.ls_name, `[]`)
         }, message: `Remove all items from the picker`})
     }
 
-    remove_item(curl) {
+    static remove_item(curl) {
         Windows.confirm({title: `Remove Picker Item`, ok: () => {
             this.do_remove_item(curl)
         }, message: curl})
     }
 
-    do_remove_item(curl) {
+    static do_remove_item(curl) {
         let cleaned = []
 
         for (let item of this.get_items()) {
@@ -160,5 +158,3 @@ class PickerClass {
         Utils.save(this.ls_name, JSON.stringify(cleaned))
     }
 }
-
-const Picker = new PickerClass()

@@ -4,12 +4,10 @@ This shows an intro on the first visit
 
 */
 
-class IntroClass {
-    constructor() {
-        this.ls_name = `intro_shown`
-    }
+class Intro {
+    static ls_name = `intro_shown`
 
-    setup() {
+    static setup() {
         let shown = this.load_intro()
 
         if (!shown) {
@@ -18,17 +16,15 @@ class IntroClass {
         }
     }
 
-    save() {
+    static save() {
         Utils.save(this.ls_name, true)
     }
 
-    load_intro() {
+    static load_intro() {
         return Utils.load_boolean(this.ls_name, false)
     }
 
-    show() {
+    static show() {
         Windows.alert({title: `Curls ${App.version}`, message: App.intro})
     }
 }
-
-const Intro = new IntroClass()

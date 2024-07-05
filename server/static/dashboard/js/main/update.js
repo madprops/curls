@@ -4,30 +4,28 @@ Update manager
 
 */
 
-class UpdateClass {
-    constructor() {
-        this.default_mode = `minutes_5`
-        this.enabled = false
-        this.delay = App.MINUTE * 5
-        this.debouncer_delay = 250
-        this.updating = false
-        this.clear_delay = 800
-        this.ls_name = `update`
+class Update {
+    static default_mode = `minutes_5`
+    static enabled = false
+    static delay = App.MINUTE * 5
+    static debouncer_delay = 250
+    static updating = false
+    static clear_delay = 800
+    static ls_name = `update`
 
-        this.modes = [
-            {value: `now`, name: `Update`, skip: true, info: `Update now`},
-            {value: App.separator},
-            {value: `minutes_1`, name: `1 Minute`, info: `Update automatically every minute`},
-            {value: `minutes_5`, name: `5 Minutes`, info: `Update automatically every 5 minutes`},
-            {value: `minutes_10`, name: `10 Minutes`, info: `Update automatically every 10 minutes`},
-            {value: `minutes_30`, name: `30 Minutes`, info: `Update automatically every 30 minutes`},
-            {value: `minutes_60`, name: `60 Minutes`, info: `Update automatically every hour`},
-            {value: App.separator},
-            {value: `disabled`, name: `Disabled`},
-        ]
-    }
+    static modes = [
+        {value: `now`, name: `Update`, skip: true, info: `Update now`},
+        {value: App.separator},
+        {value: `minutes_1`, name: `1 Minute`, info: `Update automatically every minute`},
+        {value: `minutes_5`, name: `5 Minutes`, info: `Update automatically every 5 minutes`},
+        {value: `minutes_10`, name: `10 Minutes`, info: `Update automatically every 10 minutes`},
+        {value: `minutes_30`, name: `30 Minutes`, info: `Update automatically every 30 minutes`},
+        {value: `minutes_60`, name: `60 Minutes`, info: `Update automatically every hour`},
+        {value: App.separator},
+        {value: `disabled`, name: `Disabled`},
+    ]
 
-    setup() {
+    static setup() {
         let updater = DOM.el(`#updater`)
         this.mode = this.load_update()
 
@@ -52,11 +50,11 @@ class UpdateClass {
         this.check()
     }
 
-    load_update() {
+    static load_update() {
         return Utils.load_modes(this.ls_name, this.modes, this.default_mode)
     }
 
-    check() {
+    static check() {
         let mode = this.mode
 
         if (mode.startsWith(`minutes_`)) {
@@ -71,7 +69,7 @@ class UpdateClass {
         this.restart()
     }
 
-    restart() {
+    static restart() {
         clearTimeout(this.timeout)
 
         if (this.enabled) {
@@ -79,17 +77,17 @@ class UpdateClass {
         }
     }
 
-    start_timeout() {
+    static start_timeout() {
         this.timeout = setTimeout(() => {
             this.update()
         }, this.delay)
     }
 
-    update(args) {
+    static update(args) {
         this.debouncer.call(args)
     }
 
-    do_update(args = {}) {
+    static do_update(args = {}) {
         this.debouncer.cancel()
         clearTimeout(App.timeout)
 
@@ -104,7 +102,7 @@ class UpdateClass {
         this.restart()
     }
 
-    async fetch(args) {
+    static async fetch(args) {
         Utils.info(`Update: Trigger`)
 
         if (this.updating) {
@@ -182,13 +180,13 @@ class UpdateClass {
         this.clear()
     }
 
-    show_updating() {
+    static show_updating() {
         let button = DOM.el(`#updater`)
         clearTimeout(this.clear_timeout)
         button.classList.add(`active`)
     }
 
-    clear() {
+    static clear() {
         this.updating = false
 
         this.clear_timeout = setTimeout(() => {
@@ -197,7 +195,7 @@ class UpdateClass {
         }, this.clear_delay)
     }
 
-    change(mode) {
+    static change(mode) {
         if (mode === `now`) {
             this.update()
             return
@@ -208,5 +206,3 @@ class UpdateClass {
         this.check()
     }
 }
-
-const Update = new UpdateClass()

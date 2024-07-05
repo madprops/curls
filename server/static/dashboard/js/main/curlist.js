@@ -7,17 +7,15 @@ Like navigation, selection, filtering
 
 */
 
-class CurlistClass {
-    constructor() {
-        this.enabled = true
-        this.mouse_down = false
-        this.mouse_selected = false
-        this.filter_debouncer_delay = 250
-        this.ls_name = `curlist_enabled`
-        this.selected_id = 0
-    }
+class Curlist {
+    static enabled = true
+    static mouse_down = false
+    static mouse_selected = false
+    static filter_debouncer_delay = 250
+    static ls_name = `curlist_enabled`
+    static selected_id = 0
 
-    setup() {
+    static setup() {
         let container = DOM.el(`#curlist_container`)
         let curlist = DOM.el(`#curlist`)
         let curlist_top = DOM.el(`#curlist_top`)
@@ -187,7 +185,7 @@ class CurlistClass {
         this.update()
     }
 
-    update(curls) {
+    static update(curls) {
         let curlist = DOM.el(`#curlist`)
         curlist.innerHTML = ``
 
@@ -222,19 +220,19 @@ class CurlistClass {
         App.update_autocomplete()
     }
 
-    update_top() {
+    static update_top() {
         let curlist_top = DOM.el(`#curlist_top`)
         let curls = Curls.get()
         curlist_top.textContent = `Curls (${curls.length})`
     }
 
-    copy() {
+    static copy() {
         let curls = Curls.get()
         let text = curls.join(` `)
         Utils.copy_to_clipboard(text)
     }
 
-    show_menu(e) {
+    static show_menu(e) {
         let curls = Curls.get()
         let items
 
@@ -334,11 +332,11 @@ class CurlistClass {
         })
     }
 
-    load_enabled() {
+    static load_enabled() {
         return Utils.load_boolean(this.ls_name)
     }
 
-    check_enabled() {
+    static check_enabled() {
         if (this.enabled) {
             this.show()
         }
@@ -347,17 +345,17 @@ class CurlistClass {
         }
     }
 
-    show() {
+    static show() {
         DOM.show(`#left_side`)
         this.enabled = true
     }
 
-    hide() {
+    static hide() {
         DOM.hide(`#left_side`)
         this.enabled = false
     }
 
-    toggle() {
+    static toggle() {
         if (this.enabled) {
             this.hide()
         }
@@ -368,7 +366,7 @@ class CurlistClass {
         Utils.save(this.ls_name, this.enabled)
     }
 
-    sort(how) {
+    static sort(how) {
         let w = how === `asc` ? `Ascending` : `Descending`
 
         Windows.confirm({title: `Sort Curls`, ok: () => {
@@ -376,7 +374,7 @@ class CurlistClass {
         }, message: `${w} Order`})
     }
 
-    do_sort(how) {
+    static do_sort(how) {
         let curls = Curls.get()
 
         if (how === `asc`) {
@@ -391,7 +389,7 @@ class CurlistClass {
         Sort.sort_if_order()
     }
 
-    export() {
+    static export() {
         let curlists = {}
 
         for (let color in App.colors) {
@@ -412,13 +410,13 @@ class CurlistClass {
         Windows.alert_export(curlists)
     }
 
-    import() {
+    static import() {
         Windows.prompt({title: `Paste Data`, callback: (value) => {
             this.import_submit(value)
         }, message: `You get this data in Export`})
     }
 
-    import_submit(data) {
+    static import_submit(data) {
         if (!data) {
             return
         }
@@ -452,7 +450,7 @@ class CurlistClass {
         }
     }
 
-    drag_events() {
+    static drag_events() {
         let container = DOM.el(`#curlist`)
 
         DOM.ev(container, `dragstart`, (e) => {
@@ -505,7 +503,7 @@ class CurlistClass {
         })
     }
 
-    get_curls() {
+    static get_curls() {
         let elements = this.get_elements()
         let curls = []
 
@@ -516,7 +514,7 @@ class CurlistClass {
         return curls
     }
 
-    select_item(item) {
+    static select_item(item) {
         let items = this.get_elements()
 
         for (let it of items) {
@@ -526,7 +524,7 @@ class CurlistClass {
         this.do_select_item({item: item})
     }
 
-    do_select_item(args = {}) {
+    static do_select_item(args = {}) {
         let def_args = {
             block: `nearest`,
             peek: true,
@@ -555,12 +553,12 @@ class CurlistClass {
         args.item.dataset.selected_id = this.selected_id
     }
 
-    do_deselect_item(item) {
+    static do_deselect_item(item) {
         item.classList.remove(`selected`)
         item.dataset.selected_id = 0
     }
 
-    select_range(item) {
+    static select_range(item) {
         let selected = this.get_selected_items()
 
         if (!selected.length) {
@@ -617,7 +615,7 @@ class CurlistClass {
         }
     }
 
-    do_select_range(item, start, end, direction) {
+    static do_select_range(item, start, end, direction) {
         let items = this.get_visible()
         let select = []
 
@@ -654,7 +652,7 @@ class CurlistClass {
         Container.highlight({curl: curl})
     }
 
-    select_toggle(item) {
+    static select_toggle(item) {
         if (item.classList.contains(`selected`)) {
             this.do_deselect_item(item)
         }
@@ -663,7 +661,7 @@ class CurlistClass {
         }
     }
 
-    get_selected_curls() {
+    static get_selected_curls() {
         let items = this.get_elements()
         let selected_items = items.filter(x => x.classList.contains(`selected`))
         let curls = []
@@ -675,12 +673,12 @@ class CurlistClass {
         return curls
     }
 
-    get_selected_items() {
+    static get_selected_items() {
         let items = this.get_elements()
         return items.filter(x => x.classList.contains(`selected`))
     }
 
-    deselect() {
+    static deselect() {
         let items = this.get_elements()
 
         for (let item of items) {
@@ -691,16 +689,16 @@ class CurlistClass {
         this.selected_id = 0
     }
 
-    get_elements() {
+    static get_elements() {
         return DOM.els(`#curlist .curlist_item`)
     }
 
-    get_item(curl) {
+    static get_item(curl) {
         let items = this.get_elements()
         return items.find(x => x.dataset.curl === curl)
     }
 
-    select_vertical(direction, shift) {
+    static select_vertical(direction, shift) {
         if (Block.charge(`curlist_vertical`)) {
             return
         }
@@ -798,24 +796,24 @@ class CurlistClass {
         }
     }
 
-    focus() {
+    static focus() {
         DOM.el(`#curlist`).focus()
     }
 
-    get_visible() {
+    static get_visible() {
         let els = this.get_elements()
         return els.filter(x => !x.classList.contains(`hidden`))
     }
 
-    get_filter_value() {
+    static get_filter_value() {
         return DOM.el(`#curlist_filter`).value.toLowerCase().trim()
     }
 
-    filter() {
+    static filter() {
         this.filter_debouncer.call()
     }
 
-    do_filter() {
+    static do_filter() {
         this.filter_debouncer.cancel()
         let els = this.get_elements()
         let value = this.get_filter_value()
@@ -840,11 +838,11 @@ class CurlistClass {
         }
     }
 
-    blank_filter() {
+    static blank_filter() {
         DOM.el(`#curlist_filter`).value = ``
     }
 
-    clear_filter() {
+    static clear_filter() {
         this.blank_filter()
         let els = this.get_elements()
 
@@ -859,11 +857,11 @@ class CurlistClass {
         this.deselect()
     }
 
-    extract_item(item) {
+    static extract_item(item) {
         return item.closest(`.curlist_item`)
     }
 
-    extract_curl(item) {
+    static extract_curl(item) {
         if (item) {
             return item.dataset.curl
         }
@@ -872,7 +870,7 @@ class CurlistClass {
         }
     }
 
-    focus_item(curl) {
+    static focus_item(curl) {
         let item = this.get_item(curl)
 
         if (item) {
@@ -880,7 +878,7 @@ class CurlistClass {
         }
     }
 
-    move_up() {
+    static move_up() {
         let items = this.get_elements()
         let selected = this.get_selected_items()
         let first_index = items.indexOf(selected[0])
@@ -899,7 +897,7 @@ class CurlistClass {
         this.save_after_move()
     }
 
-    move_down() {
+    static move_down() {
         let items = this.get_elements()
         let selected = this.get_selected_items()
         let last_index = items.indexOf(Utils.last(selected))
@@ -918,13 +916,13 @@ class CurlistClass {
         this.save_after_move()
     }
 
-    save_after_move() {
+    static save_after_move() {
         let curls = this.get_curls()
         Curls.save(curls)
         Sort.sort_if_order()
     }
 
-    select_items(curls) {
+    static select_items(curls) {
         let items = this.get_visible()
         this.deselect()
 
@@ -943,7 +941,7 @@ class CurlistClass {
         }
     }
 
-    mousedown(e) {
+    static mousedown(e) {
         let item = this.extract_item(e.target)
 
         if (item) {
@@ -954,12 +952,12 @@ class CurlistClass {
         this.mouse_selected = false
     }
 
-    mouseup() {
+    static mouseup() {
         this.mouse_down = false
         this.mouse_selected = false
     }
 
-    mouseover(e) {
+    static mouseover(e) {
         if (!e.target.closest(`.curlist_item`)) {
             return
         }
@@ -977,7 +975,7 @@ class CurlistClass {
         this.mouse_selected = true
     }
 
-    get_prev_item() {
+    static get_prev_item() {
         let items = this.get_visible()
         let prev_item = null
 
@@ -998,5 +996,3 @@ class CurlistClass {
         return prev_item
     }
 }
-
-let Curlist = new CurlistClass()

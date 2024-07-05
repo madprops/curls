@@ -4,12 +4,10 @@ This creates and shows modal windows
 
 */
 
-class WindowsClass {
-    constructor() {
-        this.max_items = 1000
-    }
+class Windows {
+    static max_items = 1000
 
-    create(color) {
+    static create(color) {
         let common = {
             enable_titlebar: true,
             center_titlebar: true,
@@ -21,7 +19,7 @@ class WindowsClass {
         }))
     }
 
-    setup() {
+    static setup() {
         let alert_template = DOM.el(`#alert_template`)
         let alert_html = alert_template.innerHTML
         this.alert_window = this.create(`green`)
@@ -76,7 +74,7 @@ class WindowsClass {
         })
     }
 
-    alert(args = {}) {
+    static alert(args = {}) {
         let def_args = {
             title: `Information`,
             message: ``,
@@ -117,13 +115,13 @@ class WindowsClass {
         this.alert_window.show()
     }
 
-    alert_copy() {
+    static alert_copy() {
         let text = DOM.el(`#alert_message`)
         Utils.copy_to_clipboard(text.textContent)
         this.alert_window.close()
     }
 
-    confirm(args = {}) {
+    static confirm(args = {}) {
         let def_args = {
             message: ``,
         }
@@ -144,13 +142,13 @@ class WindowsClass {
         }
     }
 
-    prompt_submit() {
+    static prompt_submit() {
         let value = DOM.el(`#prompt_input`).value.trim()
         this.prompt_callback(value)
         this.prompt_window.close()
     }
 
-    prompt(args = {}) {
+    static prompt(args = {}) {
         let def_args = {
             value: ``,
             message: ``,
@@ -175,10 +173,8 @@ class WindowsClass {
         input.focus()
     }
 
-    alert_export(data) {
+    static alert_export(data) {
         let data_str = Utils.sanitize(JSON.stringify(data))
         this.alert({title: `Copy the data below`, message: data_str, copy: true, ok: false})
     }
 }
-
-const Windows = new WindowsClass()

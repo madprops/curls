@@ -4,28 +4,26 @@ This is the filter for the container
 
 */
 
-class FilterClass {
-    constructor() {
-        this.debouncer_delay = 250
-        this.default_mode = `all`
-        this.ls_name = `filter`
+class Filter {
+    static debouncer_delay = 250
+    static default_mode = `all`
+    static ls_name = `filter`
 
-        this.modes = [
-            {value: `all`, name: `All`, info: `Show all curls`},
-            {value: App.separator},
-            {value: `today`, name: `Today`, info: `Show the curls that changed today`},
-            {value: `week`, name: `Week`, info: `Show the curls that changed this week`},
-            {value: `month`, name: `Month`, info: `Show the curls that changed this month`},
-            {value: App.separator},
-            {value: `curl`, name: `Curl`, info: `Filter by curl`},
-            {value: `status`, name: `Status`, info: `Filter by status`},
-            {value: `date`, name: `Date`, info: `Filter by date`},
-            {value: App.separator},
-            {value: `owned`, name: `Owned`, info: `Show the curls that you control`},
-        ]
-    }
+    static modes = [
+        {value: `all`, name: `All`, info: `Show all curls`},
+        {value: App.separator},
+        {value: `today`, name: `Today`, info: `Show the curls that changed today`},
+        {value: `week`, name: `Week`, info: `Show the curls that changed this week`},
+        {value: `month`, name: `Month`, info: `Show the curls that changed this month`},
+        {value: App.separator},
+        {value: `curl`, name: `Curl`, info: `Filter by curl`},
+        {value: `status`, name: `Status`, info: `Filter by status`},
+        {value: `date`, name: `Date`, info: `Filter by date`},
+        {value: App.separator},
+        {value: `owned`, name: `Owned`, info: `Show the curls that you control`},
+    ]
 
-    setup() {
+    static setup() {
         let filter = DOM.el(`#filter`)
 
         DOM.ev(filter, `keydown`, (e) => {
@@ -66,11 +64,11 @@ class FilterClass {
         })
     }
 
-    load_filter() {
+    static load_filter() {
         return Utils.load_modes(this.ls_name, this.modes, this.default_mode)
     }
 
-    change(value) {
+    static change(value) {
         if (this.mode === value) {
             return
         }
@@ -81,7 +79,7 @@ class FilterClass {
         Utils.save(this.ls_name, value)
     }
 
-    unfilter() {
+    static unfilter() {
         let els = DOM.els(`#container .item`)
 
         if (!els.length) {
@@ -93,16 +91,16 @@ class FilterClass {
         }
     }
 
-    clear() {
+    static clear() {
         DOM.el(`#filter`).value = ``
         this.unfilter()
     }
 
-    filter() {
+    static filter() {
         this.debouncer.call()
     }
 
-    do_filter() {
+    static do_filter() {
         this.debouncer.cancel()
         let els = Container.get_items()
 
@@ -220,7 +218,7 @@ class FilterClass {
         }
     }
 
-    check() {
+    static check() {
         let filter = DOM.el(`#filter`)
 
         if (filter.value || (this.mode !== this.default_mode)) {
@@ -228,9 +226,7 @@ class FilterClass {
         }
     }
 
-    focus() {
+    static focus() {
         DOM.el(`#filter`).focus()
     }
 }
-
-const Filter = new FilterClass()

@@ -4,19 +4,17 @@ These are curl operations
 
 */
 
-class CurlsClass {
-    constructor() {
-        this.max_curls = 100
-        this.max_length = 20
-    }
+class Curls {
+    static max_curls = 100
+    static max_length = 20
 
-    add(where) {
+    static add(where) {
         Windows.prompt({title: `Add Curls`, callback: (value) => {
             this.add_submit(where, value)
         }, message: `Enter one or more curls`})
     }
 
-    add_submit(where, curls) {
+    static add_submit(where, curls) {
         if (!curls) {
             return
         }
@@ -44,7 +42,7 @@ class CurlsClass {
         }
     }
 
-    do_add(args = {}) {
+    static do_add(args = {}) {
         let def_args = {
             where: `top`,
             curl: ``,
@@ -82,7 +80,7 @@ class CurlsClass {
         return true
     }
 
-    add_owned(curl) {
+    static add_owned(curl) {
         let curls = this.get()
 
         if (!curls.includes(curl)) {
@@ -90,7 +88,7 @@ class CurlsClass {
         }
     }
 
-    to_top(curls) {
+    static to_top(curls) {
         let cleaned = [...curls]
 
         for (let curl of this.get()) {
@@ -102,7 +100,7 @@ class CurlsClass {
         this.after_move(cleaned, curls, curls[0])
     }
 
-    to_bottom(curls) {
+    static to_bottom(curls) {
         let cleaned = []
 
         for (let curl of this.get()) {
@@ -115,7 +113,7 @@ class CurlsClass {
         this.after_move(cleaned, curls, Utils.last(curls))
     }
 
-    after_move(new_curls, curls, leader) {
+    static after_move(new_curls, curls, leader) {
         this.save(new_curls)
         Curlist.update()
         Sort.sort_if_order()
@@ -132,12 +130,12 @@ class CurlsClass {
         Curlist.focus_item(leader)
     }
 
-    save(curls, color = Colors.mode) {
+    static save(curls, color = Colors.mode) {
         let name = this.get_name(color)
         Utils.save(name, JSON.stringify(curls))
     }
 
-    get(color = Colors.mode) {
+    static get(color = Colors.mode) {
         let name = this.get_name(color)
         let saved = Utils.load_array(name)
 
@@ -150,13 +148,13 @@ class CurlsClass {
         }
     }
 
-    replace() {
+    static replace() {
         Windows.prompt({title: `Replace Curls`, callback: (value) => {
             this.replace_submit(value)
         }, message: `Replace the entire list with this`})
     }
 
-    replace_submit(curls) {
+    static replace_submit(curls) {
         if (!curls) {
             return
         }
@@ -183,18 +181,18 @@ class CurlsClass {
         }
     }
 
-    clear(color = Colors.mode) {
+    static clear(color = Colors.mode) {
         let name = this.get_name(color)
         Utils.save(name, ``)
     }
 
-    edit(curl) {
+    static edit(curl) {
         Windows.prompt({title: `Edit Curl`, callback: (value) => {
             this.edit_submit(curl, value)
         }, value: curl, message: `Change the name of this curl`})
     }
 
-    edit_submit(curl, new_curl) {
+    static edit_submit(curl, new_curl) {
         if (!new_curl) {
             return
         }
@@ -202,7 +200,7 @@ class CurlsClass {
         this.do_edit(curl, new_curl)
     }
 
-    do_edit(curl, new_curl) {
+    static do_edit(curl, new_curl) {
         if (!this.check(new_curl)) {
             return
         }
@@ -225,7 +223,7 @@ class CurlsClass {
         Update.update({ curls: [new_curl] })
     }
 
-    check = (curl) => {
+    static check(curl) {
         if (!curl) {
             return false
         }
@@ -241,7 +239,7 @@ class CurlsClass {
         return true
     }
 
-    clean(curls) {
+    static clean(curls) {
         let cleaned = []
 
         for (let curl of curls) {
@@ -259,11 +257,11 @@ class CurlsClass {
         return cleaned
     }
 
-    get_name(color) {
+    static get_name(color) {
         return `curls_${color}`
     }
 
-    clear_all() {
+    static clear_all() {
         Windows.confirm({title: `Clear Curls`, ok: () => {
             for (let color in App.colors) {
                 this.clear(color)
@@ -274,7 +272,7 @@ class CurlsClass {
         }, message: `Remove all curls in all colors`})
     }
 
-    remove(curls) {
+    static remove(curls) {
         let cleaned = []
         let removed = []
 
@@ -294,12 +292,12 @@ class CurlsClass {
         this.save_cleaned(cleaned, removed)
     }
 
-    remove_selected() {
+    static remove_selected() {
         let curls = Curlist.get_selected_curls()
         this.remove(curls)
     }
 
-    remove_all() {
+    static remove_all() {
         Windows.confirm({title: `Remove All Curls`, ok: () => {
             this.clear()
             Curlist.update()
@@ -308,7 +306,7 @@ class CurlsClass {
         }, message: `Remove all curls in the current color`})
     }
 
-    show_remove_menu(e) {
+    static show_remove_menu(e) {
         let items = [
             {
                 text: `Remove One`,
@@ -345,13 +343,13 @@ class CurlsClass {
         NeedContext.show({items: items, e: e})
     }
 
-    remove_one() {
+    static remove_one() {
         Windows.prompt({title: `Remove Curl`, callback: (value) => {
             this.remove_one_submit(value)
         }, message: `Enter the curl to remove`})
     }
 
-    remove_one_submit(curl) {
+    static remove_one_submit(curl) {
         if (!curl) {
             return
         }
@@ -359,7 +357,7 @@ class CurlsClass {
         this.do_remove(curl)
     }
 
-    do_remove(curl, remove_item = true) {
+    static do_remove(curl, remove_item = true) {
         let curls = this.get()
         let cleaned = []
 
@@ -381,7 +379,7 @@ class CurlsClass {
         }
     }
 
-    remove_not_found() {
+    static remove_not_found() {
         let missing = Items.get_missing().map(x => x.curl)
         let curls = this.get()
         let cleaned = []
@@ -403,7 +401,7 @@ class CurlsClass {
         this.save_cleaned(cleaned, removed)
     }
 
-    remove_empty() {
+    static remove_empty() {
         let curls = this.get()
         let cleaned = []
         let removed = []
@@ -430,7 +428,7 @@ class CurlsClass {
         this.save_cleaned(cleaned, removed)
     }
 
-    remove_old() {
+    static remove_old() {
         let curls = this.get()
         let now = Utils.now()
         let cleaned = []
@@ -464,7 +462,7 @@ class CurlsClass {
         this.save_cleaned(cleaned, removed)
     }
 
-    save_cleaned(cleaned, removed) {
+    static save_cleaned(cleaned, removed) {
         let s = Utils.plural(removed.length, `Curl`, `Curls`)
         let curls = removed.join(`, `)
 
@@ -476,5 +474,3 @@ class CurlsClass {
         }, message: curls})
     }
 }
-
-const Curls = new CurlsClass()

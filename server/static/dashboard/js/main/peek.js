@@ -6,16 +6,14 @@ It's closed automatically on focus changes
 
 */
 
-class PeekClass {
-    constructor() {
-        this.enabled = true
-        this.open = false
-        this.curl = ``
-        this.debouncer_delay = 50
-        this.ls_name = `peek_enabled`
-    }
+class Peek {
+    static enabled = true
+    static open = false
+    static curl = ``
+    static debouncer_delay = 50
+    static ls_name = `peek_enabled`
 
-    setup() {
+    static setup() {
         this.enabled = this.load_enabled()
 
         this.debouncer = Utils.create_debouncer((args) => {
@@ -23,19 +21,19 @@ class PeekClass {
         }, this.debouncer_delay)
     }
 
-    save_enabled() {
+    static save_enabled() {
         Utils.save(this.ls_name, this.enabled)
     }
 
-    load_enabled() {
+    static load_enabled() {
         return Utils.load_boolean(this.ls_name)
     }
 
-    show(args) {
+    static show(args) {
         this.debouncer.call(args)
     }
 
-    do_show(args = {}) {
+    static do_show(args = {}) {
         this.debouncer.cancel()
 
         let def_args = {
@@ -95,7 +93,7 @@ class PeekClass {
         this.curl = args.curl
     }
 
-    hide() {
+    static hide() {
         if (!this.open) {
             return
         }
@@ -105,5 +103,3 @@ class PeekClass {
         this.curl = ``
     }
 }
-
-const Peek = new PeekClass()

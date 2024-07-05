@@ -7,15 +7,13 @@ Charges are decreased over time
 
 */
 
-class BlockClass {
-    constructor() {
-        this.items = {}
-        this.interval_delay = 2000
-        this.date_delay = 500
-        this.relief = 0.1
-    }
+class Block {
+    static items = {}
+    static interval_delay = 2000
+    static date_delay = 500
+    static relief = 0.1
 
-    setup() {
+    static setup() {
         setInterval(() => {
             for (let name in this.items) {
                 let item = this.items[name]
@@ -32,7 +30,7 @@ class BlockClass {
         }, this.interval_delay)
     }
 
-    register(name, limit) {
+    static register(name, limit) {
         this.items[name] = {
             charge: 0,
             limit: limit,
@@ -40,7 +38,7 @@ class BlockClass {
         }
     }
 
-    charge(name) {
+    static charge(name) {
         let item = this.items[name]
         item.date = Utils.now()
 
@@ -52,5 +50,3 @@ class BlockClass {
         return false
     }
 }
-
-const Block = new BlockClass()
