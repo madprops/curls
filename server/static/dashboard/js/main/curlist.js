@@ -686,6 +686,7 @@ Curlist.deselect = () => {
     }
 
     Container.dehighlight()
+    Curlist.selected_id = 0
 }
 
 Curlist.get_elements = () => {
