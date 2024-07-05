@@ -57,7 +57,7 @@ App.setup_buttons = () => {
     let version = DOM.el(`#version`)
 
     DOM.ev(version, `click`, () => {
-        App.show_intro()
+        Intro.show()
     })
 }
 
