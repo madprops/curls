@@ -4,157 +4,161 @@ The picker stores owned curls
 
 */
 
-const Picker = {
-    max_items: 1000,
-    ls_name: `picker`,
-}
-
-Picker.setup = () => {
-    let picker = DOM.el(`#picker`)
-
-    DOM.ev(picker, `click`, (e) => {
-        Picker.show(e)
-    })
-
-    let items = Picker.get_items()
-
-    if (items.length) {
-        let first = items[0]
-        DOM.el(`#change_curl`).value = first.curl
-        DOM.el(`#change_key`).value = first.key
-    }
-}
-
-Picker.get_items = () => {
-    let saved = Utils.load_array(Picker.ls_name)
-    return JSON.parse(saved)
-}
-
-Picker.add = () => {
-    let curl = DOM.el(`#change_curl`).value.toLowerCase()
-    let key = DOM.el(`#change_key`).value
-    let cleaned = [{curl, key}]
-
-    for (let item of Picker.get_items()) {
-        if (item.curl === curl) {
-            continue
-        }
-
-        cleaned.push(item)
-
-        if (cleaned.length >= Picker.max_items) {
-            break
-        }
+class PickerClass {
+    constructor () {
+        this.max_items = 1000
+        this.ls_name = `picker`
     }
 
-    Utils.save(Picker.ls_name, JSON.stringify(cleaned))
-}
+    setup () {
+        let picker = DOM.el(`#picker`)
 
-Picker.show = (e) => {
-    let items = []
-    let picker_items = Picker.get_items()
-
-    if (!picker_items.length) {
-        items.push({
-            text: `Import`,
-            action: () => {
-                Picker.import()
-            },
+        DOM.ev(picker, `click`, (e) => {
+            this.show(e)
         })
-    }
-    else {
-        for (let item of picker_items) {
-            items.push({
-                text: item.curl,
-                action: () => {
-                    DOM.el(`#change_curl`).value = item.curl
-                    DOM.el(`#change_key`).value = item.key
-                    Picker.add()
-                },
-                alt_action: () => {
-                    Picker.remove_item(item.curl)
-                },
-            })
-        }
+
+        let items = this.get_items()
 
         if (items.length) {
+            let first = items[0]
+            DOM.el(`#change_curl`).value = first.curl
+            DOM.el(`#change_key`).value = first.key
+        }
+    }
+
+    get_items () {
+        let saved = Utils.load_array(this.ls_name)
+        return JSON.parse(saved)
+    }
+
+    add () {
+        let curl = DOM.el(`#change_curl`).value.toLowerCase()
+        let key = DOM.el(`#change_key`).value
+        let cleaned = [{curl, key}]
+
+        for (let item of this.get_items()) {
+            if (item.curl === curl) {
+                continue
+            }
+
+            cleaned.push(item)
+
+            if (cleaned.length >= this.max_items) {
+                break
+            }
+        }
+
+        Utils.save(this.ls_name, JSON.stringify(cleaned))
+    }
+
+    show (e) {
+        let items = []
+        let picker_items = this.get_items()
+
+        if (!picker_items.length) {
             items.push({
-                separator: true,
+                text: `Import`,
+                action: () => {
+                    this.import()
+                },
+            })
+        }
+        else {
+            for (let item of picker_items) {
+                items.push({
+                    text: item.curl,
+                    action: () => {
+                        DOM.el(`#change_curl`).value = item.curl
+                        DOM.el(`#change_key`).value = item.key
+                        this.add()
+                    },
+                    alt_action: () => {
+                        this.remove_item(item.curl)
+                    },
+                })
+            }
+
+            if (items.length) {
+                items.push({
+                    separator: true,
+                })
+            }
+
+            items.push({
+                text: `Export`,
+                action: () => {
+                    this.export()
+                },
+            })
+
+            items.push({
+                text: `Import`,
+                action: () => {
+                    this.import()
+                },
+            })
+
+            items.push({
+                text: `Clear`,
+                action: () => {
+                    this.clear()
+                },
             })
         }
 
-        items.push({
-            text: `Export`,
-            action: () => {
-                Picker.export()
-            },
-        })
-
-        items.push({
-            text: `Import`,
-            action: () => {
-                Picker.import()
-            },
-        })
-
-        items.push({
-            text: `Clear`,
-            action: () => {
-                Picker.clear()
-            },
-        })
+        NeedContext.show({items: items, e: e})
     }
 
-    NeedContext.show({items: items, e: e})
-}
-
-Picker.export = () => {
-    Windows.alert_export(Picker.get_items())
-}
-
-Picker.import = () => {
-    Windows.prompt({title: `Paste Data`, callback: (value) => {
-        Picker.import_submit(value)
-    }, message: `You get this data in Export`})
-}
-
-Picker.import_submit = (data) => {
-    if (!data) {
-        return
+    export () {
+        Windows.alert_export(this.get_items())
     }
 
-    try {
-        let items = JSON.parse(data)
-        Utils.save(Picker.ls_name, JSON.stringify(items))
+    import () {
+        Windows.prompt({title: `Paste Data`, callback: (value) => {
+            this.import_submit(value)
+        }, message: `You get this data in Export`})
     }
-    catch (err) {
-        Utils.error(err)
-        Windows.alert({title: `Error`, message: err})
-    }
-}
 
-Picker.clear = () => {
-    Windows.confirm({title: `Clear Picker`, ok: () => {
-        Utils.save(Picker.ls_name, `[]`)
-    }, message: `Remove all items from the picker`})
-}
-
-Picker.remove_item = (curl) => {
-    Windows.confirm({title: `Remove Picker Item`, ok: () => {
-        Picker.do_remove_item(curl)
-    }, message: curl})
-}
-
-Picker.do_remove_item = (curl) => {
-    let cleaned = []
-
-    for (let item of Picker.get_items()) {
-        if (item.curl === curl) {
-            continue
+    import_submit (data) {
+        if (!data) {
+            return
         }
 
-        cleaned.push(item)
+        try {
+            let items = JSON.parse(data)
+            Utils.save(this.ls_name, JSON.stringify(items))
+        }
+        catch (err) {
+            Utils.error(err)
+            Windows.alert({title: `Error`, message: err})
+        }
     }
 
-    Utils.save(Picker.ls_name, JSON.stringify(cleaned))
+    clear () {
+        Windows.confirm({title: `Clear Picker`, ok: () => {
+            Utils.save(this.ls_name, `[]`)
+        }, message: `Remove all items from the picker`})
+    }
+
+    remove_item (curl) {
+        Windows.confirm({title: `Remove Picker Item`, ok: () => {
+            this.do_remove_item(curl)
+        }, message: curl})
+    }
+
+    do_remove_item (curl) {
+        let cleaned = []
+
+        for (let item of this.get_items()) {
+            if (item.curl === curl) {
+                continue
+            }
+
+            cleaned.push(item)
+        }
+
+        Utils.save(this.ls_name, JSON.stringify(cleaned))
+    }
 }
+
+const Picker = new PickerClass()

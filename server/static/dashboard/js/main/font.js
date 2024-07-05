@@ -22,7 +22,7 @@ class FontClass {
         this.mode = this.load_font()
 
         Combo.register({
-            title: `this Modes`,
+            title: `Font Modes`,
             items: this.modes,
             value: this.mode,
             element: font,
