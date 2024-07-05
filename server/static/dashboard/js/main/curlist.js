@@ -13,6 +13,7 @@ const Curlist = {
     mouse_selected: false,
     filter_debouncer_delay: 250,
     ls_name: `curlist_enabled`,
+    selected_id: 0,
 }
 
 Curlist.setup = () => {
@@ -548,12 +549,13 @@ Curlist.do_select_item = (args = {}) => {
         Container.highlight({curl: curl, behavior: args.highlight_behavior})
     }
 
-    args.item.dataset.selected = Utils.now()
+    args.item.dataset.selected_id = Curlist.selected_id
+    Curlist.selected_id += 1
 }
 
 Curlist.do_deselect_item = (item) => {
     item.classList.remove(`selected`)
-    item.dataset.selected = 0
+    item.dataset.selected_id = 0
 }
 
 Curlist.select_range = (item) => {
@@ -671,7 +673,7 @@ Curlist.deselect = () => {
     let items = Curlist.get_elements()
 
     for (let item of items) {
-        item.classList.remove(`selected`)
+        Curlist.do_deselect_item(item)
     }
 
     Container.dehighlight()
@@ -973,7 +975,10 @@ Curlist.get_prev_item = () => {
             continue
         }
 
-        if (parseInt(item.dataset.selected) > parseInt(prev_item.dataset.selected)) {
+        let id = parseInt(item.dataset.selected_id)
+        let prev_id = parseInt(prev_item.dataset.selected_id)
+
+        if (id > prev_id) {
             prev_item = item
         }
     }
