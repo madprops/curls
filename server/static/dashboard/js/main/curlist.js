@@ -7,991 +7,996 @@ Like navigation, selection, filtering
 
 */
 
-const Curlist = {
-    enabled: true,
-    mouse_down: false,
-    mouse_selected: false,
-    filter_debouncer_delay: 250,
-    ls_name: `curlist_enabled`,
-    selected_id: 0,
-}
-
-Curlist.setup = () => {
-    let container = DOM.el(`#curlist_container`)
-    let curlist = DOM.el(`#curlist`)
-    let curlist_top = DOM.el(`#curlist_top`)
-
-    let lines = [
-        `Add the curls you want to monitor here`,
-        `Double Click empty space to add curls`,
-        `Click on the header to show menu`,
-        `Right Click empty space to show menu`,
-        `Press Delete to remove selected curls`,
-    ]
-
-    container.title = lines.join(`\n`)
-
-    DOM.evs(curlist_top, [`click`, `contextmenu`], (e) => {
-        Curlist.show_menu(e)
-        e.preventDefault()
-    })
-
-    Curlist.enabled = Curlist.load_enabled()
-    Curlist.check_enabled()
-
-    DOM.ev(container, `contextmenu`, (e) => {
-        let item = Curlist.extract_item(e.target)
-        let curl = Curlist.extract_curl(item)
-
-        if (item) {
-            Items.show_menu({curl: curl, e: e})
-        }
-        else {
-            Curlist.show_menu(e)
-        }
-
-        e.preventDefault()
-    })
-
-    DOM.ev(container, `dblclick`, (e) => {
-        let item = Curlist.extract_item(e.target)
-
-        if (!item) {
-            Curls.add(`bottom`)
-        }
-    })
-
-    DOM.ev(container, `keydown`, (e) => {
-        if (e.key === `Delete`) {
-            Curls.remove_selected()
-            e.preventDefault()
-        }
-        else if (e.key === `ArrowUp`) {
-            if (e.ctrlKey) {
-                e.preventDefault()
-                Curlist.move_up()
-                return
-            }
-
-            Curlist.select_vertical(`up`, e.shiftKey)
-            e.preventDefault()
-        }
-        else if (e.key === `ArrowDown`) {
-            if (e.ctrlKey) {
-                e.preventDefault()
-                Curlist.move_down()
-                return
-            }
-
-            Curlist.select_vertical(`down`, e.shiftKey)
-            e.preventDefault()
-        }
-        else if (e.key === `c`) {
-            if (e.ctrlKey) {
-                Curlist.copy()
-                e.preventDefault()
-            }
-        }
-        else if (e.key === `Escape`) {
-            Peek.hide()
-            Curlist.deselect()
-        }
-    })
-
-    DOM.ev(container, `mousedown`, function(e) {
-        Curlist.mousedown(e)
-    })
-
-    DOM.ev(container, `mouseup`, function() {
-        Curlist.mouseup()
-    })
-
-    DOM.ev(container, `mouseover`, function(e) {
-        Curlist.mouseover(e)
-    })
-
-    DOM.ev(curlist, `click`, (e) => {
-        let item = Curlist.extract_item(e.target)
-
-        if (item) {
-            let selected = Curlist.get_selected_items()
-
-            if (e.shiftKey && selected.length) {
-                Curlist.select_range(item)
-            }
-            else if (e.ctrlKey && selected.length) {
-                Curlist.select_toggle(item)
-            }
-            else {
-                Curlist.select_item(item)
-            }
-        }
-    })
-
-    DOM.ev(curlist, `dblclick`, (e) => {
-        let item = Curlist.extract_item(e.target)
-        let curl = Curlist.extract_curl(item)
-
-        if (item) {
-            Curls.edit(curl)
-        }
-    })
-
-    DOM.ev(curlist, `auxclick`, (e) => {
-        let item = Curlist.extract_item(e.target)
-        let curl = Curlist.extract_curl(item)
-        let selected = Curlist.get_selected_items()
-
-        if (e.button === 1) {
-            if (item) {
-                if (selected.length && selected.includes(item)) {
-                    Curls.remove_selected()
-                }
-                else {
-                    Curlist.select_item(item)
-                    Curls.remove([curl])
-                }
-            }
-        }
-    })
-
-    let filter = DOM.el(`#curlist_filter`)
-
-    DOM.ev(filter, `keydown`, (e) => {
-        if (e.key === `Escape`) {
-            Curlist.clear_filter()
-            Peek.hide()
-        }
-        else if (e.key === `ArrowUp`) {
-            Curlist.select_vertical(`up`, e.shiftKey)
-            e.preventDefault()
-        }
-        else if (e.key === `ArrowDown`) {
-            Curlist.select_vertical(`down`, e.shiftKey)
-            e.preventDefault()
-        }
-        else {
-            Curlist.filter()
-        }
-    })
-
-    Curlist.filter_debouncer = Utils.create_debouncer(
-        Curlist.do_filter, Curlist.filter_debouncer_delay)
-
-    filter.value = ``
-
-    Block.register(`curlist_vertical`, 100)
-    Curlist.drag_events()
-    Curlist.update()
-}
-
-Curlist.update = (curls) => {
-    let curlist = DOM.el(`#curlist`)
-    curlist.innerHTML = ``
-
-    if (!curls) {
-        curls = Curls.get()
+class CurlistClass {
+    constructor () {
+        this.enabled = true
+        this.mouse_down = false
+        this.mouse_selected = false
+        this.filter_debouncer_delay = 250
+        this.ls_name = `curlist_enabled`
+        this.selected_id = 0
     }
 
-    for (let curl of curls) {
-        let item = DOM.create(`div`)
-        item.classList.add(`curlist_item`)
-        item.draggable = true
-        item.dataset.curl = curl
+    setup () {
+        let container = DOM.el(`#curlist_container`)
+        let curlist = DOM.el(`#curlist`)
+        let curlist_top = DOM.el(`#curlist_top`)
 
         let lines = [
-            `Click to peek`,
-            `Right Click to show menu`,
-            `Double Click to edit`,
-            `Middle Click to remove`,
+            `Add the curls you want to monitor here`,
+            `Double Click empty space to add curls`,
+            `Click on the header to show menu`,
+            `Right Click empty space to show menu`,
+            `Press Delete to remove selected curls`,
         ]
 
-        item.title = lines.join(`\n`)
-        let curl_ = DOM.create(`div`, `curlist_item_curl`)
-        curl_.textContent = curl
-        item.append(curl_)
+        container.title = lines.join(`\n`)
 
-        curlist.append(item)
+        DOM.evs(curlist_top, [`click`, `contextmenu`], (e) => {
+            this.show_menu(e)
+            e.preventDefault()
+        })
+
+        this.enabled = this.load_enabled()
+        this.check_enabled()
+
+        DOM.ev(container, `contextmenu`, (e) => {
+            let item = this.extract_item(e.target)
+            let curl = this.extract_curl(item)
+
+            if (item) {
+                Items.show_menu({curl: curl, e: e})
+            }
+            else {
+                this.show_menu(e)
+            }
+
+            e.preventDefault()
+        })
+
+        DOM.ev(container, `dblclick`, (e) => {
+            let item = this.extract_item(e.target)
+
+            if (!item) {
+                Curls.add(`bottom`)
+            }
+        })
+
+        DOM.ev(container, `keydown`, (e) => {
+            if (e.key === `Delete`) {
+                Curls.remove_selected()
+                e.preventDefault()
+            }
+            else if (e.key === `ArrowUp`) {
+                if (e.ctrlKey) {
+                    e.preventDefault()
+                    this.move_up()
+                    return
+                }
+
+                this.select_vertical(`up`, e.shiftKey)
+                e.preventDefault()
+            }
+            else if (e.key === `ArrowDown`) {
+                if (e.ctrlKey) {
+                    e.preventDefault()
+                    this.move_down()
+                    return
+                }
+
+                this.select_vertical(`down`, e.shiftKey)
+                e.preventDefault()
+            }
+            else if (e.key === `c`) {
+                if (e.ctrlKey) {
+                    this.copy()
+                    e.preventDefault()
+                }
+            }
+            else if (e.key === `Escape`) {
+                Peek.hide()
+                this.deselect()
+            }
+        })
+
+        DOM.ev(container, `mousedown`, function(e) {
+            this.mousedown(e)
+        })
+
+        DOM.ev(container, `mouseup`, function() {
+            this.mouseup()
+        })
+
+        DOM.ev(container, `mouseover`, function(e) {
+            this.mouseover(e)
+        })
+
+        DOM.ev(curlist, `click`, (e) => {
+            let item = this.extract_item(e.target)
+
+            if (item) {
+                let selected = this.get_selected_items()
+
+                if (e.shiftKey && selected.length) {
+                    this.select_range(item)
+                }
+                else if (e.ctrlKey && selected.length) {
+                    this.select_toggle(item)
+                }
+                else {
+                    this.select_item(item)
+                }
+            }
+        })
+
+        DOM.ev(curlist, `dblclick`, (e) => {
+            let item = this.extract_item(e.target)
+            let curl = this.extract_curl(item)
+
+            if (item) {
+                Curls.edit(curl)
+            }
+        })
+
+        DOM.ev(curlist, `auxclick`, (e) => {
+            let item = this.extract_item(e.target)
+            let curl = this.extract_curl(item)
+            let selected = this.get_selected_items()
+
+            if (e.button === 1) {
+                if (item) {
+                    if (selected.length && selected.includes(item)) {
+                        Curls.remove_selected()
+                    }
+                    else {
+                        this.select_item(item)
+                        Curls.remove([curl])
+                    }
+                }
+            }
+        })
+
+        let filter = DOM.el(`#curlist_filter`)
+
+        DOM.ev(filter, `keydown`, (e) => {
+            if (e.key === `Escape`) {
+                this.clear_filter()
+                Peek.hide()
+            }
+            else if (e.key === `ArrowUp`) {
+                this.select_vertical(`up`, e.shiftKey)
+                e.preventDefault()
+            }
+            else if (e.key === `ArrowDown`) {
+                this.select_vertical(`down`, e.shiftKey)
+                e.preventDefault()
+            }
+            else {
+                this.filter()
+            }
+        })
+
+        this.filter_debouncer = Utils.create_debouncer(() => {
+            this.do_filter()
+        }, this.filter_debouncer_delay)
+
+        filter.value = ``
+
+        Block.register(`curlist_vertical`, 100)
+        this.drag_events()
+        this.update()
     }
 
-    Curlist.update_top()
-    Curlist.blank_filter()
-    DOM.el(`#curlist_container`).scrollTop = 0
-    App.update_autocomplete()
-}
+    update (curls) {
+        let curlist = DOM.el(`#curlist`)
+        curlist.innerHTML = ``
 
-Curlist.update_top = () => {
-    let curlist_top = DOM.el(`#curlist_top`)
-    let curls = Curls.get()
-    curlist_top.textContent = `Curls (${curls.length})`
-}
+        if (!curls) {
+            curls = Curls.get()
+        }
 
-Curlist.copy = () => {
-    let curls = Curls.get()
-    let text = curls.join(` `)
-    Utils.copy_to_clipboard(text)
-}
+        for (let curl of curls) {
+            let item = DOM.create(`div`)
+            item.classList.add(`curlist_item`)
+            item.draggable = true
+            item.dataset.curl = curl
 
-Curlist.show_menu = (e) => {
-    let curls = Curls.get()
-    let items
+            let lines = [
+                `Click to peek`,
+                `Right Click to show menu`,
+                `Double Click to edit`,
+                `Middle Click to remove`,
+            ]
 
-    let data = [
-        {
-            separator: true,
-        },
-        {
-            text: `Export`,
-            action: () => {
-                Curlist.export()
-            }
-        },
-        {
-            text: `Import`,
-            action: () => {
-                Curlist.import()
-            }
-        },
-        {
-            text: `Clear`,
-            action: () => {
-                Curls.clear_all()
-            }
-        },
-    ]
+            item.title = lines.join(`\n`)
+            let curl_ = DOM.create(`div`, `curlist_item_curl`)
+            curl_.textContent = curl
+            item.append(curl_)
 
-    if (curls.length) {
-        items = [
-            {
-                text: `Add (Top)`,
-                action: () => {
-                    Curls.add(`top`)
-                }
-            },
-            {
-                text: `Add (Bottom)`,
-                action: () => {
-                    Curls.add(`bottom`)
-                }
-            },
+            curlist.append(item)
+        }
+
+        this.update_top()
+        this.blank_filter()
+        DOM.el(`#curlist_container`).scrollTop = 0
+        App.update_autocomplete()
+    }
+
+    update_top () {
+        let curlist_top = DOM.el(`#curlist_top`)
+        let curls = Curls.get()
+        curlist_top.textContent = `Curls (${curls.length})`
+    }
+
+    copy () {
+        let curls = Curls.get()
+        let text = curls.join(` `)
+        Utils.copy_to_clipboard(text)
+    }
+
+    show_menu (e) {
+        let curls = Curls.get()
+        let items
+
+        let data = [
             {
                 separator: true,
             },
             {
-                text: `Sort (Asc)`,
+                text: `Export`,
                 action: () => {
-                    Curlist.sort(`asc`)
+                    this.export()
                 }
             },
             {
-                text: `Sort (Desc)`,
+                text: `Import`,
                 action: () => {
-                    Curlist.sort(`desc`)
+                    this.import()
                 }
             },
             {
-                separator: true,
-            },
-            {
-                text: `Copy`,
+                text: `Clear`,
                 action: () => {
-                    Curlist.copy()
+                    Curls.clear_all()
                 }
             },
-            {
-                text: `Replace`,
-                action: () => {
-                    Curls.replace()
-                }
-            },
-            {
-                text: `Remove`,
-                action: (e) => {
-                    Curls.show_remove_menu(e)
-                }
-            },
-            ...data,
         ]
-    }
-    else {
-        items = [
-            {
-                text: `Add`,
-                action: () => {
-                    Curls.add(`top`)
-                }
-            },
-            ...data,
-        ]
-    }
 
-    NeedContext.show({
-        items: items, e: e, after_hide: () => {
-            Curlist.focus()
+        if (curls.length) {
+            items = [
+                {
+                    text: `Add (Top)`,
+                    action: () => {
+                        Curls.add(`top`)
+                    }
+                },
+                {
+                    text: `Add (Bottom)`,
+                    action: () => {
+                        Curls.add(`bottom`)
+                    }
+                },
+                {
+                    separator: true,
+                },
+                {
+                    text: `Sort (Asc)`,
+                    action: () => {
+                        this.sort(`asc`)
+                    }
+                },
+                {
+                    text: `Sort (Desc)`,
+                    action: () => {
+                        this.sort(`desc`)
+                    }
+                },
+                {
+                    separator: true,
+                },
+                {
+                    text: `Copy`,
+                    action: () => {
+                        this.copy()
+                    }
+                },
+                {
+                    text: `Replace`,
+                    action: () => {
+                        Curls.replace()
+                    }
+                },
+                {
+                    text: `Remove`,
+                    action: (e) => {
+                        Curls.show_remove_menu(e)
+                    }
+                },
+                ...data,
+            ]
         }
-    })
-}
-
-Curlist.load_enabled = () => {
-    return Utils.load_boolean(Curlist.ls_name)
-}
-
-Curlist.check_enabled = () => {
-    if (Curlist.enabled) {
-        Curlist.show()
-    }
-    else {
-        Curlist.hide()
-    }
-}
-
-Curlist.show = () => {
-    DOM.show(`#left_side`)
-    Curlist.enabled = true
-}
-
-Curlist.hide = () => {
-    DOM.hide(`#left_side`)
-    Curlist.enabled = false
-}
-
-Curlist.toggle = () => {
-    if (Curlist.enabled) {
-        Curlist.hide()
-    }
-    else {
-        Curlist.show()
-    }
-
-    Utils.save(Curlist.ls_name, Curlist.enabled)
-}
-
-Curlist.sort = (how) => {
-    let w = how === `asc` ? `Ascending` : `Descending`
-
-    Windows.confirm({title: `Sort Curls`, ok: () => {
-        Curlist.do_sort(how)
-    }, message: `${w} Order`})
-}
-
-Curlist.do_sort = (how) => {
-    let curls = Curls.get()
-
-    if (how === `asc`) {
-        curls.sort()
-    }
-    else if (how === `desc`) {
-        curls.sort().reverse()
-    }
-
-    Curls.save(curls)
-    Curlist.update()
-    Sort.sort_if_order()
-}
-
-Curlist.export = () => {
-    let curlists = {}
-
-    for (let color in App.colors) {
-        let curlist = Curls.get(color)
-
-        if (!curlist.length) {
-            continue
+        else {
+            items = [
+                {
+                    text: `Add`,
+                    action: () => {
+                        Curls.add(`top`)
+                    }
+                },
+                ...data,
+            ]
         }
 
-        curlists[color] = curlist
+        NeedContext.show({
+            items: items, e: e, after_hide: () => {
+                this.focus()
+            }
+        })
     }
 
-    if (!Object.keys(curlists).length) {
-        Windows.alert({message: `No curls to export`})
-        return
+    load_enabled () {
+        return Utils.load_boolean(this.ls_name)
     }
 
-    Windows.alert_export(curlists)
-}
-
-Curlist.import = () => {
-    Windows.prompt({title: `Paste Data`, callback: (value) => {
-        Curlist.import_submit(value)
-    }, message: `You get this data in Export`})
-}
-
-Curlist.import_submit = (data) => {
-    if (!data) {
-        return
+    check_enabled () {
+        if (this.enabled) {
+            this.show()
+        }
+        else {
+            this.hide()
+        }
     }
 
-    try {
-        let curlists = JSON.parse(data)
-        let modified = false
+    show () {
+        DOM.show(`#left_side`)
+        this.enabled = true
+    }
 
-        for (let color in curlists) {
-            let curlist = curlists[color]
+    hide () {
+        DOM.hide(`#left_side`)
+        this.enabled = false
+    }
 
-            if (!curlist) {
+    toggle () {
+        if (this.enabled) {
+            this.hide()
+        }
+        else {
+            this.show()
+        }
+
+        Utils.save(this.ls_name, this.enabled)
+    }
+
+    sort (how) {
+        let w = how === `asc` ? `Ascending` : `Descending`
+
+        Windows.confirm({title: `Sort Curls`, ok: () => {
+            this.do_sort(how)
+        }, message: `${w} Order`})
+    }
+
+    do_sort (how) {
+        let curls = Curls.get()
+
+        if (how === `asc`) {
+            curls.sort()
+        }
+        else if (how === `desc`) {
+            curls.sort().reverse()
+        }
+
+        Curls.save(curls)
+        this.update()
+        Sort.sort_if_order()
+    }
+
+    export () {
+        let curlists = {}
+
+        for (let color in App.colors) {
+            let curlist = Curls.get(color)
+
+            if (!curlist.length) {
                 continue
             }
 
-            Curls.save(curlist, color)
-            modified = true
+            curlists[color] = curlist
         }
 
-        if (!modified) {
-            Windows.alert({message: `No curls to import`})
+        if (!Object.keys(curlists).length) {
+            Windows.alert({message: `No curls to export`})
             return
         }
 
-        Curlist.update()
-        Update.update()
+        Windows.alert_export(curlists)
     }
-    catch (err) {
-        Utils.error(err)
-        Windows.alert({title: `Error`, message: err})
+
+    import () {
+        Windows.prompt({title: `Paste Data`, callback: (value) => {
+            this.import_submit(value)
+        }, message: `You get this data in Export`})
     }
-}
 
-Curlist.drag_events = () => {
-    let container = DOM.el(`#curlist`)
-
-    DOM.ev(container, `dragstart`, (e) => {
-        let item = Curlist.extract_item(e.target)
-        let curl = Curlist.extract_curl(item)
-        Curlist.drag_y = e.clientY
-
-        e.dataTransfer.setData(`text`, curl)
-        e.dataTransfer.setDragImage(new Image(), 0, 0)
-
-        let selected = Curlist.get_selected_items()
-
-        if (selected.length && selected.includes(item)) {
-            Curlist.drag_items = selected
-        }
-        else {
-            Curlist.select_item(item)
-            Curlist.drag_items = [item]
-        }
-    })
-
-    DOM.ev(container, `dragenter`, (e) => {
-        let items = Curlist.get_elements()
-        let item = Curlist.extract_item(e.target)
-        let index = items.indexOf(item)
-
-        if (index === -1) {
+    import_submit (data) {
+        if (!data) {
             return
         }
 
-        let direction = (e.clientY > Curlist.drag_y) ? `down` : `up`
-        Curlist.drag_y = e.clientY
+        try {
+            let curlists = JSON.parse(data)
+            let modified = false
 
-        if (direction === `up`) {
-            item.before(...Curlist.drag_items)
+            for (let color in curlists) {
+                let curlist = curlists[color]
+
+                if (!curlist) {
+                    continue
+                }
+
+                Curls.save(curlist, color)
+                modified = true
+            }
+
+            if (!modified) {
+                Windows.alert({message: `No curls to import`})
+                return
+            }
+
+            this.update()
+            Update.update()
         }
-        else if (direction === `down`) {
-            item.after(...Curlist.drag_items)
-        }
-    })
-
-    DOM.ev(container, `dragend`, (e) => {
-        Curlist.save_after_move()
-    })
-
-    let filter = DOM.el(`#curlist_filter`)
-
-    DOM.ev(filter, `drop`, (e) => {
-        e.preventDefault()
-    })
-}
-
-Curlist.get_curls = () => {
-    let elements = Curlist.get_elements()
-    let curls = []
-
-    for (let el of elements) {
-        curls.push(el.dataset.curl)
-    }
-
-    return curls
-}
-
-Curlist.select_item = (item) => {
-    let items = Curlist.get_elements()
-
-    for (let it of items) {
-        Curlist.do_deselect_item(it)
-    }
-
-    Curlist.do_select_item({item: item})
-}
-
-Curlist.do_select_item = (args = {}) => {
-    let def_args = {
-        block: `nearest`,
-        peek: true,
-        highlight: true,
-        highlight_behavior: `smooth`,
-    }
-
-    Utils.def_args(def_args, args)
-    args.item.classList.add(`selected`)
-
-    if (args.block !== `none`) {
-        Utils.scroll_element({item: args.item, block: args.block})
-    }
-
-    if (args.peek) {
-        let curl = Curlist.extract_curl(args.item)
-        Peek.show({curl: curl})
-    }
-
-    if (args.highlight) {
-        let curl = Curlist.extract_curl(args.item)
-        Container.highlight({curl: curl, behavior: args.highlight_behavior})
-    }
-
-    Curlist.selected_id += 1
-    args.item.dataset.selected_id = Curlist.selected_id
-}
-
-Curlist.do_deselect_item = (item) => {
-    item.classList.remove(`selected`)
-    item.dataset.selected_id = 0
-}
-
-Curlist.select_range = (item) => {
-    let selected = Curlist.get_selected_items()
-
-    if (!selected.length) {
-        return
-    }
-
-    let prev_item = Curlist.get_prev_item()
-
-    if (item === prev_item) {
-        return
-    }
-
-    let items = Curlist.get_visible()
-
-    if (!items.length) {
-        return
-    }
-
-    let index = items.indexOf(item)
-    let prev_index = items.indexOf(prev_item)
-    let first_index = items.indexOf(selected[0])
-    let last_index = items.indexOf(Utils.last(selected))
-    let direction
-
-    if (selected.length === 1) {
-        if (index < prev_index) {
-            direction = `up`
-        }
-        else {
-            direction = `down`
-        }
-    }
-    else {
-        if (prev_item === selected[0]) {
-            direction = `up`
-        }
-        else {
-            direction = `down`
+        catch (err) {
+            Utils.error(err)
+            Windows.alert({title: `Error`, message: err})
         }
     }
 
-    if (index > last_index) {
-        direction = `down`
-    }
-    else if (index < first_index) {
-        direction = `up`
-    }
+    drag_events () {
+        let container = DOM.el(`#curlist`)
 
-    if (direction === `up`) {
-        Curlist.do_select_range(item, index, prev_index, direction)
-    }
-    else {
-        Curlist.do_select_range(item, prev_index, index, direction)
-    }
-}
+        DOM.ev(container, `dragstart`, (e) => {
+            let item = this.extract_item(e.target)
+            let curl = this.extract_curl(item)
+            this.drag_y = e.clientY
 
-Curlist.do_select_range = (item, start, end, direction) => {
-    let items = Curlist.get_visible()
-    let select = []
+            e.dataTransfer.setData(`text`, curl)
+            e.dataTransfer.setDragImage(new Image(), 0, 0)
 
-    for (let i = 0; i < items.length; i++) {
-        if (i < start) {
+            let selected = this.get_selected_items()
+
+            if (selected.length && selected.includes(item)) {
+                this.drag_items = selected
+            }
+            else {
+                this.select_item(item)
+                this.drag_items = [item]
+            }
+        })
+
+        DOM.ev(container, `dragenter`, (e) => {
+            let items = this.get_elements()
+            let item = this.extract_item(e.target)
+            let index = items.indexOf(item)
+
+            if (index === -1) {
+                return
+            }
+
+            let direction = (e.clientY > this.drag_y) ? `down` : `up`
+            this.drag_y = e.clientY
+
             if (direction === `up`) {
-                Curlist.do_deselect_item(items[i])
+                item.before(...this.drag_items)
             }
+            else if (direction === `down`) {
+                item.after(...this.drag_items)
+            }
+        })
 
-            continue
+        DOM.ev(container, `dragend`, (e) => {
+            this.save_after_move()
+        })
+
+        let filter = DOM.el(`#curlist_filter`)
+
+        DOM.ev(filter, `drop`, (e) => {
+            e.preventDefault()
+        })
+    }
+
+    get_curls () {
+        let elements = this.get_elements()
+        let curls = []
+
+        for (let el of elements) {
+            curls.push(el.dataset.curl)
         }
 
-        if (i > end) {
-            if (direction === `down`) {
-                Curlist.do_deselect_item(items[i])
-            }
+        return curls
+    }
 
-            continue
+    select_item (item) {
+        let items = this.get_elements()
+
+        for (let it of items) {
+            this.do_deselect_item(it)
         }
 
-        select.push(items[i])
+        this.do_select_item({item: item})
     }
 
-    if (direction === `up`) {
-        select.reverse()
+    do_select_item (args = {}) {
+        let def_args = {
+            block: `nearest`,
+            peek: true,
+            highlight: true,
+            highlight_behavior: `smooth`,
+        }
+
+        Utils.def_args(def_args, args)
+        args.item.classList.add(`selected`)
+
+        if (args.block !== `none`) {
+            Utils.scroll_element({item: args.item, block: args.block})
+        }
+
+        if (args.peek) {
+            let curl = this.extract_curl(args.item)
+            Peek.show({curl: curl})
+        }
+
+        if (args.highlight) {
+            let curl = this.extract_curl(args.item)
+            Container.highlight({curl: curl, behavior: args.highlight_behavior})
+        }
+
+        this.selected_id += 1
+        args.item.dataset.selected_id = this.selected_id
     }
 
-    for (let item_ of select) {
-        let peek = item_ === item
-        Curlist.do_select_item({item: item_, peek: peek, highlight: false})
+    do_deselect_item (item) {
+        item.classList.remove(`selected`)
+        item.dataset.selected_id = 0
     }
 
-    let curl = Curlist.extract_curl(item)
-    Container.highlight({curl: curl})
-}
+    select_range (item) {
+        let selected = this.get_selected_items()
 
-Curlist.select_toggle = (item) => {
-    if (item.classList.contains(`selected`)) {
-        Curlist.do_deselect_item(item)
-    }
-    else {
-        Curlist.do_select_item({item: item})
-    }
-}
+        if (!selected.length) {
+            return
+        }
 
-Curlist.get_selected_curls = () => {
-    let items = Curlist.get_elements()
-    let selected_items = items.filter(x => x.classList.contains(`selected`))
-    let curls = []
+        let prev_item = this.get_prev_item()
 
-    for (let item of selected_items) {
-        curls.push(item.dataset.curl)
-    }
+        if (item === prev_item) {
+            return
+        }
 
-    return curls
-}
+        let items = this.get_visible()
 
-Curlist.get_selected_items = () => {
-    let items = Curlist.get_elements()
-    return items.filter(x => x.classList.contains(`selected`))
-}
+        if (!items.length) {
+            return
+        }
 
-Curlist.deselect = () => {
-    let items = Curlist.get_elements()
+        let index = items.indexOf(item)
+        let prev_index = items.indexOf(prev_item)
+        let first_index = items.indexOf(selected[0])
+        let last_index = items.indexOf(Utils.last(selected))
+        let direction
 
-    for (let item of items) {
-        Curlist.do_deselect_item(item)
-    }
+        if (selected.length === 1) {
+            if (index < prev_index) {
+                direction = `up`
+            }
+            else {
+                direction = `down`
+            }
+        }
+        else {
+            if (prev_item === selected[0]) {
+                direction = `up`
+            }
+            else {
+                direction = `down`
+            }
+        }
 
-    Container.dehighlight()
-    Curlist.selected_id = 0
-}
-
-Curlist.get_elements = () => {
-    return DOM.els(`#curlist .curlist_item`)
-}
-
-Curlist.get_item = (curl) => {
-    let items = Curlist.get_elements()
-    return items.find(x => x.dataset.curl === curl)
-}
-
-Curlist.select_vertical = (direction, shift) => {
-    if (Block.charge(`curlist_vertical`)) {
-        return
-    }
-
-    let items = Curlist.get_visible()
-
-    if (!items.length) {
-        return
-    }
-
-    let selected = Curlist.get_selected_items()
-    let prev_item = Curlist.get_prev_item()
-    let prev_index = items.indexOf(prev_item)
-    let first_index = items.indexOf(selected[0])
-
-    if (!selected.length) {
-        let item
+        if (index > last_index) {
+            direction = `down`
+        }
+        else if (index < first_index) {
+            direction = `up`
+        }
 
         if (direction === `up`) {
-            item = Utils.last(items)
+            this.do_select_range(item, index, prev_index, direction)
+        }
+        else {
+            this.do_select_range(item, prev_index, index, direction)
+        }
+    }
+
+    do_select_range (item, start, end, direction) {
+        let items = this.get_visible()
+        let select = []
+
+        for (let i = 0; i < items.length; i++) {
+            if (i < start) {
+                if (direction === `up`) {
+                    this.do_deselect_item(items[i])
+                }
+
+                continue
+            }
+
+            if (i > end) {
+                if (direction === `down`) {
+                    this.do_deselect_item(items[i])
+                }
+
+                continue
+            }
+
+            select.push(items[i])
+        }
+
+        if (direction === `up`) {
+            select.reverse()
+        }
+
+        for (let item_ of select) {
+            let peek = item_ === item
+            this.do_select_item({item: item_, peek: peek, highlight: false})
+        }
+
+        let curl = this.extract_curl(item)
+        Container.highlight({curl: curl})
+    }
+
+    select_toggle (item) {
+        if (item.classList.contains(`selected`)) {
+            this.do_deselect_item(item)
+        }
+        else {
+            this.do_select_item({item: item})
+        }
+    }
+
+    get_selected_curls () {
+        let items = this.get_elements()
+        let selected_items = items.filter(x => x.classList.contains(`selected`))
+        let curls = []
+
+        for (let item of selected_items) {
+            curls.push(item.dataset.curl)
+        }
+
+        return curls
+    }
+
+    get_selected_items () {
+        let items = this.get_elements()
+        return items.filter(x => x.classList.contains(`selected`))
+    }
+
+    deselect () {
+        let items = this.get_elements()
+
+        for (let item of items) {
+            this.do_deselect_item(item)
+        }
+
+        Container.dehighlight()
+        this.selected_id = 0
+    }
+
+    get_elements () {
+        return DOM.els(`#curlist .curlist_item`)
+    }
+
+    get_item (curl) {
+        let items = this.get_elements()
+        return items.find(x => x.dataset.curl === curl)
+    }
+
+    select_vertical (direction, shift) {
+        if (Block.charge(`curlist_vertical`)) {
+            return
+        }
+
+        let items = this.get_visible()
+
+        if (!items.length) {
+            return
+        }
+
+        let selected = this.get_selected_items()
+        let prev_item = this.get_prev_item()
+        let prev_index = items.indexOf(prev_item)
+        let first_index = items.indexOf(selected[0])
+
+        if (!selected.length) {
+            let item
+
+            if (direction === `up`) {
+                item = Utils.last(items)
+            }
+            else if (direction === `down`) {
+                item = items[0]
+            }
+
+            this.select_item(item)
+            return
+        }
+
+        if (direction === `up`) {
+            if (shift) {
+                let item = items[prev_index - 1]
+
+                if (!item) {
+                    return
+                }
+
+                this.select_range(item)
+            }
+            else {
+                let item
+
+                if (selected.length > 1) {
+                    item = selected[0]
+                }
+                else {
+                    let index = first_index - 1
+
+                    if (index < 0) {
+                        index = items.length - 1
+                    }
+
+                    item = items[index]
+                }
+
+                if (!item) {
+                    return
+                }
+
+                this.select_item(item)
+            }
         }
         else if (direction === `down`) {
-            item = items[0]
-        }
+            if (shift) {
+                let item = items[prev_index + 1]
 
-        Curlist.select_item(item)
-        return
-    }
-
-    if (direction === `up`) {
-        if (shift) {
-            let item = items[prev_index - 1]
-
-            if (!item) {
-                return
-            }
-
-            Curlist.select_range(item)
-        }
-        else {
-            let item
-
-            if (selected.length > 1) {
-                item = selected[0]
-            }
-            else {
-                let index = first_index - 1
-
-                if (index < 0) {
-                    index = items.length - 1
+                if (!item) {
+                    return
                 }
 
-                item = items[index]
-            }
-
-            if (!item) {
-                return
-            }
-
-            Curlist.select_item(item)
-        }
-    }
-    else if (direction === `down`) {
-        if (shift) {
-            let item = items[prev_index + 1]
-
-            if (!item) {
-                return
-            }
-
-            Curlist.select_range(item)
-        }
-        else {
-            let item
-
-            if (selected.length > 1) {
-                item = Utils.last(selected)
+                this.select_range(item)
             }
             else {
-                let index = first_index + 1
+                let item
 
-                if (index >= items.length) {
-                    index = 0
+                if (selected.length > 1) {
+                    item = Utils.last(selected)
+                }
+                else {
+                    let index = first_index + 1
+
+                    if (index >= items.length) {
+                        index = 0
+                    }
+
+                    item = items[index]
                 }
 
-                item = items[index]
-            }
+                if (!item) {
+                    return
+                }
 
-            if (!item) {
-                return
+                this.select_item(item)
             }
-
-            Curlist.select_item(item)
         }
     }
-}
 
-Curlist.focus = () => {
-    DOM.el(`#curlist`).focus()
-}
-
-Curlist.get_visible = () => {
-    let els = Curlist.get_elements()
-    return els.filter(x => !x.classList.contains(`hidden`))
-}
-
-Curlist.get_filter_value = () => {
-    return DOM.el(`#curlist_filter`).value.toLowerCase().trim()
-}
-
-Curlist.filter = () => {
-    Curlist.filter_debouncer.call()
-}
-
-Curlist.do_filter = () => {
-    Curlist.filter_debouncer.cancel()
-    let els = Curlist.get_elements()
-    let value = Curlist.get_filter_value()
-
-    function hide(el) {
-        DOM.hide(el)
+    focus () {
+        DOM.el(`#curlist`).focus()
     }
 
-    function show(el) {
-        DOM.show(el)
+    get_visible () {
+        let els = this.get_elements()
+        return els.filter(x => !x.classList.contains(`hidden`))
     }
 
-    for (let el of els) {
-        let curl = el.dataset.curl
+    get_filter_value () {
+        return DOM.el(`#curlist_filter`).value.toLowerCase().trim()
+    }
 
-        if (curl.includes(value)) {
-            show(el)
+    filter () {
+        this.filter_debouncer.call()
+    }
+
+    do_filter () {
+        this.filter_debouncer.cancel()
+        let els = this.get_elements()
+        let value = this.get_filter_value()
+
+        function hide(el) {
+            DOM.hide(el)
+        }
+
+        function show(el) {
+            DOM.show(el)
+        }
+
+        for (let el of els) {
+            let curl = el.dataset.curl
+
+            if (curl.includes(value)) {
+                show(el)
+            }
+            else {
+                hide(el)
+            }
+        }
+    }
+
+    blank_filter () {
+        DOM.el(`#curlist_filter`).value = ``
+    }
+
+    clear_filter () {
+        this.blank_filter()
+        let els = this.get_elements()
+
+        if (!els.length) {
+            return
+        }
+
+        for (let el of els) {
+            DOM.show(el)
+        }
+
+        this.deselect()
+    }
+
+    extract_item (item) {
+        return item.closest(`.curlist_item`)
+    }
+
+    extract_curl (item) {
+        if (item) {
+            return item.dataset.curl
         }
         else {
-            hide(el)
+            return ``
         }
     }
-}
 
-Curlist.blank_filter = () => {
-    DOM.el(`#curlist_filter`).value = ``
-}
-
-Curlist.clear_filter = () => {
-    Curlist.blank_filter()
-    let els = Curlist.get_elements()
-
-    if (!els.length) {
-        return
-    }
-
-    for (let el of els) {
-        DOM.show(el)
-    }
-
-    Curlist.deselect()
-}
-
-Curlist.extract_item = (item) => {
-    return item.closest(`.curlist_item`)
-}
-
-Curlist.extract_curl = (item) => {
-    if (item) {
-        return item.dataset.curl
-    }
-    else {
-        return ``
-    }
-}
-
-Curlist.focus_item = (curl) => {
-    let item = Curlist.get_item(curl)
-
-    if (item) {
-        Curlist.do_select_item({item: item})
-    }
-}
-
-Curlist.move_up = () => {
-    let items = Curlist.get_elements()
-    let selected = Curlist.get_selected_items()
-    let first_index = items.indexOf(selected[0])
-
-    if (first_index === 0) {
-        return
-    }
-
-    if (first_index === 0) {
-        return
-    }
-
-    let prev = items[first_index - 1]
-    prev.before(...selected)
-    Utils.scroll_element({item: selected[0]})
-    Curlist.save_after_move()
-}
-
-Curlist.move_down = () => {
-    let items = Curlist.get_elements()
-    let selected = Curlist.get_selected_items()
-    let last_index = items.indexOf(Utils.last(selected))
-
-    if (last_index === items.length - 1) {
-        return
-    }
-
-    if (last_index === items.length - 1) {
-        return
-    }
-
-    let next = items[last_index + 1]
-    next.after(...selected)
-    Utils.scroll_element({item: Utils.last(selected)})
-    Curlist.save_after_move()
-}
-
-Curlist.save_after_move = () => {
-    let curls = Curlist.get_curls()
-    Curls.save(curls)
-    Sort.sort_if_order()
-}
-
-Curlist.select_items = (curls) => {
-    let items = Curlist.get_visible()
-    Curlist.deselect()
-
-    for (let curl of curls) {
-        let item = Curlist.get_item(curl)
-        let index = items.indexOf(item)
-        let peek = false
-
-        if ((index === 0) || (index === items.length - 1)) {
-            peek = true
-        }
+    focus_item (curl) {
+        let item = this.get_item(curl)
 
         if (item) {
-            Curlist.do_select_item({item: item, peek: peek})
-        }
-    }
-}
-
-Curlist.mousedown = (e) => {
-    let item = Curlist.extract_item(e.target)
-
-    if (item) {
-        return
-    }
-
-    Curlist.mouse_down = true
-    Curlist.mouse_selected = false
-}
-
-Curlist.mouseup = () => {
-    Curlist.mouse_down = false
-    Curlist.mouse_selected = false
-}
-
-Curlist.mouseover = (e) => {
-    if (!e.target.closest(`.curlist_item`)) {
-        return
-    }
-
-    if (!Curlist.mouse_down) {
-        return
-    }
-
-    if (!Curlist.mouse_selected) {
-        Curlist.deselect()
-    }
-
-    let item = Curlist.extract_item(e.target)
-    Curlist.do_select_item({item: item})
-    Curlist.mouse_selected = true
-}
-
-Curlist.get_prev_item = () => {
-    let items = Curlist.get_visible()
-    let prev_item = null
-
-    for (let item of items) {
-        if (!prev_item) {
-            prev_item = item
-            continue
-        }
-
-        let id = parseInt(item.dataset.selected_id)
-        let prev_id = parseInt(prev_item.dataset.selected_id)
-
-        if (id > prev_id) {
-            prev_item = item
+            this.do_select_item({item: item})
         }
     }
 
-    return prev_item
+    move_up () {
+        let items = this.get_elements()
+        let selected = this.get_selected_items()
+        let first_index = items.indexOf(selected[0])
+
+        if (first_index === 0) {
+            return
+        }
+
+        if (first_index === 0) {
+            return
+        }
+
+        let prev = items[first_index - 1]
+        prev.before(...selected)
+        Utils.scroll_element({item: selected[0]})
+        this.save_after_move()
+    }
+
+    move_down () {
+        let items = this.get_elements()
+        let selected = this.get_selected_items()
+        let last_index = items.indexOf(Utils.last(selected))
+
+        if (last_index === items.length - 1) {
+            return
+        }
+
+        if (last_index === items.length - 1) {
+            return
+        }
+
+        let next = items[last_index + 1]
+        next.after(...selected)
+        Utils.scroll_element({item: Utils.last(selected)})
+        this.save_after_move()
+    }
+
+    save_after_move () {
+        let curls = this.get_curls()
+        Curls.save(curls)
+        Sort.sort_if_order()
+    }
+
+    select_items (curls) {
+        let items = this.get_visible()
+        this.deselect()
+
+        for (let curl of curls) {
+            let item = this.get_item(curl)
+            let index = items.indexOf(item)
+            let peek = false
+
+            if ((index === 0) || (index === items.length - 1)) {
+                peek = true
+            }
+
+            if (item) {
+                this.do_select_item({item: item, peek: peek})
+            }
+        }
+    }
+
+    mousedown (e) {
+        let item = this.extract_item(e.target)
+
+        if (item) {
+            return
+        }
+
+        this.mouse_down = true
+        this.mouse_selected = false
+    }
+
+    mouseup () {
+        this.mouse_down = false
+        this.mouse_selected = false
+    }
+
+    mouseover (e) {
+        if (!e.target.closest(`.curlist_item`)) {
+            return
+        }
+
+        if (!this.mouse_down) {
+            return
+        }
+
+        if (!this.mouse_selected) {
+            this.deselect()
+        }
+
+        let item = this.extract_item(e.target)
+        this.do_select_item({item: item})
+        this.mouse_selected = true
+    }
+
+    get_prev_item () {
+        let items = this.get_visible()
+        let prev_item = null
+
+        for (let item of items) {
+            if (!prev_item) {
+                prev_item = item
+                continue
+            }
+
+            let id = parseInt(item.dataset.selected_id)
+            let prev_id = parseInt(prev_item.dataset.selected_id)
+
+            if (id > prev_id) {
+                prev_item = item
+            }
+        }
+
+        return prev_item
+    }
 }
+
+let Curlist = new CurlistClass()
