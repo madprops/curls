@@ -42,6 +42,12 @@ class FilterClass {
 
         filter.value = ``
 
+        let lines = [
+            `Filter the items`,
+            `Press Escape to clear`,
+        ]
+
+        filter.title = lines.join(`\n`)
         let button = DOM.el(`#filter_button`)
         this.mode = this.load_filter()
 

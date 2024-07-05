@@ -41,9 +41,33 @@ class StatusClass {
 
         status.value = ``
 
+        let lines = [
+            `Change the status of your curl`,
+            `Press Enter to change`,
+            `Press Arrow Up to show previous status`,
+            `Press Arrow Down to show previous status`,
+            `Press Escape to clear`,
+        ]
+
+        status.title = lines.join(`\n`)
+
         DOM.ev(button, `click`, (e) => {
             this.show_menu(e)
         })
+
+        DOM.ev(button, `auxclick`, (e) => {
+            if (e.button === 1) {
+                this.clear()
+            }
+        })
+
+        let lines_2 = [
+            `Use previous status changes`,
+            `Middle Click to clear status`,
+            `Middle Click items to remove them`,
+        ]
+
+        button.title = lines_2.join(`\n`)
     }
 
     get_list() {
@@ -122,6 +146,10 @@ class StatusClass {
         }
 
         Utils.save(this.ls_name, JSON.stringify(cleaned))
+    }
+
+    clear() {
+        DOM.el(`#change_status`).value = ``
     }
 }
 
