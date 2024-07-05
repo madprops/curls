@@ -168,7 +168,7 @@ def get_status(curl: str, fill: bool = True) -> str:
         return fill_status(result)
 
     if result:
-        return result[0]
+        return str(result[0])
 
     return ""
 
