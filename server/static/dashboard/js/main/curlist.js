@@ -180,7 +180,7 @@ class Curlist {
 
         filter.value = ``
 
-        Block.register(`curlist_vertical`, 100)
+        Block.register(`curlist_vertical`, 200)
         this.drag_events()
         this.update()
     }
