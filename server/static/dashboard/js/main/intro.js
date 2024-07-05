@@ -4,27 +4,31 @@ This shows an intro on the first visit
 
 */
 
-const Intro = {
-    ls_name: `intro_shown`,
-}
+class IntroClass {
+    constructor () {
+        this.ls_name = `intro_shown`
+    }
 
-Intro.setup = () => {
-    let shown = Intro.load_intro()
+    setup () {
+        let shown = this.load_intro()
 
-    if (!shown) {
-        Intro.show()
-        Intro.save()
+        if (!shown) {
+            this.show()
+            this.save()
+        }
+    }
+
+    save () {
+        Utils.save(this.ls_name, true)
+    }
+
+    load_intro () {
+        return Utils.load_boolean(this.ls_name, false)
+    }
+
+    show () {
+        Windows.alert({title: `Curls ${App.version}`, message: App.intro})
     }
 }
 
-Intro.save = () => {
-    Utils.save(Intro.ls_name, true)
-}
-
-Intro.load_intro = () => {
-    return Utils.load_boolean(Intro.ls_name, false)
-}
-
-Intro.show = () => {
-    Windows.alert({title: `Curls ${App.version}`, message: App.intro})
-}
+const Intro = new IntroClass()
