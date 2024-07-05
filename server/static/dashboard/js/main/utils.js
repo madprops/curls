@@ -61,11 +61,11 @@ class UtilsClass {
         let timer
         let obj = {}
 
-        function clear() {
+        let clear = () => {
             clearTimeout(timer)
         }
 
-        function run(...args) {
+        let run = (...args) => {
             func(...args)
         }
 

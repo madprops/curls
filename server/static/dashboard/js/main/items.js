@@ -86,7 +86,7 @@ class ItemsClass {
     }
 
     copy(curl) {
-        function blink(icon) {
+        let blink = (icon) => {
             if (!icon) {
                 return
             }

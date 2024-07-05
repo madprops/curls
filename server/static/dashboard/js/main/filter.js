@@ -148,15 +148,15 @@ class FilterClass {
             return
         }
 
-        function check(curl, status, updated) {
+        let check = (curl, status, updated) => {
             return curl.includes(value) || status.includes(value) || updated.includes(value)
         }
 
-        function hide(el) {
+        let hide = (el) => {
             DOM.hide(el)
         }
 
-        function show(el) {
+        let show = (el) => {
             DOM.show(el)
         }
 

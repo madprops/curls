@@ -85,7 +85,7 @@ class ColorsClass {
     move(curls, e) {
         let items = []
 
-        function add(mode) {
+        let add = (mode) => {
             if (this.mode === mode.value) {
                 return
             }

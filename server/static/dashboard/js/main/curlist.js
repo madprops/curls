@@ -820,11 +820,11 @@ class CurlistClass {
         let els = this.get_elements()
         let value = this.get_filter_value()
 
-        function hide(el) {
+        let hide = (el) => {
             DOM.hide(el)
         }
 
-        function show(el) {
+        let show = (el) => {
             DOM.show(el)
         }
 
