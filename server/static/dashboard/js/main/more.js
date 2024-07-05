@@ -6,7 +6,7 @@ It is used to toggle some options
 */
 
 class MoreClass {
-    setup () {
+    setup() {
         let button = DOM.el(`#footer_more`)
 
         DOM.ev(button, `click`, (e) => {
@@ -27,17 +27,17 @@ class MoreClass {
         button.title = lines.join(`\n`)
     }
 
-    change_highlight (what) {
+    change_highlight(what) {
         Container.highlight_enabled = what
         Container.save_highlight_enabled()
     }
 
-    change_peek (what) {
+    change_peek(what) {
         Peek.enabled = what
         Peek.save_enabled()
     }
 
-    change_wrap (what, actions = true) {
+    change_wrap(what, actions = true) {
         Container.wrap_enabled = what
         Container.save_wrap_enabled()
 
@@ -46,7 +46,7 @@ class MoreClass {
         }
     }
 
-    change_controls (what, actions = true) {
+    change_controls(what, actions = true) {
         Controls.enabled = what
         Controls.save_enabled()
 
@@ -55,7 +55,7 @@ class MoreClass {
         }
     }
 
-    show_menu (e) {
+    show_menu(e) {
         let items = []
 
         if (Container.highlight_enabled) {
@@ -137,7 +137,7 @@ class MoreClass {
         NeedContext.show({items: items, e: e})
     }
 
-    reset () {
+    reset() {
         let vars = [
             Container.highlight_enabled,
             Peek.enabled,
@@ -154,7 +154,7 @@ class MoreClass {
         }, message: `Reset all options to default`})
     }
 
-    do_reset () {
+    do_reset() {
         this.change_highlight(true)
         this.change_peek(true)
         this.change_wrap(true, false)

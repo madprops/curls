@@ -5,13 +5,13 @@ This stores status items
 */
 
 class StatusClass {
-    constructor () {
+    constructor() {
         this.max_list = 100
         this.menu_max_length = 110
         this.ls_name = `status_list`
     }
 
-    setup () {
+    setup() {
         let status = DOM.el(`#change_status`)
         let button = DOM.el(`#status_button`)
 
@@ -46,7 +46,7 @@ class StatusClass {
         })
     }
 
-    get_list () {
+    get_list() {
         let list = Utils.load_array(this.ls_name)
 
         try {
@@ -57,7 +57,7 @@ class StatusClass {
         }
     }
 
-    save (status) {
+    save(status) {
         let cleaned = []
 
         for (let item of this.get_list()) {
@@ -70,7 +70,7 @@ class StatusClass {
         Utils.save(this.ls_name, JSON.stringify(list))
     }
 
-    show_menu (e) {
+    show_menu(e) {
         let status_list = this.get_list()
 
         if (!status_list.length) {
@@ -94,23 +94,23 @@ class StatusClass {
         NeedContext.show({items: items, element: el, e: e})
     }
 
-    set (status) {
+    set(status) {
         let el = DOM.el(`#change_status`)
         el.value = status
         this.focus()
     }
 
-    focus () {
+    focus() {
         DOM.el(`#change_status`).focus()
     }
 
-    remove (status) {
+    remove(status) {
         Windows.confirm({title: `Remove Status`, ok: () => {
             this.do_remove(status)
         }, message: status.substring(0, 44)})
     }
 
-    do_remove (status) {
+    do_remove(status) {
         let cleaned = []
 
         for (let status_ of this.get_list()) {

@@ -5,7 +5,7 @@ Color functions
 */
 
 class ColorsClass {
-    constructor () {
+    constructor() {
         this.default_mode = `green`
         this.ls_name = `color`
         this.alpha = {}
@@ -21,7 +21,7 @@ class ColorsClass {
         ]
     }
 
-    setup () {
+    setup() {
         let color = DOM.el(`#color`)
         this.mode = this.load_color()
 
@@ -45,7 +45,7 @@ class ColorsClass {
         this.apply()
     }
 
-    make_alpha (obj, a) {
+    make_alpha(obj, a) {
         for (let color in App.colors) {
             let numbers = App.colors[color].match(/\d+/g)
             let rgba = `rgba(${numbers[0]}, ${numbers[1]}, ${numbers[2]}, ${a})`
@@ -53,7 +53,7 @@ class ColorsClass {
         }
     }
 
-    change (value) {
+    change(value) {
         if (this.mode === value) {
             return
         }
@@ -68,11 +68,11 @@ class ColorsClass {
         Update.update()
     }
 
-    load_color () {
+    load_color() {
         return Utils.load_modes(this.ls_name, this.modes, this.default_mode)
     }
 
-    apply () {
+    apply() {
         let normal = App.colors[this.mode]
         let alpha = this.alpha[this.mode]
         let alpha_2 = this.alpha_2[this.mode]
@@ -82,10 +82,10 @@ class ColorsClass {
         App.update_title()
     }
 
-    move (curls, e) {
+    move(curls, e) {
         let items = []
 
-        function add (mode) {
+        function add(mode) {
             if (this.mode === mode.value) {
                 return
             }
@@ -106,7 +106,7 @@ class ColorsClass {
         NeedContext.show({items: items, e: e})
     }
 
-    do_move (color, curls) {
+    do_move(color, curls) {
         let current_curls = Curls.get()
         let cleaned = []
 

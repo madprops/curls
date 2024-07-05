@@ -27,7 +27,7 @@ class UpdateClass {
         ]
     }
 
-    setup () {
+    setup() {
         let updater = DOM.el(`#updater`)
         this.mode = this.load_update()
 
@@ -52,11 +52,11 @@ class UpdateClass {
         this.check()
     }
 
-    load_update () {
+    load_update() {
         return Utils.load_modes(this.ls_name, this.modes, this.default_mode)
     }
 
-    check () {
+    check() {
         let mode = this.mode
 
         if (mode.startsWith(`minutes_`)) {
@@ -71,7 +71,7 @@ class UpdateClass {
         this.restart()
     }
 
-    restart () {
+    restart() {
         clearTimeout(this.timeout)
 
         if (this.enabled) {
@@ -79,17 +79,17 @@ class UpdateClass {
         }
     }
 
-    start_timeout () {
+    start_timeout() {
         this.timeout = setTimeout(() => {
             this.update()
         }, this.delay)
     }
 
-    update (args) {
+    update(args) {
         this.debouncer.call(args)
     }
 
-    do_update (args = {}) {
+    do_update(args = {}) {
         this.debouncer.cancel()
         clearTimeout(App.timeout)
 
@@ -104,7 +104,7 @@ class UpdateClass {
         this.restart()
     }
 
-    async fetch (args) {
+    async fetch(args) {
         Utils.info(`Update: Trigger`)
 
         if (this.updating) {
@@ -182,13 +182,13 @@ class UpdateClass {
         this.clear()
     }
 
-    show_updating () {
+    show_updating() {
         let button = DOM.el(`#updater`)
         clearTimeout(this.clear_timeout)
         button.classList.add(`active`)
     }
 
-    clear () {
+    clear() {
         this.updating = false
 
         this.clear_timeout = setTimeout(() => {
@@ -197,7 +197,7 @@ class UpdateClass {
         }, this.clear_delay)
     }
 
-    change (mode) {
+    change(mode) {
         if (mode === `now`) {
             this.update()
             return

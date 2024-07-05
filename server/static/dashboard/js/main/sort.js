@@ -5,7 +5,7 @@ This sorts the container
 */
 
 class SortClass {
-    constructor () {
+    constructor() {
         this.default_mode = `newest`
         this.ls_name = `sort`
 
@@ -29,7 +29,7 @@ class SortClass {
         ]
     }
 
-    setup () {
+    setup() {
         let sort = DOM.el(`#sort`)
         this.mode = this.load_sort()
 
@@ -48,7 +48,7 @@ class SortClass {
         })
     }
 
-    change (value) {
+    change(value) {
         if (this.mode === value) {
             return
         }
@@ -58,13 +58,13 @@ class SortClass {
         Container.update()
     }
 
-    sort_if_order () {
+    sort_if_order() {
         if (this.mode == `order`) {
             Container.update()
         }
     }
 
-    sort (items) {
+    sort(items) {
         let mode = this.mode
 
         if (mode === `order`) {
@@ -154,7 +154,7 @@ class SortClass {
         }
     }
 
-    load_sort () {
+    load_sort() {
         return Utils.load_modes(this.ls_name, this.modes, this.default_mode)
     }
 }

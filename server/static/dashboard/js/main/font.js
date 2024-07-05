@@ -5,7 +5,7 @@ The font of the interface
 */
 
 class FontClass {
-    constructor () {
+    constructor() {
         this.default_mode = `sans-serif`
         this.ls_name = `font`
 
@@ -17,7 +17,7 @@ class FontClass {
         ]
     }
 
-    setup () {
+    setup() {
         let font = DOM.el(`#font`)
         this.mode = this.load_font()
 
@@ -39,16 +39,16 @@ class FontClass {
         this.apply()
     }
 
-    change (value) {
+    change(value) {
         this.mode = value
         Utils.save(this.ls_name, value)
     }
 
-    apply () {
+    apply() {
         document.documentElement.style.setProperty(`--font`, this.mode)
     }
 
-    load_font () {
+    load_font() {
         return Utils.load_modes(this.ls_name, this.modes, this.default_mode)
     }
 }

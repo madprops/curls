@@ -5,7 +5,7 @@ This is the filter for the container
 */
 
 class FilterClass {
-    constructor () {
+    constructor() {
         this.debouncer_delay = 250
         this.default_mode = `all`
         this.ls_name = `filter`
@@ -25,7 +25,7 @@ class FilterClass {
         ]
     }
 
-    setup () {
+    setup() {
         let filter = DOM.el(`#filter`)
 
         DOM.ev(filter, `keydown`, (e) => {
@@ -60,11 +60,11 @@ class FilterClass {
         })
     }
 
-    load_filter () {
+    load_filter() {
         return Utils.load_modes(this.ls_name, this.modes, this.default_mode)
     }
 
-    change (value) {
+    change(value) {
         if (this.mode === value) {
             return
         }
@@ -75,7 +75,7 @@ class FilterClass {
         Utils.save(this.ls_name, value)
     }
 
-    unfilter () {
+    unfilter() {
         let els = DOM.els(`#container .item`)
 
         if (!els.length) {
@@ -87,16 +87,16 @@ class FilterClass {
         }
     }
 
-    clear () {
+    clear() {
         DOM.el(`#filter`).value = ``
         this.unfilter()
     }
 
-    filter () {
+    filter() {
         this.debouncer.call()
     }
 
-    do_filter () {
+    do_filter() {
         this.debouncer.cancel()
         let els = Container.get_items()
 
@@ -148,15 +148,15 @@ class FilterClass {
             return
         }
 
-        function check (curl, status, updated) {
+        function check(curl, status, updated) {
             return curl.includes(value) || status.includes(value) || updated.includes(value)
         }
 
-        function hide (el) {
+        function hide(el) {
             DOM.hide(el)
         }
 
-        function show (el) {
+        function show(el) {
             DOM.show(el)
         }
 
@@ -214,7 +214,7 @@ class FilterClass {
         }
     }
 
-    check () {
+    check() {
         let filter = DOM.el(`#filter`)
 
         if (filter.value || (this.mode !== this.default_mode)) {
@@ -222,7 +222,7 @@ class FilterClass {
         }
     }
 
-    focus () {
+    focus() {
         DOM.el(`#filter`).focus()
     }
 }

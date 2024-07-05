@@ -14,6 +14,11 @@ export default [
       "linebreak-style": ["error", "unix"],
       "quotes": ["error", "backtick"],
       "no-console": "error",
+      "space-before-function-paren": ["error", {
+        "anonymous": "always",
+        "named": "never",
+        "asyncArrow": "always"
+      }],
     },
     languageOptions: {
       globals: {

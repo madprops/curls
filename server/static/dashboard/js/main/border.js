@@ -5,7 +5,7 @@ The border between the items of the container
 */
 
 class BorderClass {
-    constructor () {
+    constructor() {
         this.default_mode = `solid`
         this.ls_name = `border`
 
@@ -19,7 +19,7 @@ class BorderClass {
         ]
     }
 
-    setup () {
+    setup() {
         let border = DOM.el(`#border`)
         this.mode = this.load_border()
 
@@ -41,12 +41,12 @@ class BorderClass {
         this.apply()
     }
 
-    change (value) {
+    change(value) {
         this.mode = value
         Utils.save(this.ls_name, value)
     }
 
-    apply () {
+    apply() {
         let border
 
         if (this.mode === `none`) {
@@ -62,7 +62,7 @@ class BorderClass {
         document.documentElement.style.setProperty(`--border`, border)
     }
 
-    load_border () {
+    load_border() {
         return Utils.load_modes(this.ls_name, this.modes, this.default_mode)
     }
 }

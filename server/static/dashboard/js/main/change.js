@@ -5,7 +5,7 @@ This changes the status of a curl
 */
 
 class ChangeClass {
-    constructor () {
+    constructor() {
         this.debouncer_delay = 250
         this.changing = false
         this.clear_delay = 800
@@ -13,7 +13,7 @@ class ChangeClass {
         this.key_length = 22
     }
 
-    setup () {
+    setup() {
         let submit = DOM.el(`#change_submit`)
 
         DOM.ev(submit, `click`, () => {
@@ -25,11 +25,11 @@ class ChangeClass {
         }, this.debouncer_delay)
     }
 
-    change () {
+    change() {
         this.debouncer.call()
     }
 
-    do_change () {
+    do_change() {
         this.debouncer.cancel()
         Utils.info(`Change: Trigger`)
 
@@ -104,17 +104,17 @@ class ChangeClass {
             })
     }
 
-    clear_status () {
+    clear_status() {
         DOM.el(`#change_status`).value = ``
     }
 
-    show_changing () {
+    show_changing() {
         let button = DOM.el(`#change_submit`)
         clearTimeout(this.clear_changing_timeout)
         button.classList.add(`active`)
     }
 
-    clear_changing () {
+    clear_changing() {
         this.changing = false
 
         this.clear_changing_timeout = setTimeout(() => {

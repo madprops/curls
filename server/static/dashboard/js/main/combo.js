@@ -8,11 +8,11 @@ It's similar to a select widget
 */
 
 class ComboClass {
-    constructor () {
+    constructor() {
         this.id = 0
     }
 
-    register (args = {}) {
+    register(args = {}) {
         DOM.evs(args.element, [`click`, `contextmenu`], (e) => {
             this.show_menu(args, e)
             e.preventDefault()
@@ -45,16 +45,16 @@ class ComboClass {
         this.id += 1
     }
 
-    get_item (args) {
+    get_item(args) {
         return args.items.find(x => x.value === args.get())
     }
 
-    update_text (args) {
+    update_text(args) {
         let item = this.get_item(args)
         args.element.textContent = item.name
     }
 
-    show_menu (args, e) {
+    show_menu(args, e) {
         let items = []
         let current = args.get()
 
@@ -78,23 +78,23 @@ class ComboClass {
         NeedContext.show({ items: items, e: e })
     }
 
-    action (args, value) {
+    action(args, value) {
         args.action(value)
         this.update_text(args)
     }
 
-    reset (args) {
+    reset(args) {
         this.action(args, args.default)
     }
 
-    get_values (args) {
+    get_values(args) {
         return args.items
             .filter(x => x.value !== App.separator)
             .filter(x => !x.skip)
             .map(x => x.value)
     }
 
-    cycle (args, direction) {
+    cycle(args, direction) {
         if (Block.charge(`combo_${args.id}`)) {
             return
         }
