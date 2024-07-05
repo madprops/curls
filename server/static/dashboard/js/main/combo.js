@@ -69,6 +69,7 @@ Combo.show_menu = (args, e) => {
                 },
                 selected: item.value === current,
                 info: item.info,
+                icon: item.icon,
             })
         }
     }

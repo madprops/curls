@@ -12,12 +12,12 @@ const Colors = {
 }
 
 Colors.modes = [
-    {value: `red`, name: `Red`, info: `Go to Red`},
-    {value: `green`, name: `Green`, info: `Go to Green`},
-    {value: `blue`, name: `Blue`, info: `Go to Blue`},
-    {value: `yellow`, name: `Yellow`, info: `Go to Yellow`},
-    {value: `purple`, name: `Purple`, info: `Go to Purple`},
-    {value: `white`, name: `White`, info: `Go to White`},
+    {value: `red`, name: `Red`, info: `Go to Red`, icon: `🔴`},
+    {value: `green`, name: `Green`, info: `Go to Green`, icon: `🟢`},
+    {value: `blue`, name: `Blue`, info: `Go to Blue`, icon: `🔵`},
+    {value: `yellow`, name: `Yellow`, info: `Go to Yellow`, icon: `🟡`},
+    {value: `purple`, name: `Purple`, info: `Go to Purple`, icon: `🟣`},
+    {value: `white`, name: `White`, info: `Go to White`, icon: `⚪`},
 ]
 
 Colors.setup = () => {
@@ -84,22 +84,22 @@ Colors.apply = () => {
 Colors.move = (curls, e) => {
     let items = []
 
-    function add (value, name) {
-        if (Colors.mode === value) {
+    function add (mode) {
+        if (Colors.mode === mode.value) {
             return
         }
 
         items.push({
-            text: name,
+            text: mode.name,
             action: () => {
-                Colors.do_move(value, curls)
-            }
+                Colors.do_move(mode.value, curls)
+            },
+            icon: mode.icon,
         })
     }
 
     for (let key in Colors.modes) {
-        let mode = Colors.modes[key]
-        add(mode.value, mode.name)
+        add(Colors.modes[key])
     }
 
     NeedContext.show({items: items, e: e})

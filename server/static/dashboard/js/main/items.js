@@ -195,7 +195,7 @@ Items.show_menu = (args = {}) => {
             {
                 text: `Move`,
                 action: () => {
-                    Colors.move(curls, args.e)
+                    Colors.move([args.curl], args.e)
                 }
             },
             {
