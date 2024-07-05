@@ -36,7 +36,10 @@ class FilterClass {
             this.filter()
         })
 
-        this.debouncer = Utils.create_debouncer(this.do_filter, this.debouncer_delay)
+        this.debouncer = Utils.create_debouncer(() => {
+            this.do_filter()
+        }, this.debouncer_delay)
+
         filter.value = ``
 
         let button = DOM.el(`#filter_button`)
