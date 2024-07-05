@@ -6,100 +6,104 @@ It's closed automatically on focus changes
 
 */
 
-const Peek = {
-    enabled: true,
-    open: false,
-    curl: ``,
-    debouncer_delay: 50,
-    ls_name: `peek_enabled`,
-}
-
-Peek.setup = () => {
-    Peek.enabled = Peek.load_enabled()
-
-    Peek.debouncer = Utils.create_debouncer((args) => {
-        Peek.do_show(args)
-    }, Peek.debouncer_delay)
-}
-
-Peek.save_enabled = () => {
-    Utils.save(Peek.ls_name, Peek.enabled)
-}
-
-Peek.load_enabled = () => {
-    return Utils.load_boolean(Peek.ls_name)
-}
-
-Peek.show = (args) => {
-    Peek.debouncer.call(args)
-}
-
-Peek.do_show = (args = {}) => {
-    Peek.debouncer.cancel()
-
-    let def_args = {
-        force: false,
+class PeekClass {
+    constructor () {
+        this.enabled = true
+        this.open = false
+        this.curl = ``
+        this.debouncer_delay = 50
+        this.ls_name = `peek_enabled`
     }
 
-    Utils.def_args(def_args, args)
+    setup () {
+        this.enabled = this.load_enabled()
 
-    if (!Peek.enabled && !args.force) {
-        return
+        this.debouncer = Utils.create_debouncer((args) => {
+            this.do_show(args)
+        }, this.debouncer_delay)
     }
 
-    if (Peek.open && (Peek.curl === args.curl)) {
-        return
+    save_enabled () {
+        Utils.save(this.ls_name, this.enabled)
     }
 
-    let peek = DOM.el(`#peek`)
-    let item = Items.get(args.curl)
-
-    if (!item) {
-        return
+    load_enabled () {
+        return Utils.load_boolean(this.ls_name)
     }
 
-    let icon = DOM.create(`div`, `peek_icon`)
-    let canvas = DOM.create(`canvas`, `peek_icon_canvas`)
-    jdenticon.update(canvas, item.curl)
-    icon.append(canvas)
-    let curl_ = DOM.create(`div`, `peek_curl`)
-    curl_.textContent = item.curl
-    let status = DOM.create(`div`, `peek_status`)
-    status.innerHTML = Utils.sanitize(item.status)
-    let updated = DOM.create(`div`, `peek_updated`)
-    updated.textContent = item.updated_text
+    show (args) {
+        this.debouncer.call(args)
+    }
 
-    DOM.ev(icon, `click`, (e) => {
-        Items.show_menu({curl: args.curl, e: e, from: `peek`})
-    })
+    do_show (args = {}) {
+        this.debouncer.cancel()
 
-    icon.title = `Click to show menu`
+        let def_args = {
+            force: false,
+        }
 
-    let close = DOM.create(`div`, `peek_close glow_white noselect`)
-    close.textContent = `Close`
+        Utils.def_args(def_args, args)
 
-    DOM.ev(close, `click`, () => {
-        Peek.hide()
-    })
+        if (!this.enabled && !args.force) {
+            return
+        }
 
-    peek.innerHTML = ``
-    peek.append(icon)
-    peek.append(curl_)
-    peek.append(status)
-    peek.append(close)
-    peek.append(updated)
+        if (this.open && (this.curl === args.curl)) {
+            return
+        }
 
-    peek.classList.add(`active`)
-    Peek.open = true
-    Peek.curl = args.curl
+        let peek = DOM.el(`#peek`)
+        let item = Items.get(args.curl)
+
+        if (!item) {
+            return
+        }
+
+        let icon = DOM.create(`div`, `peek_icon`)
+        let canvas = DOM.create(`canvas`, `peek_icon_canvas`)
+        jdenticon.update(canvas, item.curl)
+        icon.append(canvas)
+        let curl_ = DOM.create(`div`, `peek_curl`)
+        curl_.textContent = item.curl
+        let status = DOM.create(`div`, `peek_status`)
+        status.innerHTML = Utils.sanitize(item.status)
+        let updated = DOM.create(`div`, `peek_updated`)
+        updated.textContent = item.updated_text
+
+        DOM.ev(icon, `click`, (e) => {
+            Items.show_menu({curl: args.curl, e: e, from: `peek`})
+        })
+
+        icon.title = `Click to show menu`
+
+        let close = DOM.create(`div`, `peek_close glow_white noselect`)
+        close.textContent = `Close`
+
+        DOM.ev(close, `click`, () => {
+            this.hide()
+        })
+
+        peek.innerHTML = ``
+        peek.append(icon)
+        peek.append(curl_)
+        peek.append(status)
+        peek.append(close)
+        peek.append(updated)
+
+        peek.classList.add(`active`)
+        this.open = true
+        this.curl = args.curl
+    }
+
+    hide () {
+        if (!this.open) {
+            return
+        }
+
+        DOM.el(`#peek`).classList.remove(`active`)
+        this.open = false
+        this.curl = ``
+    }
 }
 
-Peek.hide = () => {
-    if (!Peek.open) {
-        return
-    }
-
-    DOM.el(`#peek`).classList.remove(`active`)
-    Peek.open = false
-    Peek.curl = ``
-}
+const Peek = new PeekClass()

@@ -99,15 +99,15 @@ class CurlistClass {
             }
         })
 
-        DOM.ev(container, `mousedown`, function(e) {
+        DOM.ev(container, `mousedown`, (e) => {
             this.mousedown(e)
         })
 
-        DOM.ev(container, `mouseup`, function() {
+        DOM.ev(container, `mouseup`, () => {
             this.mouseup()
         })
 
-        DOM.ev(container, `mouseover`, function(e) {
+        DOM.ev(container, `mouseover`, (e) => {
             this.mouseover(e)
         })
 

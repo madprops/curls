@@ -5,161 +5,163 @@ It is used to toggle some options
 
 */
 
-const More = {}
+class MoreClass {
+    setup () {
+        let button = DOM.el(`#footer_more`)
 
-More.setup = () => {
-    let button = DOM.el(`#footer_more`)
+        DOM.ev(button, `click`, (e) => {
+            this.show_menu(e)
+        })
 
-    DOM.ev(button, `click`, (e) => {
-        More.show_menu(e)
-    })
+        DOM.ev(button, `auxclick`, (e) => {
+            if (e.button == 1) {
+                this.reset(e)
+            }
+        })
 
-    DOM.ev(button, `auxclick`, (e) => {
-        if (e.button == 1) {
-            More.reset(e)
+        let lines = [
+            `More options`,
+            `Middle Click to reset`,
+        ]
+
+        button.title = lines.join(`\n`)
+    }
+
+    change_highlight (what) {
+        Container.highlight_enabled = what
+        Container.save_highlight_enabled()
+    }
+
+    change_peek (what) {
+        Peek.enabled = what
+        Peek.save_enabled()
+    }
+
+    change_wrap (what, actions = true) {
+        Container.wrap_enabled = what
+        Container.save_wrap_enabled()
+
+        if (actions) {
+            Container.update()
         }
-    })
+    }
 
-    let lines = [
-        `More options`,
-        `Middle Click to reset`,
-    ]
+    change_controls (what, actions = true) {
+        Controls.enabled = what
+        Controls.save_enabled()
 
-    button.title = lines.join(`\n`)
-}
+        if (actions) {
+            Controls.check_enabled()
+        }
+    }
 
-More.change_highlight = (what) => {
-    Container.highlight_enabled = what
-    Container.save_highlight_enabled()
-}
+    show_menu (e) {
+        let items = []
 
-More.change_peek = (what) => {
-    Peek.enabled = what
-    Peek.save_enabled()
-}
+        if (Container.highlight_enabled) {
+            items.push({
+                text: `Disable Highlight`,
+                action: () => {
+                    this.change_highlight(false)
+                },
+                info: `Disable the highlight effect on the container when selecting items in the curlist`,
+            })
+        }
+        else {
+            items.push({
+                text: `Enable Highlight`,
+                action: () => {
+                    this.change_highlight(true)
+                },
+                info: `Enable the highlight effect on the container when selecting items in the curlist`,
+            })
+        }
 
-More.change_wrap = (what, actions = true) => {
-    Container.wrap_enabled = what
-    Container.save_wrap_enabled()
+        if (Peek.enabled) {
+            items.push({
+                text: `Disable Peek`,
+                action: () => {
+                    this.change_peek(false)
+                },
+                info: `Disable peek when selecting items in the curlist`,
+            })
+        }
+        else {
+            items.push({
+                text: `Enable Peek`,
+                action: () => {
+                    this.change_peek(true)
+                },
+                info: `Enable peek when selecting items in the curlist`,
+            })
+        }
 
-    if (actions) {
+        if (Container.wrap_enabled) {
+            items.push({
+                text: `Disable Wrap`,
+                action: () => {
+                    this.change_wrap(false)
+                },
+                info: `Disable text wrapping in the container`,
+            })
+        }
+        else {
+            items.push({
+                text: `Enable Wrap`,
+                action: () => {
+                    this.change_wrap(true)
+                },
+                info: `Enable text wrapping in the container`,
+            })
+        }
+
+        if (Controls.enabled) {
+            items.push({
+                text: `Disable Controls`,
+                action: () => {
+                    this.change_controls(false)
+                },
+                info: `Disable the controls`,
+            })
+        }
+        else {
+            items.push({
+                text: `Enable Controls`,
+                action: () => {
+                    this.change_controls(true)
+                },
+                info: `Enable the controls`,
+            })
+        }
+
+        NeedContext.show({items: items, e: e})
+    }
+
+    reset () {
+        let vars = [
+            Container.highlight_enabled,
+            Peek.enabled,
+            Container.wrap_enabled,
+            Controls.enabled,
+        ]
+
+        if (vars.every((x) => x)) {
+            return
+        }
+
+        Windows.confirm({title: `Reset Options`, ok: () => {
+            this.do_reset()
+        }, message: `Reset all options to default`})
+    }
+
+    do_reset () {
+        this.change_highlight(true)
+        this.change_peek(true)
+        this.change_wrap(true, false)
+        this.change_controls(true, false)
+        Controls.check_enabled()
         Container.update()
     }
 }
 
-More.change_controls = (what, actions = true) => {
-    Controls.enabled = what
-    Controls.save_enabled()
-
-    if (actions) {
-        Controls.check_enabled()
-    }
-}
-
-More.show_menu = (e) => {
-    let items = []
-
-    if (Container.highlight_enabled) {
-        items.push({
-            text: `Disable Highlight`,
-            action: () => {
-                More.change_highlight(false)
-            },
-            info: `Disable the highlight effect on the container when selecting items in the curlist`,
-        })
-    }
-    else {
-        items.push({
-            text: `Enable Highlight`,
-            action: () => {
-                More.change_highlight(true)
-            },
-            info: `Enable the highlight effect on the container when selecting items in the curlist`,
-        })
-    }
-
-    if (Peek.enabled) {
-        items.push({
-            text: `Disable Peek`,
-            action: () => {
-                More.change_peek(false)
-            },
-            info: `Disable peek when selecting items in the curlist`,
-        })
-    }
-    else {
-        items.push({
-            text: `Enable Peek`,
-            action: () => {
-                More.change_peek(true)
-            },
-            info: `Enable peek when selecting items in the curlist`,
-        })
-    }
-
-    if (Container.wrap_enabled) {
-        items.push({
-            text: `Disable Wrap`,
-            action: () => {
-                More.change_wrap(false)
-            },
-            info: `Disable text wrapping in the container`,
-        })
-    }
-    else {
-        items.push({
-            text: `Enable Wrap`,
-            action: () => {
-                More.change_wrap(true)
-            },
-            info: `Enable text wrapping in the container`,
-        })
-    }
-
-    if (Controls.enabled) {
-        items.push({
-            text: `Disable Controls`,
-            action: () => {
-                More.change_controls(false)
-            },
-            info: `Disable the controls`,
-        })
-    }
-    else {
-        items.push({
-            text: `Enable Controls`,
-            action: () => {
-                More.change_controls(true)
-            },
-            info: `Enable the controls`,
-        })
-    }
-
-    NeedContext.show({items: items, e: e})
-}
-
-More.reset = () => {
-    let vars = [
-        Container.highlight_enabled,
-        Peek.enabled,
-        Container.wrap_enabled,
-        Controls.enabled,
-    ]
-
-    if (vars.every((x) => x)) {
-        return
-    }
-
-    Windows.confirm({title: `Reset Options`, ok: () => {
-        More.do_reset()
-    }, message: `Reset all options to default`})
-}
-
-More.do_reset = () => {
-    More.change_highlight(true)
-    More.change_peek(true)
-    More.change_wrap(true, false)
-    More.change_controls(true, false)
-    Controls.check_enabled()
-    Container.update()
-}
+const More = new MoreClass()
