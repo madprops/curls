@@ -129,7 +129,7 @@ html
     flex-direction: row;
     margin-bottom: 0.5rem;
     row-gap: 0.8rem;
-    column-gap: 1.4rem;
+    column-gap: 1.2rem;
     flex-wrap: wrap;
 }
 
@@ -138,7 +138,7 @@ html
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 1.4rem;
+    gap: 1.2rem;
 }
 
 .control_section {
