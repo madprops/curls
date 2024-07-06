@@ -142,7 +142,6 @@ class Menu {
                 return
             }
 
-            this.update()
             Update.update()
         }
         catch (err) {
