@@ -160,7 +160,7 @@ class Container {
     static drag_events() {
         let container = DOM.el(`#container`)
 
-        Drag.register({container: container,
+        new Drag({container: container,
             get_selected: () => {
                 return this.get_selected()
             },

@@ -460,7 +460,7 @@ class Curlist {
     static drag_events() {
         let container = DOM.el(`#curlist`)
 
-        Drag.register({container: container,
+        new Drag({container: container,
             get_selected: () => {
                 return Curlist.get_selected_items()
             },
