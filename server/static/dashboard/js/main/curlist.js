@@ -14,6 +14,7 @@ class Curlist {
     static filter_debouncer_delay = 250
     static ls_name = `curlist_enabled`
     static selected_id = 0
+    static dragged = false
 
     static setup() {
         let container = DOM.el(`#curlist_container`)
@@ -53,8 +54,11 @@ class Curlist {
         })
 
         DOM.ev(container, `dblclick`, (e) => {
-            let item = this.extract_item(e.target)
+            if (this.dragged) {
+                return
+            }
 
+            let item = this.extract_item(e.target)
             if (!item) {
                 Curls.add(`bottom`)
             }
@@ -128,6 +132,10 @@ class Curlist {
         })
 
         DOM.ev(curlist, `dblclick`, (e) => {
+            if (this.dragged) {
+                return
+            }
+
             let item = this.extract_item(e.target)
             let curl = this.extract_curl(item)
 
@@ -942,6 +950,7 @@ class Curlist {
     }
 
     static mousedown(e) {
+        this.dragged = false
         let item = this.extract_item(e.target)
 
         if (item) {
@@ -958,11 +967,13 @@ class Curlist {
     }
 
     static mouseover(e) {
-        if (!e.target.closest(`.curlist_item`)) {
+        if (!this.mouse_down) {
             return
         }
 
-        if (!this.mouse_down) {
+        this.dragged = true
+
+        if (!e.target.closest(`.curlist_item`)) {
             return
         }
 
