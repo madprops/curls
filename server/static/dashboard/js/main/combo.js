@@ -39,7 +39,7 @@ class Combo {
         args.element.title = lines.join(`\n`)
         this.update_text(args)
         let limit = args.items.length * 2
-        Block.register(`combo_${args.id}`, limit)
+        this.block = new Block(limit)
         this.id += 1
     }
 
@@ -93,7 +93,7 @@ class Combo {
     }
 
     static cycle(args, direction) {
-        if (Block.charge(`combo_${args.id}`)) {
+        if (this.block.add_charge()) {
             return
         }
 

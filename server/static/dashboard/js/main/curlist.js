@@ -187,7 +187,7 @@ class Curlist {
 
         filter.value = ``
 
-        Block.register(`curlist_vertical`, 200)
+        this.block_vertical = new Block(200)
         this.drag_events()
         this.update()
     }
@@ -681,7 +681,7 @@ class Curlist {
     }
 
     static select_vertical(direction, shift) {
-        if (Block.charge(`curlist_vertical`)) {
+        if (this.block_vertical.add_charge()) {
             return
         }
 
