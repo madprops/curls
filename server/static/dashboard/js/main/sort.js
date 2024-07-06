@@ -47,6 +47,10 @@ class Sort {
     }
 
     static set_value(value) {
+        if (this.mode === value) {
+            return
+        }
+
         this.combo.set_value(value)
     }
 

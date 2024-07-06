@@ -114,6 +114,7 @@ class Curls {
 
     static after_move(new_curls, curls) {
         this.save(new_curls)
+        Sort.set_value(`order`)
         Sort.sort_if_order()
         Container.deselect()
 
