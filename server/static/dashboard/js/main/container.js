@@ -220,7 +220,11 @@ class Container {
                 return false
             },
             select: (item) => {
-                this.select_item(item)
+                let selected = this.get_selected()
+
+                if (!selected.includes(item)) {
+                    this.select_single(item)
+                }
             },
         })
     }
