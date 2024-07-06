@@ -11,6 +11,7 @@ class Container {
     static highlight_debouncer_delay = 50
     static ls_name_wrap = `wrap_enabled`
     static ls_name_highlight = `highlight_enabled`
+    static selected_class = `selected`
 
     static setup() {
         this.empty_info = [
@@ -331,7 +332,7 @@ class Container {
 
     static dehighlight() {
         for (let item of Items.list) {
-            item.element.classList.remove(`highlight`)
+            item.element.classList.remove(this.selected_class)
         }
     }
 
@@ -360,10 +361,10 @@ class Container {
             }
 
             if (selected.includes(item.curl)) {
-                item.element.classList.add(`highlight`)
+                item.element.classList.add(this.selected_class)
             }
             else {
-                item.element.classList.remove(`highlight`)
+                item.element.classList.remove(this.selected_class)
             }
         }
 

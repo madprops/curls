@@ -15,6 +15,7 @@ class Curlist {
     static ls_name = `curlist_enabled`
     static selected_id = 0
     static dragged = false
+    static selected_class = `selected`
 
     static setup() {
         let container = DOM.el(`#curlist_container`)
@@ -514,7 +515,7 @@ class Curlist {
         }
 
         Utils.def_args(def_args, args)
-        args.item.classList.add(`selected`)
+        args.item.classList.add(this.selected_class)
 
         if (args.block !== `none`) {
             Utils.scroll_element({item: args.item, block: args.block})
@@ -535,7 +536,7 @@ class Curlist {
     }
 
     static do_deselect_item(item) {
-        item.classList.remove(`selected`)
+        item.classList.remove(this.selected_class)
         item.dataset.selected_id = 0
     }
 
@@ -634,7 +635,7 @@ class Curlist {
     }
 
     static select_toggle(item) {
-        if (item.classList.contains(`selected`)) {
+        if (item.classList.contains(this.selected_class)) {
             this.do_deselect_item(item)
         }
         else {
@@ -644,7 +645,7 @@ class Curlist {
 
     static get_selected_curls() {
         let items = this.get_elements()
-        let selected_items = items.filter(x => x.classList.contains(`selected`))
+        let selected_items = items.filter(x => x.classList.contains(this.selected_class))
         let curls = []
 
         for (let item of selected_items) {
@@ -656,7 +657,7 @@ class Curlist {
 
     static get_selected_items() {
         let items = this.get_elements()
-        return items.filter(x => x.classList.contains(`selected`))
+        return items.filter(x => x.classList.contains(this.selected_class))
     }
 
     static deselect() {

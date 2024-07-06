@@ -190,6 +190,10 @@ html
     padding-right: 0.5rem;
 }
 
+.item.selected {
+    background-color: var(--color_alpha);
+}
+
 /*  */
 
 #controls {
@@ -494,8 +498,4 @@ input[type="password"]
 
 .needcontext-text {
     font-family: var(--font) !important;
-}
-
-.highlight {
-    background-color: var(--color_alpha);
 }

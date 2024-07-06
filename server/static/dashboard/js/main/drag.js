@@ -1,3 +1,9 @@
+/*
+
+This is a generic way to add drag support to item lists
+
+*/
+
 class Drag {
     static drag_items = []
     static drag_y = 0
