@@ -337,8 +337,10 @@ class Container {
     }
 
     static deselect() {
-        for (let item of Items.list) {
-            item.element.classList.remove(this.selected_class)
+        let items = this.get_selected()
+
+        for (let item of items) {
+            this.deselect_item(item)
         }
 
         this.selected_id = 0
@@ -411,6 +413,7 @@ class Container {
     static select_single(item) {
         let curl = this.extract_curl(item)
         this.deselect()
+        this.selected_id = 0
         this.select_item(item)
         Peek.show({curl: curl})
     }
@@ -529,7 +532,7 @@ class Container {
             select.reverse()
         }
 
-        for (let item_ of select) {
+        for (let item of select) {
             this.select_item(item)
         }
     }
