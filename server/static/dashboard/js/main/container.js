@@ -38,8 +38,15 @@ class Container {
                 return
             }
 
+            let curl = this.extract_curl(item)
+
             if (e.target.closest(`.item_icon`)) {
                 let selected = this.get_selected()
+
+                if (selected.includes(item)) {
+                    Items.show_menu({curl: curl, e: e})
+                    return
+                }
 
                 if (e.shiftKey && selected.length) {
                     this.select_range(item)
@@ -60,9 +67,9 @@ class Container {
                 return
             }
 
-            let curl = this.extract_curl(item)
-
             if (e.button == 1) {
+                let curl = this.extract_curl(item)
+                this.check_select(item)
                 Curls.remove_selected(curl)
             }
         })
@@ -75,6 +82,7 @@ class Container {
             }
 
             let curl = this.extract_curl(item)
+            this.check_select(item)
             Items.show_menu({curl: curl, e: e})
             e.preventDefault()
         })
@@ -709,6 +717,14 @@ class Container {
 
         if (item) {
             this.select_item(item)
+        }
+    }
+
+    static check_select(item) {
+        let selected = this.get_selected()
+
+        if (!selected.includes(item)) {
+            this.select_single(item)
         }
     }
 }
