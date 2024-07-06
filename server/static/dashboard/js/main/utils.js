@@ -134,7 +134,7 @@ class Utils {
     static scroll_element(args = {}) {
         let def_args = {
             behavior: `instant`,
-            block: `center`,
+            block: `nearest`,
         }
 
         if (!args.item) {

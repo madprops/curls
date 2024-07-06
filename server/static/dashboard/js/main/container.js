@@ -386,6 +386,7 @@ class Container {
         item.classList.add(this.selected_class)
         this.selected_id += 1
         item.dataset.selected_id = this.selected_id
+        Utils.scroll_element({item: item})
     }
 
     static deselect_item(item) {
