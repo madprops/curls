@@ -73,17 +73,7 @@ App.claim = () => {
 
 App.start_mouse = () => {
     DOM.evs(DOM.el(`#main`), [`mousedown`], (e) => {
-        if (!e.target.closest(`#curlist`)) {
-            if (e.ctrlKey || e.shiftKey) {
-                return
-            }
-
-            Curlist.deselect()
-
-            if (!e.target.closest(`#peek`)) {
-                Peek.hide()
-            }
-        }
+        App.check_selection(e)
     })
 }
 
@@ -101,5 +91,25 @@ App.update_autocomplete = () => {
         var option = document.createElement(`option`)
         option.value = word
         data_list.append(option)
+    }
+}
+
+App.check_selection = (e) => {
+    if (e.ctrlKey || e.shiftKey) {
+        return
+    }
+
+    if (e.target.closest(`#curlist`)) {
+        return
+    }
+
+    if (e.target.closest(`.item_icon`)) {
+        return
+    }
+
+    Curlist.deselect()
+
+    if (!e.target.closest(`#peek`)) {
+        Peek.hide()
     }
 }

@@ -108,16 +108,12 @@ class Items {
         }
 
         Utils.def_args(def_args, args)
-        let selected = []
+        let selected = Curlist.get_selected_items()
+        let item = Curlist.get_item(args.curl)
 
-        if (args.from === `curlist`) {
-            selected = Curlist.get_selected_items()
-            let item = Curlist.extract_item(args.e.target)
-
-            if (!selected.length || !selected.includes(item)) {
-                Curlist.select_item(item)
-                selected = []
-            }
+        if (!selected.length || !selected.includes(item)) {
+            Curlist.select_item(item)
+            selected = []
         }
 
         let items = []
