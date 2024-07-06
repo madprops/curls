@@ -160,12 +160,12 @@ class Container {
         let container = DOM.el(`#container`)
 
         DOM.ev(container, `dragstart`, (e) => {
-            if (App.sort_mode !== `order`) {
+            if (Sort.mode !== `order`) {
                 e.preventDefault()
                 return false
             }
 
-            if (!e.target.classList.contains(`item_icon`)) {
+            if (!e.target.closest(`.item_icon`)) {
                 e.preventDefault()
                 return false
             }
@@ -303,6 +303,10 @@ class Container {
             `Click to show menu`,
             `Middle Click to remove`,
         ]
+
+        if (Sort.mode === `order`) {
+            lines.push(`Drag to reorder`)
+        }
 
         item_icon.title = lines.join(`\n`)
 
