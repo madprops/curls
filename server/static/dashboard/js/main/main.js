@@ -37,12 +37,6 @@ App.setup = () => {
 }
 
 App.setup_buttons = () => {
-    let claim = DOM.el(`#claim`)
-
-    DOM.ev(claim, `click`, () => {
-        App.claim()
-    })
-
     let top = DOM.el(`#scroller_top`)
 
     DOM.ev(top, `click`, () => {
@@ -67,10 +61,6 @@ App.setup_buttons = () => {
 App.update_title = () => {
     let color = Utils.capitalize(Colors.mode)
     document.title = `Curls - ${color}`
-}
-
-App.claim = () => {
-    window.open(`/claim`, `_blank`)
 }
 
 App.start_mouse = () => {

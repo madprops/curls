@@ -76,6 +76,17 @@ class Menu {
             ]
         }
 
+        items.push({
+            separator: true,
+        })
+
+        items.push({
+            text: `Claim`,
+            action: () => {
+                this.claim()
+            }
+        })
+
         NeedContext.show({items: items, e: e})
     }
 
@@ -138,5 +149,9 @@ class Menu {
             Utils.error(err)
             Windows.alert({title: `Error`, message: err})
         }
+    }
+
+    static claim() {
+        window.open(`/claim`, `_blank`)
     }
 }
