@@ -26,10 +26,6 @@ class Curls {
             return
         }
 
-        if (where === `top`) {
-            units = units.reverse()
-        }
-
         let added = []
 
         for (let curl of units) {
@@ -39,6 +35,10 @@ class Curls {
         }
 
         if (added.length) {
+            if (where === `top`) {
+                added.reverse()
+            }
+
             Update.update({ curls: added })
         }
     }
