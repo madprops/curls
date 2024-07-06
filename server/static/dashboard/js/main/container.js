@@ -31,8 +31,6 @@ class Container {
                 return
             }
 
-            let curl = this.extract_curl(item)
-
             if (e.target.closest(`.item_updated`)) {
                 Dates.change_mode()
                 return
@@ -48,7 +46,7 @@ class Container {
                     this.toggle_select(item)
                 }
                 else {
-                    this.select_item(item)
+                    this.select_single(item)
                 }
             }
         })
@@ -510,7 +508,7 @@ class Container {
         for (let i = 0; i < items.length; i++) {
             if (i < start) {
                 if (direction === `up`) {
-                    this.do_deselect_item(items[i])
+                    this.deselect_item(items[i])
                 }
 
                 continue
