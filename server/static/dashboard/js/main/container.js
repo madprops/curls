@@ -26,39 +26,57 @@ class Container {
         let container = DOM.el(`#container`)
 
         DOM.ev(container, `click`, (e) => {
+            let item = e.target.closest(`.item`)
+
+            if (!item) {
+                return
+            }
+
+            let curl = this.extract_curl(item)
+
             if (e.target.closest(`.item_updated`)) {
                 Dates.change_mode()
                 return
             }
 
             if (e.target.closest(`.item_icon`)) {
-                let curl = e.target.closest(`.item`).dataset.curl
 
                 if (e.ctrlKey || e.shiftKey) {
                     Curlist.focus_item(curl)
                     return
                 }
 
-                Items.show_menu({curl: curl, e: e, from: `container`})
+                Curlist.select_item_curl(curl)
                 return
             }
         })
 
         DOM.ev(container, `auxclick`, (e) => {
+            let item = e.target.closest(`.item`)
+
+            if (!item) {
+                return
+            }
+
+            let curl = this.extract_curl(item)
+
             if (e.button == 1) {
                 if (e.target.closest(`.item_icon`)) {
-                    let curl = e.target.closest(`.item`).dataset.curl
                     Curlist.remove(curl)
                 }
             }
         })
 
         DOM.ev(container, `contextmenu`, (e) => {
-            if (e.target.closest(`.item_icon`)) {
-                e.preventDefault()
-                let curl = e.target.closest(`.item`).dataset.curl
-                Items.show_menu({curl: curl, e: e, from: `container`})
+            let item = e.target.closest(`.item`)
+
+            if (!item) {
+                return
             }
+
+            let curl = this.extract_curl(item)
+            Items.show_menu({curl: curl, e: e, from: `container`})
+            e.preventDefault()
         })
 
         this.check_scroll_debouncer = Utils.create_debouncer(() => {
@@ -175,7 +193,10 @@ class Container {
             },
             on_end: () => {
                 this.order_based_on_container()
-            }
+            },
+            locked: () => {
+                return Sort.mode !== `order`
+            },
         })
     }
 
@@ -379,5 +400,9 @@ class Container {
 
     static get_selected() {
         return DOM.els(`#container .item.${this.selected_class}`)
+    }
+
+    static extract_curl(item) {
+        return item.dataset.curl
     }
 }

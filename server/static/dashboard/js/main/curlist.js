@@ -475,7 +475,10 @@ class Curlist {
             },
             on_end: () => {
                 Curlist.save_after_move()
-            }
+            },
+            locked: () => {
+                return false
+            },
         })
 
         let filter = DOM.el(`#curlist_filter`)
@@ -993,6 +996,14 @@ class Curlist {
                 this.select_item(item)
                 Curls.remove([curl])
             }
+        }
+    }
+
+    static select_item_curl(curl) {
+        let item = this.get_item(curl)
+
+        if (item) {
+            this.select_item(item)
         }
     }
 }

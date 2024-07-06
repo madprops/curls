@@ -27,6 +27,11 @@ class Drag {
     }
 
     drag_start(e) {
+        if (this.args.locked()) {
+            e.preventDefault()
+            return false
+        }
+
         let item = this.args.get_item(e)
         let curl = this.args.get_curl(item)
         this.drag_y = e.clientY

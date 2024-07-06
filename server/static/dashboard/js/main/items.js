@@ -198,19 +198,6 @@ class Items {
                     }
                 },
             ]
-
-            if (args.from === `container`) {
-                items.push({
-                    separator: true,
-                })
-
-                items.push({
-                    text: `Peek`,
-                    action: () => {
-                        Peek.show({curl: args.curl, force: true})
-                    }
-                })
-            }
         }
 
         NeedContext.show({
