@@ -45,7 +45,7 @@ class Drag {
             this.drag_items = selected
         }
         else {
-            Curlist.select_item(item)
+            this.args.select(item)
             this.drag_items = [item]
         }
 

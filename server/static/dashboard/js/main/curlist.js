@@ -479,6 +479,10 @@ class Curlist {
             locked: () => {
                 return false
             },
+            select: (item) => {
+                let curl = this.extract_curl(item)
+                Curlist.select_item_curl(curl)
+            },
         })
 
         let filter = DOM.el(`#curlist_filter`)
@@ -670,7 +674,7 @@ class Curlist {
             this.do_deselect_item(item)
         }
 
-        Container.dehighlight()
+        Container.deselect()
         this.selected_id = 0
     }
 
@@ -855,14 +859,6 @@ class Curlist {
         }
     }
 
-    static focus_item(curl) {
-        let item = this.get_item(curl)
-
-        if (item) {
-            this.do_select_item({item: item})
-        }
-    }
-
     static move_up() {
         let items = this.get_elements()
         let selected = this.get_selected_items()
@@ -999,11 +995,16 @@ class Curlist {
         }
     }
 
-    static select_item_curl(curl) {
+    static select_item_curl(curl, single = false) {
         let item = this.get_item(curl)
 
         if (item) {
-            this.select_item(item)
+            if (single) {
+                this.select_item(item)
+            }
+            else {
+                this.do_select_item({item: item})
+            }
         }
     }
 }

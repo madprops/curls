@@ -132,7 +132,7 @@ class Curls {
             }
         }
 
-        Curlist.focus_item(leader)
+        Curlist.select_item_curl(leader)
     }
 
     static save(curls, color = Colors.mode) {

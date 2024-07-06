@@ -40,13 +40,12 @@ class Container {
             }
 
             if (e.target.closest(`.item_icon`)) {
-
                 if (e.ctrlKey || e.shiftKey) {
-                    Curlist.focus_item(curl)
+                    this.toggle_select(item)
                     return
                 }
 
-                Curlist.select_item_curl(curl)
+                this.select_single(item)
                 return
             }
         })
@@ -196,6 +195,9 @@ class Container {
             },
             locked: () => {
                 return Sort.mode !== `order`
+            },
+            select: (item) => {
+                this.select_item(item)
             },
         })
     }
@@ -351,7 +353,7 @@ class Container {
         item.element = el
     }
 
-    static dehighlight() {
+    static deselect() {
         for (let item of Items.list) {
             item.element.classList.remove(this.selected_class)
         }
@@ -382,10 +384,10 @@ class Container {
             }
 
             if (selected.includes(item.curl)) {
-                item.element.classList.add(this.selected_class)
+                this.select_item(item.element)
             }
             else {
-                item.element.classList.remove(this.selected_class)
+                this.deselect_item(item.element)
             }
         }
 
@@ -404,5 +406,29 @@ class Container {
 
     static extract_curl(item) {
         return item.dataset.curl
+    }
+
+    static select_item(item) {
+        item.classList.add(this.selected_class)
+    }
+
+    static deselect_item(item) {
+        item.classList.remove(this.selected_class)
+    }
+
+    static toggle_select(item) {
+        if (item.classList.contains(this.selected_class)) {
+            this.deselect_item(item)
+        }
+        else {
+            this.select_item(item)
+        }
+    }
+
+    static select_single(item) {
+        let curl = this.extract_curl(item)
+        this.deselect()
+        this.select_item(item)
+        Peek.show({curl: curl})
     }
 }
