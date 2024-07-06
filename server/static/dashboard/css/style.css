@@ -136,7 +136,17 @@ html
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 0.88rem;
+    gap: 1.4rem;
+}
+
+.control_section {
+    display: flex;
+    flex-direction: row;
+    gap: 0.66rem;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--color_alpha_2);
+    padding: 0.5rem;
 }
 
 a:visited,
