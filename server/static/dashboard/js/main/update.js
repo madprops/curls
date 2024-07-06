@@ -7,7 +7,7 @@ Update manager
 class Update {
     static default_mode = `minutes_5`
     static enabled = false
-    static delay = App.MINUTE * 5
+    static delay = Utils.MINUTE * 5
     static debouncer_delay = 250
     static updating = false
     static clear_delay = 800
@@ -59,7 +59,7 @@ class Update {
 
         if (mode.startsWith(`minutes_`)) {
             let minutes = parseInt(mode.split(`_`)[1])
-            this.delay = App.MINUTE * minutes
+            this.delay = Utils.MINUTE * minutes
             this.enabled = true
         }
         else {

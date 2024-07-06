@@ -7,7 +7,7 @@ These are curl operations
 class Curls {
     static max_curls = 100
     static max_length = 20
-    static old_delay = App.YEAR * 1
+    static old_delay = Utils.YEAR * 1
 
     static add(where) {
         Windows.prompt({title: `Add Curls`, callback: (value) => {

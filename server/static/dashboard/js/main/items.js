@@ -51,15 +51,15 @@ class Items {
     }
 
     static get_today() {
-        return this.get_by_date(App.DAY)
+        return this.get_by_date(Utils.DAY)
     }
 
     static get_week() {
-        return this.get_by_date(App.WEEK)
+        return this.get_by_date(Utils.WEEK)
     }
 
     static get_month() {
-        return this.get_by_date(App.MONTH)
+        return this.get_by_date(Utils.MONTH)
     }
 
     static reset() {

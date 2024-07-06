@@ -6,6 +6,13 @@ These are some utility functions
 
 class Utils {
     static console_logs = true
+    static SECOND = 1000
+    static MINUTE = this.SECOND * 60
+    static HOUR = this.MINUTE * 60
+    static DAY = this.HOUR * 24
+    static WEEK = this.DAY * 7
+    static MONTH = this.DAY * 30
+    static YEAR = this.DAY * 365
 
     static deselect() {
         window.getSelection().removeAllRanges()

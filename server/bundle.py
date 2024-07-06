@@ -37,7 +37,7 @@ def bundle_dashboard_js(what: str, first: list[str], last: list[str]) -> None:
 
 def bundle_dashboard() -> None:
     bundle_dashboard_js("libs", [], [])
-    bundle_dashboard_js("main", ["main"], ["load"])
+    bundle_dashboard_js("main", ["main", "utils"], ["load"])
 
 
 if __name__ == "__main__":
