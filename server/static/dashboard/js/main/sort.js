@@ -57,7 +57,10 @@ class Sort {
 
         this.mode = value
         Utils.save(this.ls_name, value)
-        Container.update()
+
+        if (this.mode !== `order`) {
+            Container.update()
+        }
     }
 
     static sort_if_order() {
@@ -70,7 +73,13 @@ class Sort {
         let mode = this.mode
 
         if (mode === `order`) {
-            // Do nothing!
+            let curls = Curls.get()
+
+            items.sort((a, b) => {
+                let a_index = curls.indexOf(a.curl)
+                let b_index = curls.indexOf(b.curl)
+                return a_index - b_index
+            })
         }
         else if (mode === `newest`) {
             items.sort((a, b) => {

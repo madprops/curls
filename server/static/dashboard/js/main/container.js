@@ -553,9 +553,9 @@ class Container {
     }
 
     static after_drag() {
-        Sort.set_value(`order`)
         let curls = this.get_curls()
         Curls.save(curls)
+        Sort.set_value(`order`)
     }
 
     static get_curls() {
