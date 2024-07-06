@@ -21,8 +21,8 @@ class Container {
             `Click <a href="/claim" target="_blank">here</a> to claim your own curl.`,
         ].join(`<br>`)
 
-        let outer = DOM.el(`#container_outer`)
-        let container = DOM.el(`#container`)
+        let outer = this.get_outer()
+        let container = this.get_container()
 
         DOM.ev(container, `mousedown`, (e) => {
             if (e.ctrlKey || e.shiftKey) {
@@ -42,6 +42,7 @@ class Container {
                 return
             }
 
+            this.focus_container()
             let curl = this.extract_curl(item)
             let selected = Select.get_selected()
             let is_icon = e.target.closest(`.item_icon`)
@@ -122,7 +123,7 @@ class Container {
     }
 
     static clear() {
-        let container = DOM.el(`#container`)
+        let container = this.get_container()
         container.innerHTML = ``
     }
 
@@ -143,7 +144,7 @@ class Container {
     }
 
     static set_info(info) {
-        let container = DOM.el(`#container`)
+        let container = this.get_container()
         let item = DOM.create(`div`, `info_item`)
         item.innerHTML = info
         container.innerHTML = ``
@@ -156,12 +157,12 @@ class Container {
     }
 
     static scroll_top() {
-        let container = DOM.el(`#container_outer`)
+        let container = this.get_outer()
         container.scrollTop = 0
     }
 
     static scroll_bottom() {
-        let container = DOM.el(`#container_outer`)
+        let container = this.get_outer()
         container.scrollTop = container.scrollHeight
     }
 
@@ -171,7 +172,7 @@ class Container {
 
     static do_check_scroll() {
         this.check_scroll_debouncer.cancel()
-        let outer = DOM.el(`#container_outer`)
+        let outer = this.get_outer()
         let top = DOM.el(`#scroller_top`)
         let bottom = DOM.el(`#scroller_bottom`)
 
@@ -195,7 +196,7 @@ class Container {
     }
 
     static drag_events() {
-        let container = DOM.el(`#container`)
+        let container = this.get_container()
 
         new Drag({container: container,
             get_selected: () => {
@@ -291,7 +292,7 @@ class Container {
     }
 
     static create_element(item) {
-        let container = DOM.el(`#container`)
+        let container = this.get_container()
         let el = DOM.create(`div`, `item`)
         let item_icon = DOM.create(`div`, `item_icon`)
         item_icon.draggable = true
@@ -391,7 +392,7 @@ class Container {
     }
 
     static setup_keyboard() {
-        let container = DOM.el(`#container`)
+        let container = this.get_container()
 
         DOM.ev(container, `keydown`, (e) => {
             if (e.key === `Delete`) {
@@ -403,7 +404,12 @@ class Container {
                 let selected = Select.get_selected()
 
                 if (selected.length) {
-                    Select.select_vertical(`up`, e.shiftKey)
+                    if (e.ctrlKey) {
+                        Move.up()
+                    }
+                    else {
+                        Select.select_vertical(`up`, e.shiftKey)
+                    }
                 }
                 else {
                     if (e.ctrlKey) {
@@ -419,7 +425,12 @@ class Container {
                 let selected = Select.get_selected()
 
                 if (selected.length) {
-                    Select.select_vertical(`down`, e.shiftKey)
+                    if (e.ctrlKey) {
+                        Move.down()
+                    }
+                    else {
+                        Select.select_vertical(`down`, e.shiftKey)
+                    }
                 }
                 else {
                     if (e.ctrlKey) {
@@ -455,17 +466,30 @@ class Container {
     }
 
     static scroll_up() {
-        let container = DOM.el(`#container_outer`)
+        let container = this.get_outer()
         container.scrollTop -= this.scroll_step
     }
 
     static scroll_down() {
-        let container = DOM.el(`#container_outer`)
+        let container = this.get_outer()
         container.scrollTop += this.scroll_step
     }
 
     static get_item(curl) {
         let items = this.get_items()
         return items.find(x => x.dataset.curl === curl)
+    }
+
+    static focus_container() {
+        let container = this.get_container()
+        container.focus()
+    }
+
+    static get_outer() {
+        return DOM.el(`#container_outer`)
+    }
+
+    static get_container() {
+        return DOM.el(`#container`)
     }
 }
