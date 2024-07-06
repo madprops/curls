@@ -1,6 +1,7 @@
 /*
 
 This is the main container widget with the vertical items
+Most action happens here
 
 */
 
@@ -11,6 +12,7 @@ class Container {
     static ls_wrap = `wrap_enabled`
     static selected_class = `selected`
     static selected_id = 0
+    static scroll_step = 100
 
     static setup() {
         this.empty_info = [
@@ -97,6 +99,7 @@ class Container {
             this.do_highlight(args)
         }, this.highlight_debouncer_delay)
 
+        this.block = new Block(120)
         this.setup_keyboard()
     }
 
@@ -421,12 +424,36 @@ class Container {
                 e.preventDefault()
             }
             else if (e.key === `ArrowUp`) {
-                // Scroll up
                 e.preventDefault()
+                let selected = this.get_selected()
+
+                if (selected.length) {
+                    this.select_vertical(`up`, e.shiftKey)
+                }
+                else {
+                    if (e.ctrlKey) {
+                        this.scroll_top()
+                        return
+                    }
+
+                    this.scroll_up()
+                }
             }
             else if (e.key === `ArrowDown`) {
-                // Scroll down
                 e.preventDefault()
+                let selected = this.get_selected()
+
+                if (selected.length) {
+                    this.select_vertical(`down`, e.shiftKey)
+                }
+                else {
+                    if (e.ctrlKey) {
+                        this.scroll_bottom()
+                        return
+                    }
+
+                    this.scroll_down()
+                }
             }
             else if (e.key === `Escape`) {
                 Peek.hide()
@@ -561,5 +588,113 @@ class Container {
     static get_curls() {
         let items = this.get_items()
         return items.map(item => item.dataset.curl)
+    }
+
+    static scroll_up() {
+        let container = DOM.el(`#container_outer`)
+        container.scrollTop -= this.scroll_step
+    }
+
+    static scroll_down() {
+        let container = DOM.el(`#container_outer`)
+        container.scrollTop += this.scroll_step
+    }
+
+    static select_vertical(direction, shift) {
+        if (this.block.add_charge()) {
+            return
+        }
+
+        let items = this.get_visible()
+
+        if (!items.length) {
+            return
+        }
+
+        let selected = this.get_selected()
+        let prev_item = this.get_prev_item()
+        let prev_index = items.indexOf(prev_item)
+        let first_index = items.indexOf(selected[0])
+
+        if (!selected.length) {
+            let item
+
+            if (direction === `up`) {
+                item = Utils.last(items)
+            }
+            else if (direction === `down`) {
+                item = items[0]
+            }
+
+            this.select_single(item)
+            return
+        }
+
+        if (direction === `up`) {
+            if (shift) {
+                let item = items[prev_index - 1]
+
+                if (!item) {
+                    return
+                }
+
+                this.select_range(item)
+            }
+            else {
+                let item
+
+                if (selected.length > 1) {
+                    item = selected[0]
+                }
+                else {
+                    let index = first_index - 1
+
+                    if (index < 0) {
+                        index = items.length - 1
+                    }
+
+                    item = items[index]
+                }
+
+                if (!item) {
+                    return
+                }
+
+                this.select_single(item)
+            }
+        }
+        else if (direction === `down`) {
+            if (shift) {
+                let item = items[prev_index + 1]
+
+                if (!item) {
+                    return
+                }
+
+                this.select_range(item)
+            }
+            else {
+                let item
+
+                if (selected.length > 1) {
+                    item = Utils.last(selected)
+                }
+                else {
+                    let index = first_index + 1
+
+                    if (index >= items.length) {
+                        index = 0
+                    }
+
+                    item = items[index]
+                }
+
+                if (!item) {
+                    return
+                }
+
+                this.select_single(item)
+            }
+        }
     }
 }
