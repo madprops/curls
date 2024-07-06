@@ -153,20 +153,10 @@ class Curlist {
         })
 
         DOM.ev(curlist, `auxclick`, (e) => {
-            let item = this.extract_item(e.target)
-            let curl = this.extract_curl(item)
-            let selected = this.get_selected_items()
-
             if (e.button === 1) {
-                if (item) {
-                    if (selected.length && selected.includes(item)) {
-                        Curls.remove_selected()
-                    }
-                    else {
-                        this.select_item(item)
-                        Curls.remove([curl])
-                    }
-                }
+                let item = this.extract_item(e.target)
+                let curl = this.extract_curl(item)
+                Curlist.remove(curl)
             }
         })
 
@@ -1013,5 +1003,20 @@ class Curlist {
         }
 
         return prev_item
+    }
+
+    static remove(curl) {
+        let selected = this.get_selected_items()
+        let item = this.get_item(curl)
+
+        if (item) {
+            if (selected.length && selected.includes(item)) {
+                Curls.remove_selected()
+            }
+            else {
+                this.select_item(item)
+                Curls.remove([curl])
+            }
+        }
     }
 }
