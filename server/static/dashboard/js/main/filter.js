@@ -50,7 +50,7 @@ class Filter {
         this.mode = this.load_filter()
 
         Combo.register({
-            title: `this Modes`,
+            title: `Filter Modes`,
             items: this.modes,
             value: this.filer_mode,
             element: button,
