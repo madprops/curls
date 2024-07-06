@@ -19,46 +19,7 @@ export default [
         "named": "never",
         "asyncArrow": "always"
       }],
+      "no-undef": "off",
     },
-    languageOptions: {
-      globals: {
-        App: "writable",
-
-        DOM: "writable",
-        Msg: "writable",
-
-        Combo: "writable",
-        Block: "writable",
-        Peek: "writable",
-        Curlist: "writable",
-        Addlist: "writable",
-        More: "writable",
-        Curls: "writable",
-        Items: "writable",
-        Container: "writable",
-        Update: "writable",
-        Change: "writable",
-        Picker: "writable",
-        Filter: "writable",
-        Sort: "writable",
-        Colors: "writable",
-        Border: "writable",
-        Font: "writable",
-        Status: "writable",
-        Controls: "writable",
-        Windows: "writable",
-        Utils: "writable",
-        Intro: "writable",
-
-        NiceGesture: "writable",
-        NeedContext: "writable",
-        Menubutton: "writable",
-        ColorLib: "writable",
-        AColorPicker: "writable",
-        dateFormat: "writable",
-        jdenticon: "writable",
-        browser: "writable",
-      }
-    }
   }
 ]
