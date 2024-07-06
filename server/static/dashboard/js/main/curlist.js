@@ -459,47 +459,22 @@ class Curlist {
     static drag_events() {
         let container = DOM.el(`#curlist`)
 
-        DOM.ev(container, `dragstart`, (e) => {
-            let item = this.extract_item(e.target)
-            let curl = this.extract_curl(item)
-            this.drag_y = e.clientY
-
-            e.dataTransfer.setData(`text`, curl)
-            e.dataTransfer.setDragImage(new Image(), 0, 0)
-
-            let selected = this.get_selected_items()
-
-            if (selected.length && selected.includes(item)) {
-                this.drag_items = selected
+        Drag.register({container: container,
+            get_selected: () => {
+                return Curlist.get_selected_items()
+            },
+            get_items: () => {
+                return this.get_elements()
+            },
+            get_item: (e) => {
+                return this.extract_item(e.target)
+            },
+            get_curl: (item) => {
+                return this.extract_curl(item)
+            },
+            on_end: () => {
+                Curlist.save_after_move()
             }
-            else {
-                this.select_item(item)
-                this.drag_items = [item]
-            }
-        })
-
-        DOM.ev(container, `dragenter`, (e) => {
-            let items = this.get_elements()
-            let item = this.extract_item(e.target)
-            let index = items.indexOf(item)
-
-            if (index === -1) {
-                return
-            }
-
-            let direction = (e.clientY > this.drag_y) ? `down` : `up`
-            this.drag_y = e.clientY
-
-            if (direction === `up`) {
-                item.before(...this.drag_items)
-            }
-            else if (direction === `down`) {
-                item.after(...this.drag_items)
-            }
-        })
-
-        DOM.ev(container, `dragend`, (e) => {
-            this.save_after_move()
         })
 
         let filter = DOM.el(`#curlist_filter`)

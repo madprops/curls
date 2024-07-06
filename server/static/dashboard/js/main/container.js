@@ -159,49 +159,22 @@ class Container {
     static drag_events() {
         let container = DOM.el(`#container`)
 
-        DOM.ev(container, `dragstart`, (e) => {
-            if (Sort.mode !== `order`) {
-                e.preventDefault()
-                return false
+        Drag.register({container: container,
+            get_selected: () => {
+                return this.get_selected()
+            },
+            get_items: () => {
+                return this.get_items()
+            },
+            get_item: (e) => {
+                return e.target.closest(`.item`)
+            },
+            get_curl: (item) => {
+                return item.dataset.curl
+            },
+            on_end: () => {
+                this.order_based_on_container()
             }
-
-            if (!e.target.closest(`.item_icon`)) {
-                e.preventDefault()
-                return false
-            }
-
-            let item = e.target.closest(`.item`)
-            let curl = item.dataset.curl
-            App.drag_y_container = e.clientY
-
-            e.dataTransfer.setData(`text`, curl)
-            e.dataTransfer.setDragImage(new Image(), 0, 0)
-
-            App.drag_items_container = [item]
-        })
-
-        DOM.ev(container, `dragenter`, (e) => {
-            let items = this.get_items()
-            let item = e.target.closest(`.item`)
-            let index = items.indexOf(item)
-
-            if (index === -1) {
-                return
-            }
-
-            let direction = (e.clientY > App.drag_y_container) ? `down` : `up`
-            App.drag_y_container = e.clientY
-
-            if (direction === `up`) {
-                item.before(...App.drag_items_container)
-            }
-            else if (direction === `down`) {
-                item.after(...App.drag_items_container)
-            }
-        })
-
-        DOM.ev(container, `dragend`, (e) => {
-            this.order_based_on_container()
         })
     }
 
@@ -401,5 +374,9 @@ class Container {
                 Utils.scroll_element({item: item.element, behavior: args.behavior})
             }
         }
+    }
+
+    static get_selected() {
+        return DOM.els(`#container .item.highlight`)
     }
 }
