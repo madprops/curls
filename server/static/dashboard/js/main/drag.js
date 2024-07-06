@@ -26,9 +26,15 @@ class Drag {
                 Curlist.select_item(item)
                 this.drag_items = [item]
             }
+
+            args.started = true
         })
 
         DOM.ev(args.container, `dragenter`, (e) => {
+            if (!args.started) {
+                return
+            }
+
             let items = args.get_items()
             let item = args.get_item(e)
             let index = items.indexOf(item)
@@ -50,6 +56,7 @@ class Drag {
 
         DOM.ev(args.container, `dragend`, (e) => {
             args.on_end()
+            args.started = false
         })
     }
 }
