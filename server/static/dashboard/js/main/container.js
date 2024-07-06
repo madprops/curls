@@ -81,7 +81,7 @@ class Container {
 
             if (e.button == 1) {
                 let curl = this.extract_curl(item)
-                this.check_select(item)
+                Select.check_select(item)
                 Curls.remove_selected(curl)
             }
         })
@@ -94,7 +94,7 @@ class Container {
             }
 
             let curl = this.extract_curl(item)
-            this.check_select(item)
+            Select.check_select(item)
             Items.show_menu({curl: curl, e: e})
             e.preventDefault()
         })
