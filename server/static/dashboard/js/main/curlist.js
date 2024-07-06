@@ -58,6 +58,10 @@ class Curlist {
                 return
             }
 
+            if (e.ctrlKey || e.shiftKey) {
+                return
+            }
+
             let item = this.extract_item(e.target)
             if (!item) {
                 Curls.add(`bottom`)
@@ -133,6 +137,10 @@ class Curlist {
 
         DOM.ev(curlist, `dblclick`, (e) => {
             if (this.dragged) {
+                return
+            }
+
+            if (e.ctrlKey || e.shiftKey) {
                 return
             }
 
