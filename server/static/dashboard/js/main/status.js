@@ -40,10 +40,9 @@ class Status {
         status.value = ``
 
         let lines = [
-            `Change the status of your curl`,
-            `Press Enter to change`,
-            `Press Arrow Up to show previous status`,
-            `Press Arrow Down to show previous status`,
+            `Enter the new status of the curl`,
+            `Press Enter to submit the change`,
+            `Press Arrow Up/Down to show previous`,
             `Press Escape to clear`,
         ]
 
