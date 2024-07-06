@@ -9,7 +9,7 @@ class Sort {
     static ls_name = `sort`
 
     static modes = [
-        {value: `order`, name: `Order`, info: `Use the same order as the curlist`},
+        {value: `order`, name: `Order`, info: `Keep the order of dragged items`},
         {value: App.separator},
         {value: `newest`, name: `Newest`, info: `Most recently changed at the top`},
         {value: `oldest`, name: `Oldest`, info: `Oldest ones at the top`},

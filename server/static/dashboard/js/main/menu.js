@@ -80,24 +80,24 @@ class Menu {
     }
 
     static export() {
-        let curlists = {}
+        let colors = {}
 
         for (let color in Colors.colors) {
-            let curlist = Curls.get(color)
+            let curls = Curls.get(color)
 
-            if (!curlist.length) {
+            if (!curls.length) {
                 continue
             }
 
-            curlists[color] = curlist
+            colors[color] = curls
         }
 
-        if (!Object.keys(curlists).length) {
+        if (!Object.keys(colors).length) {
             Windows.alert({message: `No curls to export`})
             return
         }
 
-        Windows.alert_export(curlists)
+        Windows.alert_export(colors)
     }
 
     static import() {
@@ -112,17 +112,17 @@ class Menu {
         }
 
         try {
-            let curlists = JSON.parse(data)
+            let colors = JSON.parse(data)
             let modified = false
 
-            for (let color in curlists) {
-                let curlist = curlists[color]
+            for (let color in colors) {
+                let curls = colors[color]
 
-                if (!curlist) {
+                if (!curls) {
                     continue
                 }
 
-                Curls.save(curlist, color)
+                Curls.save(curls, color)
                 modified = true
             }
 

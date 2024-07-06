@@ -68,7 +68,7 @@ class More {
                 action: () => {
                     this.change_peek(false)
                 },
-                info: `Disable peek when selecting items in the curlist`,
+                info: `Disable peek when selecting items`,
             })
         }
         else {
@@ -77,7 +77,7 @@ class More {
                 action: () => {
                     this.change_peek(true)
                 },
-                info: `Enable peek when selecting items in the curlist`,
+                info: `Enable peek when selecting items`,
             })
         }
 

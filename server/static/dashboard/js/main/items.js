@@ -103,10 +103,6 @@ class Items {
     }
 
     static show_menu(args = {}) {
-        let def_args = {
-            from: `curlist`,
-        }
-
         Utils.def_args(def_args, args)
         let items = []
         let curls = Container.get_selected_curls()

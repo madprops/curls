@@ -73,7 +73,7 @@ class Container {
             }
 
             let curl = this.extract_curl(item)
-            Items.show_menu({curl: curl, e: e, from: `container`})
+            Items.show_menu({curl: curl, e: e})
             e.preventDefault()
         })
 
