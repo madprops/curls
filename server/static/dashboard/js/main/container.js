@@ -32,6 +32,12 @@ class Container {
 
             if (e.target.closest(`.item_icon`)) {
                 let curl = e.target.closest(`.item`).dataset.curl
+
+                if (e.ctrlKey || e.shiftKey) {
+                    Curlist.focus_item(curl)
+                    return
+                }
+
                 Items.show_menu({curl: curl, e: e, from: `container`})
                 return
             }
