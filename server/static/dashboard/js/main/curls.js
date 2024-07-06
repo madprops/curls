@@ -116,10 +116,10 @@ class Curls {
         this.save(new_curls)
         Sort.set_value(`order`)
         Sort.sort_if_order()
-        Container.deselect()
+        Select.deselect()
 
         for (let curl of curls) {
-            Container.select_curl(curl)
+            Select.select_curl(curl)
         }
     }
 
@@ -283,7 +283,7 @@ class Curls {
     }
 
     static remove_selected(curl = ``) {
-        let curls = Container.get_selected_curls()
+        let curls = Select.get_selected_curls()
 
         if (curl) {
             if (!curls.includes(curl)) {

@@ -12,6 +12,7 @@ App.setup = () => {
     Block.setup()
     Colors.setup()
     Container.setup()
+    Select.setup()
     Update.setup()
     Sort.setup()
     Change.setup()
@@ -103,5 +104,5 @@ App.check_selection = (e) => {
         Peek.hide()
     }
 
-    Container.deselect()
+    Select.deselect()
 }
