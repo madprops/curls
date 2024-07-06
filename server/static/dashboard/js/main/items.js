@@ -66,23 +66,6 @@ class Items {
         this.list = []
     }
 
-    static add_dates() {
-        for (let item of this.list) {
-            let date = new Date(item.updated + `Z`)
-            let date_mode = Container.get_date_mode()
-            let s_date
-
-            if (date_mode === `12`) {
-                s_date = dateFormat(date, `dd/mmm/yy - h:MM tt`)
-            }
-            else if (date_mode === `24`) {
-                s_date = dateFormat(date, `dd/mmm/yy - HH:MM`)
-            }
-
-            item.updated_text = s_date
-        }
-    }
-
     static copy(curl) {
         let blink = (icon) => {
             if (!icon) {

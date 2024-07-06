@@ -55,6 +55,15 @@ class More {
         }
     }
 
+    static change_dates(what, actions = true) {
+        Dates.enabled = what
+        Dates.save_enabled()
+
+        if (actions) {
+            Container.update()
+        }
+    }
+
     static show_menu(e) {
         let items = []
 
@@ -115,6 +124,25 @@ class More {
             })
         }
 
+        if (Dates.enabled) {
+            items.push({
+                text: `Disable Dates`,
+                action: () => {
+                    this.change_dates(false)
+                },
+                info: `Disable dates in the container`,
+            })
+        }
+        else {
+            items.push({
+                text: `Enable Dates`,
+                action: () => {
+                    this.change_dates(true)
+                },
+                info: `Enable dates in the container`,
+            })
+        }
+
         if (Controls.enabled) {
             items.push({
                 text: `Disable Controls`,
@@ -159,6 +187,7 @@ class More {
         this.change_peek(true)
         this.change_wrap(true, false)
         this.change_controls(true, false)
+        this.change_dates(true, false)
         Controls.check_enabled()
         Container.update()
     }

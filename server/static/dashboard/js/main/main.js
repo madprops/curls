@@ -15,6 +15,7 @@ App.setup = () => {
     More.setup()
     Font.setup()
     Border.setup()
+    Dates.setup()
     Controls.setup()
     Windows.setup()
     Intro.setup()

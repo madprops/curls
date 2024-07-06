@@ -11,8 +11,6 @@ class Container {
     static highlight_debouncer_delay = 50
     static ls_name_wrap = `wrap_enabled`
     static ls_name_highlight = `highlight_enabled`
-    static ls_name_date_mode = `date_mode`
-    static default_date_mode = `12`
 
     static setup() {
         this.empty_info = [
@@ -28,7 +26,7 @@ class Container {
 
         DOM.ev(container, `click`, (e) => {
             if (e.target.closest(`.item_updated`)) {
-                this.change_date_mode()
+                Dates.change_mode()
                 return
             }
 
@@ -244,7 +242,7 @@ class Container {
 
         let missing = Items.find_missing()
         Items.list.push(...missing)
-        Items.add_dates()
+        Dates.fill_items()
         this.update({select: curls})
     }
 
@@ -253,7 +251,7 @@ class Container {
         Items.list.map(x => x.missing = false)
         let missing = Items.find_missing()
         Items.list.push(...missing)
-        Items.add_dates()
+        Dates.fill_items()
         this.update()
     }
 
@@ -314,23 +312,27 @@ class Container {
             item_status.classList.add(`nowrap`)
         }
 
-        let item_updated = DOM.create(`div`, `item_updated glow`)
-
         item_curl.textContent = item.curl
         item_curl.title = item.curl
         let status = item.status || `Not updated yet`
         item_status.innerHTML = Utils.sanitize(status)
         item_status.title = status
         Utils.urlize(item_status)
+        let item_updated = DOM.create(`div`, `item_updated glow`)
 
-        item_updated.textContent = item.updated_text
+        if (Dates.enabled) {
+            item_updated.textContent = item.updated_text
 
-        let lines_2 = [
-            item.updated_text,
-            `Click to toggle between 12 and 24 hours`,
-        ]
+            let lines_2 = [
+                item.updated_text,
+                `Click to toggle between 12 and 24 hours`,
+            ]
 
-        item_updated.title = lines_2.join(`\n`)
+            item_updated.title = lines_2.join(`\n`)
+        }
+        else {
+            item_updated.classList.add(`hidden`)
+        }
 
         el.append(item_icon)
         el.append(item_curl)
@@ -343,24 +345,6 @@ class Container {
         container.append(el)
 
         item.element = el
-    }
-
-    static get_date_mode() {
-        return Utils.load_string(this.ls_name_date_mode, this.default_date_mode)
-    }
-
-    static change_date_mode() {
-        let selected = window.getSelection().toString()
-
-        if (selected) {
-            return
-        }
-
-        let date_mode = this.get_date_mode()
-        date_mode = date_mode === `12` ? `24` : `12`
-        Utils.save(this.ls_name_date_mode, date_mode)
-        Items.add_dates()
-        this.update()
     }
 
     static dehighlight() {
