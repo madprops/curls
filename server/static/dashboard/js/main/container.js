@@ -378,6 +378,6 @@ class Container {
     }
 
     static get_selected() {
-        return DOM.els(`#container .item.highlight`)
+        return DOM.els(`#container .item.${this.selected_class}`)
     }
 }
