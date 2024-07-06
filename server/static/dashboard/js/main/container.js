@@ -698,4 +698,17 @@ class Container {
             }
         }
     }
+
+    static get_item(curl) {
+        let items = this.get_items()
+        return items.find(x => x.dataset.curl === curl)
+    }
+
+    static select_curl(curl) {
+        let item = this.get_item(curl)
+
+        if (item) {
+            this.select_item(item)
+        }
+    }
 }

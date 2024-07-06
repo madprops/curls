@@ -101,6 +101,10 @@ App.check_selection = (e) => {
         return
     }
 
+    if (e.button !== 0) {
+        return
+    }
+
     if (e.target.closest(`.item_icon`)) {
         return
     }

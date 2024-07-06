@@ -96,7 +96,7 @@ class Curls {
             }
         }
 
-        this.after_move(cleaned)
+        this.after_move(cleaned, curls)
     }
 
     static to_bottom(curls) {
@@ -109,12 +109,17 @@ class Curls {
         }
 
         cleaned.push(...curls)
-        this.after_move(cleaned)
+        this.after_move(cleaned, curls)
     }
 
-    static after_move(new_curls) {
+    static after_move(new_curls, curls) {
         this.save(new_curls)
         Sort.sort_if_order()
+        Container.deselect()
+
+        for (let curl of curls) {
+            Container.select_curl(curl)
+        }
     }
 
     static save(curls, color = Colors.mode) {
