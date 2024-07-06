@@ -21,7 +21,7 @@ class Border {
         let border = DOM.el(`#border`)
         this.mode = this.load_border()
 
-        Combo.register({
+        this.combo = new Combo({
             title: `Border Modes`,
             items: this.modes,
             value: this.mode,

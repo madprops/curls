@@ -31,7 +31,7 @@ class Sort {
         let sort = DOM.el(`#sort`)
         this.mode = this.load_sort()
 
-        Combo.register({
+        this.combo = new Combo({
             title: `Sort Modes`,
             items: this.modes,
             value: this.mode,
@@ -44,6 +44,10 @@ class Sort {
                 return this.mode
             },
         })
+    }
+
+    static set_value(value) {
+        this.combo.set_value(value)
     }
 
     static change(value) {
@@ -66,11 +70,7 @@ class Sort {
         let mode = this.mode
 
         if (mode === `order`) {
-            let curls = Curls.get()
-
-            items.sort((a, b) => {
-                return curls.indexOf(a.curl) - curls.indexOf(b.curl)
-            })
+            // Do nothing!
         }
         else if (mode === `newest`) {
             items.sort((a, b) => {

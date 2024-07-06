@@ -96,7 +96,7 @@ class Curls {
             }
         }
 
-        this.after_move(cleaned, curls, curls[0])
+        this.after_move(cleaned)
     }
 
     static to_bottom(curls) {
@@ -109,10 +109,10 @@ class Curls {
         }
 
         cleaned.push(...curls)
-        this.after_move(cleaned, curls, Utils.last(curls))
+        this.after_move(cleaned)
     }
 
-    static after_move(new_curls, curls, leader) {
+    static after_move(new_curls) {
         this.save(new_curls)
         Sort.sort_if_order()
     }

@@ -19,7 +19,7 @@ class Font {
         let font = DOM.el(`#font`)
         this.mode = this.load_font()
 
-        Combo.register({
+        this.combo = new Combo({
             title: `Font Modes`,
             items: this.modes,
             value: this.mode,

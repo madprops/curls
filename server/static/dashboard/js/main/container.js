@@ -190,7 +190,7 @@ class Container {
                 return item.dataset.curl
             },
             on_end: () => {
-                this.order_based_on_container()
+                this.after_drag()
             },
             locked: () => {
                 return false
@@ -199,17 +199,6 @@ class Container {
                 this.select_item(item)
             },
         })
-    }
-
-    static order_based_on_container() {
-        let items = this.get_items()
-        let curls = items.map(item => item.dataset.curl)
-
-        if (!curls || !curls.length) {
-            return
-        }
-
-        Curls.save(curls)
     }
 
     static save_wrap_enabled() {
@@ -561,5 +550,16 @@ class Container {
     static get_visible() {
         let items = this.get_items()
         return items.filter(x => !x.classList.contains(`hidden`))
+    }
+
+    static after_drag() {
+        Sort.set_value(`order`)
+        let curls = this.get_curls()
+        Curls.save(curls)
+    }
+
+    static get_curls() {
+        let items = this.get_items()
+        return items.map(item => item.dataset.curl)
     }
 }

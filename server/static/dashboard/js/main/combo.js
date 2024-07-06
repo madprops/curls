@@ -8,54 +8,55 @@ It's similar to a select widget
 */
 
 class Combo {
-    static id = 0
+    constructor(args) {
+        this.args = args
+        this.prepare()
+    }
 
-    static register(args = {}) {
-        DOM.evs(args.element, [`click`, `contextmenu`], (e) => {
-            this.show_menu(args, e)
+    prepare() {
+        DOM.evs(this.args.element, [`click`, `contextmenu`], (e) => {
+            this.show_menu(e)
             e.preventDefault()
         })
 
-        DOM.ev(args.element, `auxclick`, (e) => {
+        DOM.ev(this.args.element, `auxclick`, (e) => {
             if (e.button === 1) {
-                this.reset(args)
+                this.reset()
             }
         })
 
-        DOM.ev(args.element, `wheel`, (e) => {
+        DOM.ev(this.args.element, `wheel`, (e) => {
             let direction = Utils.wheel_direction(e)
-            this.cycle(args, direction)
+            this.cycle(direction)
             e.preventDefault()
         })
 
         let lines = [
-            args.title,
+            this.args.title,
             `Click to pick option`,
             `Wheel to cycle option`,
             `Middle Click to reset`,
         ]
 
-        args.id = this.id
-        args.element.title = lines.join(`\n`)
-        this.update_text(args)
+        this.args.element.title = lines.join(`\n`)
         this.block = new Block(60)
-        this.id += 1
+        this.update_text()
     }
 
-    static get_item(args) {
-        return args.items.find(x => x.value === args.get())
+    get_item() {
+        return this.args.items.find(x => x.value === this.args.get())
     }
 
-    static update_text(args) {
-        let item = this.get_item(args)
-        args.element.textContent = item.name
+    update_text() {
+        let item = this.get_item(this.args)
+        this.args.element.textContent = item.name
     }
 
-    static show_menu(args, e) {
+    show_menu(e) {
         let items = []
-        let current = args.get()
+        let current = this.args.get()
 
-        for (let item of args.items) {
+        for (let item of this.args.items) {
             if (item.value === App.separator) {
                 items.push({ separator: true })
             }
@@ -63,7 +64,7 @@ class Combo {
                 items.push({
                     text: item.name,
                     action: () => {
-                        this.action(args, item.value)
+                        this.action(item.value)
                     },
                     selected: item.value === current,
                     info: item.info,
@@ -75,29 +76,29 @@ class Combo {
         NeedContext.show({ items: items, e: e })
     }
 
-    static action(args, value) {
-        args.action(value)
-        this.update_text(args)
+    action(value) {
+        this.args.action(value)
+        this.update_text()
     }
 
-    static reset(args) {
-        this.action(args, args.default)
+    reset() {
+        this.action(this.args.default)
     }
 
-    static get_values(args) {
-        return args.items
+    get_values() {
+        return this.args.items
             .filter(x => x.value !== App.separator)
             .filter(x => !x.skip)
             .map(x => x.value)
     }
 
-    static cycle(args, direction) {
+    cycle(direction) {
         if (this.block.add_charge()) {
             return
         }
 
-        let value = args.get()
-        let values = this.get_values(args)
+        let value = this.args.get()
+        let values = this.get_values(this.args)
         let index = values.indexOf(value)
 
         if (direction === `up`) {
@@ -115,6 +116,10 @@ class Combo {
         }
 
         let new_value = values[index]
-        this.action(args, new_value)
+        this.action(new_value)
+    }
+
+    set_value(value) {
+        this.action(value)
     }
 }

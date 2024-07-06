@@ -29,7 +29,7 @@ class Update {
         let updater = DOM.el(`#updater`)
         this.mode = this.load_update()
 
-        Combo.register({
+        this.combo = new Combo({
             title: `Update Modes`,
             items: this.modes,
             value: this.mode,

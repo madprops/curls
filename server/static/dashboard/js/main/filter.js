@@ -49,7 +49,7 @@ class Filter {
         let button = DOM.el(`#filter_button`)
         this.mode = this.load_filter()
 
-        Combo.register({
+        this.combo = new Combo({
             title: `Filter Modes`,
             items: this.modes,
             value: this.filer_mode,

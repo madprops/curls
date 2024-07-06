@@ -32,7 +32,7 @@ class Colors {
         let color = DOM.el(`#color`)
         this.mode = this.load_color()
 
-        Combo.register({
+        this.combo = new Combo({
             title: `Color Modes`,
             items: this.modes,
             value: this.mode,
