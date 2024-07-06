@@ -26,7 +26,7 @@ class Container {
         let outer = DOM.el(`#container_outer`)
         let container = DOM.el(`#container`)
 
-        DOM.ev(container, `click`, (e) => {
+        DOM.ev(container, `mousedown`, (e) => {
             let item = e.target.closest(`.item`)
 
             if (!item) {
@@ -39,23 +39,27 @@ class Container {
             }
 
             let curl = this.extract_curl(item)
+            let selected = this.get_selected()
 
-            if (e.target.closest(`.item_icon`)) {
-                let selected = this.get_selected()
-
-                if (selected.includes(item)) {
+            if (selected.includes(item)) {
+                if (!e.ctrlKey && !e.shiftKey) {
                     Items.show_menu({curl: curl, e: e})
                     return
                 }
+            }
 
-                if (e.shiftKey && selected.length) {
-                    this.select_range(item)
-                }
-                else if (e.ctrlKey && selected.length) {
-                    this.toggle_select(item)
-                }
-                else {
+            if (e.shiftKey && selected.length) {
+                this.select_range(item)
+                e.preventDefault()
+            }
+            else if (e.ctrlKey) {
+                this.toggle_select(item)
+                e.preventDefault()
+            }
+            else {
+                if (e.target.closest(`.item_icon`)) {
                     this.select_single(item)
+                    e.preventDefault()
                 }
             }
         })
