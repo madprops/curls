@@ -59,6 +59,10 @@ class Curls {
 
         let curls = this.get(args.color)
 
+        if (curls.includes(args.curl)) {
+            return false
+        }
+
         if (curls.length >= this.max_curls) {
             return false
         }
