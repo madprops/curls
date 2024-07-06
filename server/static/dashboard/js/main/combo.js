@@ -38,8 +38,7 @@ class Combo {
         args.id = this.id
         args.element.title = lines.join(`\n`)
         this.update_text(args)
-        let limit = args.items.length * 2
-        this.block = new Block(limit)
+        this.block = new Block(60)
         this.id += 1
     }
 

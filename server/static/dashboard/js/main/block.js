@@ -35,14 +35,14 @@ class Block {
         }, this.interval_delay)
     }
 
-    add_charge() {
+    add_charge(num = 1) {
         this.date = Utils.now()
 
         if (this.charge >= this.limit) {
             return true
         }
 
-        this.charge += 1
+        this.charge += num
         return false
     }
 }
