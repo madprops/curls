@@ -20,7 +20,6 @@ App.setup = () => {
 
     Block.setup()
     Colors.setup()
-    Curlist.setup()
     Container.setup()
     Update.setup()
     Sort.setup()
@@ -29,6 +28,7 @@ App.setup = () => {
     Status.setup()
     Filter.setup()
     Peek.setup()
+    Menu.setup()
     More.setup()
     Font.setup()
     Border.setup()
@@ -46,12 +46,6 @@ App.setup = () => {
 }
 
 App.setup_buttons = () => {
-    let toggle_curlist = DOM.el(`#toggle_curlist`)
-
-    DOM.ev(toggle_curlist, `click`, () => {
-        Curlist.toggle()
-    })
-
     let claim = DOM.el(`#claim`)
 
     DOM.ev(claim, `click`, () => {
@@ -116,17 +110,13 @@ App.check_selection = (e) => {
         return
     }
 
-    if (e.target.closest(`#curlist`)) {
-        return
-    }
-
     if (e.target.closest(`.item_icon`)) {
         return
     }
 
-    Curlist.deselect()
-
     if (!e.target.closest(`#peek`)) {
         Peek.hide()
     }
+
+    Container.deselect()
 }

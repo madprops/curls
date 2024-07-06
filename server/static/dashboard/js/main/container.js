@@ -7,11 +7,10 @@ This is the main container widget with the vertical items
 class Container {
     static check_scroll_debouncer_delay = 100
     static wrap_enabled = true
-    static highlight_enabled = true
     static highlight_debouncer_delay = 50
-    static ls_name_wrap = `wrap_enabled`
-    static ls_name_highlight = `highlight_enabled`
+    static ls_wrap = `wrap_enabled`
     static selected_class = `selected`
+    static selected_id = 0
 
     static setup() {
         this.empty_info = [
@@ -40,13 +39,17 @@ class Container {
             }
 
             if (e.target.closest(`.item_icon`)) {
-                if (e.ctrlKey || e.shiftKey) {
-                    this.toggle_select(item)
-                    return
-                }
+                let selected = this.get_selected()
 
-                this.select_single(item)
-                return
+                if (e.shiftKey && selected.length) {
+                    this.select_range(item)
+                }
+                else if (e.ctrlKey && selected.length) {
+                    this.toggle_select(item)
+                }
+                else {
+                    this.select_item(item)
+                }
             }
         })
 
@@ -60,9 +63,7 @@ class Container {
             let curl = this.extract_curl(item)
 
             if (e.button == 1) {
-                if (e.target.closest(`.item_icon`)) {
-                    Curlist.remove(curl)
-                }
+                Curls.remove_selected(curl)
             }
         })
 
@@ -92,13 +93,13 @@ class Container {
 
         observer.observe(container, { childList: true })
         this.drag_events()
-
         this.wrap_enabled = this.load_wrap_enabled()
-        this.highlight_enabled = this.load_highlight_enabled()
 
         this.highlight_debouncer = Utils.create_debouncer((args) => {
             this.do_highlight(args)
         }, this.highlight_debouncer_delay)
+
+        this.setup_keyboard()
     }
 
     static clear() {
@@ -194,7 +195,7 @@ class Container {
                 this.order_based_on_container()
             },
             locked: () => {
-                return Sort.mode !== `order`
+                return false
             },
             select: (item) => {
                 this.select_item(item)
@@ -211,23 +212,14 @@ class Container {
         }
 
         Curls.save(curls)
-        Curlist.update()
     }
 
     static save_wrap_enabled() {
-        Utils.save(this.ls_name_wrap, this.wrap_enabled)
+        Utils.save(this.ls_wrap, this.wrap_enabled)
     }
 
     static load_wrap_enabled() {
-        return Utils.load_boolean(this.ls_name_wrap)
-    }
-
-    static save_highlight_enabled() {
-        Utils.save(this.ls_name_highlight, this.highlight_enabled)
-    }
-
-    static load_highlight_enabled() {
-        return Utils.load_boolean(this.ls_name_highlight)
+        return Utils.load_boolean(this.ls_wrap)
     }
 
     static add(items, curls) {
@@ -284,10 +276,6 @@ class Container {
         if (args.highlight) {
             this.highlight()
         }
-
-        if (args.select.length) {
-            Curlist.select_items(args.select)
-        }
     }
 
     static create_element(item) {
@@ -299,11 +287,8 @@ class Container {
         let lines = [
             `Click to show menu`,
             `Middle Click to remove`,
+            `Drag to reorder`,
         ]
-
-        if (Sort.mode === `order`) {
-            lines.push(`Drag to reorder`)
-        }
 
         item_icon.title = lines.join(`\n`)
 
@@ -357,6 +342,8 @@ class Container {
         for (let item of Items.list) {
             item.element.classList.remove(this.selected_class)
         }
+
+        this.selected_id = 0
     }
 
     static highlight(args) {
@@ -371,12 +358,7 @@ class Container {
         }
 
         Utils.def_args(def_args, args)
-
-        if (!this.highlight_enabled) {
-            return
-        }
-
-        let selected = Curlist.get_selected_curls()
+        let selected = this.get_selected_curls()
 
         for (let item of Items.list) {
             if (!item || !item.element) {
@@ -410,10 +392,13 @@ class Container {
 
     static select_item(item) {
         item.classList.add(this.selected_class)
+        this.selected_id += 1
+        item.dataset.selected_id = this.selected_id
     }
 
     static deselect_item(item) {
         item.classList.remove(this.selected_class)
+        item.dataset.selected_id = 0
     }
 
     static toggle_select(item) {
@@ -430,5 +415,150 @@ class Container {
         this.deselect()
         this.select_item(item)
         Peek.show({curl: curl})
+    }
+
+    static get_selected_curls() {
+        let selected = this.get_selected()
+        return selected.map(item => this.extract_curl(item))
+    }
+
+    static setup_keyboard() {
+        let container = DOM.el(`#container`)
+
+        DOM.ev(container, `keydown`, (e) => {
+            if (e.key === `Delete`) {
+                Curls.remove_selected()
+                e.preventDefault()
+            }
+            else if (e.key === `ArrowUp`) {
+                // Scroll up
+                e.preventDefault()
+            }
+            else if (e.key === `ArrowDown`) {
+                // Scroll down
+                e.preventDefault()
+            }
+            else if (e.key === `Escape`) {
+                Peek.hide()
+                this.deselect()
+                e.preventDefault()
+            }
+        })
+    }
+
+    static select_range(item) {
+        let selected = this.get_selected()
+
+        if (!selected.length) {
+            return
+        }
+
+        let prev_item = this.get_prev_item()
+
+        if (item === prev_item) {
+            return
+        }
+
+        let items = this.get_visible()
+
+        if (!items.length) {
+            return
+        }
+
+        let index = items.indexOf(item)
+        let prev_index = items.indexOf(prev_item)
+        let first_index = items.indexOf(selected[0])
+        let last_index = items.indexOf(Utils.last(selected))
+        let direction
+
+        if (selected.length === 1) {
+            if (index < prev_index) {
+                direction = `up`
+            }
+            else {
+                direction = `down`
+            }
+        }
+        else {
+            if (prev_item === selected[0]) {
+                direction = `up`
+            }
+            else {
+                direction = `down`
+            }
+        }
+
+        if (index > last_index) {
+            direction = `down`
+        }
+        else if (index < first_index) {
+            direction = `up`
+        }
+
+        if (direction === `up`) {
+            this.do_select_range(item, index, prev_index, direction)
+        }
+        else {
+            this.do_select_range(item, prev_index, index, direction)
+        }
+    }
+
+    static do_select_range(item, start, end, direction) {
+        let items = this.get_visible()
+        let select = []
+
+        for (let i = 0; i < items.length; i++) {
+            if (i < start) {
+                if (direction === `up`) {
+                    this.do_deselect_item(items[i])
+                }
+
+                continue
+            }
+
+            if (i > end) {
+                if (direction === `down`) {
+                    this.deselect_item(items[i])
+                }
+
+                continue
+            }
+
+            select.push(items[i])
+        }
+
+        if (direction === `up`) {
+            select.reverse()
+        }
+
+        for (let item_ of select) {
+            this.select_item(item)
+        }
+    }
+
+    static get_prev_item() {
+        let items = this.get_visible()
+        let prev_item = null
+
+        for (let item of items) {
+            if (!prev_item) {
+                prev_item = item
+                continue
+            }
+
+            let id = parseInt(item.dataset.selected_id)
+            let prev_id = parseInt(prev_item.dataset.selected_id)
+
+            if (id > prev_id) {
+                prev_item = item
+            }
+        }
+
+        return prev_item
+    }
+
+    static get_visible() {
+        let items = this.get_items()
+        return items.filter(x => !x.classList.contains(`hidden`))
     }
 }

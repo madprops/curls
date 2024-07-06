@@ -94,7 +94,6 @@ class Update {
         let def_args = {
             feedback: true,
             curls: [],
-            update_curlist: false,
         }
 
         Utils.def_args(def_args, args)
@@ -156,10 +155,6 @@ class Update {
             Utils.error(`Failed to update`)
             App.clear()
             return
-        }
-
-        if (args.update_curlist) {
-            Curlist.update()
         }
 
         try {

@@ -22,7 +22,7 @@ html
 
 #main {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 0.8rem;
     width: 100vw;
     height: 100vh;
@@ -31,78 +31,6 @@ html
     padding-top: var(--vertical_padding);
     padding-bottom: var(--vertical_padding);
     box-sizing: border-box;
-}
-
-#left_side {
-    width: 190px;
-    flex-grow: 0;
-    flex-shrink: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    align-items: stretch;
-}
-
-#right_side {
-    flex-grow: 1;
-    flex-shrink: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-#curlist_container {
-    flex-grow: 1;
-    border: 1px solid var(--color);
-    overflow-x: hidden;
-    overflow-y: auto;
-    padding-top: 0.35rem;
-    padding-bottom: 0.35rem;
-    outline: none;
-}
-
-#curlist_top {
-    border-radius: 4px;
-}
-
-#curlist {
-    display: table;
-    background-color: var(--background);
-    color: var(--color);
-    font-size: 1rem;
-    padding-top: 0.25rem;
-    padding-bottom: 0.25rem;
-    border-collapse: collapse;
-    width: 100%;
-}
-
-.curlist_item {
-    display: table-row;
-    user-select: none;
-    cursor: pointer;
-    border-top: 1px solid var(--background);
-    border-bottom: 1px solid var(--background);
-}
-
-.curlist_item_curl {
-    display: table-cell;
-    padding-top: 0.22rem;
-    padding-bottom: 0.22rem;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-    text-align: left;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.curlist_item:hover {
-    background-color: var(--color_alpha);
-}
-
-.curlist_item.selected {
-    background-color: var(--color);
-    color: var(--background);
 }
 
 #container_outer {
@@ -383,11 +311,6 @@ input[type="password"]
     position: absolute;
     right: 1rem;
     top: 0.66rem;
-}
-
-#curlist_filter {
-    width: 100%;
-    box-sizing: border-box;
 }
 
 .needcontext-text {

@@ -27,11 +27,6 @@ class More {
         button.title = lines.join(`\n`)
     }
 
-    static change_highlight(what) {
-        Container.highlight_enabled = what
-        Container.save_highlight_enabled()
-    }
-
     static change_peek(what) {
         Peek.enabled = what
         Peek.save_enabled()
@@ -66,25 +61,6 @@ class More {
 
     static show_menu(e) {
         let items = []
-
-        if (Container.highlight_enabled) {
-            items.push({
-                text: `Disable Highlight`,
-                action: () => {
-                    this.change_highlight(false)
-                },
-                info: `Disable the highlight effect on the container when selecting items in the curlist`,
-            })
-        }
-        else {
-            items.push({
-                text: `Enable Highlight`,
-                action: () => {
-                    this.change_highlight(true)
-                },
-                info: `Enable the highlight effect on the container when selecting items in the curlist`,
-            })
-        }
 
         if (Peek.enabled) {
             items.push({
@@ -167,7 +143,6 @@ class More {
 
     static reset() {
         let vars = [
-            Container.highlight_enabled,
             Peek.enabled,
             Container.wrap_enabled,
             Controls.enabled,
@@ -183,7 +158,6 @@ class More {
     }
 
     static do_reset() {
-        this.change_highlight(true)
         this.change_peek(true)
         this.change_wrap(true, false)
         this.change_controls(true, false)

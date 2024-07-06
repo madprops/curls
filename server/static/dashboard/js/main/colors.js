@@ -69,7 +69,6 @@ class Colors {
         Utils.save(this.ls_name, value)
         this.apply()
         Items.reset()
-        Curlist.update()
         Container.loading()
         Peek.hide()
         Update.update()
@@ -143,6 +142,5 @@ class Colors {
 
         Curls.save(new_curls, color)
         Container.update()
-        Curlist.update()
     }
 }

@@ -79,7 +79,7 @@ class Items {
             }, 1000)
         }
 
-        let curls = Curlist.get_selected_curls()
+        let curls = Container.get_selected_curls()
 
         if (!curls.includes(curl)) {
             curls = [curl]
@@ -108,18 +108,10 @@ class Items {
         }
 
         Utils.def_args(def_args, args)
-        let selected = Curlist.get_selected_items()
-        let item = Curlist.get_item(args.curl)
-
-        if (!selected.length || !selected.includes(item)) {
-            Curlist.select_item(item)
-            selected = []
-        }
-
         let items = []
-        let curls = Curlist.get_selected_curls()
+        let curls = Container.get_selected_curls()
 
-        if (selected.length > 1) {
+        if (curls.length > 1) {
             items = [
                 {
                     text: `Copy`,
@@ -200,11 +192,7 @@ class Items {
             ]
         }
 
-        NeedContext.show({
-            items: items, e: args.e, after_hide: () => {
-                Curlist.focus()
-            }
-        })
+        NeedContext.show({items: items, e: args.e})
     }
 
     static remove_curl(curl) {

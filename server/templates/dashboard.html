@@ -14,56 +14,44 @@
 
 <body>
     <div id="main">
-        <div id="left_side">
-            <div class="button" id="curlist_top" title="Click to show the curlist menu"></div>
-            <input type="text" id="curlist_filter" placeholder="Filter">
-
-            <div id="curlist_container" tabindex="0">
-                <div id="curlist"></div>
+        <div id="controls">
+            <div class="control_bar">
+                <div class="button" id="menu" title="Show the main menu">Menu</div>
+                <div class="button" id="color"></div>
+                <div class="button" id="sort"></div>
+                <div class="button" id="updater"></div>
+                <input type="text" id="filter" placeholder="Filter">
+                <div class="button" id="filter_button">Filters</div>
             </div>
 
-            <div class="button" id="claim" title="Get a key to control a new curl">Claim Your Own</div>
+            <div class="control_bar">
+                <div class="button" id="picker" title="Switch to other curls you own">$</div>
+                <input type="text" id="change_curl" placeholder="Curl" title="A curl you own">
+                <input type="password" id="change_key" placeholder="Key" title="The key used to control the curl">
+                <div class="button" id="status_button">@</div>
+                <input type="text" id="change_status" placeholder="Status" spellcheck="true" title="The new status of the curl">
+                <div class="button" id="change_submit" title="Change the status of the curl">Change</div>
+            </div>
         </div>
 
-        <div id="right_side">
-            <div id="controls">
-                <div class="control_bar">
-                    <div class="button" id="toggle_curlist" title="Toggle the curlist">&lt;</div>
-                    <div class="button" id="color"></div>
-                    <div class="button" id="sort"></div>
-                    <div class="button" id="updater"></div>
-                    <input type="text" id="filter" placeholder="Filter">
-                    <div class="button" id="filter_button">Filters</div>
-                </div>
+        <div id="container_outer">
+            <div id="container" tabindex="0"></div>
+        </div>
 
-                <div class="control_bar">
-                    <div class="button" id="picker" title="Switch to other curls you own">$</div>
-                    <input type="text" id="change_curl" placeholder="Curl" title="A curl you own">
-                    <input type="password" id="change_key" placeholder="Key" title="The key used to control the curl">
-                    <div class="button" id="status_button">@</div>
-                    <input type="text" id="change_status" placeholder="Status" spellcheck="true" title="The new status of the curl">
-                    <div class="button" id="change_submit" title="Change the status of the curl">Change</div>
-                </div>
+        <div id="footer">
+            <div class="footer_item">
+                <div class="button" id="scroller_top" title="Scroll to the top">To Top</div>
+                <div class="button" id="scroller_bottom" title="Scroll to the bottom">Bottom</div>
             </div>
 
-            <div id="container_outer">
-                <div id="container"></div>
+            <div class="footer_item">
+                <div class="button" id="font"></div>
+                <div class="button" id="border"></div>
+                <div class="button" id="claim" title="Get a key to control a new curl">Claim Your Own</div>
+                <div class="button" id="footer_more">More</div>
             </div>
 
-            <div id="footer">
-                <div class="footer_item">
-                    <div class="button" id="scroller_top" title="Scroll to the top">To Top</div>
-                    <div class="button" id="scroller_bottom" title="Scroll to the bottom">Bottom</div>
-                </div>
-
-                <div class="footer_item">
-                    <div class="button" id="font"></div>
-                    <div class="button" id="border"></div>
-                    <div class="button" id="footer_more">More</div>
-                </div>
-
-                <div class="glow noselect" id="version" title="The current version of Curls and the Dashboard">v{{ version }}</div>
-            </div>
+            <div class="glow noselect" id="version" title="The current version of Curls and the Dashboard">v{{ version }}</div>
         </div>
 
         <div id="peek"></div>

@@ -24,11 +24,9 @@ class Controls {
     static check_enabled() {
         if (this.enabled) {
             DOM.show(`#controls`)
-            Curlist.check_enabled()
         }
         else {
             DOM.hide(`#controls`)
-            DOM.hide(`#left_side`)
         }
     }
 }

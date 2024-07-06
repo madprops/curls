@@ -33,13 +33,13 @@ class Curls {
         let added = []
 
         for (let curl of units) {
-            if (this.do_add({where: where, curl: curl, update: false})) {
+            if (this.do_add({where: where, curl: curl})) {
                 added.push(curl)
             }
         }
 
         if (added.length) {
-            Update.update({ curls: added, update_curlist: true })
+            Update.update({ curls: added })
         }
     }
 
@@ -47,7 +47,6 @@ class Curls {
         let def_args = {
             where: `top`,
             curl: ``,
-            update: true,
             color: Colors.mode,
         }
 
@@ -77,11 +76,6 @@ class Curls {
         }
 
         this.save(curls)
-
-        if (args.update) {
-            Curlist.update()
-        }
-
         return true
     }
 
@@ -120,19 +114,7 @@ class Curls {
 
     static after_move(new_curls, curls, leader) {
         this.save(new_curls)
-        Curlist.update()
         Sort.sort_if_order()
-        Curlist.deselect()
-
-        for (let curl of curls) {
-            let el = Curlist.get_item(curl)
-
-            if (el) {
-                Curlist.do_select_item({item: el, block: `none`})
-            }
-        }
-
-        Curlist.select_item_curl(leader)
     }
 
     static save(curls, color = Colors.mode) {
@@ -175,13 +157,12 @@ class Curls {
         let added = false
 
         for (let curl of units) {
-            if (this.do_add({curl: curl, update: false})) {
+            if (this.do_add({curl: curl})) {
                 added = true
             }
         }
 
         if (added) {
-            Curlist.update()
             Update.update()
         }
     }
@@ -223,7 +204,6 @@ class Curls {
 
         curls[index] = new_curl
         this.save(curls)
-        Curlist.update()
         Items.remove_curl(curl)
         Update.update({ curls: [new_curl] })
     }
@@ -272,7 +252,6 @@ class Curls {
                 this.clear(color)
             }
 
-            Curlist.update()
             Container.empty()
         }, message: `Remove all curls in all colors`})
     }
@@ -297,15 +276,21 @@ class Curls {
         this.save_cleaned(cleaned, removed)
     }
 
-    static remove_selected() {
-        let curls = Curlist.get_selected_curls()
+    static remove_selected(curl = ``) {
+        let curls = Container.get_selected_curls()
+
+        if (curl) {
+            if (!curls.includes(curl)) {
+                curls = [curl]
+            }
+        }
+
         this.remove(curls)
     }
 
     static remove_all() {
         Windows.confirm({title: `Remove All Curls`, ok: () => {
             this.clear()
-            Curlist.update()
             Container.empty()
             Peek.hide()
         }, message: `Remove all curls in the current color`})
@@ -373,7 +358,6 @@ class Curls {
         }
 
         this.save(cleaned)
-        Curlist.update()
 
         if (remove_item) {
             Items.remove([curl])
@@ -473,9 +457,14 @@ class Curls {
 
         Windows.confirm({title: `Remove ${removed.length} ${s}`, ok: () => {
             this.save(cleaned)
-            Curlist.update()
             Items.remove(removed)
             Peek.hide()
         }, message: curls})
+    }
+
+    static copy() {
+        let curls = Curls.get()
+        let text = curls.join(` `)
+        Utils.copy_to_clipboard(text)
     }
 }
