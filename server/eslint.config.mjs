@@ -9,6 +9,7 @@ export default [
   {
     rules: {
       "semi": "off",
+      "no-undef": "off",
       "no-unused-vars": "off",
       "indent": ["error", 4],
       "linebreak-style": ["error", "unix"],
@@ -19,7 +20,6 @@ export default [
         "named": "never",
         "asyncArrow": "always"
       }],
-      "no-undef": "off",
     },
   }
 ]
