@@ -7,6 +7,8 @@ Used for selecting items in the container
 class Select {
     static selected_class = `selected`
     static selected_id = 0
+    static mouse_down = false
+    static mouse_selected = false
 
     static setup() {
         this.block = new Block(120)
@@ -283,5 +285,46 @@ class Select {
         this.selected_id = 0
         this.select_item(item)
         Peek.show({curl: curl})
+    }
+
+    static mousedown(e) {
+        let item = Container.extract_item(e)
+
+        if (item) {
+            return
+        }
+
+        this.mouse_down = true
+        this.mouse_selected = false
+        e.preventDefault()
+    }
+
+    static mouseup() {
+        this.mouse_down = false
+        this.mouse_selected = false
+    }
+
+    static mouseover(e) {
+        if (!this.mouse_down) {
+            return
+        }
+
+        let item = Container.extract_item(e)
+
+        if (!item) {
+            return
+        }
+
+        let items = Container.get_visible()
+        let index = items.indexOf(item)
+
+        for (let i = 0; i < items.length; i++) {
+            if (i < index) {
+                this.deselect_item(items[i])
+            }
+            else {
+                this.select_item(items[i])
+            }
+        }
     }
 }

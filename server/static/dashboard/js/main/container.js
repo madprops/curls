@@ -31,7 +31,7 @@ class Container {
         })
 
         DOM.ev(container, `click`, (e) => {
-            let item = e.target.closest(`.item`)
+            let item = this.extract_item(e)
 
             if (!item) {
                 return
@@ -73,7 +73,7 @@ class Container {
         })
 
         DOM.ev(container, `auxclick`, (e) => {
-            let item = e.target.closest(`.item`)
+            let item = this.extract_item(e)
 
             if (!item) {
                 return
@@ -87,7 +87,7 @@ class Container {
         })
 
         DOM.ev(container, `contextmenu`, (e) => {
-            let item = e.target.closest(`.item`)
+            let item = this.extract_item(e)
 
             if (!item) {
                 return
@@ -105,6 +105,23 @@ class Container {
 
         DOM.ev(outer, `scroll`, (e) => {
             this.check_scroll()
+        })
+
+        DOM.ev(outer, `contextmenu`, (e) => {
+            Menu.show(e)
+            e.preventDefault()
+        })
+
+        DOM.ev(outer, `mousedown`, (e) => {
+            Select.mousedown(e)
+        })
+
+        DOM.ev(outer, `mouseup`, () => {
+            Select.mouseup()
+        })
+
+        DOM.ev(outer, `mouseover`, (e) => {
+            Select.mouseover(e)
         })
 
         let observer = new MutationObserver((list, observer) => {
@@ -207,7 +224,7 @@ class Container {
                 return this.get_items()
             },
             get_item: (e) => {
-                return e.target.closest(`.item`)
+                return this.extract_item(e)
             },
             get_curl: (item) => {
                 return item.dataset.curl
@@ -492,5 +509,9 @@ class Container {
 
     static get_container() {
         return DOM.el(`#container`)
+    }
+
+    static extract_item(e) {
+        return e.target.closest(`.item`)
     }
 }
