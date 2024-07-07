@@ -13,6 +13,7 @@ App.setup = () => {
     Colors.setup()
     Container.setup()
     Select.setup()
+    Drag.setup()
     Update.setup()
     Sort.setup()
     Change.setup()

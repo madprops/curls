@@ -125,7 +125,6 @@ class Container {
         })
 
         observer.observe(container, { childList: true })
-        this.drag_events()
         this.wrap_enabled = this.load_wrap_enabled()
         this.setup_keyboard()
         this.focus()
@@ -202,38 +201,6 @@ class Container {
         else {
             bottom.classList.add(`disabled`)
         }
-    }
-
-    static drag_events() {
-        let container = this.get_container()
-
-        new Drag({container: container,
-            get_selected: () => {
-                return Select.get()
-            },
-            get_items: () => {
-                return this.get_items()
-            },
-            get_item: (e) => {
-                return this.extract_item(e)
-            },
-            get_curl: (item) => {
-                return item.dataset.curl
-            },
-            on_end: () => {
-                this.after_drag()
-            },
-            locked: () => {
-                return false
-            },
-            select: (item) => {
-                let selected = Select.get()
-
-                if (!selected.includes(item)) {
-                    Select.single(item)
-                }
-            },
-        })
     }
 
     static save_wrap_enabled() {
@@ -407,15 +374,9 @@ class Container {
         return items.filter(x => !x.classList.contains(`hidden`))
     }
 
-    static after_drag() {
-        let curls = this.get_curls()
-        Curls.save(curls)
-        Sort.set_value(`order`)
-    }
-
     static get_curls() {
         let items = this.get_items()
-        return items.map(item => item.dataset.curl)
+        return items.map(item => Container.extract_curl(item))
     }
 
     static get_item(curl) {

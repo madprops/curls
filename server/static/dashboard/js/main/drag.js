@@ -1,64 +1,54 @@
 /*
 
-This is a generic way to add drag support to item lists
+Controls dragging of items in the container
 
 */
 
 class Drag {
-    constructor(args) {
-        this.drag_items = []
-        this.drag_y = 0
-        this.args = args
-        this.add_events()
-    }
+    static drag_items = []
+    static drag_y = 0
 
-    add_events() {
-        DOM.ev(this.args.container, `dragstart`, (e) => {
+    static setup() {
+        let container = Container.get_container()
+
+        DOM.ev(container, `dragstart`, (e) => {
             this.drag_start(e)
         })
 
-        DOM.ev(this.args.container, `dragenter`, (e) => {
+        DOM.ev(container, `dragenter`, (e) => {
             this.drag_enter(e)
         })
 
-        DOM.ev(this.args.container, `dragend`, (e) => {
+        DOM.ev(container, `dragend`, (e) => {
             this.drag_end(e)
         })
     }
 
-    drag_start(e) {
-        if (this.args.locked()) {
-            e.preventDefault()
-            return false
-        }
-
-        let item = this.args.get_item(e)
-        let curl = this.args.get_curl(item)
+    static drag_start(e) {
+        let item = Container.extract_item(e)
+        let curl = Container.extract_curl(item)
         this.drag_y = e.clientY
 
         e.dataTransfer.setData(`text`, curl)
         e.dataTransfer.setDragImage(new Image(), 0, 0)
 
-        let selected = this.args.get_selected()
+        let selected = Select.get()
 
         if (selected.length && selected.includes(item)) {
             this.drag_items = selected
         }
         else {
-            this.args.select(item)
+            if (!selected.includes(item)) {
+                Select.single(item)
+            }
+
             this.drag_items = [item]
         }
-
-        this.args.started = true
     }
 
-    drag_enter(e) {
-        if (!this.args.started) {
-            return
-        }
-
-        let items = this.args.get_items()
-        let item = this.args.get_item(e)
+    static drag_enter(e) {
+        let items = Container.get_items()
+        let item = Container.extract_item(e)
         let index = items.indexOf(item)
 
         if (index === -1) {
@@ -76,8 +66,9 @@ class Drag {
         }
     }
 
-    drag_end(e) {
-        this.args.on_end()
-        this.args.started = false
+    static drag_end(e) {
+        let curls = Container.get_curls()
+        Curls.save(curls)
+        Sort.set_value(`order`)
     }
 }
