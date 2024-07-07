@@ -474,6 +474,6 @@ class Container {
     }
 
     static extract_updated(e) {
-        e.target.closest(`.item_updated`)
+        return e.target.closest(`.item_updated`)
     }
 }
