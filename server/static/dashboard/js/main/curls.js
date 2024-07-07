@@ -43,9 +43,11 @@ class Curls {
 
         if (added.length) {
             let new_curls = this.add_curls(added, this.get())
-            this.save(new_curls)
-            added.reverse()
-            Update.update({ curls: added })
+
+            if (this.save(new_curls)) {
+                added.reverse()
+                Update.update({ curls: added })
+            }
         }
     }
 
@@ -65,7 +67,10 @@ class Curls {
         }
 
         let new_curls = this.add_curls([curl], curls)
-        this.save(new_curls)
+
+        if (this.save(new_curls)) {
+            Update.update({ curls: [curl] })
+        }
     }
 
     static to_top(curls) {
@@ -175,8 +180,9 @@ class Curls {
         }
 
         if (added) {
-            this.save(added)
-            Update.update()
+            if (this.save(added)) {
+                Update.update()
+            }
         }
     }
 
@@ -216,9 +222,11 @@ class Curls {
         }
 
         curls[index] = new_curl
-        this.save(curls)
-        Items.remove_curl(curl)
-        Update.update({ curls: [new_curl] })
+
+        if (this.save(curls)) {
+            Items.remove_curl(curl)
+            Update.update({ curls: [new_curl] })
+        }
     }
 
     static check(curl) {

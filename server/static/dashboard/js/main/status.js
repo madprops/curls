@@ -124,7 +124,6 @@ class Status {
 
         let el = DOM.el(`#change_status`)
         Utils.context({items: items, element: el, e: e})
-        Utils.context(items, e)
     }
 
     static set(status) {
