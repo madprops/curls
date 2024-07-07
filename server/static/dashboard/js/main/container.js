@@ -306,7 +306,9 @@ class Container {
         item_icon.draggable = true
 
         let lines = [
-            `Click to show menu`,
+            `Click to select`,
+            `Ctrl Click to toggle`,
+            `Shift Click to select range`,
             `Middle Click to remove`,
             `Drag to reorder`,
         ]
