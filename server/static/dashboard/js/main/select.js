@@ -11,7 +11,7 @@ class Select {
     static mouse_selected = false
 
     static setup() {
-        this.block = new Block(120)
+        this.block = new Block(200)
     }
 
     static select_curl(curl) {

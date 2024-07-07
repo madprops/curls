@@ -39,7 +39,7 @@ class Combo {
         ]
 
         this.args.element.title = lines.join(`\n`)
-        this.block = new Block(60)
+        this.block = new Block(200)
         this.update_text()
     }
 
