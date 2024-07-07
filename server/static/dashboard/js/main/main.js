@@ -103,5 +103,5 @@ App.check_selection = (e) => {
         return
     }
 
-    Select.deselect()
+    Select.deselect_all()
 }

@@ -44,16 +44,16 @@ class Container {
             let is_icon = this.extract_icon(e)
 
             if (e.shiftKey) {
-                Select.select_range(item)
+                Select.range(item)
                 e.preventDefault()
             }
             else if (e.ctrlKey) {
-                Select.toggle_select(item)
+                Select.toggle(item)
                 e.preventDefault()
             }
             else {
                 if (is_icon) {
-                    Select.select_single(item)
+                    Select.single(item)
                     e.preventDefault()
                 }
             }
@@ -68,7 +68,7 @@ class Container {
 
             if (e.button == 1) {
                 let curl = this.extract_curl(item)
-                Select.check_select(item)
+                Select.check(item)
                 Curls.remove_selected(curl)
             }
         })
@@ -81,7 +81,7 @@ class Container {
             }
 
             let curl = this.extract_curl(item)
-            Select.check_select(item)
+            Select.check(item)
             Items.show_menu({curl: curl, e: e})
             e.preventDefault()
         })
@@ -206,7 +206,7 @@ class Container {
 
         new Drag({container: container,
             get_selected: () => {
-                return Select.get_selected()
+                return Select.get()
             },
             get_items: () => {
                 return this.get_items()
@@ -224,10 +224,10 @@ class Container {
                 return false
             },
             select: (item) => {
-                let selected = Select.get_selected()
+                let selected = Select.get()
 
                 if (!selected.includes(item)) {
-                    Select.select_single(item)
+                    Select.single(item)
                 }
             },
         })
@@ -292,7 +292,7 @@ class Container {
         }
 
         if (args.select.length) {
-            Select.select_curls(args.select)
+            Select.curls(args.select)
         }
     }
 
@@ -371,49 +371,27 @@ class Container {
                 e.preventDefault()
             }
             else if (e.key === `ArrowUp`) {
-                e.preventDefault()
-                let selected = Select.get_selected()
-
-                if (selected.length) {
-                    if (e.ctrlKey) {
-                        Move.up()
-                    }
-                    else {
-                        Select.select_vertical(`up`, e.shiftKey)
-                    }
+                if (e.ctrlKey) {
+                    Move.up()
                 }
                 else {
-                    if (e.ctrlKey) {
-                        this.scroll_top()
-                        return
-                    }
-
-                    this.scroll_up()
+                    Select.vertical(`up`, e.shiftKey)
                 }
+
+                e.preventDefault()
             }
             else if (e.key === `ArrowDown`) {
-                e.preventDefault()
-                let selected = Select.get_selected()
-
-                if (selected.length) {
-                    if (e.ctrlKey) {
-                        Move.down()
-                    }
-                    else {
-                        Select.select_vertical(`down`, e.shiftKey)
-                    }
+                if (e.ctrlKey) {
+                    Move.down()
                 }
                 else {
-                    if (e.ctrlKey) {
-                        this.scroll_bottom()
-                        return
-                    }
-
-                    this.scroll_down()
+                    Select.vertical(`down`, e.shiftKey)
                 }
+
+                e.preventDefault()
             }
             else if (e.key === `Escape`) {
-                Select.deselect()
+                Select.deselect_all()
                 e.preventDefault()
             }
         })

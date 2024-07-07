@@ -14,39 +14,39 @@ class Select {
         this.block = new Block(200)
     }
 
-    static select_curl(curl) {
+    static curl(curl) {
         let item = Container.get_item(curl)
 
         if (item) {
-            this.select_item(item)
+            this.select(item)
         }
     }
 
-    static select_curls(curls) {
+    static curls(curls) {
         for (let curl of curls) {
-            this.select_curl(curl)
+            this.curl(curl)
         }
     }
 
-    static check_select(item) {
-        let selected = this.get_selected()
+    static check(item) {
+        let selected = this.get()
 
         if (!selected.includes(item)) {
-            this.select_single(item)
+            this.single(item)
         }
     }
 
-    static select_range(item) {
-        let selected = this.get_selected()
+    static range(item) {
+        let selected = this.get()
 
         if (!selected.length) {
-            Select.select_single(item)
+            Select.single(item)
             return
         }
 
-        let prev_item = this.get_prev_item()
+        let prev = this.get_prev()
 
-        if (item === prev_item) {
+        if (item === prev) {
             return
         }
 
@@ -57,7 +57,7 @@ class Select {
         }
 
         let index = items.indexOf(item)
-        let prev_index = items.indexOf(prev_item)
+        let prev_index = items.indexOf(prev)
         let first_index = items.indexOf(selected[0])
         let last_index = items.indexOf(Utils.last(selected))
         let direction
@@ -71,7 +71,7 @@ class Select {
             }
         }
         else {
-            if (prev_item === selected[0]) {
+            if (prev === selected[0]) {
                 direction = `up`
             }
             else {
@@ -87,21 +87,21 @@ class Select {
         }
 
         if (direction === `up`) {
-            this.do_select_range(index, prev_index, direction)
+            this.do_range(index, prev_index, direction)
         }
         else {
-            this.do_select_range(prev_index, index, direction)
+            this.do_range(prev_index, index, direction)
         }
     }
 
-    static do_select_range(start, end, direction) {
+    static do_range(start, end, direction) {
         let items = Container.get_visible()
         let select = []
 
         for (let i = 0; i < items.length; i++) {
             if (i < start) {
                 if (direction === `up`) {
-                    this.deselect_item(items[i])
+                    this.deselect(items[i])
                 }
 
                 continue
@@ -109,7 +109,7 @@ class Select {
 
             if (i > end) {
                 if (direction === `down`) {
-                    this.deselect_item(items[i])
+                    this.deselect(items[i])
                 }
 
                 continue
@@ -123,11 +123,11 @@ class Select {
         }
 
         for (let item of select) {
-            this.select_item(item)
+            this.select(item)
         }
     }
 
-    static select_vertical(direction, shift) {
+    static vertical(direction, shift) {
         if (this.block.add_charge()) {
             return
         }
@@ -138,9 +138,9 @@ class Select {
             return
         }
 
-        let selected = this.get_selected()
-        let prev_item = this.get_prev_item()
-        let prev_index = items.indexOf(prev_item)
+        let selected = this.get()
+        let prev = this.get_prev()
+        let prev_index = items.indexOf(prev)
         let first_index = items.indexOf(selected[0])
 
         if (!selected.length) {
@@ -153,7 +153,7 @@ class Select {
                 item = items[0]
             }
 
-            this.select_single(item)
+            this.single(item)
             return
         }
 
@@ -165,7 +165,7 @@ class Select {
                     return
                 }
 
-                this.select_range(item)
+                this.range(item)
             }
             else {
                 let item
@@ -187,7 +187,7 @@ class Select {
                     return
                 }
 
-                this.select_single(item)
+                this.single(item)
             }
         }
         else if (direction === `down`) {
@@ -198,7 +198,7 @@ class Select {
                     return
                 }
 
-                this.select_range(item)
+                this.range(item)
             }
             else {
                 let item
@@ -220,76 +220,76 @@ class Select {
                     return
                 }
 
-                this.select_single(item)
+                this.single(item)
             }
         }
     }
 
-    static get_prev_item() {
+    static get_prev() {
         let items = Container.get_visible()
-        let prev_item = null
+        let prev = null
 
         for (let item of items) {
-            if (!prev_item) {
-                prev_item = item
+            if (!prev) {
+                prev = item
                 continue
             }
 
             let id = parseInt(item.dataset.selected_id) || 0
-            let id_ = parseInt(prev_item.dataset.selected_id) || 0
+            let id_ = parseInt(prev.dataset.selected_id) || 0
 
             if (id > id_) {
-                prev_item = item
+                prev = item
             }
         }
 
-        return prev_item
+        return prev
     }
 
-    static get_selected() {
+    static get() {
         return DOM.els(`#container .item.${this.selected_class}`)
     }
 
-    static get_selected_curls() {
-        let selected = this.get_selected()
+    static get_curls() {
+        let selected = this.get()
         return selected.map(item => Container.extract_curl(item))
     }
 
-    static select_item(item) {
+    static select(item) {
         item.classList.add(this.selected_class)
         this.selected_id += 1
         item.dataset.selected_id = this.selected_id
         Utils.scroll_element({item: item})
     }
 
-    static deselect_item(item) {
+    static deselect(item) {
         item.classList.remove(this.selected_class)
         item.dataset.selected_id = 0
     }
 
-    static toggle_select(item) {
+    static toggle(item) {
         if (item.classList.contains(this.selected_class)) {
-            this.deselect_item(item)
+            this.deselect(item)
         }
         else {
-            this.select_item(item)
+            this.select(item)
         }
     }
 
-    static deselect() {
-        let items = this.get_selected()
+    static deselect_all() {
+        let items = this.get()
 
         for (let item of items) {
-            this.deselect_item(item)
+            this.deselect(item)
         }
 
         this.selected_id = 0
     }
 
-    static select_single(item) {
-        this.deselect()
+    static single(item) {
+        this.deselect_all()
         this.selected_id = 0
-        this.select_item(item)
+        this.select(item)
     }
 
     static mousedown(e) {
@@ -325,10 +325,10 @@ class Select {
 
         for (let i = 0; i < items.length; i++) {
             if (i < index) {
-                this.deselect_item(items[i])
+                this.deselect(items[i])
             }
             else {
-                this.select_item(items[i])
+                this.select(items[i])
             }
         }
     }

@@ -79,7 +79,7 @@ class Items {
             }, 1000)
         }
 
-        let curls = Select.get_selected_curls()
+        let curls = Select.get_curls()
 
         if (!curls.includes(curl)) {
             curls = [curl]
@@ -99,7 +99,7 @@ class Items {
 
     static show_menu(args = {}) {
         let items = []
-        let curls = Select.get_selected_curls()
+        let curls = Select.get_curls()
 
         if (curls.length > 1) {
             items = [

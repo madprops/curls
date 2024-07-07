@@ -28,12 +28,12 @@ class Change {
             console.log(value)
 
             if (value) {
-                Select.select_curl(value)
+                Select.curl(value)
             }
         })
 
         DOM.ev(curl, `blur`, (e) => {
-            Select.deselect()
+            Select.deselect_all()
         })
     }
 

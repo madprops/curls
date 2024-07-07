@@ -7,7 +7,7 @@ Moves items up and down in the container
 class Move {
     static up() {
         let items = Container.get_visible()
-        let selected = Select.get_selected()
+        let selected = Select.get()
         let first_index = items.indexOf(selected[0])
 
         if (first_index === 0) {
@@ -26,7 +26,7 @@ class Move {
 
     static down() {
         let items = Container.get_visible()
-        let selected = Select.get_selected()
+        let selected = Select.get()
         let last_index = items.indexOf(Utils.last(selected))
 
         if (last_index === items.length - 1) {
