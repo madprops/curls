@@ -40,6 +40,7 @@ class Select {
         let selected = this.get_selected()
 
         if (!selected.length) {
+            Select.select_single(item)
             return
         }
 

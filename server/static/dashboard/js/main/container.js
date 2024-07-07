@@ -41,10 +41,9 @@ class Container {
             }
 
             this.focus()
-            let selected = Select.get_selected()
             let is_icon = this.extract_icon(e)
 
-            if (e.shiftKey && selected.length) {
+            if (e.shiftKey) {
                 Select.select_range(item)
                 e.preventDefault()
             }
