@@ -16,13 +16,13 @@ class Curls {
         }
     }
 
-    static add(where) {
+    static add() {
         Windows.prompt({title: `Add Curls`, callback: (value) => {
-            this.add_submit(where, value)
+            this.add_submit(value)
         }, message: `Enter one or more curls`})
     }
 
-    static add_submit(where, curls) {
+    static add_submit(curls) {
         if (!curls) {
             return
         }
@@ -36,62 +36,36 @@ class Curls {
         let added = []
 
         for (let curl of units) {
-            if (this.do_add({where: where, curl: curl})) {
+            if (this.check(curl)) {
                 added.push(curl)
             }
         }
 
         if (added.length) {
-            if (where === `top`) {
-                added.reverse()
-            }
-
+            let new_curls = this.add_curls(added, this.get())
+            this.save(new_curls)
+            added.reverse()
             Update.update({ curls: added })
         }
     }
 
-    static do_add(args = {}) {
-        let def_args = {
-            where: `top`,
-            curl: ``,
-            color: Colors.mode,
-        }
-
-        Utils.def_args(def_args, args)
-
-        if (!this.check(args.curl)) {
-            return false
-        }
-
-        let curls = this.get(args.color)
-
-        if (curls.includes(args.curl)) {
-            return false
-        }
-
-        if (curls.length >= this.max_curls) {
-            return false
-        }
-
-        curls = curls.filter(x => x !== args.curl)
-
-        if (args.where === `top`) {
-            curls.unshift(args.curl)
-        }
-        else if (args.where === `bottom`) {
-            curls.push(args.curl)
-        }
-
-        this.save(curls)
-        return true
+    static add_curls(added, curls) {
+        return Array.from(new Set([...added, ...curls]))
     }
 
     static add_owned(curl) {
         let curls = this.get()
 
-        if (!curls.includes(curl)) {
-            this.do_add({curl: curl})
+        if (curls.includes(curl)) {
+            return
         }
+
+        if (!this.check(curl)) {
+            return
+        }
+
+        let new_curls = this.add_curls([curl], curls)
+        this.save(new_curls)
     }
 
     static to_top(curls) {
@@ -131,6 +105,7 @@ class Curls {
     }
 
     static save(curls, color = Colors.mode) {
+        curls = this.clean(curls)
         let same = true
         let current = this.get(color)
 
@@ -191,15 +166,16 @@ class Curls {
 
         units = units.reverse()
         this.clear()
-        let added = false
+        let added = []
 
         for (let curl of units) {
-            if (this.do_add({curl: curl})) {
-                added = true
+            if (this.check(curl)) {
+                added.push(curl)
             }
         }
 
         if (added) {
+            this.save(added)
             Update.update()
         }
     }
@@ -265,6 +241,10 @@ class Curls {
         let cleaned = []
 
         for (let curl of curls) {
+            if (cleaned.includes(curl)) {
+                continue
+            }
+
             if (!this.check(curl)) {
                 continue
             }

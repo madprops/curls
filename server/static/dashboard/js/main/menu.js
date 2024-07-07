@@ -40,7 +40,7 @@ class Menu {
                 {
                     text: `Add`,
                     action: () => {
-                        Curls.add(`top`)
+                        Curls.add()
                     }
                 },
                 {
@@ -69,7 +69,7 @@ class Menu {
                 {
                     text: `Add`,
                     action: () => {
-                        Curls.add(`top`)
+                        Curls.add()
                     }
                 },
                 ...data,
