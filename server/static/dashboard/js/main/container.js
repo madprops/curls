@@ -36,14 +36,14 @@ class Container {
                 return
             }
 
-            if (e.target.closest(`.item_updated`)) {
+            if (this.extract_updated(e)) {
                 Dates.change_mode()
                 return
             }
 
             this.focus()
             let selected = Select.get_selected()
-            let is_icon = e.target.closest(`.item_icon`)
+            let is_icon = this.extract_icon(e)
 
             if (e.shiftKey && selected.length) {
                 Select.select_range(item)
@@ -466,5 +466,13 @@ class Container {
 
     static extract_item(e) {
         return e.target.closest(`.item`)
+    }
+
+    static extract_icon(e) {
+        return e.target.closest(`.item_icon`)
+    }
+
+    static extract_updated(e) {
+        e.target.closest(`.item_updated`)
     }
 }

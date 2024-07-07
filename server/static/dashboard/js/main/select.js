@@ -86,14 +86,14 @@ class Select {
         }
 
         if (direction === `up`) {
-            this.do_select_range(item, index, prev_index, direction)
+            this.do_select_range(index, prev_index, direction)
         }
         else {
-            this.do_select_range(item, prev_index, index, direction)
+            this.do_select_range(prev_index, index, direction)
         }
     }
 
-    static do_select_range(item, start, end, direction) {
+    static do_select_range(start, end, direction) {
         let items = Container.get_visible()
         let select = []
 
@@ -234,10 +234,10 @@ class Select {
                 continue
             }
 
-            let id = parseInt(item.dataset.selected_id)
-            let prev_id = parseInt(prev_item.dataset.selected_id)
+            let id = parseInt(item.dataset.selected_id) || 0
+            let id_ = parseInt(prev_item.dataset.selected_id) || 0
 
-            if (id > prev_id) {
+            if (id > id_) {
                 prev_item = item
             }
         }
