@@ -42,7 +42,7 @@ class Container {
                 return
             }
 
-            this.focus_container()
+            this.focus()
             let curl = this.extract_curl(item)
             let selected = Select.get_selected()
             let is_icon = e.target.closest(`.item_icon`)
@@ -120,6 +120,7 @@ class Container {
         }, this.highlight_debouncer_delay)
 
         this.setup_keyboard()
+        this.focus()
     }
 
     static clear() {
@@ -480,7 +481,7 @@ class Container {
         return items.find(x => x.dataset.curl === curl)
     }
 
-    static focus_container() {
+    static focus() {
         let container = this.get_container()
         container.focus()
     }
