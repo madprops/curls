@@ -10,6 +10,7 @@ App.setup = () => {
     NeedContext.init()
 
     Block.setup()
+    Curls.setup()
     Colors.setup()
     Container.setup()
     Select.setup()

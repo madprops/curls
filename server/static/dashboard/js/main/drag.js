@@ -68,7 +68,9 @@ class Drag {
 
     static drag_end(e) {
         let curls = Container.get_curls()
-        Curls.save(curls)
-        Sort.set_value(`order`)
+
+        if (Curls.save(curls)) {
+            Sort.set_value(`order`)
+        }
     }
 }

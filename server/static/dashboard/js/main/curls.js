@@ -8,6 +8,13 @@ class Curls {
     static max_curls = 100
     static max_length = 20
     static old_delay = Utils.YEAR * 1
+    static colors = {}
+
+    static setup() {
+        for (let color in Colors.colors) {
+            this.colors[color] = this.load_curls(color)
+        }
+    }
 
     static add(where) {
         Windows.prompt({title: `Add Curls`, callback: (value) => {
@@ -124,11 +131,35 @@ class Curls {
     }
 
     static save(curls, color = Colors.mode) {
+        let same = true
+        let current = this.get(color)
+
+        if (current.length !== curls.length) {
+            same = false
+        }
+
+        for (let i = 0; i < current.length; i++) {
+            if (current[i] !== curls[i]) {
+                same = false
+                break
+            }
+        }
+
+        if (same) {
+            return false
+        }
+
         let name = this.get_name(color)
+        this.colors[color] = [...curls]
         Utils.save(name, JSON.stringify(curls))
+        return true
     }
 
     static get(color = Colors.mode) {
+        return this.colors[color]
+    }
+
+    static load_curls(color = Colors.mode) {
         let name = this.get_name(color)
         let saved = Utils.load_array(name)
 
@@ -463,7 +494,7 @@ class Curls {
     }
 
     static copy() {
-        let curls = Curls.get()
+        let curls = this.get()
         let text = curls.join(` `)
         Utils.copy_to_clipboard(text)
     }
