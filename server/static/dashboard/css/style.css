@@ -48,6 +48,7 @@ html
     table-layout: fixed;
     width: 100%;
     box-sizing: border-box;
+    outline: none;
 }
 
 .item {
