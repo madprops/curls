@@ -38,6 +38,11 @@ class Curls {
 
     static prepend(added) {
         added = added.filter(x => this.check(x))
+
+        if (!added.length) {
+            return
+        }
+
         let new_curls = Array.from(new Set([...added, ...this.get()]))
 
         if (this.save(new_curls)) {
