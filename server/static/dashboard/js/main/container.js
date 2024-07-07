@@ -351,6 +351,7 @@ class Container {
         el.append(item_updated)
 
         el.dataset.curl = item.curl
+        el.dataset.selected_id = 0
 
         container.append(el)
         container.append(el)
