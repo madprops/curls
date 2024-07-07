@@ -16,7 +16,7 @@ class Container {
             `Add some curls to the list by using the menu.`,
             `These will be monitored for status changes.`,
             `Above you can change the status of your own curls.`,
-            `Each color has their own set of curls.`,
+            `Each color has its own set of curls.`,
         ].join(`<br>`)
 
         let outer = this.get_outer()
