@@ -54,6 +54,7 @@ html
 .item {
     display: table-row;
     border: var(--border);
+    cursor: default;
 }
 
 .item_icon,
