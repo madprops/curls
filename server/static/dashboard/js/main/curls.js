@@ -169,7 +169,6 @@ class Curls {
             return
         }
 
-        units = units.reverse()
         this.clear()
         let added = []
 
