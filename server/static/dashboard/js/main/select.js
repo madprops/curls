@@ -22,6 +22,12 @@ class Select {
         }
     }
 
+    static select_curls(curls) {
+        for (let curl of curls) {
+            this.select_curl(curl)
+        }
+    }
+
     static check_select(item) {
         let selected = this.get_selected()
 

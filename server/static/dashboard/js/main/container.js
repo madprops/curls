@@ -8,7 +8,6 @@ Most action happens here
 class Container {
     static check_scroll_debouncer_delay = 100
     static wrap_enabled = true
-    static highlight_debouncer_delay = 50
     static ls_wrap = `wrap_enabled`
     static scroll_step = 100
 
@@ -127,11 +126,6 @@ class Container {
         observer.observe(container, { childList: true })
         this.drag_events()
         this.wrap_enabled = this.load_wrap_enabled()
-
-        this.highlight_debouncer = Utils.create_debouncer((args) => {
-            this.do_highlight(args)
-        }, this.highlight_debouncer_delay)
-
         this.setup_keyboard()
         this.focus()
     }
@@ -280,7 +274,6 @@ class Container {
         let def_args = {
             items: Items.list,
             check_filter: true,
-            highlight: true,
             select: [],
         }
 
@@ -300,8 +293,8 @@ class Container {
             Filter.check()
         }
 
-        if (args.highlight) {
-            this.highlight()
+        if (args.select.length) {
+            Select.select_curls(args.select)
         }
     }
 
@@ -363,42 +356,6 @@ class Container {
         container.append(el)
 
         item.element = el
-    }
-
-    static highlight(args) {
-        this.highlight_debouncer.call(args)
-    }
-
-    static do_highlight(args = {}) {
-        this.highlight_debouncer.cancel()
-
-        let def_args = {
-            behavior: `smooth`,
-        }
-
-        Utils.def_args(def_args, args)
-        let selected = Select.get_selected_curls()
-
-        for (let item of Items.list) {
-            if (!item || !item.element) {
-                continue
-            }
-
-            if (selected.includes(item.curl)) {
-                Select.select_item(item.element)
-            }
-            else {
-                Select.deselect_item(item.element)
-            }
-        }
-
-        if (args.curl) {
-            let item = Items.get(args.curl)
-
-            if (item && item.element) {
-                Utils.scroll_element({item: item.element, behavior: args.behavior})
-            }
-        }
     }
 
     static extract_curl(item) {
