@@ -27,32 +27,23 @@ class Curls {
             return
         }
 
-        let units = Utils.smart_list(curls)
+        let added = Utils.smart_list(curls)
 
-        if (!units.length) {
+        if (!added.length) {
             return
         }
 
-        let added = []
-
-        for (let curl of units) {
-            if (this.check(curl)) {
-                added.push(curl)
-            }
-        }
-
-        if (added.length) {
-            let new_curls = this.add_curls(added, this.get())
-
-            if (this.save(new_curls)) {
-                added.reverse()
-                Update.update({ curls: added })
-            }
-        }
+        this.prepend(added)
     }
 
-    static add_curls(added, curls) {
-        return Array.from(new Set([...added, ...curls]))
+    static prepend(added) {
+        added = added.filter(x => this.check(x))
+        let new_curls = Array.from(new Set([...added, ...this.get()]))
+
+        if (this.save(new_curls)) {
+            added.reverse()
+            Update.update({ curls: added })
+        }
     }
 
     static add_owned(curl) {
@@ -62,15 +53,7 @@ class Curls {
             return
         }
 
-        if (!this.check(curl)) {
-            return
-        }
-
-        let new_curls = this.add_curls([curl], curls)
-
-        if (this.save(new_curls)) {
-            Update.update({ curls: [curl] })
-        }
+        this.prepend([curl])
     }
 
     static to_top(curls) {

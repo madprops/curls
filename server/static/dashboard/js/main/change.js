@@ -112,6 +112,7 @@ class Change {
             })
             .catch(e => {
                 Utils.error(`Failed to change`)
+                Utils.error(e)
                 this.clear_changing()
             })
     }
