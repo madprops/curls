@@ -7,7 +7,6 @@ This is the filter for the container
 class Filter {
     static debouncer_delay = 250
     static default_mode = `all`
-    static ls_name = `filter`
 
     static modes = [
         {value: `all`, name: `All`, info: `Show all curls`},
@@ -47,7 +46,7 @@ class Filter {
 
         filter.title = lines.join(`\n`)
         let button = DOM.el(`#filter_button`)
-        this.mode = this.load_filter()
+        this.mode = this.default_mode
 
         this.combo = new Combo({
             title: `Filter Modes`,
@@ -64,10 +63,6 @@ class Filter {
         })
     }
 
-    static load_filter() {
-        return Utils.load_modes(this.ls_name, this.modes, this.default_mode)
-    }
-
     static change(value) {
         if (this.mode === value) {
             return
@@ -76,7 +71,6 @@ class Filter {
         this.mode = value
         this.focus()
         this.do_filter()
-        Utils.save(this.ls_name, value)
     }
 
     static unfilter() {
