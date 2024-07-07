@@ -7,7 +7,8 @@ Color functions
 class Colors {
     static default_mode = `green`
     static ls_name = `color`
-    static alpha = {}
+    static alpha_0 = {}
+    static alpha_1 = {}
     static alpha_2 = {}
 
     static modes = [
@@ -47,8 +48,10 @@ class Colors {
 
         })
 
-        this.make_alpha(this.alpha, `0.18`)
+        this.make_alpha(this.alpha_0, `0.055`)
+        this.make_alpha(this.alpha_1, `0.18`)
         this.make_alpha(this.alpha_2, `0.5`)
+
         this.apply()
     }
 
@@ -79,11 +82,16 @@ class Colors {
 
     static apply() {
         let normal = this.colors[this.mode]
-        let alpha = this.alpha[this.mode]
+
+        let alpha_0 = this.alpha_0[this.mode]
+        let alpha_1 = this.alpha_1[this.mode]
         let alpha_2 = this.alpha_2[this.mode]
+
         document.documentElement.style.setProperty(`--color`, normal)
-        document.documentElement.style.setProperty(`--color_alpha`, alpha)
+        document.documentElement.style.setProperty(`--color_alpha_0`, alpha_0)
+        document.documentElement.style.setProperty(`--color_alpha_1`, alpha_1)
         document.documentElement.style.setProperty(`--color_alpha_2`, alpha_2)
+
         App.update_title()
     }
 
