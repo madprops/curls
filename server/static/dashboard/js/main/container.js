@@ -13,7 +13,7 @@ class Container {
 
     static setup() {
         this.empty_info = [
-            `Add some curls to the list on the left.`,
+            `Add some curls to the list by using the menu.`,
             `These will be monitored for status changes.`,
             `Above you can change the status of your own curls.`,
             `Each color has their own set of curls.`,
