@@ -194,6 +194,10 @@ input[type="password"]
     padding-right: 0.25rem;
     user-select: none;
     white-space: nowrap;
+    min-width: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .button:hover {
