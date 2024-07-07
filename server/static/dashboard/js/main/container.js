@@ -105,6 +105,10 @@ class Container {
             Menu.show(e)
         })
 
+        DOM.ev(outer, `click`, (e) => {
+            this.focus()
+        })
+
         DOM.ev(outer, `mousedown`, (e) => {
             Select.mousedown(e)
         })
@@ -429,8 +433,7 @@ class Container {
     }
 
     static focus() {
-        let container = this.get_container()
-        container.focus()
+        this.get_container().focus()
     }
 
     static get_outer() {
