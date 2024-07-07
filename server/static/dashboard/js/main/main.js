@@ -68,6 +68,10 @@ App.start_mouse = () => {
     DOM.evs(DOM.el(`#main`), [`mousedown`], (e) => {
         App.check_selection(e)
     })
+
+    DOM.ev(window, `mouseup`, (e) => {
+        Select.mouseup()
+    })
 }
 
 App.setup_resize = () => {
