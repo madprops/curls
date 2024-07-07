@@ -7,26 +7,14 @@ It's closed automatically on focus changes
 */
 
 class Peek {
-    static enabled = true
     static open = false
     static curl = ``
     static debouncer_delay = 50
-    static ls_name = `peek_enabled`
 
     static setup() {
-        this.enabled = this.load_enabled()
-
         this.debouncer = Utils.create_debouncer((args) => {
             this.do_show(args)
         }, this.debouncer_delay)
-    }
-
-    static save_enabled() {
-        Utils.save(this.ls_name, this.enabled)
-    }
-
-    static load_enabled() {
-        return Utils.load_boolean(this.ls_name)
     }
 
     static show(args) {
@@ -35,16 +23,6 @@ class Peek {
 
     static do_show(args = {}) {
         this.debouncer.cancel()
-
-        let def_args = {
-            force: false,
-        }
-
-        Utils.def_args(def_args, args)
-
-        if (!this.enabled && !args.force) {
-            return
-        }
 
         if (this.open && (this.curl === args.curl)) {
             return

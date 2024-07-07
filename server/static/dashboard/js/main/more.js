@@ -27,11 +27,6 @@ class More {
         button.title = lines.join(`\n`)
     }
 
-    static change_peek(what) {
-        Peek.enabled = what
-        Peek.save_enabled()
-    }
-
     static change_wrap(what, actions = true) {
         Container.wrap_enabled = what
         Container.save_wrap_enabled()
@@ -61,25 +56,6 @@ class More {
 
     static show_menu(e) {
         let items = []
-
-        if (Peek.enabled) {
-            items.push({
-                text: `Disable Peek`,
-                action: () => {
-                    this.change_peek(false)
-                },
-                info: `Disable peek when selecting items`,
-            })
-        }
-        else {
-            items.push({
-                text: `Enable Peek`,
-                action: () => {
-                    this.change_peek(true)
-                },
-                info: `Enable peek when selecting items`,
-            })
-        }
 
         if (Container.wrap_enabled) {
             items.push({
@@ -143,7 +119,6 @@ class More {
 
     static reset() {
         let vars = [
-            Peek.enabled,
             Container.wrap_enabled,
             Controls.enabled,
         ]
@@ -158,7 +133,6 @@ class More {
     }
 
     static do_reset() {
-        this.change_peek(true)
         this.change_wrap(true, false)
         this.change_controls(true, false)
         this.change_dates(true, false)

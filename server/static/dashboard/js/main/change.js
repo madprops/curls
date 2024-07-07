@@ -12,6 +12,7 @@ class Change {
     static key_length = 22
 
     static setup() {
+        let curl = DOM.el(`#change_curl`)
         let submit = DOM.el(`#change_submit`)
 
         DOM.ev(submit, `click`, () => {
@@ -21,6 +22,19 @@ class Change {
         this.debouncer = Utils.create_debouncer((force, feedback) => {
             this.do_change(force, feedback)
         }, this.debouncer_delay)
+
+        DOM.ev(curl, `focus`, (e) => {
+            let value = curl.value
+            console.log(value)
+
+            if (value) {
+                Select.select_curl(value)
+            }
+        })
+
+        DOM.ev(curl, `blur`, (e) => {
+            Select.deselect()
+        })
     }
 
     static change() {

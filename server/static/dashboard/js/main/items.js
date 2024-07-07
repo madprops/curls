@@ -187,6 +187,17 @@ class Items {
             ]
         }
 
+        items.push({
+            separator: true,
+        })
+
+        items.push({
+            text: `Peek`,
+            action: () => {
+                Peek.show({curl: args.curl})
+            }
+        })
+
         NeedContext.show({items: items, e: args.e, after_hide: () => {
             Container.focus()
         }})

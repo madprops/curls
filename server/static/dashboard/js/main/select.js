@@ -286,11 +286,9 @@ class Select {
     }
 
     static select_single(item) {
-        let curl = Container.extract_curl(item)
         this.deselect()
         this.selected_id = 0
         this.select_item(item)
-        Peek.show({curl: curl})
     }
 
     static mousedown(e) {
