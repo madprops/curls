@@ -457,7 +457,7 @@ class Container {
             }
             else if (e.key === `Escape`) {
                 Peek.hide()
-                this.deselect()
+                Select.deselect()
                 e.preventDefault()
             }
         })

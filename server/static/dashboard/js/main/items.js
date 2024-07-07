@@ -187,7 +187,9 @@ class Items {
             ]
         }
 
-        NeedContext.show({items: items, e: args.e})
+        NeedContext.show({items: items, e: args.e, after_hide: () => {
+            Container.focus()
+        }})
     }
 
     static remove_curl(curl) {

@@ -12,6 +12,9 @@ class Windows {
             enable_titlebar: true,
             center_titlebar: true,
             window_x: `none`,
+            after_close: () => {
+                Container.focus()
+            },
         }
 
         return Msg.factory(Object.assign({}, common, {
