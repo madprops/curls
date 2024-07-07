@@ -9,7 +9,6 @@ class Container {
     static check_scroll_debouncer_delay = 100
     static wrap_enabled = true
     static ls_wrap = `wrap_enabled`
-    static scroll_step = 100
 
     static setup() {
         this.empty_info = [
@@ -415,16 +414,6 @@ class Container {
     static get_curls() {
         let items = this.get_items()
         return items.map(item => item.dataset.curl)
-    }
-
-    static scroll_up() {
-        let container = this.get_outer()
-        container.scrollTop -= this.scroll_step
-    }
-
-    static scroll_down() {
-        let container = this.get_outer()
-        container.scrollTop += this.scroll_step
     }
 
     static get_item(curl) {
