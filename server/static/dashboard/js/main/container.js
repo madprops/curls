@@ -43,18 +43,8 @@ class Container {
             }
 
             this.focus()
-            let curl = this.extract_curl(item)
             let selected = Select.get_selected()
             let is_icon = e.target.closest(`.item_icon`)
-
-            if (selected.includes(item)) {
-                if (!e.ctrlKey && !e.shiftKey) {
-                    if (is_icon) {
-                        Items.show_menu({curl: curl, e: e})
-                        return
-                    }
-                }
-            }
 
             if (e.shiftKey && selected.length) {
                 Select.select_range(item)
@@ -108,8 +98,14 @@ class Container {
         })
 
         DOM.ev(outer, `contextmenu`, (e) => {
-            Menu.show(e)
+            let item = this.extract_item(e)
             e.preventDefault()
+
+            if (item) {
+                return
+            }
+
+            Menu.show(e)
         })
 
         DOM.ev(outer, `mousedown`, (e) => {
