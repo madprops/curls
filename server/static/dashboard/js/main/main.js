@@ -19,7 +19,6 @@ App.setup = () => {
     Picker.setup()
     Status.setup()
     Filter.setup()
-    Peek.setup()
     Menu.setup()
     More.setup()
     Font.setup()
@@ -102,10 +101,6 @@ App.check_selection = (e) => {
 
     if (e.target.closest(`.item_icon`)) {
         return
-    }
-
-    if (!e.target.closest(`#peek`)) {
-        Peek.hide()
     }
 
     Select.deselect()

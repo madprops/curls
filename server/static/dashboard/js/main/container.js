@@ -327,11 +327,11 @@ class Container {
         item_curl.title = item.curl
         let status = item.status || `Not updated yet`
         item_status.innerHTML = Utils.sanitize(status)
-        item_status.title = status
         Utils.urlize(item_status)
         let item_updated = DOM.create(`div`, `item_updated glow`)
 
         if (Dates.enabled) {
+            item_status.title = status
             item_updated.textContent = item.updated_text
 
             let lines_2 = [
@@ -342,6 +342,7 @@ class Container {
             item_updated.title = lines_2.join(`\n`)
         }
         else {
+            item_status.title = `${item.updated_text}\n${status}`
             item_updated.classList.add(`hidden`)
         }
 
@@ -414,7 +415,6 @@ class Container {
                 }
             }
             else if (e.key === `Escape`) {
-                Peek.hide()
                 Select.deselect()
                 e.preventDefault()
             }

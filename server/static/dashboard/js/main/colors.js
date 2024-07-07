@@ -70,7 +70,6 @@ class Colors {
         this.apply()
         Items.reset()
         Container.loading()
-        Peek.hide()
         Update.update()
     }
 

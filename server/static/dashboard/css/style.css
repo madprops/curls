@@ -265,67 +265,6 @@ input[type="password"]
     text-align: center;
 }
 
-#peek {
-    display: none;
-    position: fixed;
-    z-index: 999;
-    background-color: var(--alt_background_color);
-    border: 2px solid var(--alt_border_color);
-    color: var(--alt_text_color);
-    max-width: 720px;
-    min-width: 350px;
-    right: var(--horizontal_padding);
-    top: var(--vertical_padding);
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 0 30px var(--alt_border_color);
-    border-radius: 6px;
-}
-
-#peek.active {
-    display: flex;
-    flex-direction: column;
-    gap: 0.66rem;
-}
-
-.peek_icon {
-    display: flex;
-    justify-content: center;
-    padding-top: 0.8rem;
-    cursor: pointer;
-    width: 6rem;
-}
-
-.peek_icon_canvas {
-    width: 100%;
-    height: auto;
-    justify-content: center;
-}
-
-.peek_icon:hover .peek_icon_canvas {
-    filter: brightness(1.5);
-}
-
-.peek_curl {
-    font-weight: bold;
-}
-
-.peek_status {
-    text-align: center;
-    padding-left: 1rem;
-    padding-right: 1rem;
-}
-
-.peek_updated {
-    padding-bottom: 0.88rem;
-}
-
-.peek_close {
-    position: absolute;
-    right: 1rem;
-    top: 0.66rem;
-}
-
 .needcontext-text {
     max-width: 300px !important;
     white-space: wrap !important;

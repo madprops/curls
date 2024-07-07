@@ -298,7 +298,6 @@ class Curls {
         Windows.confirm({title: `Remove All Curls`, ok: () => {
             this.clear()
             Container.empty()
-            Peek.hide()
         }, message: `Remove all curls in the current color`})
     }
 
@@ -367,10 +366,6 @@ class Curls {
 
         if (remove_item) {
             Items.remove([curl])
-        }
-
-        if (Peek.curl === curl) {
-            Peek.hide()
         }
     }
 
@@ -464,7 +459,6 @@ class Curls {
         Windows.confirm({title: `Remove ${removed.length} ${s}`, ok: () => {
             this.save(cleaned)
             Items.remove(removed)
-            Peek.hide()
         }, message: curls})
     }
 

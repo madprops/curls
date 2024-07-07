@@ -90,11 +90,6 @@ class Items {
         for (let curl of curls) {
             let item = this.get(curl)
             msgs.push(`${item.curl}\n${item.status}\n${item.updated_text}`)
-
-            if (Peek.open && Peek.curl === curl) {
-                blink(DOM.el(`#peek .peek_icon`))
-            }
-
             blink(DOM.el(`.item_icon`, item.element))
         }
 
@@ -186,17 +181,6 @@ class Items {
                 },
             ]
         }
-
-        items.push({
-            separator: true,
-        })
-
-        items.push({
-            text: `Peek`,
-            action: () => {
-                Peek.show({curl: args.curl})
-            }
-        })
 
         NeedContext.show({items: items, e: args.e, after_hide: () => {
             Container.focus()
