@@ -73,7 +73,7 @@ class Combo {
             }
         }
 
-        NeedContext.show({ items: items, e: e })
+        Utils.context({ items: items, e: e })
     }
 
     action(value) {

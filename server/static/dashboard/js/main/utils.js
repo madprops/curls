@@ -178,4 +178,25 @@ class Utils {
     static save(name, value) {
         localStorage.setItem(name, value)
     }
+
+    static context(args) {
+        let def_args = {
+            focus: true,
+        }
+
+        this.def_args(def_args, args)
+
+        if (args.focus) {
+            args.after_hide = () => {
+                Container.focus()
+            }
+        }
+
+        NeedContext.show({
+            e: args.e,
+            items: args.items,
+            element: args.element,
+            after_hide: args.after_hide,
+        })
+    }
 }

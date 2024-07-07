@@ -123,7 +123,8 @@ class Status {
         })
 
         let el = DOM.el(`#change_status`)
-        NeedContext.show({items: items, element: el, e: e})
+        Utils.context({items: items, element: el, e: e})
+        Utils.context(items, e)
     }
 
     static set(status) {

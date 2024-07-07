@@ -116,7 +116,7 @@ class Colors {
             add(this.modes[key])
         }
 
-        NeedContext.show({items: items, e: e})
+        Utils.context({items: items, e: e})
     }
 
     static do_move(color, curls) {
