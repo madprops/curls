@@ -21,6 +21,11 @@ class Header {
             Container.do_check_scroll()
         })
 
+        DOM.ev(header, `contextmenu`, (e) => {
+            e.preventDefault()
+            Menu.show(e)
+        })
+
         DOM.ev(header, `auxclick`, (e) => {
             if (e.button === 1) {
                 Container.scroll_bottom()
