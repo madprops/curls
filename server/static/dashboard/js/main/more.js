@@ -45,6 +45,15 @@ class More {
         }
     }
 
+    static change_header(what, actions = true) {
+        Header.enabled = what
+        Header.save_enabled()
+
+        if (actions) {
+            Header.update()
+        }
+    }
+
     static change_dates(what, actions = true) {
         Dates.enabled = what
         Dates.save_enabled()
@@ -114,6 +123,25 @@ class More {
             })
         }
 
+        if (Header.enabled) {
+            items.push({
+                text: `Disable Header`,
+                action: () => {
+                    this.change_header(false)
+                },
+                info: `Disable the header of the container`,
+            })
+        }
+        else {
+            items.push({
+                text: `Enable Header`,
+                action: () => {
+                    this.change_header(true)
+                },
+                info: `Enable the header of the container`,
+            })
+        }
+
         Utils.context({items: items, e: e})
     }
 
@@ -135,8 +163,10 @@ class More {
     static do_reset() {
         this.change_wrap(true, false)
         this.change_controls(true, false)
+        this.change_header(true, false)
         this.change_dates(true, false)
         Controls.check_enabled()
         Container.update()
+        Header.update()
     }
 }
