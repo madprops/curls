@@ -7,6 +7,7 @@ class Footer {
             Menu.show(e)
         })
 
+        footer.title = `Right click to show the main menu`
         let bottom = DOM.el(`#scroller_bottom`)
 
         DOM.ev(bottom, `click`, () => {
