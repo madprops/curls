@@ -256,7 +256,7 @@ class Filter {
             this.add_filter()
         }, this.timeout_delay)
 
-        Header.update_curls()
+        Infobar.update_curls()
     }
 
     static add_filter() {

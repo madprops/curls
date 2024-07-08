@@ -1,38 +1,29 @@
-class Header {
+class Infobar {
     static interval_delay = Utils.SECOND * 30
     static curls_debouncer_delay = 100
     static date_debouncer_delay = 100
-    static ls_enabled = `header_enabled`
-    static enabled = true
 
     static setup() {
-        let header = DOM.el(`#header`)
-
-        let lines = [
-            `Click to scroll to the top`,
-            `Middle Click to scroll to the bottom`,
-        ]
-
-        header.title = lines.join(`\n`)
+        let infobar = DOM.el(`#infobar`)
+        infobar.title = `Number of curls being monitored, and how long ago they were updated`
         this.hide()
 
-        DOM.ev(header, `click`, () => {
+        DOM.ev(infobar, `click`, () => {
             Container.scroll_top()
-            Container.do_check_scroll()
         })
 
-        DOM.ev(header, `contextmenu`, (e) => {
+        DOM.ev(infobar, `contextmenu`, (e) => {
             e.preventDefault()
             Menu.show(e)
         })
 
-        DOM.ev(header, `auxclick`, (e) => {
+        DOM.ev(infobar, `auxclick`, (e) => {
             if (e.button === 1) {
                 Container.scroll_bottom()
             }
         })
 
-        DOM.ev(header, `wheel`, (e) => {
+        DOM.ev(infobar, `wheel`, (e) => {
             let direction = Utils.wheel_direction(e)
 
             if (direction === `up`) {
@@ -52,16 +43,10 @@ class Header {
         this.date_debouncer = Utils.create_debouncer(() => {
             this.do_update_date()
         }, this.date_debouncer_delay)
-
-        this.enabled = this.load_enabled()
     }
 
     static start_interval() {
         clearInterval(this.interval)
-
-        if (!this.enabled) {
-            return
-        }
 
         this.interval = setInterval(() => {
             this.update_date()
@@ -69,11 +54,6 @@ class Header {
     }
 
     static update() {
-        if (!this.enabled) {
-            this.hide()
-            return
-        }
-
         if (!Items.list.length) {
             this.hide()
             return
@@ -86,21 +66,12 @@ class Header {
     }
 
     static update_curls() {
-        if (!this.enabled) {
-            return
-        }
-
         this.curls_debouncer.call()
     }
 
     static do_update_curls() {
         this.curls_debouncer.cancel()
-
-        if (!this.enabled) {
-            return
-        }
-
-        let el = DOM.el(`#header_curls`)
+        let el = DOM.el(`#infobar_curls`)
         let visible = Container.get_visible()
         let selected = Select.get()
         let text
@@ -120,38 +91,21 @@ class Header {
     }
 
     static update_date() {
-        if (!this.enabled) {
-            return
-        }
-
         this.date_debouncer.call()
     }
 
     static do_update_date() {
         this.date_debouncer.cancel()
-
-        if (!this.enabled) {
-            return
-        }
-
-        let el = DOM.el(`#header_date`)
+        let el = DOM.el(`#infobar_date`)
         let ago = Utils.timeago(Update.last_update)
         el.textContent = ago
     }
 
-    static save_enabled() {
-        Utils.save(this.ls_enabled, this.enabled)
-    }
-
-    static load_enabled() {
-        return Utils.load_boolean(this.ls_enabled)
-    }
-
     static hide() {
-        DOM.hide(`#header`)
+        DOM.hide(`#infobar`)
     }
 
     static show() {
-        DOM.show(`#header`)
+        DOM.show(`#infobar`)
     }
 }

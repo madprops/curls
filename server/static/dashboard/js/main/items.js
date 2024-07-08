@@ -211,6 +211,6 @@ class Items {
         }
 
         Container.check_empty()
-        Header.update_curls()
+        Infobar.update_curls()
     }
 }

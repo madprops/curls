@@ -12,7 +12,7 @@ App.setup = () => {
     Block.setup()
     Curls.setup()
     Colors.setup()
-    Header.setup()
+    Infobar.setup()
     Container.setup()
     Select.setup()
     Drag.setup()
@@ -33,7 +33,6 @@ App.setup = () => {
     Intro.setup()
 
     App.start_mouse()
-    App.setup_resize()
     App.update_autocomplete()
 
     Update.update()
@@ -51,12 +50,6 @@ App.start_mouse = () => {
 
     DOM.ev(window, `mouseup`, (e) => {
         Select.mouseup()
-    })
-}
-
-App.setup_resize = () => {
-    window.addEventListener(`resize`, (event) => {
-        Container.check_scroll()
     })
 }
 

@@ -37,11 +37,10 @@ class Footer {
         ]
 
         footer.title = lines.join(`\n`)
-        let bottom = DOM.el(`#scroller_bottom`)
+        let scroller = DOM.el(`#scroller`)
 
-        DOM.ev(bottom, `click`, () => {
-            Container.scroll_bottom()
-            Container.do_check_scroll()
+        DOM.ev(scroller, `click`, () => {
+            Container.scroller()
         })
 
         let version = DOM.el(`#version`)

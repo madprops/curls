@@ -81,7 +81,7 @@ class Colors {
         this.apply()
         Items.reset()
         Container.loading()
-        Header.hide()
+        Infobar.hide()
         Update.update()
     }
 

@@ -260,13 +260,13 @@ class Select {
         this.selected_id += 1
         item.dataset.selected_id = this.selected_id
         Utils.scroll_element({item: item})
-        Header.update_curls()
+        Infobar.update_curls()
     }
 
     static deselect(item) {
         item.classList.remove(this.selected_class)
         item.dataset.selected_id = 0
-        Header.update_curls()
+        Infobar.update_curls()
     }
 
     static toggle(item) {

@@ -6,7 +6,6 @@ Most action happens here
 */
 
 class Container {
-    static check_scroll_debouncer_delay = 100
     static wrap_enabled = true
     static ls_wrap = `wrap_enabled`
     static scroll_step = 100
@@ -86,14 +85,6 @@ class Container {
             e.preventDefault()
         })
 
-        this.check_scroll_debouncer = Utils.create_debouncer(() => {
-            this.do_check_scroll()
-        }, this.check_scroll_debouncer_delay)
-
-        DOM.ev(outer, `scroll`, (e) => {
-            this.check_scroll()
-        })
-
         DOM.ev(outer, `contextmenu`, (e) => {
             let item = this.extract_item(e)
             e.preventDefault()
@@ -121,11 +112,6 @@ class Container {
             Select.mouseover(e)
         })
 
-        let observer = new MutationObserver((list, observer) => {
-            this.check_scroll()
-        })
-
-        observer.observe(container, { childList: true })
         this.wrap_enabled = this.load_wrap_enabled()
         this.setup_keyboard()
         this.focus()
@@ -137,7 +123,7 @@ class Container {
     }
 
     static empty() {
-        Header.hide()
+        Infobar.hide()
         this.set_info(this.empty_info)
     }
 
@@ -174,27 +160,6 @@ class Container {
     static scroll_bottom() {
         let item = Utils.last(this.get_items())
         Utils.scroll_element({item: item, behavior: `smooth`, block: `center`})
-    }
-
-    static check_scroll() {
-        this.check_scroll_debouncer.call()
-    }
-
-    static do_check_scroll() {
-        this.check_scroll_debouncer.cancel()
-        let outer = this.get_outer()
-        let bottom = DOM.el(`#scroller_bottom`)
-
-        let height = outer.clientHeight
-        let scroll = outer.scrollHeight
-        let scrolltop = outer.scrollTop
-
-        if (scrolltop < (scroll - height)) {
-            bottom.classList.remove(`disabled`)
-        }
-        else {
-            bottom.classList.add(`disabled`)
-        }
     }
 
     static save_wrap_enabled() {
@@ -259,7 +224,7 @@ class Container {
             Select.curls(args.select)
         }
 
-        Header.update()
+        Infobar.update()
     }
 
     static create_element(item) {
@@ -426,5 +391,19 @@ class Container {
     static scroll_down() {
         let outer = this.get_outer()
         outer.scrollBy(0, this.scroll_step)
+    }
+
+    static scroller() {
+        let outer = this.get_outer()
+        let height = outer.clientHeight
+        let scroll = outer.scrollHeight
+        let scrolltop = outer.scrollTop
+
+        if (scrolltop < (scroll - height)) {
+            this.scroll_bottom()
+        }
+        else {
+            this.scroll_top()
+        }
     }
 }

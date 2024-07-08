@@ -57,21 +57,6 @@ class More {
         this.popup(`Controls`, what)
     }
 
-    static change_header(what, actions = true) {
-        if (Header.enabled == what) {
-            return
-        }
-
-        Header.enabled = what
-        Header.save_enabled()
-
-        if (actions) {
-            Header.update()
-        }
-
-        this.popup(`Header`, what)
-    }
-
     static change_dates(what, actions = true) {
         if (Dates.enabled == what) {
             return
@@ -147,25 +132,6 @@ class More {
             })
         }
 
-        if (Header.enabled) {
-            items.push({
-                text: `Disable Header`,
-                action: () => {
-                    this.change_header(false)
-                },
-                info: `Disable thheck_enabled()e header of the container`,
-            })
-        }
-        else {
-            items.push({
-                text: `Enable Header`,
-                action: () => {
-                    this.change_header(true)
-                },
-                info: `Enable the header of the container`,
-            })
-        }
-
         Utils.context({items: items, e: e})
     }
 
@@ -174,7 +140,7 @@ class More {
             Container.wrap_enabled,
             Dates.enabled,
             Controls.enabled,
-            Header.enabled,
+            Infobar.enabled,
         ]
 
         if (vars.every((x) => x)) {
@@ -189,11 +155,10 @@ class More {
     static do_reset() {
         this.change_wrap(true, false)
         this.change_controls(true, false)
-        this.change_header(true, false)
         this.change_dates(true, false)
         Controls.check_enabled()
         Container.update()
-        Header.update()
+        Infobar.update()
     }
 
     static popup(what, value) {
