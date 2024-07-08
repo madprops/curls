@@ -77,5 +77,9 @@ App.check_selection = (e) => {
         return
     }
 
+    if (e.target.closest(`#infobar_curls`)) {
+        return
+    }
+
     Select.deselect_all()
 }

@@ -342,4 +342,16 @@ class Select {
             Select.select(item)
         }
     }
+
+    static toggle_all() {
+        let visible = Container.get_visible()
+        let selected = this.get()
+
+        if (selected.length === visible.length) {
+            this.deselect_all()
+        }
+        else {
+            this.all()
+        }
+    }
 }

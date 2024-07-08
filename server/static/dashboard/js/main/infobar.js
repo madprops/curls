@@ -47,7 +47,7 @@ class Infobar {
         curls.title = `Number of curls being monitored\nClick to select all`
 
         DOM.ev(curls, `click`, () => {
-            Select.all()
+            Select.toggle_all()
         })
 
         let date = DOM.el(`#infobar_date`)
@@ -97,7 +97,12 @@ class Infobar {
         }
 
         if (selected.length > 1) {
-            text += ` (${selected.length})`
+            if (selected.length === visible.length) {
+                text += ` (All)`
+            }
+            else {
+                text += ` (${selected.length})`
+            }
         }
 
         el.textContent = text
