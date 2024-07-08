@@ -81,8 +81,10 @@ class Filter {
         }
 
         for (let el of els) {
-            el.classList.remove(`hidden`)
+            DOM.show(el)
         }
+
+        this.after()
     }
 
     static clear() {
@@ -210,6 +212,8 @@ class Filter {
                 }
             }
         }
+
+        this.after()
     }
 
     static check() {
@@ -222,5 +226,9 @@ class Filter {
 
     static focus() {
         DOM.el(`#filter`).focus()
+    }
+
+    static after() {
+        Header.update_curls()
     }
 }

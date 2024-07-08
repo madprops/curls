@@ -54,7 +54,7 @@ html
 #header {
     background-color: var(--color_alpha_1);
     color: var(--color);
-    padding: 0.15rem;
+    padding: 0.18rem;
     cursor: pointer;
     user-select: none;
     display: flex;
@@ -65,7 +65,7 @@ html
 }
 
 #header:hover {
-    box-shadow: 0 0 10px var(--color);
+    box-shadow: 0 0 8px var(--color);
 }
 
 .item {

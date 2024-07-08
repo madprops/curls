@@ -39,14 +39,22 @@ class Header {
 
     static update_curls() {
         let el = DOM.el(`#header_curls`)
-        let text = `${Items.list.length} Curls`
+        let visible = Container.get_visible()
+        let text
+
+        if (visible.length === Items.list.length) {
+            text = `${Items.list.length} Curls`
+        }
+        else {
+            text = `${visible.length} / ${Items.list.length} Curls`
+        }
+
         el.textContent = text
     }
 
     static update_date() {
         let el = DOM.el(`#header_date`)
         let ago = Utils.timeago(Update.last_update)
-        let text = `Updated: ${ago}`
-        el.textContent = text
+        el.textContent = ago
     }
 }
