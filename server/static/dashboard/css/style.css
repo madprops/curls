@@ -369,7 +369,7 @@ input[type="password"]
 }
 
 #needcontext-main {
-    background-color: rgba(0, 0, 0, 0.44)
+    background-color: rgba(0, 0, 0, 0.44) !important;
 }
 
 #needcontext-container {
