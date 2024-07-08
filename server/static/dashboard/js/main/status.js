@@ -5,9 +5,9 @@ This stores status items
 */
 
 class Status {
-    static max_list = 100
+    static max_items = 100
     static menu_max_length = 110
-    static ls_list = `status_list`
+    static ls_items = `status_items`
 
     static setup() {
         let status = DOM.el(`#change_status`)
@@ -67,8 +67,8 @@ class Status {
         button.title = lines_2.join(`\n`)
     }
 
-    static get_list() {
-        let list = Utils.load_array(this.ls_list)
+    static get_items() {
+        let list = Utils.load_array(this.ls_items)
 
         try {
             return JSON.parse(list)
@@ -81,25 +81,25 @@ class Status {
     static save(status) {
         let cleaned = []
 
-        for (let item of this.get_list()) {
+        for (let item of this.get_items()) {
             if (item !== status) {
                 cleaned.push(item)
             }
         }
 
-        let list = [status, ...cleaned].slice(0, this.max_list)
-        Utils.save(this.ls_list, JSON.stringify(list))
+        let list = [status, ...cleaned].slice(0, this.max_items)
+        Utils.save(this.ls_items, JSON.stringify(list))
     }
 
     static show_menu(e) {
-        let status_list = this.get_list()
+        let list = this.get_items()
 
-        if (!status_list.length) {
+        if (!list.length) {
             Windows.alert({title: `Empty List`, message: `Status items appear here after you use them`})
             return
         }
 
-        let items = status_list.map(status => {
+        let items = list.map(status => {
             return {
                 text: status.substring(0, this.menu_max_length),
                 action: () => {
@@ -145,7 +145,7 @@ class Status {
     static do_remove(status) {
         let cleaned = []
 
-        for (let status_ of this.get_list()) {
+        for (let status_ of this.get_items()) {
             if (status_ === status) {
                 continue
             }
@@ -153,7 +153,7 @@ class Status {
             cleaned.push(status_)
         }
 
-        Utils.save(this.ls_list, JSON.stringify(cleaned))
+        Utils.save(this.ls_items, JSON.stringify(cleaned))
     }
 
     static clear_status() {
@@ -162,7 +162,7 @@ class Status {
 
     static clear() {
         Windows.confirm({title: `Clear List`, ok: () => {
-            Utils.save(this.ls_list, `[]`)
+            Utils.save(this.ls_items, `[]`)
         }, message: `Remove all items from the list`})
     }
 }
