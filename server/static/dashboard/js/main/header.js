@@ -1,5 +1,7 @@
 class Header {
     static interval_delay = Utils.SECOND * 30
+    static curls_debouncer_delay = 100
+    static date_debouncer_delay = 100
 
     static setup() {
         let header = DOM.el(`#header`)
@@ -12,6 +14,14 @@ class Header {
         })
 
         this.start_interval()
+
+        this.curls_debouncer = Utils.create_debouncer(() => {
+            this.do_update_curls()
+        }, this.curls_debouncer_delay)
+
+        this.date_debouncer = Utils.create_debouncer(() => {
+            this.do_update_date()
+        }, this.date_debouncer_delay)
     }
 
     static start_interval() {
@@ -29,8 +39,8 @@ class Header {
         }
 
         this.show()
-        this.update_curls()
-        this.update_date()
+        this.do_update_curls()
+        this.do_update_date()
         this.start_interval()
     }
 
@@ -43,8 +53,13 @@ class Header {
     }
 
     static update_curls() {
+        this.curls_debouncer.call()
+    }
+
+    static do_update_curls() {
         let el = DOM.el(`#header_curls`)
         let visible = Container.get_visible()
+        let selected = Select.get()
         let text
 
         if (visible.length === Items.list.length) {
@@ -54,10 +69,18 @@ class Header {
             text = `${visible.length} / ${Items.list.length} Curls`
         }
 
+        if (selected.length > 1) {
+            text += ` (${selected.length})`
+        }
+
         el.textContent = text
     }
 
     static update_date() {
+        this.date_debouncer.call()
+    }
+
+    static do_update_date() {
         let el = DOM.el(`#header_date`)
         let ago = Utils.timeago(Update.last_update)
         el.textContent = ago
