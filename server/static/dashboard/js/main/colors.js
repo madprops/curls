@@ -12,8 +12,8 @@ class Colors {
     static alpha_2 = {}
 
     static modes = [
-        {value: `red`, name: `Red`, info: `Go to Red`, icon: `🔴`},
         {value: `green`, name: `Green`, info: `Go to Green`, icon: `🟢`},
+        {value: `red`, name: `Red`, info: `Go to Red`, icon: `🔴`},
         {value: `blue`, name: `Blue`, info: `Go to Blue`, icon: `🔵`},
         {value: `yellow`, name: `Yellow`, info: `Go to Yellow`, icon: `🟡`},
         {value: `purple`, name: `Purple`, info: `Go to Purple`, icon: `🟣`},
@@ -61,6 +61,14 @@ class Colors {
             let rgba = `rgba(${numbers[0]}, ${numbers[1]}, ${numbers[2]}, ${a})`
             obj[color] = rgba
         }
+    }
+
+    static set_value(value) {
+        if (this.mode === value) {
+            return
+        }
+
+        this.combo.set_value(value)
     }
 
     static change(value) {
@@ -149,5 +157,29 @@ class Colors {
 
         Curls.save(new_curls, color)
         Container.update()
+    }
+
+    static prev() {
+        let index = this.modes.findIndex(x => x.value === this.mode)
+        let prev = index - 1
+
+        if (prev < 0) {
+            prev = this.modes.length - 1
+        }
+
+        let value = this.modes[prev].value
+        this.set_value(value)
+    }
+
+    static next() {
+        let index = this.modes.findIndex(x => x.value === this.mode)
+        let next = index + 1
+
+        if (next >= this.modes.length) {
+            next = 0
+        }
+
+        let value = this.modes[next].value
+        this.set_value(value)
     }
 }

@@ -362,6 +362,14 @@ class Container {
 
                 e.preventDefault()
             }
+            else if (e.key === `ArrowLeft`) {
+                Colors.prev()
+                e.preventDefault()
+            }
+            else if (e.key === `ArrowRight`) {
+                Colors.next()
+                e.preventDefault()
+            }
             else if (e.key === `Escape`) {
                 Select.deselect_all()
                 e.preventDefault()
