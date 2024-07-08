@@ -29,7 +29,6 @@ html
     padding-left: var(--horizontal_padding);
     padding-right: var(--horizontal_padding);
     padding-top: var(--vertical_padding);
-    padding-bottom: var(--vertical_padding);
     box-sizing: border-box;
 }
 
@@ -309,6 +308,7 @@ input[type="password"]
     border-top: 1px solid var(--color_alpha_2);
     margin-top: 0.35rem;
     padding-top: 0.5rem;
+    padding-bottom: var(--vertical_padding);
     gap: 1.25rem;
 }
 
