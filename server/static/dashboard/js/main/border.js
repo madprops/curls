@@ -12,7 +12,6 @@ class Border {
         {value: `solid`, name: `Solid`, info: `Normal solid border`},
         {value: `dotted`, name: `Dotted`, info: `Dotted border`},
         {value: `dashed`, name: `Dashed`, info: `Dashed border`},
-        {value: `bigger`, name: `Bigger`, info: `Normal border but twice as thick`},
         {value: App.separator},
         {value: `none`, name: `None`, info: `No border`},
     ]
@@ -50,8 +49,14 @@ class Border {
         if (this.mode === `none`) {
             border = `none`
         }
-        else if (this.mode === `bigger`) {
-            border = `2px solid var(--color)`
+        else if (this.mode === `solid`) {
+            border = `1px solid var(--color_alpha_2)`
+        }
+        else if (this.mode === `dotted`) {
+            border = `2px dotted var(--color)`
+        }
+        else if (this.mode === `dashed`) {
+            border = `2px dashed var(--color_alpha_2)`
         }
         else {
             border = `1px ${this.mode} var(--color)`
