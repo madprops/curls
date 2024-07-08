@@ -19,8 +19,8 @@ class Change {
             this.change()
         })
 
-        this.debouncer = Utils.create_debouncer((force, feedback) => {
-            this.do_change(force, feedback)
+        this.debouncer = Utils.create_debouncer(() => {
+            this.do_change()
         }, this.debouncer_delay)
 
         DOM.ev(curl, `focus`, (e) => {
@@ -101,7 +101,7 @@ class Change {
 
                 if (ans === `ok`) {
                     this.clear_status()
-                    Update.update({feedback: false})
+                    Update.update()
                     Curls.add_owned(curl)
                     Picker.add()
                 }

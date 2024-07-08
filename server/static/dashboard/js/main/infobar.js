@@ -47,14 +47,14 @@ class Infobar {
         curls.title = `Number of curls being monitored\nClick to select all`
 
         DOM.ev(curls, `click`, () => {
-            Select.toggle_all()
+            this.curls_action()
         })
 
         let date = DOM.el(`#infobar_date`)
         date.title = `How long ago items were updated\nClick to update now`
 
         DOM.ev(date, `click`, () => {
-            Update.update()
+            this.date_action()
         })
     }
 
@@ -125,5 +125,14 @@ class Infobar {
 
     static show() {
         DOM.show(`#infobar`)
+    }
+
+    static curls_action() {
+        Select.toggle_all()
+    }
+
+    static date_action() {
+        DOM.el(`#infobar_date`).textContent = `Updating`
+        Update.update()
     }
 }

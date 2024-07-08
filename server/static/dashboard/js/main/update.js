@@ -93,7 +93,6 @@ class Update {
         clearTimeout(App.timeout)
 
         let def_args = {
-            feedback: true,
             curls: [],
         }
 
@@ -131,10 +130,7 @@ class Update {
             params.append(`curl`, curl);
         }
 
-        if (args.feedback) {
-            this.show_updating()
-        }
-
+        this.show_updating()
         let response = ``
         this.updating = true
         Utils.info(`Update: Request ${App.network} (${args.curls.length})`)
@@ -181,7 +177,6 @@ class Update {
         let button = DOM.el(`#updater`)
         clearTimeout(this.clear_timeout)
         button.classList.add(`active`)
-        DOM.el(`#infobar_date`).textContent = `Updating`
     }
 
     static clear() {
