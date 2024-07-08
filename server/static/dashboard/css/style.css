@@ -293,11 +293,6 @@ input[type="password"]
     text-align: center;
 }
 
-.needcontext-text {
-    max-width: 300px !important;
-    white-space: wrap !important;
-}
-
 #footer {
     display: flex;
     flex-direction: row;
@@ -373,6 +368,11 @@ input[type="password"]
     width: 14rem;
     padding: 0.2rem;
     text-align: center;
+}
+
+.needcontext-text {
+    max-width: 300px !important;
+    white-space: wrap !important;
 }
 
 #needcontext-container {
