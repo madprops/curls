@@ -66,7 +66,7 @@ class Filter {
 
         DOM.ev(clear, `click`, () => {
             this.clear()
-            Container.focus()
+            this.focus()
         })
     }
 
