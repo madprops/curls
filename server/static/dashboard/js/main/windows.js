@@ -6,6 +6,7 @@ This creates and shows modal windows
 
 class Windows {
     static max_items = 1000
+    static popup_delay = 2500
 
     static setup() {
         this.make_alert()
@@ -195,7 +196,7 @@ class Windows {
             preset: `popup_autoclose`,
             position: "bottomright",
             enable_titlebar: true,
-            autoclose_delay: 2000,
+            autoclose_delay: this.popup_delay,
         })
 
         popup.set(message)
