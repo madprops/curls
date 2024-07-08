@@ -2,9 +2,7 @@
     --background: rgb(12, 12, 12);
     --vertical_padding: 0.74rem;
     --horizontal_padding: 0.66rem;
-    --alt_border_color: rgb(181, 181, 181);
-    --alt_background_color: rgb(28, 28, 28);
-    --alt_text_color: white;
+    --alt_background_color: rgb(22, 22, 22);
 }
 
 body,
@@ -370,19 +368,19 @@ input[type="password"]
     text-align: center;
 }
 
+#needcontext-container {
+    background-color: var(--alt_background_color) !important;
+    border: 2px solid var(--color_alpha_2) !important;
+    color: var(--color) !important;
+}
+
 .needcontext-text {
     max-width: 300px !important;
     white-space: wrap !important;
 }
 
-#needcontext-container {
-    background-color: var(--alt_background_color) !important;
-    border: 1px solid var(--alt_border_color) !important;
-    color: var(--alt_text_color) !important;
-}
-
 .needcontext-item-selected {
-    background-color: rgb(77, 77, 77) !important;
+    background-color: var(--color_alpha_1) !important;
 }
 
 .needcontext-text {
@@ -391,7 +389,7 @@ input[type="password"]
 
 .Msg-window {
     color: var(--color) !important;
-    background-color: rgb(22, 22, 22) !important;
+    background-color: var(--alt_background_color) !important;
     border: 2px solid var(--color_alpha_2) !important;
 }
 
