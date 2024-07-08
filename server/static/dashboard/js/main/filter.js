@@ -71,6 +71,12 @@ class Filter {
         DOM.ev(button, `click`, () => {
             this.show_menu()
         })
+
+        DOM.ev(button, `auxclick`, (e) => {
+            if (e.button === 1) {
+                this.clear()
+            }
+        })
     }
 
     static set(value) {
@@ -319,7 +325,7 @@ class Filter {
         items.push({
             text: `Clear`,
             action: () => {
-                this.clear()
+                this.clear_items()
             },
         })
 
@@ -345,5 +351,11 @@ class Filter {
         }
 
         Utils.save(this.ls_items, JSON.stringify(cleaned))
+    }
+
+    static clear_items() {
+        Windows.confirm({title: `Clear List`, ok: () => {
+            Utils.save(this.ls_items, `[]`)
+        }, message: `Remove all items from the list`})
     }
 }

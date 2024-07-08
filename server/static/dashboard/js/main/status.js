@@ -118,7 +118,7 @@ class Status {
         items.push({
             text: `Clear`,
             action: () => {
-                this.clear()
+                this.clear_items()
             },
         })
 
@@ -160,7 +160,7 @@ class Status {
         DOM.el(`#change_status`).value = ``
     }
 
-    static clear() {
+    static clear_items() {
         Windows.confirm({title: `Clear List`, ok: () => {
             Utils.save(this.ls_items, `[]`)
         }, message: `Remove all items from the list`})
