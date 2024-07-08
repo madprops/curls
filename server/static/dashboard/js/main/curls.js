@@ -106,10 +106,12 @@ class Curls {
             same = false
         }
 
-        for (let i = 0; i < current.length; i++) {
-            if (current[i] !== curls[i]) {
-                same = false
-                break
+        if (same) {
+            for (let i = 0; i < current.length; i++) {
+                if (current[i] !== curls[i]) {
+                    same = false
+                    break
+                }
             }
         }
 
@@ -201,7 +203,7 @@ class Curls {
             return
         }
 
-        let curls = this.get()
+        let curls = this.get().slice()
         let index = curls.indexOf(curl)
 
         if (index === -1) {
