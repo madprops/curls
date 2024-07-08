@@ -7,6 +7,12 @@ This creates and shows modal windows
 class Windows {
     static max_items = 1000
 
+    static setup() {
+        this.make_alert()
+        this.make_prompt()
+        this.make_confirm()
+    }
+
     static create(color) {
         let common = {
             enable_titlebar: true,
@@ -22,27 +28,29 @@ class Windows {
         }))
     }
 
-    static setup() {
-        let alert_template = DOM.el(`#alert_template`)
-        let alert_html = alert_template.innerHTML
+    static make_alert() {
         this.alert_window = this.create(`green`)
-        this.alert_window.set(alert_html)
-        this.prompt_window = this.create(`blue`)
+        let template = DOM.el(`#alert_template`)
+        let html = template.innerHTML
+        this.alert_window.set(html)
         let copy = DOM.el(`#alert_copy`)
 
         DOM.ev(copy, `click`, () => {
             this.alert_copy()
         })
 
-        let alert_ok = DOM.el(`#alert_ok`)
+        let ok = DOM.el(`#alert_ok`)
 
-        DOM.ev(alert_ok, `click`, (e) => {
+        DOM.ev(ok, `click`, (e) => {
             this.alert_window.close()
         })
+    }
 
-        let prompt_template = DOM.el(`#prompt_template`)
-        let prompt_html = prompt_template.innerHTML
-        this.prompt_window.set(prompt_html)
+    static make_prompt() {
+        this.prompt_window = this.create(`blue`)
+        let template = DOM.el(`#prompt_template`)
+        let html = template.innerHTML
+        this.prompt_window.set(html)
         this.prompt_window.set_title(`Prompt`)
         let submit = DOM.el(`#prompt_submit`)
         let input = DOM.el(`#prompt_input`)
@@ -56,12 +64,13 @@ class Windows {
                 this.prompt_submit()
             }
         })
+    }
 
+    static make_confirm() {
         this.confirm_window = this.create(`red`)
-        let confirm_template = DOM.el(`#confirm_template`)
-        let confirm_html = confirm_template.innerHTML
-        this.confirm_window.set(confirm_html)
-
+        let template = DOM.el(`#confirm_template`)
+        let html = template.innerHTML
+        this.confirm_window.set(html)
         let ok = DOM.el(`#confirm_ok`)
 
         DOM.ev(ok, `click`, () => {

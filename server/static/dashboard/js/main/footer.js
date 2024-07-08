@@ -7,6 +7,14 @@ class Footer {
             Menu.show(e)
         })
 
+        DOM.ev(footer, `dblclick`, (e) => {
+            if (e.target !== footer) {
+                return
+            }
+
+            Curls.add()
+        })
+
         DOM.ev(footer, `wheel`, (e) => {
             if (e.target !== footer) {
                 return
@@ -22,7 +30,13 @@ class Footer {
             }
         })
 
-        footer.title = `Right click to show the main menu`
+        let lines = [
+            `Right Click to show the main menu`,
+            `Double Click to add curls`,
+            `Wheel to scroll the container`,
+        ]
+
+        footer.title = lines.join(`\n`)
         let bottom = DOM.el(`#scroller_bottom`)
 
         DOM.ev(bottom, `click`, () => {
