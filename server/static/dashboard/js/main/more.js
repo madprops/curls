@@ -163,6 +163,6 @@ class More {
 
     static popup(what, value) {
         let text = `${what} ${value ? `Enabled` : `Disabled`}`
-        Windows.show_popup(text)
+        Windows.popup(text)
     }
 }

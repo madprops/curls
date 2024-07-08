@@ -14,7 +14,7 @@ class Windows {
         this.make_confirm()
     }
 
-    static create(color) {
+    static create() {
         let common = {
             enable_titlebar: true,
             center_titlebar: true,
@@ -25,12 +25,12 @@ class Windows {
         }
 
         return Msg.factory(Object.assign({}, common, {
-            class: color,
+            class: `modal`,
         }))
     }
 
     static make_alert() {
-        this.alert_window = this.create(`green`)
+        this.alert_window = this.create()
         let template = DOM.el(`#alert_template`)
         let html = template.innerHTML
         this.alert_window.set(html)
@@ -48,7 +48,7 @@ class Windows {
     }
 
     static make_prompt() {
-        this.prompt_window = this.create(`blue`)
+        this.prompt_window = this.create()
         let template = DOM.el(`#prompt_template`)
         let html = template.innerHTML
         this.prompt_window.set(html)
@@ -68,7 +68,7 @@ class Windows {
     }
 
     static make_confirm() {
-        this.confirm_window = this.create(`red`)
+        this.confirm_window = this.create()
         let template = DOM.el(`#confirm_template`)
         let html = template.innerHTML
         this.confirm_window.set(html)
@@ -191,12 +191,13 @@ class Windows {
         this.alert({title: `Copy the data below`, message: data_str, copy: true, ok: false})
     }
 
-    static show_popup(message) {
+    static popup(message) {
         let popup = Msg.factory({
             preset: `popup_autoclose`,
             position: `bottomright`,
             enable_titlebar: true,
             autoclose_delay: this.popup_delay,
+            class: `popup`,
         })
 
         popup.set(message)

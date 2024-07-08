@@ -338,7 +338,7 @@ input[type="password"]
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid white;
+    border: 1px solid var(--color_alpha_2);
     padding-left: 0.4rem;
     padding-right: 0.4rem;
     padding-top: 0.05rem;
@@ -350,7 +350,7 @@ input[type="password"]
 }
 
 .modal_button:hover {
-    border: 1px solid rgb(199, 224, 255);
+    border: 1px solid var(--color);
 }
 
 .modal_items {
@@ -378,18 +378,6 @@ input[type="password"]
     text-align: center
 }
 
-.Msg-titlebar {
-    padding-top: 0.24rem !important;
-    padding-bottom: 0.24rem !important;
-    padding-left: 0.8rem !important;
-    padding-right: 0.8rem !important;
-    font-family: var(--font) !important;
-}
-
-.Msg-content {
-    padding: 0.8rem !important;
-}
-
 #needcontext-container {
     background-color: var(--alt_background_color) !important;
     border: 1px solid var(--alt_border_color) !important;
@@ -402,4 +390,35 @@ input[type="password"]
 
 .needcontext-text {
     font-family: var(--font) !important;
+}
+
+.Msg-window {
+    color: var(--color) !important;
+    background-color: rgb(22, 22, 22) !important;
+    border: 2px solid var(--color_alpha_2) !important;
+}
+
+.Msg-titlebar {
+    color: var(--color) !important;
+    background-color: rgb(36, 36, 36) !important;
+    font-family: var(--font) !important;
+}
+
+.Msg-progressbar {
+    background-color: var(--color_alpha_2) !important;
+}
+
+.Msg-titlebar-modal {
+    padding-top: 0.24rem !important;
+    padding-bottom: 0.24rem !important;
+    padding-left: 0.8rem !important;
+    padding-right: 0.8rem !important;
+}
+
+.Msg-window-inner-x:hover {
+    background-color: var(--color_alpha_1) !important;
+}
+
+.Msg-content-modal {
+    padding: 0.8rem !important;
 }
