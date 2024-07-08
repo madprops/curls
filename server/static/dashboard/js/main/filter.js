@@ -61,6 +61,12 @@ class Filter {
                 return this.mode
             },
         })
+
+        let clear = DOM.el(`#filter_clear`)
+
+        DOM.ev(clear, `click`, () => {
+            this.clear()
+        })
     }
 
     static change(value) {
