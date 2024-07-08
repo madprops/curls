@@ -195,7 +195,9 @@ class Windows {
         let popup = Msg.factory({
             preset: `popup_autoclose`,
             position: `bottomright`,
+            window_x: `none`,
             enable_titlebar: true,
+            center_titlebar: true,
             autoclose_delay: this.popup_delay,
             class: `popup`,
         })

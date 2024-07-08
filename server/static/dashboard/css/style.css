@@ -370,9 +370,9 @@ input[type="password"]
 }
 
 #prompt_input {
-    background-color: white;
-    border: 1px solid rgb(114, 114, 255);
-    color: black;
+    background-color: transparent;
+    border: 1px solid var(--color_alpha_2);
+    color: var(--color);
     width: 14rem;
     padding: 0.2rem;
     text-align: center
@@ -400,7 +400,7 @@ input[type="password"]
 
 .Msg-titlebar {
     color: var(--color) !important;
-    background-color: rgb(36, 36, 36) !important;
+    background-color: rgb(42, 42, 42) !important;
     font-family: var(--font) !important;
 }
 
@@ -408,7 +408,7 @@ input[type="password"]
     background-color: var(--color_alpha_2) !important;
 }
 
-.Msg-titlebar-modal {
+.Msg-titlebar {
     padding-top: 0.24rem !important;
     padding-bottom: 0.24rem !important;
     padding-left: 0.8rem !important;
