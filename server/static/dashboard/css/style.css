@@ -54,18 +54,23 @@ html
 #header {
     background-color: var(--color_alpha_1);
     color: var(--color);
-    padding: 0.18rem;
+    padding: 0.2rem;
     cursor: pointer;
     user-select: none;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    border: 1px solid var(--color_alpha_2);
     gap: 1rem;
 }
 
 #header:hover {
     box-shadow: 0 0 8px var(--color);
+}
+
+.header_separator {
+    opacity: 0.5;
 }
 
 .item {
