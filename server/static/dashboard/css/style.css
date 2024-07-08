@@ -192,7 +192,7 @@ input[type="password"]
 {
     background-color: var(--background);
     color: var(--color);
-    border: 1px solid var(--color);
+    border: 1px solid var(--color_alpha_2);
     padding: 0.09rem;
     padding-left: 0.25rem;
     outline: none;
@@ -204,7 +204,7 @@ input[type="password"]
 .button {
     background-color: var(--background);
     color: var(--color);
-    border: 1px solid var(--color);
+    border: 1px solid var(--color_alpha_2);
     cursor: pointer;
     outline: none;
     font-size: 1rem;
@@ -370,12 +370,9 @@ input[type="password"]
 }
 
 #prompt_input {
-    background-color: transparent;
-    border: 1px solid var(--color_alpha_2);
-    color: var(--color);
     width: 14rem;
     padding: 0.2rem;
-    text-align: center
+    text-align: center;
 }
 
 #needcontext-container {

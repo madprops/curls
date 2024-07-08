@@ -50,7 +50,7 @@ class Border {
             border = `1px solid var(--color_alpha_2)`
         }
         else if (this.mode === `dotted`) {
-            border = `2px dotted var(--color)`
+            border = `2px dotted var(--color_alpha_2)`
         }
         else if (this.mode === `dashed`) {
             border = `2px dashed var(--color_alpha_2)`
