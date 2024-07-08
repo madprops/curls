@@ -9,6 +9,7 @@ class Container {
     static check_scroll_debouncer_delay = 100
     static wrap_enabled = true
     static ls_wrap = `wrap_enabled`
+    static scroll_step = 100
 
     static setup() {
         this.empty_info = [
@@ -415,5 +416,15 @@ class Container {
 
     static extract_updated(e) {
         return e.target.closest(`.item_updated`)
+    }
+
+    static scroll_up() {
+        let outer = this.get_outer()
+        outer.scrollBy(0, -this.scroll_step)
+    }
+
+    static scroll_down() {
+        let outer = this.get_outer()
+        outer.scrollBy(0, this.scroll_step)
     }
 }

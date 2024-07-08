@@ -54,7 +54,7 @@ html
 #header {
     background-color: var(--color_alpha_1);
     color: var(--color);
-    padding: 0.2rem;
+    padding: 0.188rem;
     cursor: pointer;
     user-select: none;
     display: flex;

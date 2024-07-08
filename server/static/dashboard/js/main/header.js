@@ -7,12 +7,35 @@ class Header {
 
     static setup() {
         let header = DOM.el(`#header`)
-        header.title = `Click to scroll to the top`
+
+        let lines = [
+            `Click to scroll to the top`,
+            `Middle Click to scroll to the bottom`,
+        ]
+
+        header.title = lines.join(`\n`)
         this.hide()
 
         DOM.ev(header, `click`, () => {
             Container.scroll_top()
             Container.do_check_scroll()
+        })
+
+        DOM.ev(header, `auxclick`, (e) => {
+            if (e.button === 1) {
+                Container.scroll_bottom()
+            }
+        })
+
+        DOM.ev(header, `wheel`, (e) => {
+            let direction = Utils.wheel_direction(e)
+
+            if (direction === `up`) {
+                Container.scroll_up()
+            }
+            else {
+                Container.scroll_down()
+            }
         })
 
         this.start_interval()
