@@ -39,6 +39,11 @@ class Combo {
         ]
 
         this.args.element.title = lines.join(`\n`)
+
+        if (this.args.extra_title) {
+            this.args.element.title += `\n${this.args.extra_title}`
+        }
+
         this.block = new Block()
         this.update_text()
     }

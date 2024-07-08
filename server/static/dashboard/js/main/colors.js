@@ -45,7 +45,7 @@ class Colors {
             get: () => {
                 return this.mode
             },
-
+            extra_title: `Ctrl Left/Right to cycle`,
         })
 
         this.make_alpha(this.alpha_0, `0.055`)
