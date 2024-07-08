@@ -76,8 +76,8 @@ class Filter {
 
         button.title = lines_2.join(`\n`)
 
-        DOM.ev(button, `click`, () => {
-            this.show_menu()
+        DOM.ev(button, `click`, (e) => {
+            this.show_menu(e)
         })
 
         DOM.ev(button, `auxclick`, (e) => {
