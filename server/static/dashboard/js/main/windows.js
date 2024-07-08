@@ -6,7 +6,7 @@ This creates and shows modal windows
 
 class Windows {
     static max_items = 1000
-    static popup_delay = 2800
+    static popup_delay = 2750
 
     static setup() {
         this.make_alert()
