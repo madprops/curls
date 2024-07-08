@@ -167,12 +167,12 @@ class Container {
 
     static scroll_top() {
         let item = this.get_items()[0]
-        Utils.scroll_element({item: item, behavior: `smooth`})
+        Utils.scroll_element({item: item, behavior: `smooth`, block: `center`})
     }
 
     static scroll_bottom() {
         let item = Utils.last(this.get_items())
-        Utils.scroll_element({item: item, behavior: `smooth`})
+        Utils.scroll_element({item: item, behavior: `smooth`, block: `center`})
     }
 
     static check_scroll() {
