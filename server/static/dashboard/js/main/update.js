@@ -181,6 +181,7 @@ class Update {
         let button = DOM.el(`#updater`)
         clearTimeout(this.clear_timeout)
         button.classList.add(`active`)
+        DOM.el(`#infobar_date`).textContent = `Updating`
     }
 
     static clear() {
