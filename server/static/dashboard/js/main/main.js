@@ -29,29 +29,14 @@ App.setup = () => {
     Dates.setup()
     Controls.setup()
     Windows.setup()
+    Footer.setup()
     Intro.setup()
 
     App.start_mouse()
     App.setup_resize()
     App.update_autocomplete()
-    App.setup_buttons()
 
     Update.update()
-}
-
-App.setup_buttons = () => {
-    let bottom = DOM.el(`#scroller_bottom`)
-
-    DOM.ev(bottom, `click`, () => {
-        Container.scroll_bottom()
-        Container.do_check_scroll()
-    })
-
-    let version = DOM.el(`#version`)
-
-    DOM.ev(version, `click`, () => {
-        Intro.show()
-    })
 }
 
 App.update_title = () => {
