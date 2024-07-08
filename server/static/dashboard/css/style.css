@@ -51,13 +51,19 @@ html
 }
 
 #infobar {
-    cursor: pointer;
+    cursor: default;
     user-select: none;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     gap: 1rem;
+}
+
+#infobar_curls,
+#infobar_date
+{
+    cursor: pointer;
 }
 
 .infobar_separator {

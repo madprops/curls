@@ -5,7 +5,6 @@ class Infobar {
 
     static setup() {
         let infobar = DOM.el(`#infobar`)
-        infobar.title = `Number of curls being monitored, and how long ago they were updated`
         this.hide()
 
         DOM.ev(infobar, `click`, () => {
@@ -43,6 +42,20 @@ class Infobar {
         this.date_debouncer = Utils.create_debouncer(() => {
             this.do_update_date()
         }, this.date_debouncer_delay)
+
+        let curls = DOM.el(`#infobar_curls`)
+        curls.title = `Number of curls being monitored\nClick to select all`
+
+        DOM.ev(curls, `click`, () => {
+            Select.all()
+        })
+
+        let date = DOM.el(`#infobar_date`)
+        date.title = `How long ago items were updated\nClick to update now`
+
+        DOM.ev(date, `click`, () => {
+            Update.update()
+        })
     }
 
     static start_interval() {
