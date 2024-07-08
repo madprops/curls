@@ -46,10 +46,7 @@ class Border {
     static apply() {
         let border
 
-        if (this.mode === `none`) {
-            border = `none`
-        }
-        else if (this.mode === `solid`) {
+        if (this.mode === `solid`) {
             border = `1px solid var(--color_alpha_2)`
         }
         else if (this.mode === `dotted`) {
@@ -59,7 +56,7 @@ class Border {
             border = `2px dashed var(--color_alpha_2)`
         }
         else {
-            border = `1px ${this.mode} var(--color)`
+            border = `none`
         }
 
         document.documentElement.style.setProperty(`--border`, border)
