@@ -51,6 +51,23 @@ html
     outline: none;
 }
 
+#header {
+    background-color: var(--color_alpha_1);
+    color: var(--color);
+    padding: 0.15rem;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+#header:hover {
+    box-shadow: 0 0 10px var(--color);
+}
+
 .item {
     display: table-row;
     border: var(--border);

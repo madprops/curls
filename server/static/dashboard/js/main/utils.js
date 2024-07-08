@@ -199,4 +199,56 @@ class Utils {
             after_hide: args.after_hide,
         })
     }
+
+    static timeago = (date) => {
+        let diff = this.now() - date
+        let decimals = true
+
+        let n = 0
+        let m = ``
+
+        if (diff < this.SECOND) {
+            return `Just Now`
+        }
+        else if (diff < this.MINUTE) {
+            n = diff / this.SECOND
+            m = [`second`, `seconds`]
+            decimals = false
+        }
+        else if (diff < this.HOUR) {
+            n = diff / this.MINUTE
+            m = [`minute`, `minutes`]
+            decimals = false
+        }
+        else if (diff >= this.HOUR && diff < this.DAY) {
+            n = diff / this.HOUR
+            m = [`hour`, `hours`]
+        }
+        else if (diff >= this.DAY && diff < this.MONTH) {
+            n = diff / this.DAY
+            m = [`day`, `days`]
+        }
+        else if (diff >= this.MONTH && diff < this.YEAR) {
+            n = diff / this.MONTH
+            m = [`month`, `months`]
+        }
+        else if (diff >= this.YEAR) {
+            n = diff / this.YEAR
+            m = [`year`, `years`]
+        }
+
+        if (decimals) {
+            n = this.round(n, 1)
+        }
+        else {
+            n = Math.round(n)
+        }
+
+        let w = this.plural(n, m[0], m[1])
+        return `${n} ${w} ago`
+    }
+
+    static round = (n, decimals) => {
+        return Math.round(n * Math.pow(10, decimals)) / Math.pow(10, decimals)
+    }
 }

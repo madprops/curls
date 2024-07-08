@@ -12,6 +12,7 @@ App.setup = () => {
     Block.setup()
     Curls.setup()
     Colors.setup()
+    Header.setup()
     Container.setup()
     Select.setup()
     Drag.setup()
@@ -39,13 +40,6 @@ App.setup = () => {
 }
 
 App.setup_buttons = () => {
-    let top = DOM.el(`#scroller_top`)
-
-    DOM.ev(top, `click`, () => {
-        Container.scroll_top()
-        Container.do_check_scroll()
-    })
-
     let bottom = DOM.el(`#scroller_bottom`)
 
     DOM.ev(bottom, `click`, () => {

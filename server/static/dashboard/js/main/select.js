@@ -332,4 +332,12 @@ class Select {
             }
         }
     }
+
+    static all() {
+        let items = Container.get_items()
+
+        for (let item of items) {
+            Select.select(item)
+        }
+    }
 }

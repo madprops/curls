@@ -136,6 +136,7 @@ class Container {
     }
 
     static empty() {
+        Header.hide()
         this.set_info(this.empty_info)
     }
 
@@ -165,13 +166,13 @@ class Container {
     }
 
     static scroll_top() {
-        let container = this.get_outer()
-        container.scrollTop = 0
+        let item = this.get_items()[0]
+        Utils.scroll_element({item: item, behavior: `smooth`})
     }
 
     static scroll_bottom() {
-        let container = this.get_outer()
-        container.scrollTop = container.scrollHeight
+        let item = Utils.last(this.get_items())
+        Utils.scroll_element({item: item, behavior: `smooth`})
     }
 
     static check_scroll() {
@@ -181,19 +182,11 @@ class Container {
     static do_check_scroll() {
         this.check_scroll_debouncer.cancel()
         let outer = this.get_outer()
-        let top = DOM.el(`#scroller_top`)
         let bottom = DOM.el(`#scroller_bottom`)
 
         let height = outer.clientHeight
         let scroll = outer.scrollHeight
         let scrolltop = outer.scrollTop
-
-        if (scrolltop > 0) {
-            top.classList.remove(`disabled`)
-        }
-        else {
-            top.classList.add(`disabled`)
-        }
 
         if (scrolltop < (scroll - height)) {
             bottom.classList.remove(`disabled`)
@@ -264,6 +257,8 @@ class Container {
         if (args.select.length) {
             Select.curls(args.select)
         }
+
+        Header.update()
     }
 
     static create_element(item) {
@@ -373,6 +368,12 @@ class Container {
             else if (e.key === `Escape`) {
                 Select.deselect_all()
                 e.preventDefault()
+            }
+            else if (e.key === `a`) {
+                if (e.ctrlKey) {
+                    Select.all()
+                    e.preventDefault()
+                }
             }
         })
     }

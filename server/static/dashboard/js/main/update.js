@@ -12,6 +12,7 @@ class Update {
     static updating = false
     static clear_delay = 800
     static ls_name = `update`
+    static last_update = 0
 
     static modes = [
         {value: `now`, name: `Update`, skip: true, info: `Update now`},
@@ -159,6 +160,7 @@ class Update {
 
         try {
             let items = await response.json()
+            this.last_update = Utils.now()
 
             if (add) {
                 Container.add(items, args.curls)
