@@ -129,7 +129,7 @@ class More {
                 action: () => {
                     this.change_header(false)
                 },
-                info: `Disable the header of the container`,
+                info: `Disable thheck_enabled()e header of the container`,
             })
         }
         else {
@@ -148,7 +148,9 @@ class More {
     static reset() {
         let vars = [
             Container.wrap_enabled,
+            Dates.enabled,
             Controls.enabled,
+            Header.enabled,
         ]
 
         if (vars.every((x) => x)) {
