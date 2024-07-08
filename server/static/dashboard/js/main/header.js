@@ -23,6 +23,11 @@ class Header {
     }
 
     static update() {
+        if (!Items.list.length) {
+            this.hide()
+            return
+        }
+
         this.show()
         this.update_curls()
         this.update_date()
