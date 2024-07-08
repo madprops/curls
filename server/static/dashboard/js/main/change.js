@@ -25,7 +25,6 @@ class Change {
 
         DOM.ev(curl, `focus`, (e) => {
             let value = curl.value
-            console.log(value)
 
             if (value) {
                 Select.curl(value)
