@@ -96,7 +96,7 @@ class Infobar {
             text = `${visible.length} / ${Items.list.length} Curls`
         }
 
-        if (selected.length > 1) {
+        if (selected.length) {
             if (selected.length === visible.length) {
                 text += ` (All)`
             }
