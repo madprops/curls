@@ -28,39 +28,63 @@ class More {
     }
 
     static change_wrap(what, actions = true) {
+        if (Container.wrap_enabled == what) {
+            return
+        }
+
         Container.wrap_enabled = what
         Container.save_wrap_enabled()
 
         if (actions) {
             Container.update()
         }
+
+        this.popup(`Wrap`, what)
     }
 
     static change_controls(what, actions = true) {
+        if (Controls.enabled == what) {
+            return
+        }
+
         Controls.enabled = what
         Controls.save_enabled()
 
         if (actions) {
             Controls.check_enabled()
         }
+
+        this.popup(`Controls`, what)
     }
 
     static change_header(what, actions = true) {
+        if (Header.enabled == what) {
+            return
+        }
+
         Header.enabled = what
         Header.save_enabled()
 
         if (actions) {
             Header.update()
         }
+
+        this.popup(`Header`, what)
     }
 
     static change_dates(what, actions = true) {
+        if (Dates.enabled == what) {
+            return
+        }
+
         Dates.enabled = what
         Dates.save_enabled()
 
         if (actions) {
             Container.update()
         }
+
+        this.popup(`Dates`, what)
     }
 
     static show_menu(e) {
@@ -170,5 +194,10 @@ class More {
         Controls.check_enabled()
         Container.update()
         Header.update()
+    }
+
+    static popup(what, value) {
+        let text = `${what} ${value ? `Enabled` : `Disabled`}`
+        Windows.show_popup(text)
     }
 }

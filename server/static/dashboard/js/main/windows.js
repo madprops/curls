@@ -189,4 +189,17 @@ class Windows {
         let data_str = Utils.sanitize(JSON.stringify(data))
         this.alert({title: `Copy the data below`, message: data_str, copy: true, ok: false})
     }
+
+    static show_popup(message) {
+        let popup = Msg.factory({
+            preset: `popup_autoclose`,
+            position: "bottomright",
+            enable_titlebar: true,
+            autoclose_delay: 2000,
+        })
+
+        popup.set(message)
+        popup.set_title(`Information`)
+        popup.show()
+    }
 }
