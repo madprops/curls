@@ -344,9 +344,13 @@ class Container {
         })
     }
 
+    static is_visible(item) {
+        return !item.classList.contains(`hidden`)
+    }
+
     static get_visible() {
         let items = this.get_items()
-        return items.filter(x => !x.classList.contains(`hidden`))
+        return items.filter(x => this.is_visible(x))
     }
 
     static get_curls() {

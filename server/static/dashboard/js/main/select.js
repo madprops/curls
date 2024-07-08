@@ -339,7 +339,12 @@ class Select {
         let items = Container.get_items()
 
         for (let item of items) {
-            Select.select(item)
+            if (Container.is_visible(item)) {
+                Select.select(item)
+            }
+            else {
+                Select.deselect(item)
+            }
         }
     }
 
