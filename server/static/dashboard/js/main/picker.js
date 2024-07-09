@@ -94,13 +94,6 @@ class Picker {
                     this.import()
                 },
             })
-
-            items.push({
-                text: `Clear`,
-                action: () => {
-                    this.clear()
-                },
-            })
         }
 
         Utils.context({items: items, e: e})
