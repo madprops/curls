@@ -363,7 +363,7 @@ input[type="password"]
 }
 
 #alert_message_container {
-    max-height: 12rem;
+    max-height: 14rem;
     overflow-x: hidden;
     overflow-y: auto;
 }
