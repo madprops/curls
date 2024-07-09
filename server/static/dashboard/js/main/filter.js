@@ -85,6 +85,10 @@ class Filter {
                 this.clear()
             }
         })
+
+        DOM.ev(filter, `wheel`, (e) => {
+            Utils.scroll_wheel(e)
+        })
     }
 
     static set(value) {

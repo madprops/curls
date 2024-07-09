@@ -13,6 +13,7 @@ class Utils {
     static WEEK = this.DAY * 7
     static MONTH = this.DAY * 30
     static YEAR = this.DAY * 365
+    static scroll_wheel_step = 25
 
     static deselect() {
         window.getSelection().removeAllRanges()
@@ -260,5 +261,16 @@ class Utils {
 
     static find_item(items, key, value) {
         return items.find(x => x[key] === value)
+    }
+
+    static scroll_wheel(e) {
+        let direction = this.wheel_direction(e)
+
+        if (direction === `up`) {
+            e.target.scrollLeft -= this.scroll_wheel_step
+        }
+        else {
+            e.target.scrollLeft += this.scroll_wheel_step
+        }
     }
 }

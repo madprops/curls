@@ -13,6 +13,7 @@ class Change {
 
     static setup() {
         let curl = DOM.el(`#change_curl`)
+        let key = DOM.el(`#change_key`)
         let submit = DOM.el(`#change_submit`)
 
         DOM.ev(submit, `click`, () => {
@@ -33,6 +34,14 @@ class Change {
 
         DOM.ev(curl, `blur`, (e) => {
             Select.deselect_all()
+        })
+
+        DOM.ev(curl, `wheel`, (e) => {
+            Utils.scroll_wheel(e)
+        })
+
+        DOM.ev(key, `wheel`, (e) => {
+            Utils.scroll_wheel(e)
         })
     }
 

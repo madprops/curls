@@ -28,6 +28,10 @@ class Status {
             }
         })
 
+        DOM.ev(status, `wheel`, (e) => {
+            Utils.scroll_wheel(e)
+        })
+
         DOM.ev(status, `keyup`, (e) => {
             if (e.key === `ArrowUp`) {
                 this.show_menu()

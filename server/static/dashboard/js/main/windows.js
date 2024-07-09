@@ -65,6 +65,10 @@ class Windows {
                 this.prompt_submit()
             }
         })
+
+        DOM.ev(input, `wheel`, (e) => {
+            Utils.scroll_wheel(e)
+        })
     }
 
     static make_confirm() {
