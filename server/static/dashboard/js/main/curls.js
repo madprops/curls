@@ -82,7 +82,7 @@ class Curls {
         let cleaned = [...items]
 
         for (let item of this.get()) {
-            if (cleaned.any(x => x.curl === item.curl)) {
+            if (cleaned.some(x => x.curl === item.curl)) {
                 continue
             }
 
@@ -93,17 +93,17 @@ class Curls {
     }
 
     static to_bottom(curls) {
+        let items = this.items_from_curls(curls)
         let cleaned = []
 
         for (let item of this.get()) {
-            if (cleaned.any(x => x.curl === item.curl)) {
+            if (items.some(x => x.curl === item.curl)) {
                 continue
             }
 
             cleaned.push(item)
         }
 
-        let items = this.items_from_curls(curls)
         cleaned.push(...items)
         this.after_move(cleaned, curls)
     }
