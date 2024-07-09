@@ -94,13 +94,13 @@ class Menu {
         let colors = {}
 
         for (let color in Colors.colors) {
-            let curls = Curls.get_curls(color)
+            let items = Curls.get(color)
 
-            if (!curls.length) {
+            if (!items.length) {
                 continue
             }
 
-            colors[color] = curls
+            colors[color] = items
         }
 
         if (!Object.keys(colors).length) {
@@ -127,13 +127,13 @@ class Menu {
             let modified = false
 
             for (let color in colors) {
-                let curls = colors[color]
+                let items = colors[color]
 
-                if (!curls) {
+                if (!items.length) {
                     continue
                 }
 
-                Curls.save_curls(curls, color)
+                Curls.save(items, color)
                 modified = true
             }
 

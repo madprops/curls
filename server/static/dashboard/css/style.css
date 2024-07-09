@@ -362,6 +362,12 @@ input[type="password"]
     gap: 1rem;
 }
 
+#alert_message_container {
+    max-height: 12rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
 #prompt_input {
     width: 14rem;
     padding: 0.2rem;
