@@ -20,8 +20,5 @@ class Storage {
             Curls.fill_colors()
             Update.update()
         }
-        else if (key === `picker`) {
-
-        }
     }
 }
