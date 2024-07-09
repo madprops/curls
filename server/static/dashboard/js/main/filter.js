@@ -10,7 +10,6 @@ class Filter {
     static timeout_delay = Utils.SECOND * 3
     static ls_items = `filter_items`
     static max_items = 100
-    static menu_max_length = 110
 
     static modes = [
         { value: `all`, name: `All`, info: `Show all curls` },
@@ -76,19 +75,17 @@ class Filter {
 
         button.title = lines_2.join(`\n`)
 
-        DOM.ev(button, `click`, (e) => {
-            this.show_menu(e)
-        })
-
-        DOM.ev(button, `auxclick`, (e) => {
-            if (e.button === 1) {
-                this.clear()
-            }
-        })
-
         DOM.ev(filter, `wheel`, (e) => {
             Utils.scroll_wheel(e)
         })
+
+        this.list = new List(
+            button,
+            filter,
+            this.ls_items,
+            this.max_items,
+            this.get_items,
+        )
     }
 
     static set(value) {
@@ -265,34 +262,15 @@ class Filter {
         clearTimeout(this.timeout)
 
         this.timeout = setTimeout(() => {
-            this.add_filter()
+            this.save()
         }, this.timeout_delay)
 
         Infobar.update_curls()
     }
 
-    static add_filter() {
+    static save() {
         let value = this.get_value()
-
-        if (!value) {
-            return
-        }
-
-        let cleaned = [value]
-
-        for (let val of this.get_items()) {
-            if (value === val) {
-                continue
-            }
-
-            cleaned.push(val)
-
-            if (cleaned.length >= this.max_items) {
-                break
-            }
-        }
-
-        Utils.save(this.ls_items, JSON.stringify(cleaned))
+        this.list.save(value)
     }
 
     static get_items() {
@@ -301,68 +279,5 @@ class Filter {
 
     static get_value() {
         return DOM.el(`#filter`).value.toLowerCase().trim()
-    }
-
-    static show_menu(e, show_empty = true) {
-        let list = this.get_items()
-
-        if (!list.length) {
-            if (show_empty) {
-                Windows.alert({
-                    title: `Empty List`,
-                    message: `Filter items appear here after you use them`,
-                })
-            }
-
-            return
-        }
-
-        let items = list.map(filter => {
-            return {
-                text: filter.substring(0, this.menu_max_length),
-                action: () => {
-                    this.set(filter)
-                },
-                alt_action: () => {
-                    this.remove(filter)
-                },
-            }
-        })
-
-        items.push({
-            separator: true,
-        })
-
-        items.push({
-            text: `Clear`,
-            action: () => {
-                this.clear_items()
-            },
-        })
-
-        let el = DOM.el(`#filter`)
-        this.last_e = e
-        Utils.context({items: items, element: el, e: e})
-    }
-
-    static remove(status) {
-        let cleaned = []
-
-        for (let status_ of this.get_items()) {
-            if (status_ === status) {
-                continue
-            }
-
-            cleaned.push(status_)
-        }
-
-        Utils.save(this.ls_items, JSON.stringify(cleaned))
-        this.show_menu(this.last_e, false)
-    }
-
-    static clear_items() {
-        Windows.confirm({title: `Clear List`, ok: () => {
-            Utils.save(this.ls_items, `[]`)
-        }, message: `Remove all items from the list`})
     }
 }
