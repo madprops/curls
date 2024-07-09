@@ -170,8 +170,8 @@ class Sort {
             let items_ = Curls.get()
 
             items.sort((a, b) => {
-                let item_a = items_.find(x => x.curl === a.curl)
-                let item_b = items_.find(x => x.curl === b.curl)
+                let item_a = Utils.find_item(items_, `curl`, a.curl)
+                let item_b = Utils.find_item(items_, `curl`, b.curl)
                 let diff = item_b.added - item_a.added
 
                 if (diff !== 0) {
@@ -185,8 +185,8 @@ class Sort {
             let items_ = Curls.get()
 
             items.sort((a, b) => {
-                let item_a = items_.find(x => x.curl === a.curl)
-                let item_b = items_.find(x => x.curl === b.curl)
+                let item_a = Utils.find_item(items_, `curl`, a.curl)
+                let item_b = Utils.find_item(items_, `curl`, b.curl)
                 let diff = item_a.added - item_b.added
 
                 if (diff !== 0) {

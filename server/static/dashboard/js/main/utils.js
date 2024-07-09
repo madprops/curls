@@ -257,4 +257,8 @@ class Utils {
     static round = (n, decimals) => {
         return Math.round(n * Math.pow(10, decimals)) / Math.pow(10, decimals)
     }
+
+    static find_item(items, key, value) {
+        return items.find(x => x[key] === value)
+    }
 }
