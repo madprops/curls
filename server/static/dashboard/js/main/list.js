@@ -21,6 +21,10 @@ class List {
             }
         })
 
+        DOM.ev(this.button, `wheel`, (e) => {
+            this.cycle(e)
+        })
+
         DOM.ev(this.input, `keydown`, (e) => {
             if (e.key === `ArrowUp`) {
                 e.preventDefault()
@@ -46,6 +50,7 @@ class List {
             `Use previous items`,
             `Middle Click to clear input`,
             `Middle Click items to remove`,
+            `Wheel to cycle`,
         ]
 
         this.button.title = lines.join(`\n`)
@@ -95,9 +100,8 @@ class List {
             },
         })
 
-        let el = DOM.el(`#filter`)
         this.last_e = e
-        Utils.context({items: items, element: el, e: e})
+        Utils.context({items: items, element: this.button, e: e})
     }
 
     save(value) {
@@ -138,5 +142,48 @@ class List {
         Windows.confirm({title: `Clear List`, ok: () => {
             Utils.save(this.ls_items, `[]`)
         }, message: `Remove all items from the list`})
+    }
+
+    cycle(e) {
+        let direction = Utils.wheel_direction(e)
+
+        if (direction === `up`) {
+            this.action(this.get_prev())
+        }
+        else {
+            this.action(this.get_next())
+        }
+    }
+
+    get_next() {
+        let list = this.get_items()
+        let current = this.input.value.trim()
+        let index = list.indexOf(current)
+
+        if (index === -1) {
+            return list[0]
+        }
+
+        if (index === list.length - 1) {
+            return list[0]
+        }
+
+        return list[index + 1]
+    }
+
+    get_prev() {
+        let list = this.get_items()
+        let current = this.input.value.trim()
+        let index = list.indexOf(current)
+
+        if (index === -1) {
+            return Utils.last(list)
+        }
+
+        if (index === 0) {
+            return list[list.length - 1]
+        }
+
+        return list[index - 1]
     }
 }
