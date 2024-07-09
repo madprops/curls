@@ -14,8 +14,8 @@ class Sort {
         {value: `newest`, name: `Newest`, info: `Most recently changed at the top`},
         {value: `oldest`, name: `Oldest`, info: `Oldest ones at the top`},
         {value: App.separator},
-        {value: `added_new`, name: `Recent`, info: `Sort by the date when the curl was added, newest first`},
-        {value: `added_old`, name: `Classic`, info: `Sort by the date when the curl was added, oldest first`},
+        {value: `recent`, name: `Recent`, info: `Sort by the date when the curl was added, newest first`},
+        {value: `classic`, name: `Classic`, info: `Sort by the date when the curl was added, oldest first`},
         {value: App.separator},
         {value: `curl_asc`, name: `Curl Asc`, info: `Sort curls alphabetically in ascending order`},
         {value: `curl_desc`, name: `Curl Desc`, info: `Sort curls alphabetically in descending order`},
@@ -166,7 +166,7 @@ class Sort {
                 return a.curl.localeCompare(b.curl)
             })
         }
-        else if (mode === `added_new`) {
+        else if (mode === `recent`) {
             let items_ = Curls.get()
 
             items.sort((a, b) => {
@@ -181,7 +181,7 @@ class Sort {
                 return a.curl.localeCompare(b.curl)
             })
         }
-        else if (mode === `added_old`) {
+        else if (mode === `classic`) {
             let items_ = Curls.get()
 
             items.sort((a, b) => {
