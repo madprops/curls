@@ -168,7 +168,13 @@ class Utils {
     }
 
     static load_array(name) {
-        return localStorage.getItem(name) || `[]`
+        try {
+            return JSON.parse(localStorage.getItem(name) || `[]`)
+        }
+        catch (err) {
+            this.error(err)
+            return []
+        }
     }
 
     static load_string(name, def_value = ``) {

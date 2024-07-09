@@ -132,14 +132,7 @@ class Curls {
     static load_curls(color = Colors.mode) {
         let name = this.get_name(color)
         let saved = Utils.load_array(name)
-
-        try {
-            let curls = JSON.parse(saved)
-            return this.clean(curls)
-        }
-        catch (err) {
-            return []
-        }
+        return this.clean(saved)
     }
 
     static replace() {

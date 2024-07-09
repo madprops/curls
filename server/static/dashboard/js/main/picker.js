@@ -25,8 +25,7 @@ class Picker {
     }
 
     static get_items() {
-        let saved = Utils.load_array(this.ls_name)
-        return JSON.parse(saved)
+        return Utils.load_array(this.ls_name)
     }
 
     static add() {

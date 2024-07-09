@@ -292,14 +292,7 @@ class Filter {
     }
 
     static get_items() {
-        let list = Utils.load_array(this.ls_items)
-
-        try {
-            return JSON.parse(list)
-        }
-        catch (e) {
-            return []
-        }
+        return Utils.load_array(this.ls_items)
     }
 
     static get_value() {
