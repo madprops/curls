@@ -87,7 +87,6 @@ class Filter {
         }
 
         this.mode = value
-        this.focus()
         this.do_filter()
     }
 
@@ -240,10 +239,6 @@ class Filter {
         if (filter.value || (this.mode !== this.default_mode)) {
             this.do_filter()
         }
-    }
-
-    static focus() {
-        this.get_filter().focus()
     }
 
     static after() {
