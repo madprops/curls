@@ -1,6 +1,7 @@
 /*
 
 These are curl operations
+This takes care of storing curl data
 
 */
 
@@ -43,16 +44,31 @@ class Curls {
             return
         }
 
-        let new_curls = Array.from(new Set([...added, ...this.get()]))
+        let items = this.items_from_curls(added)
+        let new_items = Array.from(new Set([...items, ...this.get()]))
 
-        if (this.save(new_curls)) {
-            added.reverse()
+        if (this.save(new_items)) {
+            items.reverse()
             Update.update({ curls: added })
         }
     }
 
+    static items_from_curls(curls) {
+        let items = []
+
+        for (let curl of curls) {
+            items.push(this.new_item(curl))
+        }
+
+        return items
+    }
+
+    static new_item(curl) {
+        return {curl: curl, added: Utils.now()}
+    }
+
     static add_owned(curl) {
-        let curls = this.get()
+        let curls = this.get_curls()
 
         if (curls.includes(curl)) {
             return
@@ -62,12 +78,15 @@ class Curls {
     }
 
     static to_top(curls) {
-        let cleaned = [...curls]
+        let items = this.items_from_curls(curls)
+        let cleaned = [...items]
 
-        for (let curl of this.get()) {
-            if (!cleaned.includes(curl)) {
-                cleaned.push(curl)
+        for (let item of this.get()) {
+            if (cleaned.any(x => x.curl === item.curl)) {
+                continue
             }
+
+            cleaned.push(item)
         }
 
         this.after_move(cleaned, curls)
@@ -76,18 +95,21 @@ class Curls {
     static to_bottom(curls) {
         let cleaned = []
 
-        for (let curl of this.get()) {
-            if (!curls.includes(curl)) {
-                cleaned.push(curl)
+        for (let item of this.get()) {
+            if (cleaned.any(x => x.curl === item.curl)) {
+                continue
             }
+
+            cleaned.push(item)
         }
 
-        cleaned.push(...curls)
+        let items = this.items_from_curls(curls)
+        cleaned.push(...items)
         this.after_move(cleaned, curls)
     }
 
-    static after_move(new_curls, curls) {
-        this.save(new_curls)
+    static after_move(items, curls) {
+        this.save(items)
         Sort.set_value(`order`)
         Sort.sort_if_order()
         Select.deselect_all()
@@ -97,18 +119,18 @@ class Curls {
         }
     }
 
-    static save(curls, color = Colors.mode) {
-        curls = this.clean(curls)
+    static save(items, color = Colors.mode) {
+        items = this.clean(items)
         let same = true
         let current = this.get(color)
 
-        if (current.length !== curls.length) {
+        if (current.length !== items.length) {
             same = false
         }
 
         if (same) {
             for (let i = 0; i < current.length; i++) {
-                if (current[i] !== curls[i]) {
+                if (current[i].curl !== items[i].curl) {
                     same = false
                     break
                 }
@@ -119,14 +141,27 @@ class Curls {
             return false
         }
 
+        this.fill(items)
         let name = this.get_name(color)
-        this.colors[color] = [...curls]
-        Utils.save(name, JSON.stringify(curls))
+        this.colors[color] = [...items]
+        Utils.save(name, JSON.stringify(items))
         return true
+    }
+
+    static fill(items) {
+        for (let item of items) {
+            if (!item.added) {
+                item.added = Utils.now()
+            }
+        }
     }
 
     static get(color = Colors.mode) {
         return this.colors[color]
+    }
+
+    static get_curls(color = Colors.mode) {
+        return this.get(color).map(x => x.curl)
     }
 
     static load_curls(color = Colors.mode) {
@@ -196,7 +231,7 @@ class Curls {
             return
         }
 
-        let curls = this.get().slice()
+        let curls = this.get_curls().slice()
         let index = curls.indexOf(curl)
 
         if (index === -1) {
@@ -227,19 +262,19 @@ class Curls {
         return true
     }
 
-    static clean(curls) {
+    static clean(items) {
         let cleaned = []
 
-        for (let curl of curls) {
-            if (cleaned.includes(curl)) {
+        for (let item of items) {
+            if (cleaned.includes(item.curl)) {
                 continue
             }
 
-            if (!this.check(curl)) {
+            if (!this.check(item.curl)) {
                 continue
             }
 
-            cleaned.push(curl)
+            cleaned.push(item)
 
             if (cleaned.length >= this.max_curls) {
                 break
@@ -250,7 +285,7 @@ class Curls {
     }
 
     static get_name(color) {
-        return `curls_${color}`
+        return `curls_data_${color}`
     }
 
     static clear_all() {
@@ -267,12 +302,12 @@ class Curls {
         let cleaned = []
         let removed = []
 
-        for (let curl of this.get()) {
-            if (!curls.includes(curl)) {
-                cleaned.push(curl)
+        for (let item of this.get()) {
+            if (!curls.includes(item.curl)) {
+                cleaned.push(item)
             }
             else {
-                removed.push(curl)
+                removed.push(item.curl)
             }
         }
 
@@ -354,12 +389,11 @@ class Curls {
     }
 
     static do_remove(curl, remove_item = true) {
-        let curls = this.get()
         let cleaned = []
 
-        for (let curl_ of curls) {
-            if (curl !== curl_) {
-                cleaned.push(curl_)
+        for (let item of this.get()) {
+            if (item.curl !== curl) {
+                cleaned.push(item)
             }
         }
 
@@ -372,16 +406,15 @@ class Curls {
 
     static remove_not_found() {
         let missing = Items.get_missing().map(x => x.curl)
-        let curls = this.get()
         let cleaned = []
         let removed = []
 
-        for (let curl of curls) {
-            if (!missing.includes(curl)) {
-                cleaned.push(curl)
+        for (let item of this.get()) {
+            if (!missing.includes(item.curl)) {
+                cleaned.push(item)
             }
             else {
-                removed.push(curl)
+                removed.push(item.curl)
             }
         }
 
@@ -393,23 +426,22 @@ class Curls {
     }
 
     static remove_empty() {
-        let curls = this.get()
         let cleaned = []
         let removed = []
 
-        for (let curl of curls) {
-            let item = Items.get(curl)
+        for (let item of this.get()) {
+            let item_ = Items.get(item.curl)
 
-            if (!item) {
+            if (!item_) {
                 continue
             }
 
-            if (!item.status) {
-                removed.push(curl)
+            if (!item_.status) {
+                removed.push(item.curl)
                 continue
             }
 
-            cleaned.push(curl)
+            cleaned.push(item)
         }
 
         if (!removed.length) {
@@ -420,30 +452,29 @@ class Curls {
     }
 
     static remove_old() {
-        let curls = this.get()
         let now = Utils.now()
         let cleaned = []
         let removed = []
 
-        for (let curl of curls) {
-            let item = Items.get(curl)
+        for (let item of this.get()) {
+            let item_ = Items.get(item.curl)
 
-            if (!item) {
+            if (!item_) {
                 continue
             }
 
-            let date = item.updated
+            let date = item_.updated
 
             if (date) {
                 let datetime = new Date(date + `Z`).getTime()
 
                 if ((now - datetime) > (this.old_delay)) {
-                    removed.push(curl)
+                    removed.push(item.curl)
                     continue
                 }
             }
 
-            cleaned.push(curl)
+            cleaned.push(item)
         }
 
         if (!removed.length) {
@@ -464,7 +495,7 @@ class Curls {
     }
 
     static copy() {
-        let curls = this.get()
+        let curls = this.get_curls()
         let text = curls.join(` `)
         Utils.copy_to_clipboard(text)
     }

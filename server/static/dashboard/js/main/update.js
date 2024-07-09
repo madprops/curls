@@ -115,7 +115,7 @@ class Update {
             add = true
         }
         else {
-            args.curls = Curls.get()
+            args.curls = Curls.get_curls()
         }
 
         if (!args.curls.length) {

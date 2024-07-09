@@ -8,7 +8,7 @@ class Menu {
     }
 
     static show(e) {
-        let curls = Curls.get()
+        let curls = Curls.get_curls()
         let items
 
         let data = [
@@ -94,7 +94,7 @@ class Menu {
         let colors = {}
 
         for (let color in Colors.colors) {
-            let curls = Curls.get(color)
+            let curls = Curls.get_curls(color)
 
             if (!curls.length) {
                 continue

@@ -129,12 +129,12 @@ class Colors {
     }
 
     static do_move(color, curls) {
-        let current_curls = Curls.get()
+        let current = Curls.get()
         let cleaned = []
 
-        for (let curl of current_curls) {
-            if (!curls.includes(curl)) {
-                cleaned.push(curl)
+        for (let item of current) {
+            if (!curls.includes(item.curl)) {
+                cleaned.push(item)
             }
         }
 
@@ -148,15 +148,17 @@ class Colors {
 
         Items.list = cleaned_items
         Curls.save(cleaned)
-        let new_curls = Curls.get(color)
+        let new_items = Curls.get(color)
 
         for (let curl of curls) {
-            if (!new_curls.includes(curl)) {
-                new_curls.unshift(curl)
+            if (new_items.any(x => x.curl === curl)) {
+                continue
             }
+
+            new_items.unshift(curl)
         }
 
-        Curls.save(new_curls, color)
+        Curls.save(new_items, color)
         Container.update()
     }
 

@@ -57,7 +57,7 @@ App.update_autocomplete = () => {
     let data_list = DOM.el(`#curls_datalist`)
     data_list.innerHTML = ``
 
-    for (let word of Curls.get()) {
+    for (let word of Curls.get_curls()) {
         var option = document.createElement(`option`)
         option.value = word
         data_list.append(option)

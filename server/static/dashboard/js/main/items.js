@@ -12,7 +12,7 @@ class Items {
     }
 
     static find_missing() {
-        let used = Curls.get()
+        let used = Curls.get_curls()
         let curls = used.filter(curl => !this.list.find(item => item.curl === curl))
         let missing = []
 

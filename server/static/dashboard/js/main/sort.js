@@ -77,7 +77,7 @@ class Sort {
         let mode = this.mode
 
         if (mode === `order`) {
-            let curls = Curls.get()
+            let curls = Curls.get_curls()
 
             items.sort((a, b) => {
                 let a_index = curls.indexOf(a.curl)
