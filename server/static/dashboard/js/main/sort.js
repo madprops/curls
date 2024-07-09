@@ -25,6 +25,9 @@ class Sort {
         {value: App.separator},
         {value: `status_short`, name: `Status Short`, info: `Sort by the length of the status in ascending order`},
         {value: `status_long`, name: `Status Long`, info: `Sort by the length of the status in descending order`},
+        {value: App.separator},
+        {value: `added_new`, name: `Added New`, info: `Sort by the date when the curl was added, newest first`},
+        {value: `added_old`, name: `Added Old`, info: `Sort by the date when the curl was added, oldest first`},
     ]
 
     static setup() {
@@ -155,6 +158,36 @@ class Sort {
         else if (mode === `status_long`) {
             items.sort((a, b) => {
                 let diff = b.status.length - a.status.length
+
+                if (diff !== 0) {
+                    return diff
+                }
+
+                return a.curl.localeCompare(b.curl)
+            })
+        }
+        else if (mode === `added_new`) {
+            let items_ = Curls.get()
+
+            items.sort((a, b) => {
+                let item_a = items_.find(x => x.curl === a.curl)
+                let item_b = items_.find(x => x.curl === b.curl)
+                let diff = item_b.added - item_a.added
+
+                if (diff !== 0) {
+                    return diff
+                }
+
+                return a.curl.localeCompare(b.curl)
+            })
+        }
+        else if (mode === `added_old`) {
+            let items_ = Curls.get()
+
+            items.sort((a, b) => {
+                let item_a = items_.find(x => x.curl === a.curl)
+                let item_b = items_.find(x => x.curl === b.curl)
+                let diff = item_a.added - item_b.added
 
                 if (diff !== 0) {
                     return diff

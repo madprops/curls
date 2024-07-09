@@ -133,7 +133,7 @@ class Menu {
                     continue
                 }
 
-                Curls.save(curls, color)
+                Curls.save_curls(curls, color)
                 modified = true
             }
 

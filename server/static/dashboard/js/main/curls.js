@@ -266,7 +266,7 @@ class Curls {
         let cleaned = []
 
         for (let item of items) {
-            if (cleaned.includes(item.curl)) {
+            if (cleaned.some(x => x.curl === item.curl)) {
                 continue
             }
 
@@ -498,5 +498,24 @@ class Curls {
         let curls = this.get_curls()
         let text = curls.join(` `)
         Utils.copy_to_clipboard(text)
+    }
+
+    static save_curls(curls) {
+        let current = this.get()
+        let items = []
+
+        for (let curl of curls) {
+            let item = current.find(x => x.curl === curl)
+
+            if (item) {
+                items.push(item)
+            }
+            else {
+                item = this.new_item(curl)
+                items.push(item)
+            }
+        }
+
+        return this.save(items)
     }
 }
