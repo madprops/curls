@@ -12,6 +12,10 @@ class Curls {
     static colors = {}
 
     static setup() {
+        this.fill_colors()
+    }
+
+    static fill_colors() {
         for (let color in Colors.colors) {
             this.colors[color] = this.load_curls(color)
         }

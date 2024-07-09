@@ -31,6 +31,7 @@ App.setup = () => {
     Windows.setup()
     Footer.setup()
     Intro.setup()
+    Storage.setup()
 
     App.start_mouse()
     App.update_autocomplete()
