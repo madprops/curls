@@ -414,4 +414,15 @@ class Container {
             this.scroll_top()
         }
     }
+
+    static scroll(e) {
+        let direction = Utils.wheel_direction(e)
+
+        if (direction === `up`) {
+            Container.scroll_up()
+        }
+        else {
+            Container.scroll_down()
+        }
+    }
 }

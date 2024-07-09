@@ -251,15 +251,4 @@ class Utils {
     static round = (n, decimals) => {
         return Math.round(n * Math.pow(10, decimals)) / Math.pow(10, decimals)
     }
-
-    static scroll(e) {
-        let direction = Utils.wheel_direction(e)
-
-        if (direction === `up`) {
-            Container.scroll_up()
-        }
-        else {
-            Container.scroll_down()
-        }
-    }
 }

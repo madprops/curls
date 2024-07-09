@@ -23,7 +23,7 @@ class Infobar {
         })
 
         DOM.ev(infobar, `wheel`, (e) => {
-            Utils.scroll(e)
+            Container.scroll(e)
         })
 
         this.start_interval()

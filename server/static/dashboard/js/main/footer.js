@@ -20,7 +20,7 @@ class Footer {
                 return
             }
 
-            Utils.scroll(e)
+            Container.scroll(e)
         })
 
         let lines = [
@@ -37,7 +37,7 @@ class Footer {
         })
 
         DOM.ev(scroller, `wheel`, (e) => {
-            Utils.scroll(e)
+            Container.scroll(e)
         })
 
         let version = DOM.el(`#version`)
