@@ -17,8 +17,8 @@ class Menu {
             },
             {
                 text: `Export`,
-                action: () => {
-                    this.export()
+                action: (e) => {
+                    this.export_menu(e)
                 }
             },
             {
@@ -90,7 +90,26 @@ class Menu {
         Utils.context({items: items, e: e})
     }
 
-    static export() {
+    static export_menu(e) {
+        let items = [
+            {
+                text: `Full`,
+                action: () => {
+                    this.export(true)
+                }
+            },
+            {
+                text: `Curls`,
+                action: () => {
+                    this.export(false)
+                }
+            },
+        ]
+
+        Utils.context({items: items, e: e})
+    }
+
+    static export(full = true) {
         let colors = {}
 
         for (let color in Colors.colors) {
@@ -100,7 +119,20 @@ class Menu {
                 continue
             }
 
-            colors[color] = items
+            let new_items
+
+            if (full) {
+                new_items = items
+            }
+            else {
+                new_items = []
+
+                for (let item of items) {
+                    new_items.push({curl: item.curl})
+                }
+            }
+
+            colors[color] = new_items
         }
 
         if (!Object.keys(colors).length) {
