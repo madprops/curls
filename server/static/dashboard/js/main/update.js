@@ -150,7 +150,7 @@ class Update {
         }
         catch (e) {
             Utils.error(`Failed to update`)
-            App.clear()
+            this.hide_updating()
             return
         }
 
@@ -170,7 +170,7 @@ class Update {
             Utils.error(e)
         }
 
-        this.clear()
+        this.hide_updating()
     }
 
     static show_updating() {
@@ -179,7 +179,7 @@ class Update {
         button.classList.add(`active`)
     }
 
-    static clear() {
+    static hide_updating() {
         this.updating = false
 
         this.clear_timeout = setTimeout(() => {
