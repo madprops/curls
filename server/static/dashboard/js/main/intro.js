@@ -24,9 +24,6 @@ class Intro {
             this.show()
             this.save()
         }
-        else {
-            Windows.popup(`Welcome`)
-        }
     }
 
     static save() {
