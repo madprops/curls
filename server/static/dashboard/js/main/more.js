@@ -140,7 +140,6 @@ class More {
             Container.wrap_enabled,
             Dates.enabled,
             Controls.enabled,
-            Infobar.enabled,
         ]
 
         if (vars.every((x) => x)) {
@@ -158,7 +157,6 @@ class More {
         this.change_dates(true, false)
         Controls.check_enabled()
         Container.update()
-        Infobar.update()
     }
 
     static popup(what, value) {
