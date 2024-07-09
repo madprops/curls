@@ -14,6 +14,9 @@ class Sort {
         {value: `newest`, name: `Newest`, info: `Most recently changed at the top`},
         {value: `oldest`, name: `Oldest`, info: `Oldest ones at the top`},
         {value: App.separator},
+        {value: `added_new`, name: `Recent`, info: `Sort by the date when the curl was added, newest first`},
+        {value: `added_old`, name: `Classic`, info: `Sort by the date when the curl was added, oldest first`},
+        {value: App.separator},
         {value: `curl_asc`, name: `Curl Asc`, info: `Sort curls alphabetically in ascending order`},
         {value: `curl_desc`, name: `Curl Desc`, info: `Sort curls alphabetically in descending order`},
         {value: App.separator},
@@ -25,9 +28,6 @@ class Sort {
         {value: App.separator},
         {value: `status_short`, name: `Status Short`, info: `Sort by the length of the status in ascending order`},
         {value: `status_long`, name: `Status Long`, info: `Sort by the length of the status in descending order`},
-        {value: App.separator},
-        {value: `added_new`, name: `Added New`, info: `Sort by the date when the curl was added, newest first`},
-        {value: `added_old`, name: `Added Old`, info: `Sort by the date when the curl was added, oldest first`},
     ]
 
     static setup() {
