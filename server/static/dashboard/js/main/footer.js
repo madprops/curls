@@ -20,14 +20,7 @@ class Footer {
                 return
             }
 
-            let direction = Utils.wheel_direction(e)
-
-            if (direction === `up`) {
-                Container.scroll_up()
-            }
-            else {
-                Container.scroll_down()
-            }
+            Utils.scroll(e)
         })
 
         let lines = [
@@ -41,6 +34,10 @@ class Footer {
 
         DOM.ev(scroller, `click`, () => {
             Container.scroller()
+        })
+
+        DOM.ev(scroller, `wheel`, (e) => {
+            Utils.scroll(e)
         })
 
         let version = DOM.el(`#version`)

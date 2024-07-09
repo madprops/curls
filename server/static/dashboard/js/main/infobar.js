@@ -23,14 +23,7 @@ class Infobar {
         })
 
         DOM.ev(infobar, `wheel`, (e) => {
-            let direction = Utils.wheel_direction(e)
-
-            if (direction === `up`) {
-                Container.scroll_up()
-            }
-            else {
-                Container.scroll_down()
-            }
+            Utils.scroll(e)
         })
 
         this.start_interval()
