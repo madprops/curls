@@ -11,8 +11,8 @@ class Sort {
     static modes = [
         {value: `order`, name: `Order`, info: `Keep the order of dragged items`},
         {value: App.separator},
-        {value: `newest`, name: `Newest`, info: `Most recently changed at the top`},
-        {value: `oldest`, name: `Oldest`, info: `Oldest ones at the top`},
+        {value: `newest`, name: `Newest`, info: `Sort by status change date, newest first`},
+        {value: `oldest`, name: `Oldest`, info: `Sort by status change date, oldest first`},
         {value: App.separator},
         {value: `recent`, name: `Recent`, info: `Sort by the date when the curl was added, newest first`},
         {value: `classic`, name: `Classic`, info: `Sort by the date when the curl was added, oldest first`},
