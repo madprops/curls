@@ -41,6 +41,14 @@ class List {
                 this.show_menu()
             }
         })
+
+        let lines = [
+            `Use previous items`,
+            `Middle Click to clear input`,
+            `Middle Click items to remove`,
+        ]
+
+        this.button.title = lines.join(`\n`)
     }
 
     get_items() {

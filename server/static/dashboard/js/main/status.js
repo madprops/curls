@@ -32,14 +32,6 @@ class Status {
 
         status.title = lines.join(`\n`)
 
-        let lines_2 = [
-            `Use previous status changes`,
-            `Middle Click to clear status`,
-            `Middle Click items to remove them`,
-        ]
-
-        button.title = lines_2.join(`\n`)
-
         this.list = new List(
             button,
             status,

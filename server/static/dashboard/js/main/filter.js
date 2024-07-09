@@ -63,14 +63,6 @@ class Filter {
 
         let button = DOM.el(`#filter_button`)
 
-        let lines_2 = [
-            `Use previous filters`,
-            `Middle Click to clear filter`,
-            `Middle Click items to remove them`,
-        ]
-
-        button.title = lines_2.join(`\n`)
-
         DOM.ev(filter, `wheel`, (e) => {
             Utils.scroll_wheel(e)
         })
