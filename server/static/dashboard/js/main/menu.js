@@ -38,6 +38,9 @@ class Menu {
                     }
                 },
                 {
+                    separator: true,
+                },
+                {
                     text: `Copy`,
                     action: () => {
                         Curls.copy()
