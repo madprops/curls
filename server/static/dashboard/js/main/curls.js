@@ -500,8 +500,8 @@ class Curls {
         Utils.copy_to_clipboard(text)
     }
 
-    static save_curls(curls) {
-        let current = this.get()
+    static save_curls(curls, color = Colors.mode) {
+        let current = this.get(color)
         let items = []
 
         for (let curl of curls) {
@@ -516,6 +516,6 @@ class Curls {
             }
         }
 
-        return this.save(items)
+        return this.save(items, color)
     }
 }
