@@ -84,11 +84,17 @@ class Status {
         Utils.save(this.ls_items, JSON.stringify(list))
     }
 
-    static show_menu(e) {
+    static show_menu(e, show_empty = true) {
         let list = this.get_items()
 
         if (!list.length) {
-            Windows.alert({title: `Empty List`, message: `Status items appear here after you use them`})
+            if (show_empty) {
+                Windows.alert({
+                    title: `Empty List`,
+                    message: `Status items appear here after you use them`
+                })
+            }
+
             return
         }
 
@@ -116,6 +122,7 @@ class Status {
         })
 
         let el = DOM.el(`#change_status`)
+        this.last_e = e
         Utils.context({items: items, element: el, e: e})
     }
 
@@ -130,12 +137,6 @@ class Status {
     }
 
     static remove(status) {
-        Windows.confirm({title: `Remove Status`, ok: () => {
-            this.do_remove(status)
-        }, message: status.substring(0, 44)})
-    }
-
-    static do_remove(status) {
         let cleaned = []
 
         for (let status_ of this.get_items()) {
@@ -147,6 +148,7 @@ class Status {
         }
 
         Utils.save(this.ls_items, JSON.stringify(cleaned))
+        this.show_menu(this.last_e, false)
     }
 
     static clear_status() {

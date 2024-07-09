@@ -299,11 +299,17 @@ class Filter {
         return DOM.el(`#filter`).value.toLowerCase().trim()
     }
 
-    static show_menu(e) {
+    static show_menu(e, show_empty = true) {
         let list = this.get_items()
 
         if (!list.length) {
-            Windows.alert({title: `Empty List`, message: `Filter items appear here after you use them`})
+            if (show_empty) {
+                Windows.alert({
+                    title: `Empty List`,
+                    message: `Filter items appear here after you use them`,
+                })
+            }
+
             return
         }
 
@@ -331,16 +337,11 @@ class Filter {
         })
 
         let el = DOM.el(`#filter`)
+        this.last_e = e
         Utils.context({items: items, element: el, e: e})
     }
 
     static remove(status) {
-        Windows.confirm({title: `Remove Filter`, ok: () => {
-            this.do_remove(status)
-        }, message: status.substring(0, 44)})
-    }
-
-    static do_remove(status) {
         let cleaned = []
 
         for (let status_ of this.get_items()) {
@@ -352,6 +353,7 @@ class Filter {
         }
 
         Utils.save(this.ls_items, JSON.stringify(cleaned))
+        this.show_menu(this.last_e, false)
     }
 
     static clear_items() {
