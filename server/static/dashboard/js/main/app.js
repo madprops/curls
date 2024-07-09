@@ -35,7 +35,7 @@ App.setup = () => {
     App.start_mouse()
     App.update_autocomplete()
 
-    Update.update()
+    Update.do_update()
 }
 
 App.update_title = () => {
