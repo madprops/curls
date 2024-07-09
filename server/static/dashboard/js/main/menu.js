@@ -27,12 +27,6 @@ class Menu {
                     this.import()
                 }
             },
-            {
-                text: `Clear`,
-                action: () => {
-                    Curls.clear_all()
-                }
-            },
         ]
 
         if (curls.length) {
