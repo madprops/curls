@@ -124,12 +124,6 @@ class Picker {
         }
     }
 
-    static clear() {
-        Windows.confirm({title: `Clear Picker`, ok: () => {
-            Utils.save(this.ls_name, `[]`)
-        }, message: `Remove all items from the picker`})
-    }
-
     static remove_item(curl) {
         Windows.confirm({title: `Remove Picker Item`, ok: () => {
             this.do_remove_item(curl)

@@ -279,16 +279,6 @@ class Curls {
         return `curls_data_${color}`
     }
 
-    static clear_all() {
-        Windows.confirm({title: `Clear Curls`, ok: () => {
-            for (let color in Colors.colors) {
-                this.clear(color)
-            }
-
-            Container.empty()
-        }, message: `Remove all curls in all colors`})
-    }
-
     static remove(curls) {
         let cleaned = []
         let removed = []
