@@ -1,10 +1,11 @@
 class List {
-    constructor(button, input, ls_items, max_items, action) {
+    constructor(button, input, ls_items, max_items, action, clear_action) {
         this.button = button
         this.input = input
         this.ls_items = ls_items
         this.max_items = max_items
         this.action = action
+        this.clear_action = clear_action
         this.menu_max_length = 110
         this.prepare()
     }
@@ -16,7 +17,7 @@ class List {
 
         DOM.ev(this.button, `auxclick`, (e) => {
             if (e.button === 1) {
-                this.clear()
+                this.clear_action()
             }
         })
 
@@ -66,8 +67,7 @@ class List {
             items.push({
                 text: item.substring(0, this.menu_max_length),
                 action: () => {
-                    this.set(item)
-                    this.action()
+                    this.action(item)
                 },
                 alt_action: () => {
                     this.remove(item)
@@ -90,11 +90,6 @@ class List {
         let el = DOM.el(`#filter`)
         this.last_e = e
         Utils.context({items: items, element: el, e: e})
-    }
-
-    set(value) {
-        this.input.value = value
-        this.input.focus()
     }
 
     save(value) {

@@ -26,13 +26,9 @@ class Filter {
     ]
 
     static setup() {
-        let filter = DOM.el(`#filter`)
+        let filter = this.get_filter()
 
         DOM.ev(filter, `keydown`, (e) => {
-            if (e.key === `Escape`) {
-                this.clear()
-            }
-
             this.filter()
         })
 
@@ -84,8 +80,11 @@ class Filter {
             filter,
             this.ls_items,
             this.max_items,
+            (value) => {
+                this.action(value)
+            },
             () => {
-                this.filter()
+                this.clear()
             },
         )
     }
@@ -115,7 +114,7 @@ class Filter {
     }
 
     static clear() {
-        DOM.el(`#filter`).value = ``
+        this.get_filter().value = ``
         this.unfilter()
     }
 
@@ -244,7 +243,7 @@ class Filter {
     }
 
     static check() {
-        let filter = DOM.el(`#filter`)
+        let filter = this.get_filter()
 
         if (filter.value || (this.mode !== this.default_mode)) {
             this.do_filter()
@@ -252,7 +251,7 @@ class Filter {
     }
 
     static focus() {
-        DOM.el(`#filter`).focus()
+        this.get_filter().focus()
     }
 
     static after() {
@@ -275,6 +274,17 @@ class Filter {
     }
 
     static get_value() {
-        return DOM.el(`#filter`).value.toLowerCase().trim()
+        return this.get_filter().value.toLowerCase().trim()
+    }
+
+    static get_filter() {
+        return DOM.el(`#filter`)
+    }
+
+    static action(value) {
+        let filter = this.get_filter()
+        filter.value = value
+        filter.focus()
+        this.filter()
     }
 }

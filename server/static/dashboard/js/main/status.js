@@ -9,7 +9,7 @@ class Status {
     static ls_items = `status_items`
 
     static setup() {
-        let status = DOM.el(`#change_status`)
+        let status = this.get_status()
         let button = DOM.el(`#status_button`)
 
         DOM.ev(status, `keyup`, (e) => {
@@ -32,12 +32,6 @@ class Status {
 
         status.title = lines.join(`\n`)
 
-        DOM.ev(button, `auxclick`, (e) => {
-            if (e.button === 1) {
-                this.clear_status()
-            }
-        })
-
         let lines_2 = [
             `Use previous status changes`,
             `Middle Click to clear status`,
@@ -51,8 +45,11 @@ class Status {
             status,
             this.ls_items,
             this.max_items,
+            (value) => {
+                this.action(value)
+            },
             () => {
-                // Do nothing
+                this.clear()
             },
         )
     }
@@ -66,10 +63,20 @@ class Status {
     }
 
     static focus() {
-        DOM.el(`#change_status`).focus()
+        this.get_status().focus()
     }
 
-    static clear_status() {
-        DOM.el(`#change_status`).value = ``
+    static clear() {
+        this.get_status().value = ``
+    }
+
+    static get_status() {
+        return DOM.el(`#change_status`)
+    }
+
+    static action(value) {
+        let status = this.get_status()
+        status.value = value
+        status.focus()
     }
 }
