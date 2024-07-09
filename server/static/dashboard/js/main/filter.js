@@ -84,13 +84,10 @@ class Filter {
             filter,
             this.ls_items,
             this.max_items,
-            this.get_items,
+            () => {
+                this.filter()
+            },
         )
-    }
-
-    static set(value) {
-        DOM.el(`#filter`).value = value
-        this.filter()
     }
 
     static change(value) {

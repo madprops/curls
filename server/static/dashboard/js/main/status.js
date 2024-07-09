@@ -51,6 +51,9 @@ class Status {
             status,
             this.ls_items,
             this.max_items,
+            () => {
+                // Do nothing
+            },
         )
     }
 
@@ -60,12 +63,6 @@ class Status {
 
     static get_items() {
         return Utils.load_array(this.ls_items)
-    }
-
-    static set(status) {
-        let el = DOM.el(`#change_status`)
-        el.value = status
-        this.focus()
     }
 
     static focus() {

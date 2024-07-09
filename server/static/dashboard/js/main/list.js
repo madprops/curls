@@ -1,9 +1,10 @@
 class List {
-    constructor(button, input, ls_items, max_items) {
+    constructor(button, input, ls_items, max_items, action) {
         this.button = button
         this.input = input
         this.ls_items = ls_items
         this.max_items = max_items
+        this.action = action
         this.menu_max_length = 110
         this.prepare()
     }
@@ -59,17 +60,21 @@ class List {
             return
         }
 
-        let items = list.map(filter => {
-            return {
-                text: filter.substring(0, this.menu_max_length),
+        let items = []
+
+        for (let item of list) {
+            items.push({
+                text: item.substring(0, this.menu_max_length),
                 action: () => {
-                    this.set(filter)
+                    this.set(item)
+                    this.action()
                 },
                 alt_action: () => {
-                    this.remove(filter)
+                    this.remove(item)
                 },
-            }
-        })
+
+            })
+        }
 
         items.push({
             separator: true,
@@ -87,7 +92,14 @@ class List {
         Utils.context({items: items, element: el, e: e})
     }
 
+    set(value) {
+        this.input.value = value
+        this.input.focus()
+    }
+
     save(value) {
+        value = value.trim()
+
         if (!value) {
             return
         }
