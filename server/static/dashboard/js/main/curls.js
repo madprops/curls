@@ -293,12 +293,12 @@ class Curls {
         let cleaned = []
         let removed = []
 
-        for (let item of this.get()) {
-            if (!curls.includes(item.curl)) {
-                cleaned.push(item)
+        for (let curl of this.get_curls()) {
+            if (!curls.includes(curl)) {
+                cleaned.push(curl)
             }
             else {
-                removed.push(item.curl)
+                removed.push(curl)
             }
         }
 
@@ -421,13 +421,13 @@ class Curls {
         let removed = []
 
         for (let curl of this.get_curls()) {
-            let item_ = Items.get(curl)
+            let item = Items.get(curl)
 
-            if (!item_) {
+            if (!item) {
                 continue
             }
 
-            if (!item_.status) {
+            if (!item.status) {
                 removed.push(curl)
                 continue
             }
@@ -448,13 +448,13 @@ class Curls {
         let removed = []
 
         for (let curl of this.get_curls()) {
-            let item_ = Items.get(curl)
+            let item = Items.get(curl)
 
-            if (!item_) {
+            if (!item) {
                 continue
             }
 
-            let date = item_.updated
+            let date = item.updated
 
             if (date) {
                 let datetime = new Date(date + `Z`).getTime()
