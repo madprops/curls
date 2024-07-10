@@ -318,7 +318,7 @@ class Curls {
     static remove_all() {
         Windows.confirm({title: `Remove All Curls`, ok: () => {
             this.clear()
-            Container.empty()
+            Container.show_empty()
         }, message: `Remove all curls in the current color`})
     }
 

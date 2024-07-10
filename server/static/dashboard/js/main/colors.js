@@ -80,7 +80,7 @@ class Colors {
         Utils.save(this.ls_name, value)
         this.apply()
         Items.reset()
-        Container.loading()
+        Container.show_loading()
         Infobar.hide()
         Update.update()
     }

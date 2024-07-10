@@ -122,7 +122,7 @@ class Container {
         container.innerHTML = ``
     }
 
-    static empty() {
+    static show_empty() {
         Infobar.hide()
         this.set_info(this.empty_info)
     }
@@ -131,11 +131,11 @@ class Container {
         let els = this.get_items()
 
         if (!els || !els.length) {
-            this.empty()
+            this.show_empty()
         }
     }
 
-    static loading() {
+    static show_loading() {
         this.set_info(`Loading...`)
     }
 

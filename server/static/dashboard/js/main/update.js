@@ -119,7 +119,7 @@ class Update {
         }
 
         if (!args.curls.length) {
-            Container.empty()
+            Container.show_empty()
             return
         }
 
@@ -136,7 +136,7 @@ class Update {
         Utils.info(`Update: Request ${App.network} (${args.curls.length})`)
 
         if (!Items.list.length) {
-            Container.loading()
+            Container.show_loading()
         }
 
         try {
