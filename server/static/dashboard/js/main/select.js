@@ -78,20 +78,24 @@ class Select {
             direction = `down`
         }
 
+        let action = (a, b) => {
+            this.do_range(a, b, direction)
+        }
+
         if (direction === `up`) {
             if (index < prev_index) {
-                this.do_range(index, prev_index, direction)
+                action(index, prev_index)
             }
             else {
-                this.do_range(index, prev_prev_index, direction)
+                action(index, prev_prev_index)
             }
         }
         else if (direction === `down`) {
             if (index > prev_index) {
-                this.do_range(prev_index, index, direction)
+                action(prev_index, index)
             }
             else {
-                this.do_range(prev_prev_index, index, direction)
+                action(prev_prev_index, index)
             }
         }
 
@@ -237,6 +241,10 @@ class Select {
 
     static history() {
         let items = this.get()
+
+        items = items.filter(item => {
+            return parseInt(item.dataset.selected_id) > 0
+        })
 
         items.sort((a, b) => {
             return parseInt(b.dataset.selected_id) - parseInt(a.dataset.selected_id)
