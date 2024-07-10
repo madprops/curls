@@ -224,6 +224,7 @@ class Items {
                 item.added = dateFormat(item_.added, `dd/mmm/yy - h:MM tt`)
             }
 
+            item.changes = item.changes || 0
             Dates.fill(item)
         }
     }

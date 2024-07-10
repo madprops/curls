@@ -17,17 +17,10 @@ class Sort {
         {value: `recent`, name: `Recent`, info: `Sort by the date when the curl was added, newest first`},
         {value: `classic`, name: `Classic`, info: `Sort by the date when the curl was added, oldest first`},
         {value: App.separator},
-        {value: `curl_asc`, name: `Curl Asc`, info: `Sort curls alphabetically in ascending order`},
-        {value: `curl_desc`, name: `Curl Desc`, info: `Sort curls alphabetically in descending order`},
+        {value: `curls`, name: `Curls`, info: `Sort curls alphabetically in ascending order`},
+        {value: `status`, name: `Status`, info: `Sort status alphabetically in ascending order`},
         {value: App.separator},
-        {value: `status_asc`, name: `Status Asc`, info: `Sort status alphabetically in ascending order`},
-        {value: `status_desc`, name: `Status Desc`, info: `Sort status alphabetically in descending order`},
-        {value: App.separator},
-        {value: `curl_short`, name: `Curl Short`, info: `Sort by the length of the curl in ascending order`},
-        {value: `curl_long`, name: `Curl Long`, info: `Sort by the length of the curl in descending order`},
-        {value: App.separator},
-        {value: `status_short`, name: `Status Short`, info: `Sort by the length of the status in ascending order`},
-        {value: `status_long`, name: `Status Long`, info: `Sort by the length of the status in descending order`},
+        {value: `active`, name: `Active`, info: `Sort by the number of changes`},
     ]
 
     static setup() {
@@ -100,70 +93,15 @@ class Sort {
                 return compare !== 0 ? compare : a.curl.localeCompare(b.curl)
             })
         }
-        else if (mode === `curl_asc`) {
+        else if (mode === `curls`) {
             items.sort((a, b) => {
                 return a.curl.localeCompare(b.curl)
             })
         }
-        else if (mode === `curl_desc`) {
-            items.sort((a, b) => {
-                return b.curl.localeCompare(a.curl)
-            })
-        }
-        else if (mode === `status_asc`) {
+        else if (mode === `status`) {
             items.sort((a, b) => {
                 let compare = a.status.localeCompare(b.status)
                 return compare !== 0 ? compare : a.curl.localeCompare(b.curl)
-            })
-        }
-        else if (mode === `status_desc`) {
-            items.sort((a, b) => {
-                let compare = b.status.localeCompare(a.status)
-                return compare !== 0 ? compare : a.curl.localeCompare(b.curl)
-            })
-        }
-        else if (mode === `curl_short`) {
-            items.sort((a, b) => {
-                let diff = a.curl.length - b.curl.length
-
-                if (diff !== 0) {
-                    return diff
-                }
-
-                return a.curl.localeCompare(b.curl)
-            })
-        }
-        else if (mode === `curl_long`) {
-            items.sort((a, b) => {
-                let diff = b.curl.length - a.curl.length
-
-                if (diff !== 0) {
-                    return diff
-                }
-
-                return a.curl.localeCompare(b.curl)
-            })
-        }
-        else if (mode === `status_short`) {
-            items.sort((a, b) => {
-                let diff = a.status.length - b.status.length
-
-                if (diff !== 0) {
-                    return diff
-                }
-
-                return a.curl.localeCompare(b.curl)
-            })
-        }
-        else if (mode === `status_long`) {
-            items.sort((a, b) => {
-                let diff = b.status.length - a.status.length
-
-                if (diff !== 0) {
-                    return diff
-                }
-
-                return a.curl.localeCompare(b.curl)
             })
         }
         else if (mode === `recent`) {
@@ -194,6 +132,12 @@ class Sort {
                 }
 
                 return a.curl.localeCompare(b.curl)
+            })
+        }
+        else if (mode === `active`) {
+            items.sort((a, b) => {
+                let compare = b.changes - a.changes
+                return compare !== 0 ? compare : a.curl.localeCompare(b.curl)
             })
         }
     }

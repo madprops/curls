@@ -278,7 +278,7 @@ class Container {
             item_updated.classList.add(`hidden`)
         }
 
-        item_status.title += `\nChanges: ${item.changes || 0}`
+        item_status.title += `\nChanges: ${item.changes}`
 
         el.append(item_icon)
         el.append(item_curl)
