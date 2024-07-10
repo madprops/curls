@@ -431,6 +431,6 @@ class Container {
 
     static save_curls() {
         let curls = Container.get_curls()
-        Curls.save_curls(curls)
+        return Curls.save_curls(curls)
     }
 }
