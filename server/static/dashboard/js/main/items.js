@@ -222,7 +222,6 @@ class Items {
 
             if (item_) {
                 item.added = dateFormat(item_.added, `dd/mmm/yy - h:MM tt`)
-                item.changes = item_.changes
             }
 
             let date = new Date(item.updated + `Z`)

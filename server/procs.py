@@ -143,7 +143,7 @@ def change_status(curl: str, status: str) -> None:
 
     dbase = db.get_db()
     cursor = dbase.cursor()
-    db_string = "UPDATE curls SET status = ?, updated = ? WHERE curl = ?"
+    db_string = "UPDATE curls SET status = ?, updated = ?, changes = changes + 1 WHERE curl = ?"
     cursor.execute(db_string, (status, date_now(), curl))
     dbase.commit()
 
@@ -177,7 +177,7 @@ def get_curl_list(curls: list[str]) -> list[dict[str, Any]]:
     dbase = db.get_db()
     cursor = dbase.cursor()
 
-    db_string = "SELECT curl, status, updated FROM curls WHERE curl IN ({})".format(
+    db_string = "SELECT curl, status, updated, changes FROM curls WHERE curl IN ({})".format(
         ",".join("?" * len(curls))
     )
 
@@ -192,7 +192,14 @@ def get_curl_list(curls: list[str]) -> list[dict[str, Any]]:
         curl = result[0]
         status = result[1]
         updated = str(result[2]) or ""
-        items.append({"curl": curl, "status": status, "updated": updated})
+        changes = result[3] or 0
+
+        items.append({
+            "curl": curl,
+            "status": status,
+            "updated": updated,
+            "changes": changes,
+        })
 
     return items
 

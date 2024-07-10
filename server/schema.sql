@@ -7,4 +7,5 @@ CREATE TABLE curls (
     curl TEXT NOT NULL UNIQUE,
     key TEXT NOT NULL,
     status TEXT NOT NULL
+    changes INTEGER NOT NULL DEFAULT 0
 );

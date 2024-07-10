@@ -62,12 +62,9 @@ class Curls {
     }
 
     static new_item(curl) {
-        let now = Utils.now()
-
         return {
             curl: curl,
-            added: now,
-            updated: now,
+            added: Utils.now(),
             changes: 0,
         }
     }
@@ -160,11 +157,6 @@ class Curls {
         for (let item of items) {
             if (item.added === undefined) {
                 item.added = Utils.now()
-                filled = true
-            }
-
-            if (item.updated === undefined) {
-                item.updated = Utils.now()
                 filled = true
             }
 
@@ -527,35 +519,5 @@ class Curls {
         }
 
         return this.save(items, color)
-    }
-
-    static check_changes() {
-        let items_ = this.get()
-        let save = false
-
-        for (let item of Items.list) {
-            let item_ = items_.find(x => x.curl === item.curl)
-
-            if (!item_) {
-                continue
-            }
-
-            if (!item.updated) {
-                continue
-            }
-
-            let timestamp = Utils.get_timestamp(item.updated)
-
-            if (timestamp !== item_.updated) {
-                item_.updated = timestamp
-                item_.changes += 1
-                item.changes += 1
-                save = true
-            }
-        }
-
-        if (save) {
-            this.save(items_, Colors.mode, true)
-        }
     }
 }
