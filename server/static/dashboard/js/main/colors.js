@@ -13,8 +13,8 @@ class Colors {
 
     static modes = [
         {value: `green`, name: `Green`, info: `Go to Green`, icon: `🟢`},
-        {value: `red`, name: `Red`, info: `Go to Red`, icon: `🔴`},
         {value: `blue`, name: `Blue`, info: `Go to Blue`, icon: `🔵`},
+        {value: `red`, name: `Red`, info: `Go to Red`, icon: `🔴`},
         {value: `yellow`, name: `Yellow`, info: `Go to Yellow`, icon: `🟡`},
         {value: `purple`, name: `Purple`, info: `Go to Purple`, icon: `🟣`},
         {value: `white`, name: `White`, info: `Go to White`, icon: `⚪`},
