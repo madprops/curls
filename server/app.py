@@ -29,7 +29,7 @@ db.init_app(app)
 
 simple_captcha = CAPTCHA(config=config.captcha)
 app = simple_captcha.init_app(app)
-rate_limit = "12 per minute"
+rate_limit = "20 per minute"
 
 limiter = Limiter(
     get_remote_address,
