@@ -101,7 +101,12 @@ class List {
         })
 
         this.last_e = e
-        Utils.context({items: items, element: this.button, e: e})
+
+        Utils.context({
+            e: e,
+            items: items,
+            element: this.button,
+        })
     }
 
     save(value) {

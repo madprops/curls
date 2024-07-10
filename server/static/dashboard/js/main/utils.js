@@ -195,6 +195,13 @@ class Utils {
 
         if (args.focus) {
             args.after_hide = () => {
+                if (args.input) {
+                    if (!Container.get_visible().length) {
+                        args.input.focus()
+                        return
+                    }
+                }
+
                 Container.focus()
             }
         }

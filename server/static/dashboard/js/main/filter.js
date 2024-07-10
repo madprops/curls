@@ -53,6 +53,7 @@ class Filter {
             value: this.filer_mode,
             element: modes_button,
             default: this.default_mode,
+            input: filter,
             action: (value) => {
                 this.change(value)
             },

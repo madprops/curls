@@ -78,7 +78,7 @@ class Combo {
             }
         }
 
-        Utils.context({ items: items, e: e })
+        Utils.context({ items: items, e: e, input: this.args.input })
     }
 
     action(value) {
