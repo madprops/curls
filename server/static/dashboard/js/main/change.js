@@ -110,7 +110,7 @@ class Change {
 
                 if (ans === `ok`) {
                     this.clear_status()
-                    Update.update()
+                    Update.update({ curls: [curl] })
                     Curls.add_owned(curl)
                     Picker.add()
                 }
