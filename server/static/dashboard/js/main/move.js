@@ -44,8 +44,7 @@ class Move {
     }
 
     static save() {
-        let curls = Container.get_curls()
-        Curls.save_curls(curls)
+        Container.save_curls()
         Sort.set_value(`order`)
     }
 }
