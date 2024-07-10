@@ -10,6 +10,7 @@ curl_max_length = 20
 key_length = 22
 status_max_length = 500
 max_curls = 100
+rate_limit = 16
 captcha_key = "changeMe"
 captcha_cheat = ""
 text_mtype = "text/plain"
