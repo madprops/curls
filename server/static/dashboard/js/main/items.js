@@ -224,17 +224,7 @@ class Items {
                 item.added = dateFormat(item_.added, `dd/mmm/yy - h:MM tt`)
             }
 
-            let date = new Date(item.updated + `Z`)
-            let s_date
-
-            if (this.mode === `12`) {
-                s_date = dateFormat(date, `dd/mmm/yy - h:MM tt`)
-            }
-            else if (this.mode === `24`) {
-                s_date = dateFormat(date, `dd/mmm/yy - HH:MM`)
-            }
-
-            item.updated_text = s_date
+            Dates.fill(item)
         }
     }
 }
