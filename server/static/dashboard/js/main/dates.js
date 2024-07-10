@@ -32,7 +32,15 @@ class Dates {
     }
 
     static fill_items() {
+        let items = Curls.get()
+
         for (let item of Items.list) {
+            let item_ = items.find(x => x.curl === item.curl)
+
+            if (item_) {
+                item.added = dateFormat(item_.added, `dd/mmm/yy - h:MM tt`)
+            }
+
             let date = new Date(item.updated + `Z`)
             let s_date
 

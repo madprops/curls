@@ -266,7 +266,8 @@ class Container {
             item_updated.textContent = item.updated_text
 
             let lines_2 = [
-                item.updated_text,
+                `Added: ${item.added}`,
+                `Updated: ${item.updated_text}`,
                 `Click to toggle between 12 and 24 hours`,
             ]
 
