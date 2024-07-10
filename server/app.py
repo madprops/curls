@@ -30,6 +30,7 @@ db.init_app(app)
 simple_captcha = CAPTCHA(config=config.captcha)
 app = simple_captcha.init_app(app)
 rate_limit = f"{config.rate_limit} per minute"
+rate_limit_change = f"{config.rate_limit_change} per minute"
 
 limiter = Limiter(
     get_remote_address,
@@ -77,7 +78,7 @@ def claim() -> Any:
 
 
 @app.route("/change", methods=["POST", "GET"])  # type: ignore
-@limiter.limit(rate_limit)  # type: ignore
+@limiter.limit(rate_limit_change)  # type: ignore
 def change() -> Any:
     if request.method == "POST":
         try:

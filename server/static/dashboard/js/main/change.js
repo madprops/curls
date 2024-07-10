@@ -115,7 +115,7 @@ class Change {
                     Picker.add()
                 }
                 else {
-                    Windows.alert({message: ans})
+                    Windows.alert({message: `You might have hit the rate limit. Try again later`})
                 }
             })
             .catch(e => {
