@@ -18,6 +18,10 @@ class Curls {
     static fill_colors() {
         for (let color in Colors.colors) {
             this.colors[color] = this.load_curls(color)
+
+            if (this.fill(this.colors[color])) {
+                this.save(this.colors[color], color, true)
+            }
         }
     }
 
@@ -58,7 +62,14 @@ class Curls {
     }
 
     static new_item(curl) {
-        return {curl: curl, added: Utils.now()}
+        let now = Utils.now()
+
+        return {
+            curl: curl,
+            added: now,
+            updated: now,
+            changes: 0,
+        }
     }
 
     static add_owned(curl) {
@@ -115,7 +126,7 @@ class Curls {
         }
     }
 
-    static save(items, color = Colors.mode) {
+    static save(items, color = Colors.mode, force = false) {
         items = this.clean(items)
         let same = true
         let current = this.get(color)
@@ -133,11 +144,10 @@ class Curls {
             }
         }
 
-        if (same) {
+        if (same && !force) {
             return false
         }
 
-        this.fill(items)
         let name = this.get_name(color)
         this.colors[color] = [...items]
         Utils.save(name, JSON.stringify(items))
@@ -145,11 +155,26 @@ class Curls {
     }
 
     static fill(items) {
+        let filled = false
+
         for (let item of items) {
-            if (!item.added) {
+            if (item.added === undefined) {
                 item.added = Utils.now()
+                filled = true
+            }
+
+            if (item.updated === undefined) {
+                item.updated = Utils.now()
+                filled = true
+            }
+
+            if (item.changes === undefined) {
+                item.changes = 0
+                filled = true
             }
         }
+
+        return filled
     }
 
     static get(color = Colors.mode) {
@@ -502,5 +527,35 @@ class Curls {
         }
 
         return this.save(items, color)
+    }
+
+    static check_changes() {
+        let items_ = this.get()
+        let save = false
+
+        for (let item of Items.list) {
+            let item_ = items_.find(x => x.curl === item.curl)
+
+            if (!item_) {
+                continue
+            }
+
+            if (!item.updated) {
+                continue
+            }
+
+            let timestamp = Utils.get_timestamp(item.updated)
+
+            if (timestamp !== item_.updated) {
+                item_.updated = timestamp
+                item_.changes += 1
+                item.changes += 1
+                save = true
+            }
+        }
+
+        if (save) {
+            this.save(items_, Colors.mode, true)
+        }
     }
 }

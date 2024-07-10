@@ -184,7 +184,8 @@ class Container {
 
         let missing = Items.find_missing()
         Items.list.push(...missing)
-        Dates.fill_items()
+        Items.fill()
+        Curls.check_changes()
         this.update({select: curls})
     }
 
@@ -193,7 +194,8 @@ class Container {
         Items.list.map(x => x.missing = false)
         let missing = Items.find_missing()
         Items.list.push(...missing)
-        Dates.fill_items()
+        Items.fill()
+        Curls.check_changes()
         this.update()
     }
 
@@ -277,6 +279,8 @@ class Container {
             item_status.title = `${item.updated_text}\n${status}`
             item_updated.classList.add(`hidden`)
         }
+
+        item_status.title += `\nChanges: ${item.changes}`
 
         el.append(item_icon)
         el.append(item_curl)

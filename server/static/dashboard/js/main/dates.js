@@ -23,36 +23,12 @@ class Dates {
 
         this.mode = this.mode === `12` ? `24` : `12`
         Utils.save(this.ls_mode, this.mode)
-        this.fill_items()
+        Items.fill()
         Container.update()
     }
 
     static load_mode() {
         return Utils.load_string(this.ls_mode, this.default_mode)
-    }
-
-    static fill_items() {
-        let items = Curls.get()
-
-        for (let item of Items.list) {
-            let item_ = items.find(x => x.curl === item.curl)
-
-            if (item_) {
-                item.added = dateFormat(item_.added, `dd/mmm/yy - h:MM tt`)
-            }
-
-            let date = new Date(item.updated + `Z`)
-            let s_date
-
-            if (this.mode === `12`) {
-                s_date = dateFormat(date, `dd/mmm/yy - h:MM tt`)
-            }
-            else if (this.mode === `24`) {
-                s_date = dateFormat(date, `dd/mmm/yy - HH:MM`)
-            }
-
-            item.updated_text = s_date
-        }
     }
 
     static save_enabled() {

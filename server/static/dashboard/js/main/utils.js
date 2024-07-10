@@ -280,4 +280,9 @@ class Utils {
             e.target.scrollLeft += this.scroll_wheel_step
         }
     }
+
+    static get_timestamp(date) {
+        let obj = new Date(date + `Z`)
+        return Math.floor(obj.getTime())
+    }
 }

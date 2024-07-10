@@ -213,4 +213,29 @@ class Items {
         Container.check_empty()
         Infobar.update_curls()
     }
+
+    static fill() {
+        let items = Curls.get()
+
+        for (let item of Items.list) {
+            let item_ = items.find(x => x.curl === item.curl)
+
+            if (item_) {
+                item.added = dateFormat(item_.added, `dd/mmm/yy - h:MM tt`)
+                item.changes = item_.changes
+            }
+
+            let date = new Date(item.updated + `Z`)
+            let s_date
+
+            if (this.mode === `12`) {
+                s_date = dateFormat(date, `dd/mmm/yy - h:MM tt`)
+            }
+            else if (this.mode === `24`) {
+                s_date = dateFormat(date, `dd/mmm/yy - HH:MM`)
+            }
+
+            item.updated_text = s_date
+        }
+    }
 }
