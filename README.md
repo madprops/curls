@@ -80,23 +80,11 @@ The html template is found [here](https://github.com/madprops/curls/blob/main/se
 
 The code is found [here](https://github.com/madprops/curls/tree/main/server/static/dashboard).
 
-### Recent
-
-The most recently updated curls go at the top.
-
-### Order
-
-The curls are ordered based on the order in the `curlist` at the left.
-
-### Alpha
-
-The curls are ordered alphanumerically.
-
 ### Colors
 
 Each color has their own set of curls. You can use them as profiles.
 
-### $ Picker
+### Picker
 
 When you make a successful change to a curl, the curl is saved to your picker list.
 
