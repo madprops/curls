@@ -40,29 +40,30 @@ class Select {
         let selected = this.get()
 
         if (!selected.length) {
-            Select.single(item)
-            return
-        }
-
-        let prev = this.get_prev()
-
-        if (item === prev) {
+            this.single(item)
             return
         }
 
         let items = Container.get_visible()
 
-        if (!items.length) {
+        if (items.length <= 1) {
+            return
+        }
+
+        let history = this.history()
+        let prev = history[0]
+        let prev_prev = history[1] || prev
+
+        if (item === prev) {
             return
         }
 
         let index = items.indexOf(item)
         let prev_index = items.indexOf(prev)
-        let first_index = items.indexOf(selected[0])
-        let last_index = items.indexOf(Utils.last(selected))
+        let prev_prev_index = items.indexOf(prev_prev)
         let direction
 
-        if (selected.length === 1) {
+        if (prev_index === prev_prev_index) {
             if (index < prev_index) {
                 direction = `up`
             }
@@ -70,28 +71,31 @@ class Select {
                 direction = `down`
             }
         }
-        else {
-            if (prev === selected[0]) {
-                direction = `up`
-            }
-            else {
-                direction = `down`
-            }
-        }
-
-        if (index > last_index) {
-            direction = `down`
-        }
-        else if (index < first_index) {
+        else if (prev_index < prev_prev_index) {
             direction = `up`
+        }
+        else {
+            direction = `down`
         }
 
         if (direction === `up`) {
-            this.do_range(index, prev_index, direction)
+            if (index < prev_index) {
+                this.do_range(index, prev_index, direction)
+            }
+            else {
+                this.do_range(index, prev_prev_index, direction)
+            }
         }
-        else {
-            this.do_range(prev_index, index, direction)
+        else if (direction === `down`) {
+            if (index > prev_index) {
+                this.do_range(prev_index, index, direction)
+            }
+            else {
+                this.do_range(prev_prev_index, index, direction)
+            }
         }
+
+        this.id_item(item)
     }
 
     static do_range(start, end, direction) {
@@ -138,8 +142,14 @@ class Select {
             return
         }
 
+        if (items.length === 1) {
+            this.single(items[0])
+            return
+        }
+
         let selected = this.get()
-        let prev = this.get_prev()
+        let history = this.history()
+        let prev = history[0]
         let prev_index = items.indexOf(prev)
         let first_index = items.indexOf(selected[0])
 
@@ -225,25 +235,14 @@ class Select {
         }
     }
 
-    static get_prev() {
-        let items = Container.get_visible()
-        let prev = null
+    static history() {
+        let items = this.get()
 
-        for (let item of items) {
-            if (!prev) {
-                prev = item
-                continue
-            }
+        items.sort((a, b) => {
+            return parseInt(b.dataset.selected_id) - parseInt(a.dataset.selected_id)
+        })
 
-            let id = parseInt(item.dataset.selected_id) || 0
-            let id_ = parseInt(prev.dataset.selected_id) || 0
-
-            if (id > id_) {
-                prev = item
-            }
-        }
-
-        return prev
+        return items
     }
 
     static get() {
@@ -255,10 +254,18 @@ class Select {
         return selected.map(item => Container.extract_curl(item))
     }
 
-    static select(item) {
-        item.classList.add(this.selected_class)
+    static id_item(item) {
         this.selected_id += 1
         item.dataset.selected_id = this.selected_id
+    }
+
+    static select(item, set_id = false) {
+        item.classList.add(this.selected_class)
+
+        if (set_id) {
+            this.id_item(item)
+        }
+
         Utils.scroll_element({item: item})
         Infobar.update_curls()
     }
@@ -274,7 +281,7 @@ class Select {
             this.deselect(item)
         }
         else {
-            this.select(item)
+            this.select(item, true)
         }
     }
 
@@ -291,7 +298,7 @@ class Select {
     static single(item) {
         this.deselect_all()
         this.selected_id = 0
-        this.select(item)
+        this.select(item, true)
     }
 
     static mousedown(e) {
@@ -340,10 +347,10 @@ class Select {
 
         for (let item of items) {
             if (Container.is_visible(item)) {
-                Select.select(item)
+                this.select(item)
             }
             else {
-                Select.deselect(item)
+                this.deselect(item)
             }
         }
     }
