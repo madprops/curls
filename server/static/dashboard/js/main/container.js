@@ -428,4 +428,9 @@ class Container {
             Container.scroll_down()
         }
     }
+
+    static save_curls() {
+        let curls = Container.get_curls()
+        Curls.save_curls(curls)
+    }
 }

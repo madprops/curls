@@ -58,7 +58,10 @@ class Sort {
         this.mode = value
         Utils.save(this.ls_name, value)
 
-        if (this.mode !== `order`) {
+        if (this.mode === `order`) {
+            Container.save_curls()
+        }
+        else {
             Container.update()
         }
     }
