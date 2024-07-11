@@ -205,7 +205,7 @@ class Container {
         }
 
         Utils.def_args(def_args, args)
-        Utils.info(`Updating Items`)
+        Utils.info(`Updating Container`)
         this.clear()
         Sort.sort(args.items)
 
