@@ -225,9 +225,17 @@ class Items {
         let items = Curls.get()
 
         for (let item of Items.list) {
-            item.changes = item.changes || 0
             let item_ = items.find(x => x.curl === item.curl)
-            Dates.fill(item, item_)
+
+            if (item_) {
+                item.added = item_.added
+            }
+            else {
+                item.added = `0`
+            }
+
+            item.changes = item.changes || 0
+            Dates.fill(item)
         }
     }
 }
