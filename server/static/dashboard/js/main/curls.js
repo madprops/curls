@@ -64,7 +64,7 @@ class Curls {
     static new_item(curl) {
         return {
             curl: curl,
-            added: Utils.now(),
+            added: this.default_added(),
         }
     }
 
@@ -150,12 +150,16 @@ class Curls {
         return true
     }
 
+    static default_added() {
+        return Utils.now()
+    }
+
     static fill(items) {
         let filled = false
 
         for (let item of items) {
             if (item.added === undefined) {
-                item.added = Utils.now()
+                item.added = this.default_added()
                 filled = true
             }
         }
