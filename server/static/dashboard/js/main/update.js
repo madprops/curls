@@ -17,11 +17,12 @@ class Update {
     static modes = [
         {value: `now`, name: `Update`, skip: true, info: `Update now`},
         {value: App.separator},
-        {value: `minutes_1`, name: `1 Minute`, info: `Update automatically every minute`},
-        {value: `minutes_5`, name: `5 Minutes`, info: `Update automatically every 5 minutes`},
-        {value: `minutes_10`, name: `10 Minutes`, info: `Update automatically every 10 minutes`},
-        {value: `minutes_30`, name: `30 Minutes`, info: `Update automatically every 30 minutes`},
-        {value: `minutes_60`, name: `60 Minutes`, info: `Update automatically every 60 minutes`},
+        {value: `minutes_1`},
+        {value: `minutes_5`},
+        {value: `minutes_10`},
+        {value: `minutes_20`},
+        {value: `minutes_30`},
+        {value: `minutes_60`},
         {value: App.separator},
         {value: `disabled`, name: `Disabled`, info: `Do not update automatically`},
     ]
@@ -29,6 +30,7 @@ class Update {
     static setup() {
         let updater = DOM.el(`#updater`)
         this.mode = this.load_update()
+        this.fill_modes()
 
         this.combo = new Combo({
             title: `Update Modes`,
@@ -197,5 +199,16 @@ class Update {
         this.mode = mode
         Utils.save(this.ls_name, mode)
         this.check()
+    }
+
+    static fill_modes() {
+        for (let mode of this.modes) {
+            if (mode.value.startsWith(`minutes_`)) {
+                let minutes = parseInt(mode.value.split(`_`)[1])
+                let word = Utils.plural(minutes, `minute`, `minutes`)
+                mode.name = `${minutes} ${word}`
+                mode.info = `Update automatically every ${minutes} ${word}`
+            }
+        }
     }
 }
