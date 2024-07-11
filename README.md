@@ -134,4 +134,6 @@ This depends on `redis`.
 
 ## Schema
 
-You can see the current schema [here](https://github.com/madprops/curls/blob/main/server/schema.sql). It's supposed to remain very simple.
+You can see the current schema [here](https://github.com/madprops/curls/blob/main/server/schema.sql).
+
+It's supposed to remain very simple.
