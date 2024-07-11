@@ -21,9 +21,9 @@ class Update {
         {value: `minutes_5`, name: `5 Minutes`, info: `Update automatically every 5 minutes`},
         {value: `minutes_10`, name: `10 Minutes`, info: `Update automatically every 10 minutes`},
         {value: `minutes_30`, name: `30 Minutes`, info: `Update automatically every 30 minutes`},
-        {value: `minutes_60`, name: `60 Minutes`, info: `Update automatically every hour`},
+        {value: `minutes_60`, name: `60 Minutes`, info: `Update automatically every 60 minutes`},
         {value: App.separator},
-        {value: `disabled`, name: `Disabled`},
+        {value: `disabled`, name: `Disabled`, info: `Do not update automatically`},
     ]
 
     static setup() {
