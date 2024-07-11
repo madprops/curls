@@ -261,21 +261,27 @@ class Container {
         Utils.urlize(item_status)
         let item_updated = DOM.create(`div`, `item_updated glow`)
 
+        let dates = [
+            `Updated: ${item.updated_text}`,
+            `Added: ${item.added_text}`,
+            `Created: ${item.created_text}`,
+        ]
+
+        let date_text = dates.join(`\n`)
+
         if (Dates.enabled) {
             item_status.title = status
             item_updated.textContent = item.updated_text
 
             let lines_2 = [
-                `Updated: ${item.updated_text}`,
-                `Added: ${item.added_text}`,
-                `Created: ${item.created_text}`,
+                date_text,
                 `Click to toggle between 12 and 24 hours`,
             ]
 
             item_updated.title = lines_2.join(`\n`)
         }
         else {
-            item_status.title = `${item.updated_text}\n${status}`
+            item_status.title = `${status}\n${date_text}`
             item_updated.classList.add(`hidden`)
         }
 
