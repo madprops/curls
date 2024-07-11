@@ -9,10 +9,10 @@ class Sort {
     static ls_name = `sort`
 
     static modes = [
-        {value: `order`, name: `Order`, info: `Keep the order of dragged items`},
+        {value: `order`, name: `Order`, info: `Keep the custom order of items`},
         {value: App.separator},
-        {value: `recent`, name: `Recent`, info: `Sort by status change date, newest first`},
-        {value: `added`, name: `Added`, info: `Sort by the date when the curl was added, newest first`},
+        {value: `recent`, name: `Recent`, info: `Sort by the date when curls were last updated`},
+        {value: `added`, name: `Added`, info: `Sort by the date when curls were added by you`},
         {value: App.separator},
         {value: `curls`, name: `Curls`, info: `Sort curls alphabetically in ascending order`},
         {value: `status`, name: `Status`, info: `Sort status alphabetically in ascending order`},
