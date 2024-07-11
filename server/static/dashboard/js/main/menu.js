@@ -130,7 +130,8 @@ class Menu {
                     continue
                 }
 
-                Curls.save_curls(curls, color, true)
+                Curls.clear(color)
+                Curls.save_curls(curls, color)
                 modified = true
             }
 
