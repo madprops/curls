@@ -129,3 +129,8 @@ There is a `bundle.py` file that can be called directly to force a bundle.
 There is a rate limiter to limit all API endpoints to x requests per minute.
 
 This depends on `redis`.
+
+
+## Schema
+
+You can see the current schema [here](https://github.com/madprops/curls/blob/main/server/schema.sql). It's supposed to remain very simple.
