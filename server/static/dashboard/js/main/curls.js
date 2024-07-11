@@ -297,7 +297,7 @@ class Curls {
     }
 
     static get_name(color) {
-        return `curls_data_${color}`
+        return `curls_${color}`
     }
 
     static remove(curls) {

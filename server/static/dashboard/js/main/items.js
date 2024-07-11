@@ -227,7 +227,7 @@ class Items {
         for (let item of Items.list) {
             let item_ = items.find(x => x.curl === item.curl)
 
-            if (item_) {
+            if (item_ && item.added) {
                 item.added = item_.added
             }
             else {
