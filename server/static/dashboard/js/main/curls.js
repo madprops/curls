@@ -65,7 +65,6 @@ class Curls {
         return {
             curl: curl,
             added: Utils.now(),
-            changes: 0,
         }
     }
 
@@ -157,11 +156,6 @@ class Curls {
         for (let item of items) {
             if (item.added === undefined) {
                 item.added = Utils.now()
-                filled = true
-            }
-
-            if (item.changes === undefined) {
-                item.changes = 0
                 filled = true
             }
         }
