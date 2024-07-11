@@ -22,6 +22,15 @@ class Picker {
             DOM.el(`#change_curl`).value = first.curl
             DOM.el(`#change_key`).value = first.key
         }
+
+        let curl = DOM.el(`#change_curl`)
+
+        DOM.ev(curl, `keyup`, (e) => {
+            if ((e.key === `ArrowUp`) || (e.key === `ArrowDown`)) {
+                this.show(e)
+                e.preventDefault()
+            }
+        })
     }
 
     static get_items() {
@@ -65,8 +74,11 @@ class Picker {
                 items.push({
                     text: item.curl,
                     action: () => {
-                        DOM.el(`#change_curl`).value = item.curl
-                        DOM.el(`#change_key`).value = item.key
+                        let curl = DOM.el(`#change_curl`)
+                        let key = DOM.el(`#change_key`)
+                        curl.value = item.curl
+                        key.value = item.key
+                        curl.focus()
                         this.add()
                     },
                     alt_action: () => {
