@@ -5,17 +5,14 @@ This sorts the container
 */
 
 class Sort {
-    static default_mode = `newest`
+    static default_mode = `recent`
     static ls_name = `sort`
 
     static modes = [
         {value: `order`, name: `Order`, info: `Keep the order of dragged items`},
         {value: App.separator},
-        {value: `newest`, name: `Newest`, info: `Sort by status change date, newest first`},
-        {value: `oldest`, name: `Oldest`, info: `Sort by status change date, oldest first`},
-        {value: App.separator},
-        {value: `recent`, name: `Recent`, info: `Sort by the date when the curl was added, newest first`},
-        {value: `classic`, name: `Classic`, info: `Sort by the date when the curl was added, oldest first`},
+        {value: `recent`, name: `Recent`, info: `Sort by status change date, newest first`},
+        {value: `added`, name: `Added`, info: `Sort by the date when the curl was added, newest first`},
         {value: App.separator},
         {value: `curls`, name: `Curls`, info: `Sort curls alphabetically in ascending order`},
         {value: `status`, name: `Status`, info: `Sort status alphabetically in ascending order`},
@@ -84,15 +81,9 @@ class Sort {
                 return a_index - b_index
             })
         }
-        else if (mode === `newest`) {
+        else if (mode === `recent`) {
             items.sort((a, b) => {
                 let compare = b.updated.localeCompare(a.updated)
-                return compare !== 0 ? compare : a.curl.localeCompare(b.curl)
-            })
-        }
-        else if (mode === `oldest`) {
-            items.sort((a, b) => {
-                let compare = a.updated.localeCompare(b.updated)
                 return compare !== 0 ? compare : a.curl.localeCompare(b.curl)
             })
         }
@@ -107,7 +98,7 @@ class Sort {
                 return compare !== 0 ? compare : a.curl.localeCompare(b.curl)
             })
         }
-        else if (mode === `recent`) {
+        else if (mode === `added`) {
             let items_ = Curls.get()
 
             items.sort((a, b) => {
