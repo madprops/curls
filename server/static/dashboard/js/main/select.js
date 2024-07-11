@@ -348,6 +348,8 @@ class Select {
                 this.select(items[i])
             }
         }
+
+        this.id_item(item)
     }
 
     static all() {
