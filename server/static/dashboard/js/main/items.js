@@ -23,7 +23,7 @@ class Items {
                 created: `0`,
                 updated: `0`,
                 changes: 0,
-                missing: true
+                missing: true,
             })
         }
 
@@ -234,7 +234,6 @@ class Items {
                 item.added = `0`
             }
 
-            item.changes = item.changes || 0
             Dates.fill(item)
         }
     }

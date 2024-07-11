@@ -271,21 +271,30 @@ class Container {
 
         if (Dates.enabled) {
             item_status.title = status
-            item_updated.textContent = item.updated_text
 
-            let lines_2 = [
-                date_text,
-                `Click to toggle between 12 and 24 hours`,
-            ]
+            if (item.missing) {
+                item_updated.textContent = `No Date`
+                item_updated.title = `No date information available`
+            }
+            else {
+                item_updated.textContent = item.updated_text
 
-            item_updated.title = lines_2.join(`\n`)
+                let lines_2 = [
+                    date_text,
+                    `Click to toggle between 12 and 24 hours`,
+                ]
+
+                item_updated.title = lines_2.join(`\n`)
+            }
         }
         else {
             item_status.title = `${status}\n${date_text}`
             item_updated.classList.add(`hidden`)
         }
 
-        item_status.title += `\nChanges: ${item.changes}`
+        if (!item.missing) {
+            item_status.title += `\nChanges: ${item.changes}`
+        }
 
         el.append(item_icon)
         el.append(item_curl)
