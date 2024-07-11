@@ -115,7 +115,13 @@ class Change {
                     Picker.add()
                 }
                 else {
-                    Windows.alert({message: `You might have hit the rate limit. Try again later`})
+                    let lines = [
+                        `You might have hit the rate limit`,
+                        `Or the curl + key you used is incorrect`
+                    ]
+
+                    let msg = lines.join(`\n`)
+                    Windows.alert({message: msg})
                 }
             })
             .catch(e => {
