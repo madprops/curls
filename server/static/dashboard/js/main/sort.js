@@ -14,8 +14,8 @@ class Sort {
         {value: `recent`, name: `Recent`, info: `Sort by the date when curls were last updated`},
         {value: `added`, name: `Added`, info: `Sort by the date when curls were added by you`},
         {value: App.separator},
-        {value: `curls`, name: `Curls`, info: `Sort curls alphabetically in ascending order`},
-        {value: `status`, name: `Status`, info: `Sort status alphabetically in ascending order`},
+        {value: `curls`, name: `Curls`, info: `Sort curls alphabetically`},
+        {value: `status`, name: `Status`, info: `Sort status alphabetically`},
         {value: App.separator},
         {value: `active`, name: `Active`, info: `Sort by the number of changes`},
     ]
@@ -87,17 +87,6 @@ class Sort {
                 return compare !== 0 ? compare : a.curl.localeCompare(b.curl)
             })
         }
-        else if (mode === `curls`) {
-            items.sort((a, b) => {
-                return a.curl.localeCompare(b.curl)
-            })
-        }
-        else if (mode === `status`) {
-            items.sort((a, b) => {
-                let compare = a.status.localeCompare(b.status)
-                return compare !== 0 ? compare : a.curl.localeCompare(b.curl)
-            })
-        }
         else if (mode === `added`) {
             let items_ = Curls.get()
 
@@ -113,19 +102,15 @@ class Sort {
                 return a.curl.localeCompare(b.curl)
             })
         }
-        else if (mode === `classic`) {
-            let items_ = Curls.get()
-
+        else if (mode === `curls`) {
             items.sort((a, b) => {
-                let item_a = Utils.find_item(items_, `curl`, a.curl)
-                let item_b = Utils.find_item(items_, `curl`, b.curl)
-                let diff = item_a.added - item_b.added
-
-                if (diff !== 0) {
-                    return diff
-                }
-
                 return a.curl.localeCompare(b.curl)
+            })
+        }
+        else if (mode === `status`) {
+            items.sort((a, b) => {
+                let compare = a.status.localeCompare(b.status)
+                return compare !== 0 ? compare : a.curl.localeCompare(b.curl)
             })
         }
         else if (mode === `active`) {
