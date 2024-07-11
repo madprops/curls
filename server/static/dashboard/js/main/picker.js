@@ -25,6 +25,12 @@ class Picker {
 
         let curl = DOM.el(`#change_curl`)
 
+        DOM.ev(curl, `keydown`, (e) => {
+            if ((e.key === `ArrowUp`) || (e.key === `ArrowDown`)) {
+                e.preventDefault()
+            }
+        })
+
         DOM.ev(curl, `keyup`, (e) => {
             if ((e.key === `ArrowUp`) || (e.key === `ArrowDown`)) {
                 this.show(e)

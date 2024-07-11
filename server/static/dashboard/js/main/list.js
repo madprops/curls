@@ -26,23 +26,19 @@ class List {
         })
 
         DOM.ev(this.input, `keydown`, (e) => {
-            if (e.key === `ArrowUp`) {
-                e.preventDefault()
-            }
-            else if (e.key === `ArrowDown`) {
+            if ((e.key === `ArrowUp`) || (e.key === `ArrowDown`)) {
                 e.preventDefault()
             }
             else if (e.key === `Escape`) {
                 this.input.value = ``
+                e.preventDefault()
             }
         })
 
         DOM.ev(this.input, `keyup`, (e) => {
-            if (e.key === `ArrowUp`) {
+            if ((e.key === `ArrowUp`) || (e.key === `ArrowDown`)) {
                 this.show_menu()
-            }
-            else if (e.key === `ArrowDown`) {
-                this.show_menu()
+                e.preventDefault()
             }
         })
 
