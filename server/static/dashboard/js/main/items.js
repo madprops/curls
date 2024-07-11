@@ -17,7 +17,14 @@ class Items {
         let missing = []
 
         for (let curl of curls) {
-            missing.push({curl: curl, status: `Not found`, updated: `0`, missing: true})
+            missing.push({
+                curl: curl,
+                status: `Not found`,
+                created: `0`,
+                updated: `0`,
+                changes: 0,
+                missing: true
+            })
         }
 
         return missing
@@ -218,14 +225,9 @@ class Items {
         let items = Curls.get()
 
         for (let item of Items.list) {
-            let item_ = items.find(x => x.curl === item.curl)
-
-            if (item_) {
-                item.added = dateFormat(item_.added, `dd/mmm/yy - h:MM tt`)
-            }
-
             item.changes = item.changes || 0
-            Dates.fill(item)
+            let item_ = items.find(x => x.curl === item.curl)
+            Dates.fill(item, item_)
         }
     }
 }

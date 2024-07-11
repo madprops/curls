@@ -39,7 +39,8 @@ class Dates {
         return Utils.load_boolean(this.ls_enabled)
     }
 
-    static fill(item) {
+    static fill(item, item_) {
+        // Updated
         let date = new Date(item.updated + `Z`)
         let s_date
 
@@ -51,5 +52,31 @@ class Dates {
         }
 
         item.updated_text = s_date
+
+        // Created
+        date = new Date(item.created + `Z`)
+
+        if (this.mode === `12`) {
+            s_date = dateFormat(date, `dd/mmm/yy - h:MM tt`)
+        }
+        else if (this.mode === `24`) {
+            s_date = dateFormat(date, `dd/mmm/yy - HH:MM`)
+        }
+
+        item.created_text = s_date
+
+        // Added
+        if (item_) {
+            date = new Date(item_.added + `Z`)
+
+            if (this.mode === `12`) {
+                s_date = dateFormat(item_.added, `dd/mmm/yy - h:MM tt`)
+            }
+            else if (this.mode === `24`) {
+                s_date = dateFormat(item_.added, `dd/mmm/yy - HH:MM`)
+            }
+
+            item.added_text = s_date
+        }
     }
 }

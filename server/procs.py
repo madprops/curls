@@ -103,9 +103,10 @@ def add_curl(curl: str, key: str) -> None:
     dbase = db.get_db()
     cursor = dbase.cursor()
 
-    db_string = (
-        "INSERT INTO curls (created, updated, curl, key, status) VALUES (?, ?, ?, ?, ?)"
-    )
+    db_string = """
+    INSERT INTO curls (created, updated, curl, key, status)
+    VALUES (?, ?, ?, ?, ?)
+    """
 
     now = date_now()
     cursor.execute(db_string, (now, now, curl, key, ""))
@@ -143,7 +144,13 @@ def change_status(curl: str, status: str) -> None:
 
     dbase = db.get_db()
     cursor = dbase.cursor()
-    db_string = "UPDATE curls SET status = ?, updated = ?, changes = changes + 1 WHERE curl = ?"
+
+    db_string = """
+    UPDATE curls
+    SET status = ?, updated = ?, changes = changes + 1
+    WHERE curl = ?
+    """
+
     cursor.execute(db_string, (status, date_now(), curl))
     dbase.commit()
 
@@ -177,9 +184,11 @@ def get_curl_list(curls: list[str]) -> list[dict[str, Any]]:
     dbase = db.get_db()
     cursor = dbase.cursor()
 
-    db_string = "SELECT curl, status, updated, changes FROM curls WHERE curl IN ({})".format(
-        ",".join("?" * len(curls))
-    )
+    db_string = """
+    SELECT created, curl, status, updated, changes
+    FROM curls
+    WHERE curl IN ({})
+    """.format(",".join("?" * len(curls)))
 
     cursor.execute(db_string, curls)
     results = cursor.fetchall()
@@ -189,17 +198,21 @@ def get_curl_list(curls: list[str]) -> list[dict[str, Any]]:
         if not result:
             continue
 
-        curl = result[0]
-        status = result[1]
-        updated = str(result[2]) or ""
-        changes = result[3] or 0
+        created = str(result[0]) or ""
+        curl = result[1]
+        status = result[2]
+        updated = str(result[3]) or ""
+        changes = result[4] or 0
 
-        items.append({
-            "curl": curl,
-            "status": status,
-            "updated": updated,
-            "changes": changes,
-        })
+        items.append(
+            {
+                "created": created,
+                "curl": curl,
+                "status": status,
+                "updated": updated,
+                "changes": changes,
+            }
+        )
 
     return items
 
