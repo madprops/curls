@@ -130,6 +130,7 @@ There is a rate limiter to limit all API endpoints to x requests per minute.
 
 This depends on `redis`.
 
+---
 
 ## Schema
 
