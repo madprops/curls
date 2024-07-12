@@ -269,12 +269,12 @@ def date_now() -> datetime.datetime:
 
 
 def clean_curl(curl: str) -> str:
-    return curl.strip().lower()
+    return str(curl).strip().lower()
 
 
 def clean_key(key: str) -> str:
-    return key.strip()
+    return str(key).strip()
 
 
 def clean_status(status: str) -> str:
-    return status.strip()
+    return str(status).strip()
