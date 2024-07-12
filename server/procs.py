@@ -5,8 +5,8 @@ from flask import jsonify, Response  # type: ignore
 from typing import Any
 
 # Modules
-import config as Config
 import app as App
+import config as Config
 import curls as Curls
 
 
