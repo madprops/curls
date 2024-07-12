@@ -13,15 +13,15 @@ class Filter {
 
     static modes = [
         { value: `all`, name: `All`, info: `Show all curls` },
-        { value: App.separator },
+        { value: Utils.separator },
         { value: `today`, name: `Today`, info: `Show the curls that changed today` },
         { value: `week`, name: `Week`, info: `Show the curls that changed this week` },
         { value: `month`, name: `Month`, info: `Show the curls that changed this month` },
-        { value: App.separator },
+        { value: Utils.separator },
         { value: `curl`, name: `Curl`, info: `Filter by curl` },
         { value: `status`, name: `Status`, info: `Filter by status` },
         { value: `date`, name: `Date`, info: `Filter by date` },
-        { value: App.separator },
+        { value: Utils.separator },
         { value: `owned`, name: `Owned`, info: `Show the curls that you control` },
     ]
 

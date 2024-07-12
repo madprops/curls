@@ -12,7 +12,7 @@ class Border {
         {value: `solid`, name: `Solid`, info: `Normal solid border`},
         {value: `dotted`, name: `Dotted`, info: `Dotted border`},
         {value: `dashed`, name: `Dashed`, info: `Dashed border`},
-        {value: App.separator},
+        {value: Utils.separator},
         {value: `none`, name: `None`, info: `No border`},
     ]
 

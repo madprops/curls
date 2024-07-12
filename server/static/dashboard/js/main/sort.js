@@ -10,13 +10,13 @@ class Sort {
 
     static modes = [
         {value: `order`, name: `Order`, info: `Keep the custom order of items`},
-        {value: App.separator},
+        {value: Utils.separator},
         {value: `recent`, name: `Recent`, info: `Sort by the date when curls were last updated`},
         {value: `added`, name: `Added`, info: `Sort by the date when curls were added by you`},
-        {value: App.separator},
+        {value: Utils.separator},
         {value: `curls`, name: `Curls`, info: `Sort curls alphabetically`},
         {value: `status`, name: `Status`, info: `Sort status alphabetically`},
-        {value: App.separator},
+        {value: Utils.separator},
         {value: `active`, name: `Active`, info: `Sort by the number of changes`},
     ]
 

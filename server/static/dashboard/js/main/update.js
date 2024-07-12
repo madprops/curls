@@ -16,14 +16,14 @@ class Update {
 
     static modes = [
         {value: `now`, name: `Update`, skip: true, info: `Update now`},
-        {value: App.separator},
+        {value: Utils.separator},
         {value: `minutes_1`},
         {value: `minutes_5`},
         {value: `minutes_10`},
         {value: `minutes_20`},
         {value: `minutes_30`},
         {value: `minutes_60`},
-        {value: App.separator},
+        {value: Utils.separator},
         {value: `disabled`, name: `Disabled`, info: `Do not update automatically`},
     ]
 
@@ -131,7 +131,7 @@ class Update {
         this.show_updating()
         let response = ``
         this.updating = true
-        Utils.info(`Update: Request ${App.network} (${args.curls.length})`)
+        Utils.info(`Update: Request ${Utils.network} (${args.curls.length})`)
 
         if (!Items.list.length) {
             Container.show_loading()

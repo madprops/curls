@@ -67,20 +67,20 @@ class Change {
         }
 
         if (curl.length > Curls.max_length) {
-            Utils.error(App.curl_too_long)
-            Windows.alert({title: `Error`, message: App.curl_too_long})
+            Utils.error(Utils.curl_too_long)
+            Windows.alert({title: `Error`, message: Utils.curl_too_long})
             return
         }
 
         if (key.length > this.key_length) {
-            Utils.error(App.key_too_long)
-            Windows.alert({title: `Error`, message: App.key_too_long})
+            Utils.error(Utils.key_too_long)
+            Windows.alert({title: `Error`, message: Utils.key_too_long})
             return
         }
 
         if (status.length > this.status_max_length) {
-            Utils.error(App.status_too_long)
-            Windows.alert({title: `Error`, message: App.status_too_long})
+            Utils.error(Utils.status_too_long)
+            Windows.alert({title: `Error`, message: Utils.status_too_long})
             return
         }
 
@@ -94,7 +94,7 @@ class Change {
         this.show_changing()
         Status.save(status)
         this.changing = true
-        Utils.info(`Change: Request ${App.network}`)
+        Utils.info(`Change: Request ${Utils.network}`)
 
         fetch(url, {
             method: `POST`,
@@ -117,7 +117,7 @@ class Change {
                 else {
                     let lines = [
                         `You might have hit the rate limit`,
-                        `Or the curl + key you used is incorrect`
+                        `Or the curl and key you used are incorrect`
                     ]
 
                     let msg = lines.join(`\n`)

@@ -1,11 +1,5 @@
 const App = {}
 
-App.network = `🛜`
-App.separator = `__separator__`
-App.curl_too_long = `Curl is too long`
-App.key_too_long = `Key is too long`
-App.status_too_long = `Status is too long`
-
 App.setup = () => {
     NeedContext.init()
 

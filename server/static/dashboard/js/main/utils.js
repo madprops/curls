@@ -15,6 +15,12 @@ class Utils {
     static YEAR = this.DAY * 365
     static scroll_wheel_step = 25
 
+    static network = `🛜`
+    static separator = `__separator__`
+    static curl_too_long = `Curl is too long`
+    static key_too_long = `Key is too long`
+    static status_too_long = `Status is too long`
+
     static deselect() {
         window.getSelection().removeAllRanges()
     }
@@ -121,7 +127,7 @@ class Utils {
     }
 
     static clean_modes(modes) {
-        return modes.filter(x => x.value !== App.separator)
+        return modes.filter(x => x.value !== Utils.separator)
     }
 
     static def_args(def, args) {

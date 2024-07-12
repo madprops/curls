@@ -114,7 +114,8 @@ class Picker {
             })
         }
 
-        Utils.context({items: items, e: e})
+        let el = DOM.el(`#picker`)
+        Utils.context({items: items, element: el, e: e})
     }
 
     static export() {

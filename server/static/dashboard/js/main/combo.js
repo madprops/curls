@@ -62,7 +62,7 @@ class Combo {
         let current = this.args.get()
 
         for (let item of this.args.items) {
-            if (item.value === App.separator) {
+            if (item.value === Utils.separator) {
                 items.push({ separator: true })
             }
             else {
@@ -92,7 +92,7 @@ class Combo {
 
     get_values() {
         return this.args.items
-            .filter(x => x.value !== App.separator)
+            .filter(x => x.value !== Utils.separator)
             .filter(x => !x.skip)
             .map(x => x.value)
     }
