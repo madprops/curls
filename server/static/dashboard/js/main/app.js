@@ -16,6 +16,7 @@ App.setup = () => {
     Container.setup()
     Select.setup()
     Drag.setup()
+    Move.setup()
     Update.setup()
     Sort.setup()
     Change.setup()

@@ -5,7 +5,15 @@ Moves items up and down in the container
 */
 
 class Move {
+    static setup() {
+        this.block = new Block()
+    }
+
     static up() {
+        if (this.block.add_charge()) {
+            return
+        }
+
         let items = Container.get_visible()
         let selected = Select.get()
         let first_index = items.indexOf(selected[0])
@@ -21,6 +29,10 @@ class Move {
     }
 
     static down() {
+        if (this.block.add_charge()) {
+            return
+        }
+
         let items = Container.get_visible()
         let selected = Select.get()
         let last_index = items.indexOf(Utils.last(selected))

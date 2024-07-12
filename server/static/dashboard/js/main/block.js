@@ -13,7 +13,7 @@ class Block {
     static date_delay = 500
     static relief = 0.1
 
-    constructor(limit = 200) {
+    constructor(limit = 180) {
         this.limit = limit
         this.charge = 0
         this.date = 0
