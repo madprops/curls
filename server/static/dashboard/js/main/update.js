@@ -46,8 +46,9 @@ class Update {
             },
         })
 
-        this.debouncer = Utils.create_debouncer((args) => {
-            this.do_update(args)
+        this.debouncer = Utils.create_debouncer(async (args) => {
+            await this.do_update(args)
+            this.restart()
         }, this.debouncer_delay)
 
         this.check()
@@ -73,6 +74,7 @@ class Update {
     }
 
     static restart() {
+        console.log(444)
         clearTimeout(this.timeout)
 
         if (this.enabled) {
@@ -90,20 +92,14 @@ class Update {
         this.debouncer.call(args)
     }
 
-    static do_update(args = {}) {
+    static async do_update(args = {}) {
         this.debouncer.cancel()
-        clearTimeout(App.timeout)
 
         let def_args = {
             curls: [],
         }
 
         Utils.def_args(def_args, args)
-        this.fetch(args)
-        this.restart()
-    }
-
-    static async fetch(args) {
         Utils.info(`Update: Trigger`)
 
         if (this.updating) {
