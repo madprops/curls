@@ -24,6 +24,12 @@ class Change {
             this.do_change()
         }, this.debouncer_delay)
 
+        DOM.ev(curl, `keyup`, (e) => {
+            if (e.key === `Enter`) {
+                this.change()
+            }
+        })
+
         DOM.ev(curl, `focus`, (e) => {
             let value = curl.value
 
@@ -38,6 +44,12 @@ class Change {
 
         DOM.ev(curl, `wheel`, (e) => {
             Utils.scroll_wheel(e)
+        })
+
+        DOM.ev(key, `keyup`, (e) => {
+            if (e.key === `Enter`) {
+                this.change()
+            }
         })
 
         DOM.ev(key, `wheel`, (e) => {
