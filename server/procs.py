@@ -151,7 +151,8 @@ def change_status(curl: str, status: str) -> None:
     WHERE curl = ?
     """
 
-    cursor.execute(db_string, (status, date_now(), curl))
+    now = date_now()
+    cursor.execute(db_string, (status, now, curl))
     dbase.commit()
 
 
