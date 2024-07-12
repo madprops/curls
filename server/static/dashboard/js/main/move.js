@@ -9,16 +9,15 @@ class Move {
         let items = Container.get_visible()
         let selected = Select.get()
         let first_index = items.indexOf(selected[0])
+        let prev
 
         if (first_index === 0) {
-            return
+            prev = items[first_index]
+        }
+        else {
+            prev = items[first_index - 1]
         }
 
-        if (first_index === 0) {
-            return
-        }
-
-        let prev = items[first_index - 1]
         prev.before(...selected)
         Utils.scroll_element({item: selected[0]})
         this.save()
@@ -28,16 +27,15 @@ class Move {
         let items = Container.get_visible()
         let selected = Select.get()
         let last_index = items.indexOf(Utils.last(selected))
+        let next
 
         if (last_index === items.length - 1) {
-            return
+            next = items[last_index]
+        }
+        else {
+            next = items[last_index + 1]
         }
 
-        if (last_index === items.length - 1) {
-            return
-        }
-
-        let next = items[last_index + 1]
         next.after(...selected)
         Utils.scroll_element({item: Utils.last(selected)})
         this.save()
