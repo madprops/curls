@@ -5,8 +5,8 @@ from flask import jsonify, Response  # type: ignore
 from typing import Any
 
 # Modules
-import config
-import app
+import config as Config
+import app as App
 import curls as Curls
 
 
@@ -22,11 +22,11 @@ def claim_proc(request: Any) -> str:
 
     check_catpcha = True
 
-    if config.captcha_cheat and (c_text == config.captcha_cheat):
+    if Config.captcha_cheat and (c_text == Config.captcha_cheat):
         check_catpcha = False
 
     if check_catpcha:
-        if not app.simple_captcha.verify(c_text, c_hash):
+        if not App.simple_captcha.verify(c_text, c_hash):
             return "Error: Failed captcha"
 
     if not Curls.check_curl(curl):
@@ -80,14 +80,14 @@ def curl_proc(curl: str) -> str:
 def curls_proc(request: Any) -> Any:
     curls = request.form.getlist("curl")
 
-    if len(curls) > config.max_curls:
+    if len(curls) > Config.max_curls:
         ans = Curls.too_many_curls()
-        return Response(ans, mimetype=config.text_mtype)
+        return Response(ans, mimetype=Config.text_mtype)
 
     for curl in curls:
         if not Curls.check_curl(curl):
             ans = invalid_curl
-            return Response(ans, mimetype=config.text_mtype)
+            return Response(ans, mimetype=Config.text_mtype)
 
     results = Curls.get_curl_list(curls)
     return jsonify(results)
