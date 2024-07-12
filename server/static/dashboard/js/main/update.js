@@ -74,7 +74,6 @@ class Update {
     }
 
     static restart() {
-        console.log(444)
         clearTimeout(this.timeout)
 
         if (this.enabled) {
