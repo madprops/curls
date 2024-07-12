@@ -1,16 +1,13 @@
 from __future__ import annotations
 
 # Standard
-import random
-import string
-import datetime
 from flask import jsonify, Response  # type: ignore
 from typing import Any
 
 # Modules
-import db
 import config
 import app
+import curls as Curls
 
 
 invalid_curl = "Error: Invalid curl"
@@ -21,7 +18,7 @@ invalid_status = "Error: Invalid status"
 def claim_proc(request: Any) -> str:
     c_hash = request.form.get("captcha-hash", "")
     c_text = request.form.get("captcha-text", "")
-    curl = clean_curl(request.form.get("curl", ""))
+    curl = Curls.clean_curl(request.form.get("curl", ""))
 
     check_catpcha = True
 
@@ -32,14 +29,14 @@ def claim_proc(request: Any) -> str:
         if not app.simple_captcha.verify(c_text, c_hash):
             return "Error: Failed captcha"
 
-    if not check_curl(curl):
+    if not Curls.check_curl(curl):
         return invalid_curl
 
-    if curl_exists(curl):
+    if Curls.curl_exists(curl):
         return "Error: Curl already exists"
 
-    key = make_key(curl)
-    add_curl(curl, key)
+    key = Curls.make_key(curl)
+    Curls.add_curl(curl, key)
 
     lines = [
         f"Your curl is: <b>{curl}</b>",
@@ -53,229 +50,44 @@ def claim_proc(request: Any) -> str:
 
 
 def change_proc(request: Any) -> str:
-    curl = clean_curl(request.form.get("curl", ""))
-    key = clean_key(request.form.get("key", ""))
-    status = clean_status(request.form.get("status", ""))
+    curl = Curls.clean_curl(request.form.get("curl", ""))
+    key = Curls.clean_key(request.form.get("key", ""))
+    status = Curls.clean_status(request.form.get("status", ""))
 
     if (not curl) or (not key) or (not status):
         return "Error: Empty fields"
 
-    if not check_curl(curl):
+    if not Curls.check_curl(curl):
         return invalid_curl
 
-    if not check_status(status):
+    if not Curls.check_status(status):
         return invalid_status
 
-    if not check_key(curl, key):
+    if not Curls.check_key(curl, key):
         return invalid_key
 
-    change_status(curl, status)
+    Curls.change_status(curl, status)
     return "ok"
 
 
 def curl_proc(curl: str) -> str:
-    if not check_curl(curl):
+    if not Curls.check_curl(curl):
         return invalid_curl
 
-    return get_status(curl)
+    return Curls.get_status(curl)
 
 
 def curls_proc(request: Any) -> Any:
     curls = request.form.getlist("curl")
 
     if len(curls) > config.max_curls:
-        ans = too_many_curls()
+        ans = Curls.too_many_curls()
         return Response(ans, mimetype=config.text_mtype)
 
     for curl in curls:
-        if not check_curl(curl):
+        if not Curls.check_curl(curl):
             ans = invalid_curl
             return Response(ans, mimetype=config.text_mtype)
 
-    results = get_curl_list(curls)
+    results = Curls.get_curl_list(curls)
     return jsonify(results)
-
-
-# ---
-
-
-def add_curl(curl: str, key: str) -> None:
-    dbase = db.get_db()
-    cursor = dbase.cursor()
-
-    db_string = """
-    INSERT INTO curls (created, updated, curl, key, status)
-    VALUES (?, ?, ?, ?, ?)
-    """
-
-    now = date_now()
-    cursor.execute(db_string, (now, now, curl, key, ""))
-    dbase.commit()
-
-
-def make_key(curl: str) -> str:
-    characters = string.ascii_letters + string.digits
-    chars = "".join(random.choice(characters) for i in range(config.key_length))
-    start = curl[:3]
-    rest = len(start) + 1
-    return f"{start}_{chars[rest:]}"
-
-
-def check_key(curl: str, key: str) -> bool:
-    if not key:
-        return False
-
-    if len(key) > config.key_length:
-        return False
-
-    dbase = db.get_db()
-    cursor = dbase.cursor()
-    db_string = "SELECT key FROM curls WHERE curl = ?"
-    cursor.execute(db_string, (curl,))
-    result = cursor.fetchone()
-    return bool(result) and (result[0] == key)
-
-
-def change_status(curl: str, status: str) -> None:
-    current = get_status(curl, False)
-
-    if current and (current == status):
-        return
-
-    dbase = db.get_db()
-    cursor = dbase.cursor()
-
-    db_string = """
-    UPDATE curls
-    SET status = ?, updated = ?, changes = changes + 1
-    WHERE curl = ?
-    """
-
-    now = date_now()
-    cursor.execute(db_string, (status, now, curl))
-    dbase.commit()
-
-
-def curl_exists(curl: str) -> bool:
-    dbase = db.get_db()
-    cursor = dbase.cursor()
-    db_string = "SELECT curl FROM curls WHERE curl = ?"
-    cursor.execute(db_string, (curl,))
-    result = cursor.fetchone()
-    return bool(result)
-
-
-def get_status(curl: str, fill: bool = True) -> str:
-    dbase = db.get_db()
-    cursor = dbase.cursor()
-    db_string = "SELECT status FROM curls WHERE curl = ?"
-    cursor.execute(db_string, (curl,))
-    result = cursor.fetchone()
-
-    if fill:
-        return fill_status(result)
-
-    if result:
-        return str(result[0])
-
-    return ""
-
-
-def get_curl_list(curls: list[str]) -> list[dict[str, Any]]:
-    dbase = db.get_db()
-    cursor = dbase.cursor()
-
-    db_string = """
-    SELECT created, curl, status, updated, changes
-    FROM curls
-    WHERE curl IN ({})
-    """.format(",".join("?" * len(curls)))
-
-    cursor.execute(db_string, curls)
-    results = cursor.fetchall()
-    items = []
-
-    for result in results:
-        if not result:
-            continue
-
-        created = str(result[0]) or ""
-        curl = result[1]
-        status = result[2]
-        updated = str(result[3]) or ""
-        changes = result[4] or 0
-
-        items.append(
-            {
-                "created": created,
-                "curl": curl,
-                "status": status,
-                "updated": updated,
-                "changes": changes,
-            }
-        )
-
-    return items
-
-
-def fill_status(result: Any) -> str:
-    if not result:
-        return "Not claimed yet"
-
-    status = result[0]
-
-    if not status:
-        return "Not updated yet"
-
-    return str(status)
-
-
-def curl_too_long() -> str:
-    return f"Error: Curl is too long (Max is {config.curl_max_length} characters)"
-
-
-def status_too_long() -> str:
-    return f"Error: Text is too long (Max is {config.status_max_length} characters)"
-
-
-def too_many_curls() -> str:
-    return f"Error: Too many curls (Max is {config.max_curls})"
-
-
-def check_curl(curl: str) -> bool:
-    if not curl:
-        return False
-
-    if len(curl) > config.curl_max_length:
-        return False
-
-    if not curl.isalnum():
-        return False
-
-    return True
-
-
-def check_status(status: str) -> bool:
-    if not status:
-        return False
-
-    if len(status) > config.status_max_length:
-        return False
-
-    return True
-
-
-def date_now() -> datetime.datetime:
-    return datetime.datetime.now(datetime.timezone.utc)
-
-
-def clean_curl(curl: str) -> str:
-    return str(curl).strip().lower()
-
-
-def clean_key(key: str) -> str:
-    return str(key).strip()
-
-
-def clean_status(status: str) -> str:
-    return str(status).strip()

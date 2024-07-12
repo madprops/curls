@@ -97,7 +97,8 @@ def get_curl(curl) -> Any:
     try:
         ans = procs.curl_proc(curl)
         return Response(ans, mimetype=config.text_mtype)
-    except Exception:
+    except Exception as e:
+        print(e)
         return Response(invalid, mimetype=config.text_mtype)
 
 
@@ -106,5 +107,6 @@ def get_curl(curl) -> Any:
 def get_curls() -> Any:
     try:
         return procs.curls_proc(request)
-    except Exception:
+    except Exception as e:
+        print(e)
         return Response(invalid, mimetype=config.text_mtype)
