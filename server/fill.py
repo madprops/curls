@@ -1,9 +1,13 @@
+from __future__ import annotations
+
+# Standard
 import sys
 import datetime
 import random
 import json
 import sqlite3
 from sqlite3 import Error
+from pathlib import Path
 
 
 def create_connection(db_file: str) -> sqlite3.Connection | None:
@@ -11,7 +15,6 @@ def create_connection(db_file: str) -> sqlite3.Connection | None:
 
     try:
         conn = sqlite3.connect(db_file)
-        print(sqlite3.version)
     except Error as e:
         print(e)
 
@@ -41,19 +44,14 @@ def date_now() -> datetime.datetime:
 
 
 def get_random_items(file: str, num: int) -> list[str]:
-    with open(file) as f:
+    with Path(file).open() as f:
         names = json.load(f)
         return random.sample(names, num)
 
 
 def clean_items(names: list[str]) -> list[str]:
-    clean = []
-
-    for word in names:
-        clean.append("".join(filter(str.isalpha, word)))
-
-    clean = [x.lower() for x in clean]
-    return clean
+    clean = ["".join(filter(str.isalpha, word)) for word in names]
+    return [x.lower() for x in clean]
 
 
 if __name__ == "__main__":
@@ -76,7 +74,7 @@ if __name__ == "__main__":
         n1 += d
         n2 += d
 
-    with open("export.json", "w") as f:
+    with Path("export.json").open("w") as f:
         json.dump(obj, f, indent=4)
 
     sents = get_random_items("sentences.json", num)

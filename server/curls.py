@@ -157,20 +157,14 @@ def check_curl(curl: str) -> bool:
     if len(curl) > Config.curl_max_length:
         return False
 
-    if not curl.isalnum():
-        return False
-
-    return True
+    return curl.isalnum()
 
 
 def check_status(status: str) -> bool:
     if not status:
         return False
 
-    if len(status) > Config.status_max_length:
-        return False
-
-    return True
+    return len(status) <= Config.status_max_length
 
 
 def date_now() -> datetime.datetime:
