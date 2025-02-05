@@ -1,5 +1,7 @@
 [lint]
 
+preview = true
+
 select = [
     "T",
     "Q",
@@ -36,11 +38,10 @@ select = [
 ]
 
 ignore = [
-    "T201",
-    "N812",
+    "PLW0108",
 ]
 
 exclude = [
-    "pyperclip.py",
     "tests.py",
+    "utils/*"
 ]

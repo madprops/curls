@@ -7,12 +7,12 @@ import datetime
 from typing import Any
 
 # Modules
-import db as DB
-import config as Config
+import db
+import config
 
 
 def get_value(curl: str, what: str) -> Any:
-    dbase = DB.get_db()
+    dbase = db.get_db()
     cursor = dbase.cursor()
     db_string = f"SELECT {what} FROM curls WHERE curl = ?"
     cursor.execute(db_string, (curl,))
@@ -20,7 +20,7 @@ def get_value(curl: str, what: str) -> Any:
 
 
 def add_curl(curl: str, key: str) -> None:
-    dbase = DB.get_db()
+    dbase = db.get_db()
     cursor = dbase.cursor()
 
     db_string = """
@@ -35,7 +35,7 @@ def add_curl(curl: str, key: str) -> None:
 
 def make_key(curl: str) -> str:
     characters = string.ascii_letters + string.digits
-    chars = "".join(random.choice(characters) for i in range(Config.key_length))
+    chars = "".join(random.choice(characters) for i in range(config.key_length))
     start = curl[:3]
     rest = len(start) + 1
     return f"{start}_{chars[rest:]}"
@@ -45,7 +45,7 @@ def check_key(curl: str, key: str) -> bool:
     if not key:
         return False
 
-    if len(key) > Config.key_length:
+    if len(key) > config.key_length:
         return False
 
     result = get_value(curl, "key")
@@ -58,7 +58,7 @@ def change_status(curl: str, status: str) -> None:
     if current and (current == status):
         return
 
-    dbase = DB.get_db()
+    dbase = db.get_db()
     cursor = dbase.cursor()
 
     db_string = """
@@ -90,7 +90,7 @@ def get_status(curl: str, fill: bool = True) -> str:
 
 
 def get_curl_list(curls: list[str]) -> list[dict[str, Any]]:
-    dbase = DB.get_db()
+    dbase = db.get_db()
     cursor = dbase.cursor()
 
     db_string = """
@@ -139,22 +139,22 @@ def fill_status(result: Any) -> str:
 
 
 def curl_too_long() -> str:
-    return f"Error: Curl is too long (Max is {Config.curl_max_length} characters)"
+    return f"Error: Curl is too long (Max is {config.curl_max_length} characters)"
 
 
 def status_too_long() -> str:
-    return f"Error: Text is too long (Max is {Config.status_max_length} characters)"
+    return f"Error: Text is too long (Max is {config.status_max_length} characters)"
 
 
 def too_many_curls() -> str:
-    return f"Error: Too many curls (Max is {Config.max_curls})"
+    return f"Error: Too many curls (Max is {config.max_curls})"
 
 
 def check_curl(curl: str) -> bool:
     if not curl:
         return False
 
-    if len(curl) > Config.curl_max_length:
+    if len(curl) > config.curl_max_length:
         return False
 
     return curl.isalnum()
@@ -164,7 +164,7 @@ def check_status(status: str) -> bool:
     if not status:
         return False
 
-    return len(status) <= Config.status_max_length
+    return len(status) <= config.status_max_length
 
 
 def date_now() -> datetime.datetime:

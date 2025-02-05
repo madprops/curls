@@ -9,6 +9,9 @@ import sqlite3
 from sqlite3 import Error
 from pathlib import Path
 
+# Modules
+import utils
+
 
 def create_connection(db_file: str) -> sqlite3.Connection | None:
     conn = None
@@ -16,7 +19,7 @@ def create_connection(db_file: str) -> sqlite3.Connection | None:
     try:
         conn = sqlite3.connect(db_file)
     except Error as e:
-        print(e)
+        utils.error(e)
 
     return conn
 
@@ -34,9 +37,7 @@ def insert_into_db(conn: sqlite3.Connection, curl: str, status: str) -> None:
 
     cur = conn.cursor()
 
-    now = (
-        date_now()
-    )
+    now = date_now()
 
     cur.execute(sql, (now, now, curl, "pass", status))
     conn.commit()
@@ -47,7 +48,7 @@ def date_now() -> datetime.datetime:
 
 
 def get_random_items(file: str, num: int) -> list[str]:
-    with Path(file).open() as f:
+    with Path(file).open(encoding="utf-8") as f:
         names = json.load(f)
         return random.sample(names, num)
 
@@ -77,14 +78,14 @@ if __name__ == "__main__":
         n1 += d
         n2 += d
 
-    with Path("export.json").open("w") as f:
+    with Path("export.json").open("w", encoding="utf-8") as f:
         json.dump(obj, f, indent=4)
 
     sents = get_random_items("sentences.json", num)
     conn = create_connection("curls.db")
 
     if not conn:
-        print("Error: Could not connect to database.")
+        utils.log("Error: Could not connect to database.")
         sys.exit(1)
 
     with conn:

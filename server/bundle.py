@@ -15,7 +15,7 @@ def bundle_dashboard_js(what: str, first: list[str], last: list[str]) -> None:
     def get_path(f: str) -> Path:
         return Path(f"static/dashboard/js/{what}/{f}.js")
 
-    with Path(f"static/dashboard/js/bundle.{what}.js").open("w") as f:
+    with Path(f"static/dashboard/js/bundle.{what}.js").open("w", encoding="utf-8") as f:
         for file_ in first:
             with get_path(file_).open("r") as js:
                 f.write(js.read())
