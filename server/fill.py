@@ -31,10 +31,13 @@ def clean_db(conn: sqlite3.Connection) -> None:
 def insert_into_db(conn: sqlite3.Connection, curl: str, status: str) -> None:
     sql = """ INSERT INTO curls(created, updated, curl, key, status)
               VALUES(?,?,?,?,?) """
+
     cur = conn.cursor()
+
     now = (
         date_now()
-    )  # assuming date_now() is a function that returns current date and time
+    )
+
     cur.execute(sql, (now, now, curl, "pass", status))
     conn.commit()
 
