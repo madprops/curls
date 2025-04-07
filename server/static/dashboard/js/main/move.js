@@ -5,50 +5,50 @@ Moves items up and down in the container
 */
 
 class Move {
-    static setup() {
-        this.block = new Block()
+  static setup() {
+    this.block = new Block()
+  }
+
+  static up() {
+    if (this.block.add_charge()) {
+      return
     }
 
-    static up() {
-        if (this.block.add_charge()) {
-            return
-        }
+    let items = Container.get_visible()
+    let selected = Select.get()
+    let first_index = items.indexOf(selected[0])
 
-        let items = Container.get_visible()
-        let selected = Select.get()
-        let first_index = items.indexOf(selected[0])
-
-        if (first_index > 0) {
-            first_index -= 1
-        }
-
-        let prev = items[first_index]
-        prev.before(...selected)
-        Utils.scroll_element({item: selected[0]})
-        this.save()
+    if (first_index > 0) {
+      first_index -= 1
     }
 
-    static down() {
-        if (this.block.add_charge()) {
-            return
-        }
+    let prev = items[first_index]
+    prev.before(...selected)
+    Utils.scroll_element({item: selected[0]})
+    this.save()
+  }
 
-        let items = Container.get_visible()
-        let selected = Select.get()
-        let last_index = items.indexOf(Utils.last(selected))
-
-        if (last_index < (items.length - 1)) {
-            last_index += 1
-        }
-
-        let next = items[last_index]
-        next.after(...selected)
-        Utils.scroll_element({item: Utils.last(selected)})
-        this.save()
+  static down() {
+    if (this.block.add_charge()) {
+      return
     }
 
-    static save() {
-        Container.save_curls()
-        Sort.set_value(`order`)
+    let items = Container.get_visible()
+    let selected = Select.get()
+    let last_index = items.indexOf(Utils.last(selected))
+
+    if (last_index < (items.length - 1)) {
+      last_index += 1
     }
+
+    let next = items[last_index]
+    next.after(...selected)
+    Utils.scroll_element({item: Utils.last(selected)})
+    this.save()
+  }
+
+  static save() {
+    Container.save_curls()
+    Sort.set_value(`order`)
+  }
 }

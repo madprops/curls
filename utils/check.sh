@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-cd server
 clear &&
+cd server &&
 ruff format && ruff check &&
 mypy --strict --strict --strict app.py &&
 pyright

@@ -8,41 +8,41 @@ Charges are decreased over time
 */
 
 class Block {
-    static instances = []
-    static interval_delay = 2000
-    static date_delay = 500
-    static relief = 0.1
+  static instances = []
+  static interval_delay = 2000
+  static date_delay = 500
+  static relief = 0.1
 
-    constructor(limit = 180) {
-        this.limit = limit
-        this.charge = 0
-        this.date = 0
-        Block.instances.push(this)
-    }
+  constructor(limit = 180) {
+    this.limit = limit
+    this.charge = 0
+    this.date = 0
+    Block.instances.push(this)
+  }
 
-    static setup() {
-        setInterval(() => {
-            for (let block of Block.instances) {
-                if ((Utils.now() - block.date) < this.date_delay) {
-                    continue
-                }
-
-                if (block.charge > 0) {
-                    let dec = Math.max(1, Math.round(block.charge * this.relief))
-                    block.charge -= parseInt(dec)
-                }
-            }
-        }, this.interval_delay)
-    }
-
-    add_charge(num = 1) {
-        this.date = Utils.now()
-
-        if (this.charge >= this.limit) {
-            return true
+  static setup() {
+    setInterval(() => {
+      for (let block of Block.instances) {
+        if ((Utils.now() - block.date) < this.date_delay) {
+          continue
         }
 
-        this.charge += num
-        return false
+        if (block.charge > 0) {
+          let dec = Math.max(1, Math.round(block.charge * this.relief))
+          block.charge -= parseInt(dec)
+        }
+      }
+    }, this.interval_delay)
+  }
+
+  add_charge(num = 1) {
+    this.date = Utils.now()
+
+    if (this.charge >= this.limit) {
+      return true
     }
+
+    this.charge += num
+    return false
+  }
 }

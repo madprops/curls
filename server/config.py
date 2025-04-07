@@ -8,7 +8,7 @@ from pathlib import Path
 
 curl_max_length = 20
 key_length = 22
-status_max_length = 500
+status_max_length = 2000
 max_curls = 100
 rate_limit = 12
 rate_limit_change = 3
@@ -34,7 +34,7 @@ if manifest_file.is_file():
 
 captcha = {
     "SECRET_CAPTCHA_KEY": captcha_key,
-    "CAPTCHA_LENGTH": 10,
+    "CAPTCHA_LENGTH": 9,
     "CAPTCHA_DIGITS": False,
     "EXPIRE_SECONDS": 60,
     "CAPTCHA_IMG_FORMAT": "JPEG",

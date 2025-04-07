@@ -1,3 +1,3 @@
 window.onload = () => {
-    App.setup()
+  App.setup()
 }

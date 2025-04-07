@@ -1,0 +1,11 @@
+{
+  "name": "curls",
+  "scripts": {
+		"lint":	"eslint --cache -c eslint.config.mjs --no-warn-ignored",
+		"fix": "eslint --fix -c eslint.config.mjs --no-warn-ignored"
+	},
+  "dependencies": {
+    "eslint": "~9.17.0",
+	  "globals": "~15.9.0"
+  }
+}
