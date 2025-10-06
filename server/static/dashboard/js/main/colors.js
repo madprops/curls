@@ -17,6 +17,7 @@ class Colors {
     {value: `red`, name: `Red`, info: `Go to Red`, icon: `🔴`},
     {value: `yellow`, name: `Yellow`, info: `Go to Yellow`, icon: `🟡`},
     {value: `purple`, name: `Purple`, info: `Go to Purple`, icon: `🟣`},
+    {value: `orange`, name: `Orange`, info: `Go to Orange`, icon: `🟠`},
     {value: `white`, name: `White`, info: `Go to White`, icon: `⚪`},
   ]
 
