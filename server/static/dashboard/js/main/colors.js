@@ -27,6 +27,7 @@ class Colors {
     blue: `rgb(118, 120, 255)`,
     yellow: `rgb(255, 219, 78)`,
     purple: `rgb(193, 56, 255)`,
+    orange: `rgb(255, 165, 0)`,
     white: `rgb(255, 255, 255)`,
   }
 
