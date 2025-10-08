@@ -5,6 +5,8 @@ This takes care of storing curl data
 
 */
 
+const ONE_OR_MORE = `Enter one or more curls`
+
 class Curls {
   static max_curls = 100
   static max_length = 20
@@ -28,7 +30,7 @@ class Curls {
   static add() {
     Windows.prompt({title: `Add Curls`, callback: (value) => {
       this.add_submit(value)
-    }, message: `Enter one or more curls`})
+    }, message: ONE_OR_MORE})
   }
 
   static add_submit(curls) {
@@ -340,9 +342,9 @@ class Curls {
   static show_remove_menu(e) {
     let items = [
       {
-        text: `Remove One`,
+        text: `Remove...`,
         action: () => {
-          this.remove_one()
+          this.remove_some()
         },
       },
       {
@@ -374,18 +376,26 @@ class Curls {
     Utils.context({items, e})
   }
 
-  static remove_one() {
+  static remove_some() {
     Windows.prompt({title: `Remove Curl`, callback: (value) => {
-      this.remove_one_submit(value)
-    }, message: `Enter the curl to remove`})
+      this.remove_some_submit(value)
+    }, message: ONE_OR_MORE})
   }
 
-  static remove_one_submit(curl) {
-    if (!curl) {
+  static remove_some_submit(curls) {
+    if (!curls) {
       return
     }
 
-    this.do_remove(curl)
+    let removed = Utils.smart_list(curls)
+
+    if (!removed.length) {
+      return
+    }
+
+    for (let curl of removed) {
+      this.do_remove(curl)
+    }
   }
 
   static do_remove(curl, remove_item = true) {

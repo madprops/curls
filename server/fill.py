@@ -36,9 +36,7 @@ def insert_into_db(conn: sqlite3.Connection, curl: str, status: str) -> None:
               VALUES(?,?,?,?,?) """
 
     cur = conn.cursor()
-
     now = date_now()
-
     cur.execute(sql, (now, now, curl, "pass", status))
     conn.commit()
 
