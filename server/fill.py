@@ -58,7 +58,22 @@ def clean_items(names: list[str]) -> list[str]:
 
 if __name__ == "__main__":
     num = 140
-    colors = ["red", "green", "blue", "yellow", "purple", "orange", "white"]
+    colors = [
+        "red",
+        "green",
+        "blue",
+        "yellow",
+        "orange",
+        "pink",
+        "gold",
+        "silver",
+        "bronze",
+        "purple",
+        "teal",
+        "black",
+        "white",
+    ]
+
     names = get_random_items("names.json", num)
     names = clean_items(names)
 
