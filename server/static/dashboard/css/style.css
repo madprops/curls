@@ -378,19 +378,9 @@ input[type="password"]
     background-color: rgba(0, 0, 0, 0.44) !important;
 }
 
-#needcontext-container {
-    background-color: var(--alt_background_color) !important;
-    border: 2px solid var(--color_alpha_2) !important;
-    color: white !important;
-}
-
 .needcontext-text {
     max-width: 300px !important;
     white-space: wrap !important;
-}
-
-.needcontext-item-selected {
-    background-color: var(--color_alpha_1) !important;
 }
 
 .needcontext-text {
