@@ -381,7 +381,7 @@ input[type="password"]
 #needcontext-container {
     background-color: var(--alt_background_color) !important;
     border: 2px solid var(--color_alpha_2) !important;
-    color: var(--color) !important;
+    color: white !important;
 }
 
 .needcontext-text {
@@ -426,4 +426,11 @@ input[type="password"]
 
 .Msg-content-modal {
     padding: 0.8rem !important;
+}
+
+.color_icon {
+	width: 1rem;
+	height: 1rem;
+    border-radius: 20%;
+    border: 1px solid rgb(60, 60, 60);
 }

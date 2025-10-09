@@ -11,24 +11,39 @@ class Colors {
   static alpha_1 = {}
   static alpha_2 = {}
 
-  static modes = [
-    {value: `green`, name: `Green`, info: `Go to Green`, icon: `🟢`},
-    {value: `blue`, name: `Blue`, info: `Go to Blue`, icon: `🔵`},
-    {value: `red`, name: `Red`, info: `Go to Red`, icon: `🔴`},
-    {value: `yellow`, name: `Yellow`, info: `Go to Yellow`, icon: `🟡`},
-    {value: `purple`, name: `Purple`, info: `Go to Purple`, icon: `🟣`},
-    {value: `orange`, name: `Orange`, info: `Go to Orange`, icon: `🟠`},
-    {value: `white`, name: `White`, info: `Go to White`, icon: `⚪`},
-  ]
-
   static colors = {
     red: `rgb(255, 89, 89)`,
     green: `rgb(87, 255, 87)`,
     blue: `rgb(118, 120, 255)`,
     yellow: `rgb(255, 219, 78)`,
-    purple: `rgb(193, 56, 255)`,
-    orange: `rgb(255, 165, 0)`,
+    orange: `rgb(255, 159, 67)`,
+    pink: `rgb(255, 100, 255)`,
+    gold: `rgb(255, 215, 0)`,
+    silver: `rgb(192, 192, 192)`,
+    bronze: `rgb(205, 127, 50)`,
+    purple: `rgb(178, 102, 255)`,
+    teal: `rgb(0, 255, 255)`,
+    black: `rgb(0, 0, 0)`,
     white: `rgb(255, 255, 255)`,
+  }
+
+  static modes = []
+
+  static {
+    for (let key in this.colors) {
+      let name = Utils.capitalize(key)
+      let color_value = this.colors[key]
+      let icon = DOM.create(`div`, `color_icon`)
+      icon.style.backgroundColor = this.colors[key]
+
+      this.modes.push({
+        name,
+        icon,
+        color: color_value,
+        value: key,
+        info: `Go to ${name}`,
+      })
+    }
   }
 
   static setup() {
@@ -97,11 +112,20 @@ class Colors {
     let alpha_0 = this.alpha_0[this.mode]
     let alpha_1 = this.alpha_1[this.mode]
     let alpha_2 = this.alpha_2[this.mode]
+    let background
+
+    if (App.colorlib.is_dark(normal)) {
+      background = `#ffffff`
+    }
+    else {
+      background = `#000000`
+    }
 
     document.documentElement.style.setProperty(`--color`, normal)
     document.documentElement.style.setProperty(`--color_alpha_0`, alpha_0)
     document.documentElement.style.setProperty(`--color_alpha_1`, alpha_1)
     document.documentElement.style.setProperty(`--color_alpha_2`, alpha_2)
+    document.documentElement.style.setProperty(`--background`, background)
 
     App.update_title()
   }

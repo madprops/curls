@@ -2,6 +2,7 @@ const App = {}
 
 App.setup = () => {
   NeedContext.init()
+  App.colorlib = ColorLib()
 
   Block.setup()
   Curls.setup()
