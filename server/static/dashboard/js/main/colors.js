@@ -28,6 +28,7 @@ class Colors {
   }
 
   static modes = []
+  static full_modes = []
 
   static {
     for (let key in this.colors) {
@@ -36,13 +37,20 @@ class Colors {
       let icon = DOM.create(`div`, `color_icon`)
       icon.style.backgroundColor = this.colors[key]
 
-      this.modes.push({
+      let obj = {
         name,
         icon,
         color: color_value,
         value: key,
         info: `Go to ${name}`,
-      })
+      }
+
+      this.modes.push(obj)
+      this.full_modes.push(obj)
+
+      if ([`blue`, `pink`, `bronze`, `teal`].includes(key)) {
+        this.full_modes.push({value: Utils.separator})
+      }
     }
   }
 
@@ -52,7 +60,7 @@ class Colors {
 
     this.combo = new Combo({
       title: `Color Modes`,
-      items: this.modes,
+      items: this.full_modes,
       value: this.mode,
       element: color,
       default: this.default_mode,

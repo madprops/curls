@@ -374,10 +374,6 @@ input[type="password"]
     text-align: center;
 }
 
-#needcontext-main {
-    background-color: rgba(0, 0, 0, 0.44) !important;
-}
-
 .needcontext-text {
     max-width: 300px !important;
     white-space: wrap !important;
