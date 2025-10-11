@@ -188,9 +188,9 @@ a:hover {
 input[type="text"],
 input[type="password"]
 {
-    background-color: var(--background);
-    color: var(--color);
-    border: 1px solid var(--color_alpha_2);
+    color: black;
+    background-color: white;
+    border: 1px solid gray;
     padding: 0.09rem;
     padding-left: 0.25rem;
     outline: none;
@@ -331,7 +331,7 @@ input[type="password"]
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid var(--color_alpha_2);
+    border: 1px solid rgb(155, 155, 155);
     padding-left: 0.4rem;
     padding-right: 0.4rem;
     padding-top: 0.05rem;
@@ -343,7 +343,7 @@ input[type="password"]
 }
 
 .modal_button:hover {
-    border: 1px solid var(--color);
+    border: 1px solid rgb(193, 193, 193);
 }
 
 .modal_items {
@@ -384,19 +384,19 @@ input[type="password"]
 }
 
 .Msg-window {
-    color: var(--color) !important;
-    background-color: var(--alt_background_color) !important;
-    border: 2px solid var(--color_alpha_2) !important;
+    color: white !important;
+    background-color: rgb(63, 63, 63) !important;
+    border: 1px solid rgb(174, 174, 174) !important;
 }
 
 .Msg-titlebar {
-    color: var(--color) !important;
-    background-color: rgb(42, 42, 42) !important;
+    color: white !important;
+    background-color: rgb(63, 63, 63) !important;
     font-family: var(--font) !important;
 }
 
 .Msg-progressbar {
-    background-color: var(--color_alpha_2) !important;
+    background-color: rgb(97, 97, 97) !important;
 }
 
 .Msg-titlebar {
