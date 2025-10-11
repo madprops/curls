@@ -69,6 +69,7 @@ if __name__ == "__main__":
         "silver",
         "bronze",
         "purple",
+        "brown",
         "teal",
         "black",
         "white",

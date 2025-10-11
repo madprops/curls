@@ -22,6 +22,7 @@ class Colors {
     silver: `rgb(192, 192, 192)`,
     bronze: `rgb(205, 127, 50)`,
     purple: `rgb(178, 102, 255)`,
+    brown: `rgb(150, 75, 0)`,
     teal: `rgb(0, 255, 255)`,
     black: `rgb(0, 0, 0)`,
     white: `rgb(255, 255, 255)`,
