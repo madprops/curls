@@ -26,6 +26,7 @@ class Colors {
     teal: `rgb(0, 255, 255)`,
     black: `rgb(0, 0, 0)`,
     white: `rgb(255, 255, 255)`,
+    gray: `rgba(127, 127, 127, 1)`,
   }
 
   static modes = []

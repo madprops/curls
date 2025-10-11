@@ -73,6 +73,7 @@ if __name__ == "__main__":
         "teal",
         "black",
         "white",
+        "gray",
     ]
 
     names = get_random_items("names.json", num)
