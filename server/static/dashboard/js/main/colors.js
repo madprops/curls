@@ -12,18 +12,18 @@ class Colors {
   static alpha_2 = {}
 
   static colors = {
-    red: `rgb(255, 89, 89)`,
     green: `rgb(87, 255, 87)`,
     blue: `rgb(118, 120, 255)`,
+    red: `rgb(255, 89, 89)`,
     yellow: `rgb(255, 219, 78)`,
     orange: `rgb(255, 159, 67)`,
     pink: `rgb(255, 100, 255)`,
-    gold: `rgb(255, 215, 0)`,
-    silver: `rgb(192, 192, 192)`,
-    bronze: `rgb(205, 127, 50)`,
     purple: `rgb(178, 102, 255)`,
     brown: `rgb(150, 75, 0)`,
     teal: `rgb(0, 255, 255)`,
+    gold: `rgb(255, 215, 0)`,
+    silver: `rgb(192, 192, 192)`,
+    bronze: `rgb(205, 127, 50)`,
     black: `rgb(0, 0, 0)`,
     white: `rgb(255, 255, 255)`,
     gray: `rgba(127, 127, 127, 1)`,
@@ -50,7 +50,7 @@ class Colors {
       this.modes.push(obj)
       this.full_modes.push(obj)
 
-      if ([`blue`, `pink`, `bronze`, `teal`].includes(key)) {
+      if ([`red`, `pink`, `bronze`, `teal`].includes(key)) {
         this.full_modes.push({value: Utils.separator})
       }
     }
