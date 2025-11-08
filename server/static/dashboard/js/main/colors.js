@@ -24,8 +24,8 @@ class Colors {
     gold: `rgb(255, 215, 0)`,
     silver: `rgb(192, 192, 192)`,
     bronze: `rgb(205, 127, 50)`,
-    black: `rgb(0, 0, 0)`,
-    white: `rgb(255, 255, 255)`,
+    white: `rgb(0, 0, 0)`,
+    black: `rgb(255, 255, 255)`,
     gray: `rgba(127, 127, 127, 1)`,
   }
 
