@@ -24,9 +24,20 @@ class Colors {
     gold: `rgb(255, 215, 0)`,
     silver: `rgb(192, 192, 192)`,
     bronze: `rgb(205, 127, 50)`,
-    white: `rgb(0, 0, 0)`,
-    black: `rgb(255, 255, 255)`,
+    black: `rgb(0, 0, 0)`,
+    white: `rgb(255, 255, 255)`,
     gray: `rgba(127, 127, 127, 1)`,
+  }
+
+  static themes = {
+    black: {
+      text: `rgb(255, 255, 255)`,
+      background: `rgb(0, 0, 0)`,
+    },
+    white: {
+      text: `rgb(0, 0, 0)`,
+      background: `rgb(255, 255, 255)`,
+    },
   }
 
   static modes = []
@@ -84,7 +95,14 @@ class Colors {
 
   static make_alpha(obj, a) {
     for (let color in this.colors) {
-      let numbers = this.colors[color].match(/\d+/g)
+      let clr = this.colors[color]
+      let theme = this.themes[color]
+
+      if (theme) {
+        clr = theme.text
+      }
+
+      let numbers = clr.match(/\d+/g)
       let rgba = `rgba(${numbers[0]}, ${numbers[1]}, ${numbers[2]}, ${a})`
       obj[color] = rgba
     }
@@ -117,21 +135,28 @@ class Colors {
   }
 
   static apply() {
-    let normal = this.colors[this.mode]
-
-    let alpha_0 = this.alpha_0[this.mode]
-    let alpha_1 = this.alpha_1[this.mode]
-    let alpha_2 = this.alpha_2[this.mode]
+    let text = this.colors[this.mode]
+    let alpha = this.mode
     let background
 
-    if (App.colorlib.is_dark(normal)) {
+    if (this.themes[this.mode]) {
+      let theme = this.themes[this.mode]
+      text = theme.text
+      background = theme.background
+      alpha = theme.text
+    }
+    else if (App.colorlib.is_dark(text)) {
       background = `#ffffff`
     }
     else {
       background = `#000000`
     }
 
-    document.documentElement.style.setProperty(`--color`, normal)
+    let alpha_0 = this.alpha_0[this.mode]
+    let alpha_1 = this.alpha_1[this.mode]
+    let alpha_2 = this.alpha_2[this.mode]
+
+    document.documentElement.style.setProperty(`--color`, text)
     document.documentElement.style.setProperty(`--color_alpha_0`, alpha_0)
     document.documentElement.style.setProperty(`--color_alpha_1`, alpha_1)
     document.documentElement.style.setProperty(`--color_alpha_2`, alpha_2)
