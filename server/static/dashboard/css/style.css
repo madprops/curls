@@ -186,7 +186,8 @@ a:hover {
 }
 
 input[type="text"],
-input[type="password"]
+input[type="password"],
+textarea
 {
     color: black;
     background-color: white;

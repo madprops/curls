@@ -180,4 +180,5 @@ def clean_key(key: str) -> str:
 
 
 def clean_status(status: str) -> str:
+    print(status)
     return str(status).strip()
