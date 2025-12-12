@@ -8,6 +8,7 @@
     <script src="{{ url_for('static', filename='dashboard/js/bundle.main.js') }}"></script>
 
     <script>
+        App.status_max_length = {{ status_max_length }}
         App.version = "{{ version }}";
     </script>
 </head>

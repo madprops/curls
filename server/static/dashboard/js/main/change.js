@@ -8,7 +8,6 @@ class Change {
   static debouncer_delay = 250
   static changing = false
   static clear_delay = 800
-  static status_max_length = 500
   static key_length = 22
 
   static setup() {
@@ -90,7 +89,7 @@ class Change {
       return
     }
 
-    if (status.length > this.status_max_length) {
+    if (status.length > App.status_max_length) {
       Utils.error(Utils.status_too_long)
       Windows.alert({title: `Error`, message: Utils.status_too_long})
       return

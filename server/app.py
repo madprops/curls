@@ -61,7 +61,12 @@ def index() -> Any:
 @limiter.limit(rate_limit(config.rate_limit))  # type: ignore
 def dashboard() -> Any:
     version = config.manifest.get("version", "0.0.0")
-    return render_template("dashboard.html", version=version)
+
+    return render_template(
+        "dashboard.html",
+        version=version,
+        status_max_length=config.status_max_length,
+    )
 
 
 @app.route("/claim", methods=["POST", "GET"])  # type: ignore
