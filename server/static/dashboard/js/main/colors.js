@@ -26,7 +26,7 @@ class Colors {
     bronze: `rgb(205, 127, 50)`,
     black: `rgb(0, 0, 0)`,
     white: `rgb(255, 255, 255)`,
-    gray: `rgba(127, 127, 127, 1)`,
+    gray: `rgb(154, 154, 154)`,
   }
 
   static themes = {
@@ -37,6 +37,10 @@ class Colors {
     white: {
       text: `rgb(0, 0, 0)`,
       background: `rgb(255, 255, 255)`,
+    },
+    gray: {
+      text: `rgb(255, 255, 255)`,
+      background: `rgb(143, 143, 143)`,
     },
   }
 
