@@ -20,6 +20,7 @@ invalid_curl = "Error: Invalid curl"
 invalid_key = "Error: Invalid key"
 invalid_status = "Error: Invalid status"
 
+# Per-process fallback cache for spent CAPTCHA digests when Redis is unavailable.
 captcha_lock = threading.Lock()
 used_captchas: dict[str, float] = {}
 redis_client: Any = None
@@ -28,10 +29,12 @@ redis_client: Any = None
 def get_redis_client() -> Any:
     global redis_client  # noqa: PLW0603
 
+    # Skip Redis when running with an in-memory URI (e.g. tests or local dev).
     if not config.redis_uri.startswith(("redis://", "rediss://")):
         return None
 
     if redis_client is None:
+        # Short timeouts ensure a stalled Redis server degrades gracefully instead of hanging workers.
         redis_client = redis.Redis.from_url(
             config.redis_uri,
             socket_connect_timeout=1,
@@ -42,19 +45,24 @@ def get_redis_client() -> Any:
 
 
 def claim_captcha_token(c_text: str, c_hash: str) -> bool:
+    # Security: Prevent multi-worker CAPTCHA replay across Gunicorn processes.
+    # flask-simple-captcha accepts swapped (c_text, c_hash) arguments, so normalize to the JWT.
     token = c_text if len(c_text.split(".")) == 3 else c_hash
     digest = hashlib.sha256(token.encode("utf-8")).hexdigest()
     expire = config.captcha.get("EXPIRE_SECONDS", 60)
+    # Add a 5s buffer past JWT expiry so clock skew cannot permit late replays.
     ttl = (expire if isinstance(expire, int) else 60) + 5
 
     client = get_redis_client()
 
     if client is not None:
         try:
+            # Atomic SET NX EX ensures only one worker can accept a given solved CAPTCHA.
             return bool(client.set(f"curls:captcha:{digest}", "1", nx=True, ex=ttl))
         except redis.RedisError:
             pass
 
+    # Fallback when Redis is unavailable: thread-safe, TTL-pruned in-memory tracking.
     now = time.monotonic()
 
     with captcha_lock:
@@ -77,6 +85,7 @@ def claim_proc(request: Any) -> tuple[dict[str, str], int]:
 
     check_captcha = True
 
+    # Security: Cheat bypass is strictly gated to Flask debug mode and compared in constant time.
     if (
         current_app.debug
         and config.captcha_cheat
@@ -87,8 +96,12 @@ def claim_proc(request: Any) -> tuple[dict[str, str], int]:
     if check_captcha:
         simple_captcha = current_app.extensions["simple_captcha"]
         verified = bool(simple_captcha.verify(c_text, c_hash))
+        # Security: flask-simple-captcha appends every solved token to an unbounded in-memory set;
+        # clear it immediately and rely on claim_captcha_token() for cross-worker replay protection.
         simple_captcha.verified_captchas.clear()
 
+        # Only record the token as spent after verification succeeds so wrong guesses cannot
+        # burn a valid CAPTCHA or pollute Redis with arbitrary strings.
         if (not verified) or (not claim_captcha_token(c_text, c_hash)):
             return {"error": "Error: Failed captcha"}, 403
 
@@ -100,6 +113,7 @@ def claim_proc(request: Any) -> tuple[dict[str, str], int]:
     if not curls.add_curl(curl, key):
         return {"error": "Error: Curl already exists"}, 409
 
+    # Return structured fields rather than raw HTML so message.html can auto-escape safely.
     return {"curl": curl, "key": key}, 201
 
 
@@ -117,6 +131,7 @@ def change_proc(request: Any) -> tuple[str, int]:
     if not curls.check_status(status):
         return invalid_status, 400
 
+    # Return 401 on key mismatch so reverse proxy logs and intrusion tools can spot brute-force.
     if not curls.check_key(curl, key):
         return invalid_key, 401
 
@@ -156,6 +171,7 @@ def curls_proc(request: Any) -> Any:
 
         cleaned_items.append(curl)
 
+    # Deduplicate while preserving order before building the SQL IN (...) query.
     unique_items = list(dict.fromkeys(cleaned_items))
     results = curls.get_curl_list(unique_items)
     return jsonify(results)

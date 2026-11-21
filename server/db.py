@@ -10,11 +10,13 @@ import click  # type: ignore
 from flask import current_app, g  # type: ignore
 
 
+# Anchor database path to server/ so running outside server/ does not open a different file.
 DATABASE = str(Path(__file__).resolve().parent / "curls.db")
 
 
 def get_db() -> Any:
     if "db" not in g:
+        # WAL mode + 30s busy timeout allow concurrent reads and reduce lock errors under Gunicorn.
         g.db = sqlite3.connect(
             DATABASE,
             timeout=30.0,

@@ -82,6 +82,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
+    # Security: Require both an explicit flag and env opt-in to prevent accidental prod DB wipes.
     if (not args.force) or (os.environ.get("CURLS_ALLOW_SEED") != "1"):
         utils.log(
             "Refusing to wipe curls.db. Run with CURLS_ALLOW_SEED=1 and --force."
@@ -135,6 +136,7 @@ if __name__ == "__main__":
         utils.log("Error: Could not connect to database.")
         sys.exit(1)
 
+    # Hash the dev seed key once so seeded curls pass check_password_hash() verification.
     seed_key_hash = generate_password_hash("pass")
 
     with conn:

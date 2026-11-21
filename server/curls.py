@@ -16,12 +16,15 @@ import db
 import config
 
 
+# Security: Strictly ASCII lowercase alphanumeric to prevent Unicode homoglyph spoofing.
 CURL_RE = re.compile(r"^[a-z0-9]+$")
 
+# Security: Explicit column allowlist protecting the dynamic SELECT in get_value().
 ALLOWED_COLUMNS = frozenset(
     {"id", "created", "updated", "curl", "key", "status", "changes"}
 )
 
+# Security: Block claiming names shadowed by static Flask routes or standard web paths.
 RESERVED_CURLS = frozenset(
     {
         "dashboard",
@@ -62,9 +65,11 @@ def add_curl(curl: str, key: str) -> bool:
     """
 
     now = date_now()
+    # Security: Persist only a salted password hash so a DB leak does not expose live keys.
     key_hash = generate_password_hash(key)
 
     try:
+        # Rely on the UNIQUE constraint instead of a pre-check to avoid TOCTOU claim races.
         cursor.execute(db_string, (now, now, curl, key_hash, ""))
         dbase.commit()
     except sqlite3.IntegrityError:
@@ -75,6 +80,7 @@ def add_curl(curl: str, key: str) -> bool:
 
 
 def make_key() -> str:
+    # Security: Use CSPRNG (secrets) with full unprefixed length (~131 bits of entropy).
     characters = string.ascii_letters + string.digits
     return "".join(secrets.choice(characters) for _ in range(config.key_length))
 
@@ -91,6 +97,7 @@ def check_key(curl: str, key: str) -> bool:
     if not result:
         return False
 
+    # Security: Constant-time verification against the stored hash.
     return bool(check_password_hash(str(result[0]), key))
 
 
@@ -135,6 +142,7 @@ def get_curl_list(curls: list[str]) -> list[dict[str, Any]]:
     dbase = db.get_db()
     cursor = dbase.cursor()
 
+    # Only '?' placeholders are formatted into the query; all curl values remain bound params.
     db_string = """
     SELECT created, curl, status, updated, changes
     FROM curls

@@ -11,6 +11,7 @@ js_root = base_dir / "static" / "dashboard" / "js"
 
 
 def get_files(path: Path, ext: str) -> list[Path]:
+    # Sort explicitly so bundle concatenation order is deterministic across filesystems.
     return sorted(path.glob(f"*.{ext}"))
 
 
@@ -33,6 +34,8 @@ def write_bundle_atomic(what: str, target: Path, ordered: list[Path]) -> None:
     tmp_path: Path | None = None
 
     try:
+        # Write into the target directory and swap atomically via Path.replace() so concurrent
+        # readers never observe a truncated or partially written JS bundle.
         with tempfile.NamedTemporaryFile(
             mode="w",
             encoding="utf-8",
@@ -73,15 +76,19 @@ def bundle_dashboard_js(
 
     ordered.extend(get_path(name) for name in last)
 
+    # Fast path: skip locking and disk writes on read-only or already-built startups.
     if (not force) and (not needs_rebuild(target, ordered)):
         return
 
+    # Keep lockfiles in the system temp dir so they do not pollute static/dashboard/js/.
     lock_path = Path(tempfile.gettempdir()) / f"curls-bundle-{what}.lock"
 
     with lock_path.open("w", encoding="utf-8") as lock_file:
+        # Serialize rebuilds across Gunicorn workers starting simultaneously.
         fcntl.flock(lock_file.fileno(), fcntl.LOCK_EX)
 
         try:
+            # Re-check after acquiring the lock in case another worker just finished rebuilding.
             if force or needs_rebuild(target, ordered):
                 write_bundle_atomic(what, target, ordered)
         finally:

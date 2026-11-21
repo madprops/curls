@@ -5,6 +5,7 @@ Curls Feedback
 {% endblock %}
 
 {% block body %}
+{# Security: Never use |safe here; Jinja2 auto-escaping prevents reflected XSS. #}
 {% if error %}
 {{ error }}
 {% else %}
