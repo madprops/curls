@@ -4,13 +4,13 @@ from __future__ import annotations
 from typing import Any
 
 # Libraries
-from flask import Flask, render_template, request, Response  # type: ignore
-from flask_cors import cross_origin  # type: ignore
+from flask import Flask, render_template, request, Response
+from flask_cors import cross_origin
 from flask_simple_captcha import CAPTCHA  # type: ignore
-from flask_limiter import Limiter  # type: ignore
-from flask_limiter.util import get_remote_address  # type: ignore
-from werkzeug.exceptions import HTTPException, RequestEntityTooLarge  # type: ignore
-from werkzeug.middleware.proxy_fix import ProxyFix  # type: ignore
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+from werkzeug.exceptions import HTTPException, RequestEntityTooLarge
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 # Modules
 import db
@@ -121,13 +121,13 @@ invalid = "Error: Invalid request"
 
 
 @app.route("/", methods=["GET"])  # type: ignore
-@limiter.limit(rate_limit(config.rate_limit))  # type: ignore
+@limiter.limit(rate_limit(config.rate_limit))
 def index() -> Any:
     return render_template("index.html")
 
 
 @app.route("/dashboard", methods=["GET"])  # type: ignore
-@limiter.limit(rate_limit(config.rate_limit))  # type: ignore
+@limiter.limit(rate_limit(config.rate_limit))
 def dashboard() -> Any:
     version = config.manifest.get("version", "0.0.0")
 
@@ -140,7 +140,7 @@ def dashboard() -> Any:
 
 # Security: /claim intentionally omits CORS so third-party origins cannot read newly issued keys.
 @app.route("/claim", methods=["POST", "GET"])  # type: ignore
-@limiter.limit(rate_limit(config.rate_limit))  # type: ignore
+@limiter.limit(rate_limit(config.rate_limit))
 def claim() -> Any:
     if request.method == "POST":
         try:
@@ -160,13 +160,13 @@ def claim() -> Any:
 # Security: CORS is scoped to public API routes (send_wildcard emits '*' instead of reflecting
 # Origin). Stacked IP and per-curl limits throttle both single-IP and distributed key guessing.
 @app.route("/change", methods=["POST", "GET"])  # type: ignore
-@cross_origin(methods=["POST"], send_wildcard=True)  # type: ignore
-@limiter.limit(rate_limit(config.rate_limit_change))  # type: ignore
+@cross_origin(methods=["POST"], send_wildcard=True)
+@limiter.limit(rate_limit(config.rate_limit_change))
 @limiter.limit(
     rate_limit(config.rate_limit_change_per_curl),
     key_func=change_curl_key,
     methods=["POST"],
-)  # type: ignore
+)
 def change() -> Any:
     if request.method == "POST":
         try:
@@ -183,8 +183,8 @@ def change() -> Any:
 
 # Public read endpoint; wildcard CORS is intentional so external apps can fetch statuses.
 @app.route("/<curl>", methods=["GET"])  # type: ignore
-@cross_origin(methods=["GET"], send_wildcard=True)  # type: ignore
-@limiter.limit(rate_limit(config.rate_limit))  # type: ignore
+@cross_origin(methods=["GET"], send_wildcard=True)
+@limiter.limit(rate_limit(config.rate_limit))
 def get_curl(curl: str) -> Any:
     try:
         ans, status = procs.curl_proc(curl)
@@ -198,8 +198,8 @@ def get_curl(curl: str) -> Any:
 
 # Public batch read endpoint used by the dashboard and external clients.
 @app.route("/curls", methods=["POST"])  # type: ignore
-@cross_origin(methods=["POST"], send_wildcard=True)  # type: ignore
-@limiter.limit(rate_limit(config.rate_limit))  # type: ignore
+@cross_origin(methods=["POST"], send_wildcard=True)
+@limiter.limit(rate_limit(config.rate_limit))
 def get_curls() -> Any:
     try:
         return procs.curls_proc(request)

@@ -24,21 +24,21 @@ select = [
     "UP",
     "TRY",
     "C4",
-    "E401",
-    "E713",
-    "E721",
-    "S101",
-    "S113",
-    "SIM103",
-    "SIM114",
-    "SIM118",
-    "SIM210",
-    "PLR5501",
-    "PLR1711",
+    "multiple-imports-on-one-line",
+    "not-in-test",
+    "type-comparison",
+    "assert",
+    "request-without-timeout",
+    "needless-bool",
+    "if-with-same-arms",
+    "in-dict-keys",
+    "if-expr-with-true-false",
+    "collapsible-else-if",
+    "useless-return",
 ]
 
 ignore = [
-    "PLW0108",
+    "unnecessary-lambda",
 ]
 
 exclude = [

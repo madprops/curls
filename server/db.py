@@ -6,8 +6,8 @@ from pathlib import Path
 from typing import Any
 
 # Libraries
-import click  # type: ignore
-from flask import current_app, g  # type: ignore
+import click
+from flask import current_app, g
 
 
 # Anchor database path to server/ so running outside server/ does not open a different file.
@@ -37,7 +37,7 @@ def close_db(e: Any) -> None:
         db.close()
 
 
-@click.command("init-db")  # type: ignore
+@click.command("init-db")
 def init_db_command() -> None:
     init_db()
     click.echo("Initialized the database.")
@@ -46,8 +46,8 @@ def init_db_command() -> None:
 def init_db() -> None:
     db = get_db()
 
-    with current_app.open_resource("schema.sql") as f:
-        db.executescript(f.read().decode("utf8"))
+    with current_app.open_resource("schema.sql", mode="r") as f:
+        db.executescript(f.read())
 
 
 def init_app(app: Any) -> None:

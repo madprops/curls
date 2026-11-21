@@ -2,7 +2,7 @@ from __future__ import annotations
 
 # Standard
 import argparse
-import datetime
+import datetime as dt
 import json
 import os
 import random
@@ -54,8 +54,8 @@ def insert_into_db(
     conn.commit()
 
 
-def date_now() -> datetime.datetime:
-    return datetime.datetime.now(datetime.timezone.utc)
+def date_now() -> dt.datetime:
+    return dt.datetime.now(dt.UTC)
 
 
 def get_random_items(file: Path, num: int) -> list[str]:
@@ -84,9 +84,7 @@ if __name__ == "__main__":
 
     # Security: Require both an explicit flag and env opt-in to prevent accidental prod DB wipes.
     if (not args.force) or (os.environ.get("CURLS_ALLOW_SEED") != "1"):
-        utils.log(
-            "Refusing to wipe curls.db. Run with CURLS_ALLOW_SEED=1 and --force."
-        )
+        utils.log("Refusing to wipe curls.db. Run with CURLS_ALLOW_SEED=1 and --force.")
         sys.exit(1)
 
     num = 140

@@ -8,8 +8,8 @@ import time
 from typing import Any
 
 # Libraries
-import redis  # type: ignore
-from flask import current_app, jsonify, Response  # type: ignore
+import redis
+from flask import current_app, jsonify, Response
 
 # Modules
 import config
@@ -27,7 +27,7 @@ redis_client: Any = None
 
 
 def get_redis_client() -> Any:
-    global redis_client  # noqa: PLW0603
+    global redis_client  # ruff: ignore[global-statement]
 
     # Skip Redis when running with an in-memory URI (e.g. tests or local dev).
     if not config.redis_uri.startswith(("redis://", "rediss://")):

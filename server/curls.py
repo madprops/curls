@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 # Standard
-import datetime
+import datetime as dt
 import re
 import secrets
 import sqlite3
@@ -9,7 +9,7 @@ import string
 from typing import Any
 
 # Libraries
-from werkzeug.security import check_password_hash, generate_password_hash  # type: ignore
+from werkzeug.security import check_password_hash, generate_password_hash
 
 # Modules
 import db
@@ -220,8 +220,8 @@ def check_status(status: str) -> bool:
     return len(status) <= config.status_max_length
 
 
-def date_now() -> datetime.datetime:
-    return datetime.datetime.now(datetime.timezone.utc)
+def date_now() -> dt.datetime:
+    return dt.datetime.now(dt.UTC)
 
 
 def clean_curl(curl: str) -> str:
