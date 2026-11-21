@@ -1,5 +1,8 @@
+from __future__ import annotations
+
 # Standard
 import sqlite3
+from pathlib import Path
 from typing import Any
 
 # Libraries
@@ -7,13 +10,19 @@ import click  # type: ignore
 from flask import current_app, g  # type: ignore
 
 
-DATABASE = "curls.db"
+DATABASE = str(Path(__file__).resolve().parent / "curls.db")
 
 
 def get_db() -> Any:
     if "db" not in g:
-        g.db = sqlite3.connect(DATABASE, detect_types=sqlite3.PARSE_DECLTYPES)
+        g.db = sqlite3.connect(
+            DATABASE,
+            timeout=30.0,
+            detect_types=sqlite3.PARSE_DECLTYPES,
+        )
 
+        g.db.execute("PRAGMA journal_mode=WAL")
+        g.db.execute("PRAGMA busy_timeout=30000")
         g.db.row_factory = sqlite3.Row
 
     return g.db

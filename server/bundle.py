@@ -1,44 +1,99 @@
 from __future__ import annotations
 
 # Standard
+import fcntl
+import tempfile
 from pathlib import Path
 
 
-def get_files(path: str, ext: str) -> list[str]:
-    files = Path(path).glob(f"*.{ext}")
-    return [str(f) for f in files]
+base_dir = Path(__file__).resolve().parent
+js_root = base_dir / "static" / "dashboard" / "js"
 
 
-def bundle_dashboard_js(what: str, first: list[str], last: list[str]) -> None:
-    files = get_files(f"static/dashboard/js/{what}", "js")
-
-    def get_path(f: str) -> Path:
-        return Path(f"static/dashboard/js/{what}/{f}.js")
-
-    with Path(f"static/dashboard/js/bundle.{what}.js").open("w", encoding="utf-8") as f:
-        for file_ in first:
-            with get_path(file_).open("r") as js:
-                f.write(js.read())
-                f.write("\n\n")
-
-        for file_ in files:
-            file = Path(file_)
-
-            if (file.stem not in first) and (file.stem not in last):
-                with file.open("r") as js:
-                    f.write(js.read())
-                    f.write("\n\n")
-
-        for file_ in last:
-            with get_path(file_).open("r") as js:
-                f.write(js.read())
-                f.write("\n\n")
+def get_files(path: Path, ext: str) -> list[Path]:
+    return sorted(path.glob(f"*.{ext}"))
 
 
-def bundle_dashboard() -> None:
-    bundle_dashboard_js("libs", [], ["colorlib"])
-    bundle_dashboard_js("main", ["app", "utils"], ["load"])
+def _needs_rebuild(target: Path, sources: list[Path]) -> bool:
+    if not target.is_file():
+        return True
+
+    target_mtime = target.stat().st_mtime
+    return any(src.stat().st_mtime > target_mtime for src in sources)
+
+
+def bundle_dashboard_js(
+    what: str,
+    first: list[str],
+    last: list[str],
+    *,
+    force: bool = True,
+) -> None:
+    source_dir = js_root / what
+    files = get_files(source_dir, "js")
+    target = js_root / f"bundle.{what}.js"
+
+    def get_path(name: str) -> Path:
+        return source_dir / f"{name}.js"
+
+    ordered: list[Path] = [get_path(name) for name in first]
+
+    ordered.extend(
+        file for file in files if (file.stem not in first) and (file.stem not in last)
+    )
+
+    ordered.extend(get_path(name) for name in last)
+
+    if (not force) and (not _needs_rebuild(target, ordered)):
+        return
+
+    lock_path = Path(tempfile.gettempdir()) / f"curls-bundle-{what}.lock"
+
+    with lock_path.open("w", encoding="utf-8") as lock_file:
+        fcntl.flock(lock_file.fileno(), fcntl.LOCK_EX)
+
+        try:
+            if (not force) and (not _needs_rebuild(target, ordered)):
+                return
+
+            chunks: list[str] = []
+
+            for src in ordered:
+                with src.open("r", encoding="utf-8") as js:
+                    chunks.append(js.read())
+                    chunks.append("\n\n")
+
+            tmp_path: Path | None = None
+
+            try:
+                with tempfile.NamedTemporaryFile(
+                    mode="w",
+                    encoding="utf-8",
+                    dir=js_root,
+                    prefix=f".bundle.{what}.",
+                    suffix=".tmp",
+                    delete=False,
+                ) as tmp:
+                    tmp.write("".join(chunks))
+                    tmp_path = Path(tmp.name)
+
+                tmp_path.replace(target)
+            except Exception:
+                if tmp_path is not None:
+                    tmp_path.unlink(missing_ok=True)
+                raise
+        finally:
+            fcntl.flock(lock_file.fileno(), fcntl.LOCK_UN)
+
+
+def bundle_dashboard(*, force: bool = True) -> None:
+    bundle_dashboard_js("libs", [], ["colorlib"], force=force)
+    bundle_dashboard_js("main", ["app", "utils"], ["load"], force=force)
+
+
+def ensure_bundles() -> None:
+    bundle_dashboard(force=False)
 
 
 if __name__ == "__main__":
-    bundle_dashboard()
+    bundle_dashboard(force=True)

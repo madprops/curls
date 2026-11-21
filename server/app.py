@@ -5,7 +5,7 @@ from typing import Any
 
 # Libraries
 from flask import Flask, render_template, request, Response  # type: ignore
-from flask_cors import CORS  # type: ignore
+from flask_cors import cross_origin  # type: ignore
 from flask_simple_captcha import CAPTCHA  # type: ignore
 from flask_limiter import Limiter  # type: ignore
 from flask_limiter.util import get_remote_address  # type: ignore
@@ -54,7 +54,6 @@ if config.proxy_count > 0:
         x_host=config.proxy_count,
     )
 
-CORS(app)
 db.init_app(app)
 simple_captcha = CAPTCHA(config=config.captcha)
 app = simple_captcha.init_app(app)
@@ -71,7 +70,33 @@ limiter = Limiter(
 )
 
 
-bundle.bundle_dashboard()
+bundle.ensure_bundles()
+
+
+@app.after_request  # type: ignore
+def add_security_headers(response: Response) -> Response:
+    response.headers.setdefault("X-Content-Type-Options", "nosniff")
+    response.headers.setdefault("X-Frame-Options", "DENY")
+    response.headers.setdefault("Referrer-Policy", "no-referrer")
+
+    if request.endpoint == "get_curl":
+        response.headers.setdefault(
+            "Content-Security-Policy",
+            "default-src 'none'; sandbox",
+        )
+    else:
+        response.headers.setdefault(
+            "Content-Security-Policy",
+            "default-src 'self'; img-src 'self' data:; "
+            "style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; "
+            "frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
+        )
+
+    if request.endpoint in {"claim", "change"}:
+        response.headers["Cache-Control"] = "no-store"
+        response.headers["Pragma"] = "no-cache"
+
+    return response
 
 
 # ---
@@ -103,8 +128,8 @@ def dashboard() -> Any:
 def claim() -> Any:
     if request.method == "POST":
         try:
-            message = procs.claim_proc(request)
-            return render_template("message.html", message=message)
+            result = procs.claim_proc(request)
+            return render_template("message.html", **result)
         except HTTPException:
             raise
         except Exception as e:
@@ -116,6 +141,7 @@ def claim() -> Any:
 
 
 @app.route("/change", methods=["POST", "GET"])  # type: ignore
+@cross_origin(methods=["POST"], send_wildcard=True)  # type: ignore
 @limiter.limit(rate_limit(config.rate_limit_change))  # type: ignore
 @limiter.limit(
     rate_limit(config.rate_limit_change_per_curl),
@@ -137,6 +163,7 @@ def change() -> Any:
 
 
 @app.route("/<curl>", methods=["GET"])  # type: ignore
+@cross_origin(methods=["GET"], send_wildcard=True)  # type: ignore
 @limiter.limit(rate_limit(config.rate_limit))  # type: ignore
 def get_curl(curl) -> Any:
     try:
@@ -150,6 +177,7 @@ def get_curl(curl) -> Any:
 
 
 @app.route("/curls", methods=["POST"])  # type: ignore
+@cross_origin(methods=["POST"], send_wildcard=True)  # type: ignore
 @limiter.limit(rate_limit(config.rate_limit))  # type: ignore
 def get_curls() -> Any:
     try:

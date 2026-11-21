@@ -5,5 +5,13 @@ Curls Feedback
 {% endblock %}
 
 {% block body %}
-{{message|safe}}
+{% if error %}
+{{ error }}
+{% else %}
+Your curl is: <b>{{ curl }}</b><br>
+Your key is: <b>{{ key }}</b><br>
+The key is secret and shouldn't be shared.<br>
+Save the key somewhere so it doesn't get lost.<br>
+There is no way to recover a lost key.
+{% endif %}
 {% endblock %}

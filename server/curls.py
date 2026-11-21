@@ -2,7 +2,9 @@ from __future__ import annotations
 
 # Standard
 import datetime
+import re
 import secrets
+import sqlite3
 import string
 from typing import Any
 
@@ -14,6 +16,22 @@ import db
 import config
 
 
+CURL_RE = re.compile(r"^[a-z0-9]+$")
+
+RESERVED_CURLS = frozenset(
+    {
+        "dashboard",
+        "claim",
+        "change",
+        "curls",
+        "static",
+        "favicon",
+        "robots",
+        "sitemap",
+    }
+)
+
+
 def get_value(curl: str, what: str) -> Any:
     dbase = db.get_db()
     cursor = dbase.cursor()
@@ -22,7 +40,7 @@ def get_value(curl: str, what: str) -> Any:
     return cursor.fetchone()
 
 
-def add_curl(curl: str, key: str) -> None:
+def add_curl(curl: str, key: str) -> bool:
     dbase = db.get_db()
     cursor = dbase.cursor()
 
@@ -33,8 +51,15 @@ def add_curl(curl: str, key: str) -> None:
 
     now = date_now()
     key_hash = generate_password_hash(key)
-    cursor.execute(db_string, (now, now, curl, key_hash, ""))
-    dbase.commit()
+
+    try:
+        cursor.execute(db_string, (now, now, curl, key_hash, ""))
+        dbase.commit()
+    except sqlite3.IntegrityError:
+        dbase.rollback()
+        return False
+
+    return True
 
 
 def make_key() -> str:
@@ -162,7 +187,10 @@ def check_curl(curl: str) -> bool:
     if len(curl) > config.curl_max_length:
         return False
 
-    return curl.isalnum()
+    if curl in RESERVED_CURLS:
+        return False
+
+    return bool(CURL_RE.fullmatch(curl))
 
 
 def check_status(status: str) -> bool:
