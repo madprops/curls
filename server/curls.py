@@ -1,10 +1,13 @@
 from __future__ import annotations
 
 # Standard
-import random
-import string
 import datetime
+import secrets
+import string
 from typing import Any
+
+# Libraries
+from werkzeug.security import check_password_hash, generate_password_hash  # type: ignore
 
 # Modules
 import db
@@ -29,16 +32,14 @@ def add_curl(curl: str, key: str) -> None:
     """
 
     now = date_now()
-    cursor.execute(db_string, (now, now, curl, key, ""))
+    key_hash = generate_password_hash(key)
+    cursor.execute(db_string, (now, now, curl, key_hash, ""))
     dbase.commit()
 
 
-def make_key(curl: str) -> str:
+def make_key() -> str:
     characters = string.ascii_letters + string.digits
-    chars = "".join(random.choice(characters) for i in range(config.key_length))
-    start = curl[:3]
-    rest = len(start) + 1
-    return f"{start}_{chars[rest:]}"
+    return "".join(secrets.choice(characters) for _ in range(config.key_length))
 
 
 def check_key(curl: str, key: str) -> bool:
@@ -49,7 +50,11 @@ def check_key(curl: str, key: str) -> bool:
         return False
 
     result = get_value(curl, "key")
-    return bool(result) and (result[0] == key)
+
+    if not result:
+        return False
+
+    return bool(check_password_hash(str(result[0]), key))
 
 
 def change_status(curl: str, status: str) -> None:
@@ -180,5 +185,4 @@ def clean_key(key: str) -> str:
 
 
 def clean_status(status: str) -> str:
-    print(status)
     return str(status).strip()

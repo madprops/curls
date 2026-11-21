@@ -9,10 +9,13 @@ from flask_cors import CORS  # type: ignore
 from flask_simple_captcha import CAPTCHA  # type: ignore
 from flask_limiter import Limiter  # type: ignore
 from flask_limiter.util import get_remote_address  # type: ignore
+from werkzeug.exceptions import HTTPException, RequestEntityTooLarge  # type: ignore
+from werkzeug.middleware.proxy_fix import ProxyFix  # type: ignore
 
 # Modules
 import db
 import config
+import curls
 import procs
 import bundle
 import utils
@@ -25,7 +28,32 @@ def rate_limit(n: int) -> str:
     return f"{n} per minute"
 
 
+def change_curl_key() -> str:
+    if (
+        request.content_length is not None
+        and request.content_length > config.max_content_length
+    ):
+        return get_remote_address()
+
+    try:
+        curl = curls.clean_curl(request.form.get("curl", ""))
+    except RequestEntityTooLarge:
+        return get_remote_address()
+
+    return f"change-curl:{curl}" if curl else get_remote_address()
+
+
 app = Flask(__name__)
+app.config["MAX_CONTENT_LENGTH"] = config.max_content_length
+
+if config.proxy_count > 0:
+    app.wsgi_app = ProxyFix(  # type: ignore
+        app.wsgi_app,
+        x_for=config.proxy_count,
+        x_proto=config.proxy_count,
+        x_host=config.proxy_count,
+    )
+
 CORS(app)
 db.init_app(app)
 simple_captcha = CAPTCHA(config=config.captcha)
@@ -37,8 +65,9 @@ limiter = Limiter(
     get_remote_address,
     app=app,
     default_limits=[rate_limit(config.rate_limit)],
-    storage_uri="redis://localhost:6379",
+    storage_uri=config.redis_uri,
     strategy="fixed-window",
+    in_memory_fallback_enabled=True,
 )
 
 
@@ -76,6 +105,8 @@ def claim() -> Any:
         try:
             message = procs.claim_proc(request)
             return render_template("message.html", message=message)
+        except HTTPException:
+            raise
         except Exception as e:
             utils.error(e)
             return Response(invalid, mimetype=config.text_mtype)
@@ -86,11 +117,18 @@ def claim() -> Any:
 
 @app.route("/change", methods=["POST", "GET"])  # type: ignore
 @limiter.limit(rate_limit(config.rate_limit_change))  # type: ignore
+@limiter.limit(
+    rate_limit(config.rate_limit_change_per_curl),
+    key_func=change_curl_key,
+    methods=["POST"],
+)  # type: ignore
 def change() -> Any:
     if request.method == "POST":
         try:
             ans = procs.change_proc(request)
             return Response(ans, mimetype=config.text_mtype)
+        except HTTPException:
+            raise
         except Exception as e:
             utils.error(e)
             return Response(invalid, mimetype=config.text_mtype)
@@ -104,6 +142,8 @@ def get_curl(curl) -> Any:
     try:
         ans = procs.curl_proc(curl)
         return Response(ans, mimetype=config.text_mtype)
+    except HTTPException:
+        raise
     except Exception as e:
         utils.error(e)
         return Response(invalid, mimetype=config.text_mtype)
@@ -114,6 +154,8 @@ def get_curl(curl) -> Any:
 def get_curls() -> Any:
     try:
         return procs.curls_proc(request)
+    except HTTPException:
+        raise
     except Exception as e:
         utils.error(e)
         return Response(invalid, mimetype=config.text_mtype)

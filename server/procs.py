@@ -1,8 +1,11 @@
 from __future__ import annotations
 
 # Standard
-from flask import jsonify, Response  # type: ignore
+import hmac
 from typing import Any
+
+# Libraries
+from flask import jsonify, Response  # type: ignore
 
 # Modules
 import app
@@ -20,12 +23,16 @@ def claim_proc(request: Any) -> str:
     c_text = request.form.get("captcha-text", "")
     curl = curls.clean_curl(request.form.get("curl", ""))
 
-    check_catpcha = True
+    check_captcha = True
 
-    if config.captcha_cheat and (c_text == config.captcha_cheat):
-        check_catpcha = False
+    if (
+        app.app.debug
+        and config.captcha_cheat
+        and hmac.compare_digest(c_text, config.captcha_cheat)
+    ):
+        check_captcha = False
 
-    if check_catpcha:
+    if check_captcha:
         if not app.simple_captcha.verify(c_text, c_hash):
             return "Error: Failed captcha"
 
@@ -35,7 +42,7 @@ def claim_proc(request: Any) -> str:
     if curls.curl_exists(curl):
         return "Error: Curl already exists"
 
-    key = curls.make_key(curl)
+    key = curls.make_key()
     curls.add_curl(curl, key)
 
     lines = [
