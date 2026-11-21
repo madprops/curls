@@ -12,6 +12,12 @@ class Status {
     let status = this.get_status()
     let button = DOM.el(`#status_button`)
 
+    DOM.ev(status, `keydown`, (e) => {
+      if (e.key === `Enter`) {
+        e.preventDefault()
+      }
+    })
+
     DOM.ev(status, `keyup`, (e) => {
       if (e.key === `Enter`) {
         Change.change()
