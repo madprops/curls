@@ -1,6 +1,15 @@
+from __future__ import annotations
+
+# Standard
+import logging
+
+
+logger = logging.getLogger("curls")
+
+
 def error(e: Exception) -> None:
-    print(e)  # noqa
+    logger.exception("Unhandled error: %s", e)
 
 
 def log(s: str) -> None:
-    print(s)  # noqa
+    logger.info("%s", s)

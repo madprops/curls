@@ -1,19 +1,27 @@
 from __future__ import annotations
 
 # Standard
-import sys
+import argparse
 import datetime
-import random
 import json
+import os
+import random
 import sqlite3
-from sqlite3 import Error
+import sys
 from pathlib import Path
+from sqlite3 import Error
+
+# Libraries
+from werkzeug.security import generate_password_hash  # type: ignore
 
 # Modules
 import utils
 
 
-def create_connection(db_file: str) -> sqlite3.Connection | None:
+base_dir = Path(__file__).resolve().parent
+
+
+def create_connection(db_file: Path) -> sqlite3.Connection | None:
     conn = None
 
     try:
@@ -31,13 +39,18 @@ def clean_db(conn: sqlite3.Connection) -> None:
     conn.commit()
 
 
-def insert_into_db(conn: sqlite3.Connection, curl: str, status: str) -> None:
+def insert_into_db(
+    conn: sqlite3.Connection,
+    curl: str,
+    status: str,
+    key_hash: str,
+) -> None:
     sql = """ INSERT INTO curls(created, updated, curl, key, status)
               VALUES(?,?,?,?,?) """
 
     cur = conn.cursor()
     now = date_now()
-    cur.execute(sql, (now, now, curl, "pass", status))
+    cur.execute(sql, (now, now, curl, key_hash, status))
     conn.commit()
 
 
@@ -45,8 +58,8 @@ def date_now() -> datetime.datetime:
     return datetime.datetime.now(datetime.timezone.utc)
 
 
-def get_random_items(file: str, num: int) -> list[str]:
-    with Path(file).open(encoding="utf-8") as f:
+def get_random_items(file: Path, num: int) -> list[str]:
+    with file.open(encoding="utf-8") as f:
         names = json.load(f)
         return random.sample(names, num)
 
@@ -57,7 +70,26 @@ def clean_items(names: list[str]) -> list[str]:
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="Wipe curls.db and seed it with development test data."
+    )
+
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help="Required confirmation flag to wipe and re-seed curls.db.",
+    )
+
+    args = parser.parse_args()
+
+    if (not args.force) or (os.environ.get("CURLS_ALLOW_SEED") != "1"):
+        utils.log(
+            "Refusing to wipe curls.db. Run with CURLS_ALLOW_SEED=1 and --force."
+        )
+        sys.exit(1)
+
     num = 140
+
     colors = [
         "red",
         "green",
@@ -76,7 +108,7 @@ if __name__ == "__main__":
         "gray",
     ]
 
-    names = get_random_items("names.json", num)
+    names = get_random_items(base_dir / "names.json", num)
     names = clean_items(names)
 
     obj: dict[str, list[str]] = {}
@@ -93,18 +125,20 @@ if __name__ == "__main__":
         n1 += d
         n2 += d
 
-    with Path("export.json").open("w", encoding="utf-8") as f:
+    with (base_dir / "export.json").open("w", encoding="utf-8") as f:
         json.dump(obj, f, indent=4)
 
-    sents = get_random_items("sentences.json", num)
-    conn = create_connection("curls.db")
+    sents = get_random_items(base_dir / "sentences.json", num)
+    conn = create_connection(base_dir / "curls.db")
 
     if not conn:
         utils.log("Error: Could not connect to database.")
         sys.exit(1)
 
+    seed_key_hash = generate_password_hash("pass")
+
     with conn:
         clean_db(conn)
 
         for i, name in enumerate(names):
-            insert_into_db(conn, name, sents[i])
+            insert_into_db(conn, name, sents[i], seed_key_hash)

@@ -57,6 +57,7 @@ if config.proxy_count > 0:
 db.init_app(app)
 simple_captcha = CAPTCHA(config=config.captcha)
 app = simple_captcha.init_app(app)
+app.extensions["simple_captcha"] = simple_captcha
 app.url_map.strict_slashes = False
 
 
@@ -65,7 +66,7 @@ limiter = Limiter(
     app=app,
     default_limits=[rate_limit(config.rate_limit)],
     storage_uri=config.redis_uri,
-    strategy="fixed-window",
+    strategy="moving-window",
     in_memory_fallback_enabled=True,
 )
 
@@ -128,13 +129,13 @@ def dashboard() -> Any:
 def claim() -> Any:
     if request.method == "POST":
         try:
-            result = procs.claim_proc(request)
-            return render_template("message.html", **result)
+            result, status = procs.claim_proc(request)
+            return render_template("message.html", **result), status
         except HTTPException:
             raise
         except Exception as e:
             utils.error(e)
-            return Response(invalid, mimetype=config.text_mtype)
+            return Response(invalid, status=500, mimetype=config.text_mtype)
 
     captcha = simple_captcha.create()
     return render_template("claim.html", captcha=captcha)
@@ -151,13 +152,13 @@ def claim() -> Any:
 def change() -> Any:
     if request.method == "POST":
         try:
-            ans = procs.change_proc(request)
-            return Response(ans, mimetype=config.text_mtype)
+            ans, status = procs.change_proc(request)
+            return Response(ans, status=status, mimetype=config.text_mtype)
         except HTTPException:
             raise
         except Exception as e:
             utils.error(e)
-            return Response(invalid, mimetype=config.text_mtype)
+            return Response(invalid, status=500, mimetype=config.text_mtype)
 
     return render_template("change.html")
 
@@ -165,15 +166,15 @@ def change() -> Any:
 @app.route("/<curl>", methods=["GET"])  # type: ignore
 @cross_origin(methods=["GET"], send_wildcard=True)  # type: ignore
 @limiter.limit(rate_limit(config.rate_limit))  # type: ignore
-def get_curl(curl) -> Any:
+def get_curl(curl: str) -> Any:
     try:
-        ans = procs.curl_proc(curl)
-        return Response(ans, mimetype=config.text_mtype)
+        ans, status = procs.curl_proc(curl)
+        return Response(ans, status=status, mimetype=config.text_mtype)
     except HTTPException:
         raise
     except Exception as e:
         utils.error(e)
-        return Response(invalid, mimetype=config.text_mtype)
+        return Response(invalid, status=500, mimetype=config.text_mtype)
 
 
 @app.route("/curls", methods=["POST"])  # type: ignore
@@ -186,4 +187,4 @@ def get_curls() -> Any:
         raise
     except Exception as e:
         utils.error(e)
-        return Response(invalid, mimetype=config.text_mtype)
+        return Response(invalid, status=500, mimetype=config.text_mtype)

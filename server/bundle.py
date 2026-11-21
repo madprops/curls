@@ -14,12 +14,41 @@ def get_files(path: Path, ext: str) -> list[Path]:
     return sorted(path.glob(f"*.{ext}"))
 
 
-def _needs_rebuild(target: Path, sources: list[Path]) -> bool:
+def needs_rebuild(target: Path, sources: list[Path]) -> bool:
     if not target.is_file():
         return True
 
     target_mtime = target.stat().st_mtime
     return any(src.stat().st_mtime > target_mtime for src in sources)
+
+
+def write_bundle_atomic(what: str, target: Path, ordered: list[Path]) -> None:
+    chunks: list[str] = []
+
+    for src in ordered:
+        with src.open("r", encoding="utf-8") as js:
+            chunks.append(js.read())
+            chunks.append("\n\n")
+
+    tmp_path: Path | None = None
+
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            dir=js_root,
+            prefix=f".bundle.{what}.",
+            suffix=".tmp",
+            delete=False,
+        ) as tmp:
+            tmp.write("".join(chunks))
+            tmp_path = Path(tmp.name)
+
+        tmp_path.replace(target)
+    except Exception:
+        if tmp_path is not None:
+            tmp_path.unlink(missing_ok=True)
+        raise
 
 
 def bundle_dashboard_js(
@@ -44,7 +73,7 @@ def bundle_dashboard_js(
 
     ordered.extend(get_path(name) for name in last)
 
-    if (not force) and (not _needs_rebuild(target, ordered)):
+    if (not force) and (not needs_rebuild(target, ordered)):
         return
 
     lock_path = Path(tempfile.gettempdir()) / f"curls-bundle-{what}.lock"
@@ -53,35 +82,8 @@ def bundle_dashboard_js(
         fcntl.flock(lock_file.fileno(), fcntl.LOCK_EX)
 
         try:
-            if (not force) and (not _needs_rebuild(target, ordered)):
-                return
-
-            chunks: list[str] = []
-
-            for src in ordered:
-                with src.open("r", encoding="utf-8") as js:
-                    chunks.append(js.read())
-                    chunks.append("\n\n")
-
-            tmp_path: Path | None = None
-
-            try:
-                with tempfile.NamedTemporaryFile(
-                    mode="w",
-                    encoding="utf-8",
-                    dir=js_root,
-                    prefix=f".bundle.{what}.",
-                    suffix=".tmp",
-                    delete=False,
-                ) as tmp:
-                    tmp.write("".join(chunks))
-                    tmp_path = Path(tmp.name)
-
-                tmp_path.replace(target)
-            except Exception:
-                if tmp_path is not None:
-                    tmp_path.unlink(missing_ok=True)
-                raise
+            if force or needs_rebuild(target, ordered):
+                write_bundle_atomic(what, target, ordered)
         finally:
             fcntl.flock(lock_file.fileno(), fcntl.LOCK_UN)
 

@@ -18,6 +18,10 @@ import config
 
 CURL_RE = re.compile(r"^[a-z0-9]+$")
 
+ALLOWED_COLUMNS = frozenset(
+    {"id", "created", "updated", "curl", "key", "status", "changes"}
+)
+
 RESERVED_CURLS = frozenset(
     {
         "dashboard",
@@ -32,7 +36,15 @@ RESERVED_CURLS = frozenset(
 )
 
 
+class InvalidColumnError(ValueError):
+    def __init__(self, column: str) -> None:
+        super().__init__(f"Invalid column name: {column}")
+
+
 def get_value(curl: str, what: str) -> Any:
+    if what not in ALLOWED_COLUMNS:
+        raise InvalidColumnError(what)
+
     dbase = db.get_db()
     cursor = dbase.cursor()
     db_string = f"SELECT {what} FROM curls WHERE curl = ?"
