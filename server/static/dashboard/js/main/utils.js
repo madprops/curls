@@ -47,15 +47,62 @@ class Utils {
     }
   }
 
+  // Security: Escape all HTML-significant characters for safe text handling.
   static sanitize(s) {
-    return s.replace(/</g, `&lt;`).replace(/>/g, `&gt;`)
+    return String(s ?? ``)
+      .replace(/&/g, `&amp;`)
+      .replace(/</g, `&lt;`)
+      .replace(/>/g, `&gt;`)
+      .replace(/"/g, `&quot;`)
+      .replace(/'/g, `&#39;`)
   }
 
-  static urlize(el) {
-    let html = el.innerHTML
-    let urlRegex = /(https?:\/\/[^\s]+)/g
-    let replacedText = html.replace(urlRegex, `<a href="$1" target="_blank">$1</a>`)
-    el.innerHTML = replacedText
+  // Security: Build status text and clickable links using DOM nodes instead of innerHTML
+  // regex replacement, preventing attribute-breakout Stored XSS via quotes inside URLs.
+  static urlize(el, text) {
+    let content = String(text ?? ``)
+    let urlRegex = /https?:\/\/[^\s"'<>]+/g
+    let fragment = document.createDocumentFragment()
+    let lastIndex = 0
+    let match
+
+    while ((match = urlRegex.exec(content)) !== null) {
+      if (match.index > lastIndex) {
+        fragment.append(document.createTextNode(content.slice(lastIndex, match.index)))
+      }
+
+      let rawUrl = match[0]
+      let parsed = null
+
+      try {
+        parsed = new URL(rawUrl)
+      }
+      catch {
+        parsed = null
+      }
+
+      // Security: Only allow http/https URLs; never create links for javascript: or data: URIs.
+      if (parsed && ((parsed.protocol === `http:`) || (parsed.protocol === `https:`))) {
+        let link = document.createElement(`a`)
+        link.href = parsed.href
+        link.textContent = rawUrl
+        link.target = `_blank`
+        // Security: Prevent reverse tabnabbing and referrer leakage on external links.
+        link.rel = `noopener noreferrer`
+        fragment.append(link)
+      }
+      else {
+        fragment.append(document.createTextNode(rawUrl))
+      }
+
+      lastIndex = urlRegex.lastIndex
+    }
+
+    if (lastIndex < content.length) {
+      fragment.append(document.createTextNode(content.slice(lastIndex)))
+    }
+
+    el.replaceChildren(fragment)
   }
 
   static create_debouncer(func, delay) {
@@ -172,14 +219,32 @@ class Utils {
     return saved === `true`
   }
 
+  // Security: Always verify parsed storage JSON is an array so corrupted data cannot crash startup.
   static load_array(name) {
     try {
-      return JSON.parse(localStorage.getItem(name) || `[]`)
+      let parsed = JSON.parse(localStorage.getItem(name) || `[]`)
+      return Array.isArray(parsed) ? parsed : []
     }
     catch (err) {
       this.error(err)
       return []
     }
+  }
+
+  // Security: Session-only storage helper for sensitive data (cleared when the browser tab closes).
+  static load_session_array(name) {
+    try {
+      let parsed = JSON.parse(sessionStorage.getItem(name) || `[]`)
+      return Array.isArray(parsed) ? parsed : []
+    }
+    catch (err) {
+      this.error(err)
+      return []
+    }
+  }
+
+  static save_session(name, value) {
+    sessionStorage.setItem(name, value)
   }
 
   static load_string(name, def_value = ``) {

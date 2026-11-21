@@ -255,8 +255,8 @@ class Container {
     item_curl.textContent = item.curl
     item_curl.title = item.curl
     let status = item.status || `Not updated yet`
-    item_status.innerHTML = Utils.sanitize(status)
-    Utils.urlize(item_status)
+    // Security: Render untrusted remote status text via DOM nodes (never innerHTML) to prevent Stored XSS.
+    Utils.urlize(item_status, status)
     let item_updated = DOM.create(`div`, `item_updated glow`)
 
     let dates = [

@@ -121,10 +121,31 @@ class Menu {
 
     try {
       let colors = JSON.parse(data)
+
+      // Security: Require a plain JSON object to prevent malformed or prototype-polluting imports.
+      if (!colors || (typeof colors !== `object`) || Array.isArray(colors)) {
+        Windows.alert({title: `Error`, message: `Invalid import data format`})
+        return
+      }
+
       let modified = false
 
-      for (let color in colors) {
-        let curls = colors[color]
+      for (let color of Object.keys(colors)) {
+        // Security: Only accept known color profiles so arbitrary localStorage keys cannot be written.
+        if (!Object.hasOwn(Colors.colors, color)) {
+          continue
+        }
+
+        let raw_curls = colors[color]
+
+        if (!Array.isArray(raw_curls)) {
+          continue
+        }
+
+        let curls = raw_curls
+          .filter(x => typeof x === `string`)
+          .map(x => x.trim().toLowerCase())
+          .filter(x => Curls.check(x))
 
         if (!curls.length) {
           continue

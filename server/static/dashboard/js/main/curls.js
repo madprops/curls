@@ -274,19 +274,30 @@ class Curls {
     return true
   }
 
+  // Security: Reject non-object or malformed entries loaded from storage or imports.
   static clean(items) {
+    if (!Array.isArray(items)) {
+      return []
+    }
+
     let cleaned = []
 
     for (let item of items) {
-      if (cleaned.some(x => x.curl === item.curl)) {
+      if (!item || (typeof item !== `object`) || (typeof item.curl !== `string`)) {
         continue
       }
 
-      if (!this.check(item.curl)) {
+      let curl = item.curl.trim().toLowerCase()
+
+      if (cleaned.some(x => x.curl === curl)) {
         continue
       }
 
-      cleaned.push(item)
+      if (!this.check(curl)) {
+        continue
+      }
+
+      cleaned.push({...item, curl})
 
       if (cleaned.length >= this.max_curls) {
         break
